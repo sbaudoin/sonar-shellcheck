@@ -21,7 +21,7 @@ cd /usr/src/myapp/it
 sonar-scanner
 if [ $? -ne 0 ]
 then
-    echo "Error scanning Ansible playbooks" >&2
+    echo "Error scanning Shell scripts" >&2
     exit 1
 fi
 

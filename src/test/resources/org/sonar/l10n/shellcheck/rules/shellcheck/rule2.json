@@ -7,7 +7,7 @@
     "constantCost": "2min"
   },
   "tags": [
-    "ansible",
+    "shell",
     "formatting",
     "convention"
   ],

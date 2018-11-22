@@ -95,10 +95,10 @@ public class ShellCheckSensor implements Sensor {
     }
 
     /**
-     * Returns the plugin configuration parameter (settings) that defines the path to the command {@code ansible-lint}
+     * Returns the plugin configuration parameter (settings) that defines the path to the command {@code shellcheck}
      *
      * @param context the execution sensor context (taken from the method {@link #execute(SensorContext)} of the child class)
-     * @return the path to the command {@code ansible-lint} or {@literal ansible-lint} if the plugin setting is not set
+     * @return the path to the command {@code shellcheck} or {@literal shellcheck} if the plugin setting is not set
      * @see ShellCheckSettings#SHELLCHECK_PATH_KEY
      */
     protected String getShellCheckPath(SensorContext context) {
