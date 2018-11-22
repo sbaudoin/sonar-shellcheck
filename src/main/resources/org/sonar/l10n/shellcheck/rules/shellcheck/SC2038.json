@@ -1,0 +1,14 @@
+{
+  "title": "Use -print0\/-0 or find -exec + to allow for non-alphanumeric filenames.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

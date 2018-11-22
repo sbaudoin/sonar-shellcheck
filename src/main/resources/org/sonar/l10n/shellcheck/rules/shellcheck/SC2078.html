@@ -1,0 +1,25 @@
+<p>This expression is constant. Did you forget a <code>$</code> somewhere?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;myvar&quot; ]
+then
+  echo &quot;myvar is set&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;$myvar&quot; ]
+then
+  echo &quot;myvar is set&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a <code>[ .. ]</code> or <code>[[ .. ]]</code> statement that just contains a literal string. Such a check does not do anything useful, and will always be true (or always false, for empty strings).</p>
+<p>This is usually due to missing <code>$</code> or bad quoting:</p>
+<pre><code>if [[ STY ]             # always true
+if [[ $STY ]]           # checks variable $STY
+
+if [[ 'grep foo bar' ]] # always true
+if [[ `grep foo bar` ]] # checks grep output (poorly)
+if grep -q foo bar      # checks for grep match (preferred)
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>

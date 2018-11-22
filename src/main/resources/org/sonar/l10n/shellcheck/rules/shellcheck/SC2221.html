@@ -1,0 +1,29 @@
+<p>This pattern always overrides a later one.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case &quot;$1&quot; in
+  -?) echo &quot;Usage: $0 [-n]&quot;;;
+  -n) echo &quot;Hello World&quot;;;
+   *) exit 1;;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">case &quot;$1&quot; in
+  -\?) echo &quot;Usage: $0 [-n]&quot;;;
+  -n) echo &quot;Hello World&quot;;;
+   *) exit 1;;
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>You have specified multiple patterns in a <code>case</code> statement, where one will always override the other. The pattern being overridden is indicated with a [[SC2222]] warning.</p>
+<p>In the example, <code>-?</code> actually matches a dash followed by any character, such as <code>-n</code>. This means that the later <code>-n</code> branch will never trigger. In this case, the correct solution is to escape the <code>-\?</code> so that it doesn't match <code>-n</code>.</p>
+<p>Another common reason for this is accidentally duplicating a branch. In this case, fix or delete the duplicate branch.</p>
+<h2>Exceptions</h2>
+<p>None. One could argue that having <code>-*|--*) echo "Invalid flag";</code> is a readability issue, even though the second pattern follows from the first. In this case, you can either rearrange the pattern from most to least specific, i.e. <code>--*|-*)</code> or ignore the error.</p>
+<p>When ignoring this error, remember that ShellCheck directives have to go in front of the <code>case</code> statement, and not in front of the branch:</p>
+<pre><code># shellcheck disable=SC2221,SC2222
+case "$1" in
+  -n) ...;;
+  # no directive here
+  -*|--*) echo "Unknown flag" ;;
+esac
+</code></pre>

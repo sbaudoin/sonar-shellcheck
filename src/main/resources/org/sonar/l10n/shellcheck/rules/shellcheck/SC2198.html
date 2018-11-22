@@ -1,0 +1,21 @@
+<p>Arrays don't work as operands in [ ]. Use a loop (or concatenate with * instead of @).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ext=png
+allowedExt=(jpg bmp png)
+[ &quot;$ext&quot; = &quot;${allowedExt[@]}&quot; ] &amp;&amp; echo &quot;Extension is valid&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ext=png
+allowedExt=(jpg bmp png)
+for value in &quot;${allowedExt[@]}&quot;
+do
+  [ &quot;$ext&quot; = &quot;$value&quot; ] &amp;&amp; echo &quot;Extension is valid&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>Array expansions become a series of words in <code>[ .. ]</code>. Operators expect single words only.</p>
+<p>The problematic code is equivalent to <code>[ "$ext" = jpg bmp png ]</code>, which is invalid syntax. A typical error message is <code>bash: [: too many arguments</code> or <code>dash: somefile: unexpected operator</code>.</p>
+<p>Instead, use a <code>for</code> loop to iterate over values, and apply your condition to each.</p>
+<p>Alternatively, if you want to concatenate all the values in the array into a single string for your test, use <code>"$*"</code> or <code>"${array[*]}"</code>.</p>
+<h2>Exceptions</h2>
+<p>If you are dynamically building an a test expression, make your array the only thing in the test expression. ShellCheck will not emit a warning for: <code>set -- 1 -lt 2; [ "$@" ]</code></p>

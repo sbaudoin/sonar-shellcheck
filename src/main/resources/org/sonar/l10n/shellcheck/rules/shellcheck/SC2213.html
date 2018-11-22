@@ -1,0 +1,27 @@
+<p>getopts specified -n, but it's not handled by this 'case'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while getopts &quot;vrn&quot; n
+do
+  case &quot;$n&quot; in
+    v) echo &quot;Verbose&quot; ;;
+    r) echo &quot;Recursive&quot; ;;
+    \?) usage;;
+  esac
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while getopts &quot;vrn&quot; n
+do
+  case &quot;$n&quot; in
+    v) echo &quot;Verbose&quot; ;;
+    r) echo &quot;Recursive&quot; ;;
+    n) echo &quot;Dry-run&quot; ;;    # -n handled here
+    \?) usage;;
+  esac
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a <code>while getopts</code> loop where the corresponding <code>case</code> statement fails to handle one of the flags.</p>
+<p>Either add a case to handle the flag, or remove it from the <code>getopts</code> option string.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,21 @@
+<p>Use <code>$((..))</code> for arithmetics, e.g. <code>i=$((i + 2))</code></p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">i=3
+i=i+2
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">i=3
+i=$((i + 2))
+</code></pre>
+<h2>Rationale</h2>
+<p>Unlike most languages, variable assignments (almost) always assigns strings and not expressions. In the example code, <code>i</code> will become the string <code>i+2</code> instead of the intended <code>5</code>.</p>
+<p>To instead evaluate a mathematical expressions, use <code>$((..))</code> as in the correct code.</p>
+<h2>Exceptions</h2>
+<p>If you wanted to assign a literal string, quote it:</p>
+<pre><code>description="friendly-looking"
+</code></pre>
+<p>ShellCheck (as of v0.5) doesn't recognize Bash/Ksh numeric variables created with <code>declare -i</code> where this syntax is valid. Using <code>$((..))</code> still works, but you can also [[ignore]] this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

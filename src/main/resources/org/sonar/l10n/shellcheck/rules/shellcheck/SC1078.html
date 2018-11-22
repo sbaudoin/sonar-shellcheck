@@ -1,0 +1,22 @@
+<h1>Did you forget to close this double quoted string?</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">greeting=&quot;hello
+target=&quot;world&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">greeting=&quot;hello&quot;
+target=&quot;world&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The first line is missing a quote.</p>
+<p>ShellCheck warns when it detects multi-line double quoted, single quoted or backticked strings when the character that follows it looks out of place (and gives a companion warning [[SC1079]] at that spot).</p>
+<h2>Exceptions</h2>
+<p>If you do want a multiline variable, just make sure the character after it is a quote, space or line feed.</p>
+<pre><code class="lang-sh">var=&#39;multiline
+&#39;value
+</code></pre>
+<p>can be rewritten for readability and to remove the warning:</p>
+<pre><code class="lang-sh">var=&#39;multiline
+value&#39;
+</code></pre>
+<p>As always <code>`..`</code> should be rewritten to <code>$(..)</code>.</p>

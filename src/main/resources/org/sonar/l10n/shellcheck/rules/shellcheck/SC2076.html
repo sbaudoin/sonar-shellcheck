@@ -1,0 +1,19 @@
+<p>Don't quote rhs of =~, it'll match literally rather than as a regex.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ $foo =~ &quot;^fo+ bar$&quot; ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ $foo =~ ^fo+\ bar$ ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>Quotes on the right hand side of <code>=~</code> can be used to match literally, so that <code>[[ $1 =~ ^"$2".* ]]</code> works even if <code>$2</code> contains regex metacharacters. This mirrors the behavior of globs, <code>[[ $1 = "$2"* ]]</code>.</p>
+<p>This also means that the problematic code tries to match literal carets and plus signs instead of interpreting them as regular expression matchers.  To match as a regex, the regex metacharacters it must be unquoted. Literal parts of the expression can be quoted with double or single quotes, or escaped.</p>
+<h2>Exceptions</h2>
+<p>If you do want to match literally just to do a plain substring search, e.g. <code>[[ $foo =~ "bar" ]]</code>, you could ignore this message, but consider using a more canonical glob match instead: <code>[[ $foo = *"bar"* ]]</code>.</p>
+<h2>Compatibility</h2>
+<ul>
+<li>In Bash 3.2 and newer with shopt <code>compat31</code> <em>disabled (the default)</em>, quoted patterns are literal whereas unquoted patterns are parsed for regex metacharacters.</li>
+<li>In Bash 3.2 and newer with shopt <code>compat31</code> <em>enabled</em>, quoted and unquoted patterns match identically.</li>
+<li>In Bash 3.1 quoted and unquoted patterns match identically.</li>
+</ul>
+<p>See <a href="http://stackoverflow.com/questions/218156/bash-regex-with-quotes">http://stackoverflow.com/questions/218156/bash-regex-with-quotes</a></p>

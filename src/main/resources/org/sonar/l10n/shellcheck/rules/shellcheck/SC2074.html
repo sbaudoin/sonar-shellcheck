@@ -1,0 +1,12 @@
+<p>Can't use <code>=~</code> in <code>[ ]</code>. Use <code>[[..]]</code> instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$input&quot; =~ DOC[0-9]*\.txt ] &amp;&amp; echo &quot;match&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ &quot;$input&quot; =~ DOC[0-9]*\.txt ]] &amp;&amp; echo &quot;match&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>=~</code> only works in <code>[[ .. ]]</code> tests. It does not work with <code>test</code> or <code>[</code> in any shell.</p>
+<p>If you're targeting POSIX <code>sh</code>, rewrite in terms of <code>case</code> or <code>grep</code> instead.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

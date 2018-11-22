@@ -1,0 +1,14 @@
+{
+  "title": "Nothing allowed after end token. To continue a command, put it on the line with the &lt;&lt;.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

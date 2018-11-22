@@ -1,0 +1,26 @@
+<p>Can only return 0-255. Other data should be written to stdout.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">myfunc() {
+  return &quot;Hello $USER&quot;
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">myfunc() {
+  echo &quot;Hello $USER&quot;
+  return 0
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>In many languages, <code>return</code> is used to return from the function with a final result.</p>
+<p>In bash, <code>return</code> can only be used to signal success or failure (0 = success, 1-255 = failure), more akin to <code>throw/raise</code> in other languages.</p>
+<p>Results should instead be written to stdout and captured:</p>
+<pre><code class="lang-sh">message=$(myfunc)
+echo &quot;The function wrote: $message&quot;
+</code></pre>
+<p>In functions that return small integers, such as getting the cpu temperature, the value should still be written to stdout. <code>return</code> should be reserved for error conditions, such as "can't determine CPU temperature".</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/084">BashFaq: How do I return a string (or large number, or negative number) from a function?</a> "return" only lets me give a number from 0 to 255.</li>
+</ul>

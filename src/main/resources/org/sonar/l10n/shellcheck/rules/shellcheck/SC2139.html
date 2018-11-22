@@ -1,0 +1,18 @@
+<p>This expands when defined, not when used. Consider escaping.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">alias whereami=&quot;echo $PWD&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">alias whereami=&#39;echo $PWD&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>With double quotes, this particular alias will be defined as <code>echo /home/me</code>, so it will always print the same path. This is rarely intended.</p>
+<p>By using single quotes or escaping any expansions, we define the alias as <code>echo $PWD</code>, which will be expanded when we use the alias. This is the far more common use case.</p>
+<p>Note that even if you expect that the variable will never change, it may still be better to quote it. This prevents a second round of evaluation later:</p>
+<pre><code>default="Can't handle failure, aborting"
+trap "echo $default; exit 1" err
+false 
+</code></pre>
+<p>The trap now has a syntax error, because instead of running <code>echo $default</code>, it runs <code>echo Can't handle ..</code> which has an unmatched single quote. Avoid early expansion unless you're equally comfortable putting <code>eval</code> in there.</p>
+<h2>Exceptions</h2>
+<p>If you don't mind that your alias definition is expanded at define time (and its result expanded again at evaluation time), you can ignore this warning.</p>

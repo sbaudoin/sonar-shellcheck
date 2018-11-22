@@ -1,0 +1,18 @@
+<p>Use 'false' instead of empty [/[[ conditionals.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ ]
+then
+  echo &quot;Temporarily disabled&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if false
+then
+  echo &quot;Temporarily disabled&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ ]</code> is a somewhat obscure way of expressing falsehood, and the behavior is likely intended to allow the incorrectly quoted command <code>[ $var ]</code> to still work when the variable is unset.</p>
+<p>POSIX has a more descriptive command <code>false</code> for this.</p>
+<h2>Exceptions</h2>
+<p>None. This is a stylistic suggestion, and has no effect on how the script works.</p>

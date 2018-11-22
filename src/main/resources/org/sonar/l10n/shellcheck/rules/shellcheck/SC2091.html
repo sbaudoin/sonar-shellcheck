@@ -1,0 +1,29 @@
+<p>Remove surrounding $() to avoid executing output.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if $(which epstopdf)
+then
+  echo &quot;Found epstopdf&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if which epstopdf
+then
+  echo &quot;Found epstopdf&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has detected that you have a command that just consists of a command substitution.</p>
+<p>This is typically done in order to try to get the shell to execute a command, because <code>$(..)</code> does indeed execute commands. However, it's also replaced by the output of that command.</p>
+<p>When you run <code>echo "The date is $(date +%F)"</code>, bash evalutes the <code>$(..)</code>. The command then becomes <code>echo "The date is 2015-04-29"</code>, which writes out the string <code>The date is 2015-04-29</code></p>
+<p>The problem is when you use <code>$(date +%F)</code> alone as a command. Bash evaluates the <code>$(..)</code>, and the command then becomes <code>2015-04-29</code>. There is no command called <code>2015-04-29</code>, so you get <code>bash: 2015-04-29: command not found</code>.</p>
+<p>Sometimes this results in this confounding <code>command not found</code> messages. Other times you get even stranger issues, like the example problematic code which always evaluates to false.</p>
+<p>The solution is simply to remove the surrounding <code>$()</code>. This will execute the command instead of the command's output.</p>
+<h2>Exceptions</h2>
+<p>If you really want to execute the output of a command rather than the command itself, you can ignore this message or assign the output to a new variable first:</p>
+<pre><code class="lang-sh">readonly command_to_execute=&quot;$(print_the_command)&quot;
+$command_to_execute
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>StackOverflow: <a href="https://stackoverflow.com/questions/18611842/bash-function-command-not-found">Bash Function -&gt; Command not found</a></li>
+</ul>

@@ -1,0 +1,32 @@
+<p>Use 'if cmd; then ..' to check exit code, or 'if [ "$(cmd)" = .. ]' to check output.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ grep -q pattern file ]
+then
+  echo &quot;Found a match&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if grep -q pattern file
+then
+  echo &quot;Found a match&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ .. ]</code> is not part of shell syntax like <code>if</code> statements. It is not equivalent to parentheses in C-like languages, <code>if (foo) { bar; }</code>, and should not be wrapped around commands to test.</p>
+<p><code>[</code> is just regular command, like <code>whoami</code> or <code>grep</code>, but with a funny name (see <code>ls -l /bin/[</code>). It's a shorthand for <code>test</code>.</p>
+<p>If you want to check the exit status of a certain command, use that command directly as demonstrated in the correct code.</p>
+<p>If you want to check the output of a command, use <code>"$(..)"</code> to get its output, and then use <code>test</code> or  <code>[</code>/<code>[[</code> to do a string comparison:</p>
+<pre><code># Check output of `whoami` against the string `root`
+if [ "$(whoami)" = "root" ]
+then
+  echo "Running as root"
+fi
+</code></pre>
+<p>For more information, see <a href="http://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D">this problem in the Bash Pitfall</a> list, or generally <a href="http://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and Conditionals</a> in the WoolEdge BashGuide</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/2480584/how-do-i-use-a-file-grep-comparison-inside-a-bash-if-else-statement">How do I use a file grep comparison inside a bash if/else statement?</a></li>
+<li>Bash Pitfalls: <a href="https://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D"> if [grep foo myfile] </a></li>
+</ul>

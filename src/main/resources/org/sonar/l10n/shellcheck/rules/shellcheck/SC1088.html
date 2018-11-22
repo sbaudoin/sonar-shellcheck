@@ -1,0 +1,28 @@
+<p>Parsing stopped here. Invalid use of parentheses?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">grep ^(.*)\1$ file
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">var = myfunction(value)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep &#39;^(.*)\1$&#39; file
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">var=$(myfunction value)
+</code></pre>
+<h2>Rationale</h2>
+<p>Parentheses are shell syntax and must be used correctly.</p>
+<p>For commands that expect literal parentheses, such as <code>grep</code> or <code>find</code>, the parentheses need to be quoted or escaped so the shell does not interpret them, but instead passes them to the command.</p>
+<p>For shell syntax, the shell does not use them the way most other languages do, so avoid guessing at syntax based on previous experience. In particular:</p>
+<ul>
+<li>Parentheses are NOT used to call functions.</li>
+<li>Parentheses are NOT used to group expressions, except in arithmetic contexts.</li>
+<li>Parentheses are NOT used in conditional statements or loops.</li>
+<li><p>Parentheses are used differently in different contexts. <code>( .. )</code>, <code>$( .. )</code>, <code>$(( .. ))</code> and <code>var=(..)</code> are completely separate and independent structures with different meanings, and can not be broken down into operations on expressions in parentheses.</p>
+<p>In C-like languages, <code>++</code> can't be broken down into two <code>+</code> operations, so you can't e.g. use <code>+ +</code> or <code>+(+)</code>. In the same way, all of the above are completely unrelated so that you can't do <code>$(1+1)</code> or <code>$( (1+1) )</code> in place of <code>$(( 1+1 ))</code>.</p>
+</li>
+</ul>
+<p>If you are trying to use parentheses for shell syntax, look up the actual syntax of the statement you are trying to use.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

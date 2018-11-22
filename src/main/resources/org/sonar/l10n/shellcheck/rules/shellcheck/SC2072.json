@@ -1,0 +1,14 @@
+{
+  "title": "Decimals are not supported. Either use integers only, or use bc or awk to compare.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

@@ -1,0 +1,41 @@
+<p>Unknown binary operator.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$var&quot; -leq 42 ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$var&quot; -le 42 ]
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using an unknown binary operator in a <code>test</code> expression. Choose one that exists.</p>
+<p>In bash, use <code>help test</code> to see a list of supported operators:</p>
+<pre><code>  FILE1 -nt FILE2  True if file1 is newer than file2 (according to
+                   modification date).
+
+  FILE1 -ot FILE2  True if file1 is older than file2.
+
+  FILE1 -ef FILE2  True if file1 is a hard link to file2.
+
+  STRING1 = STRING2
+                 True if the strings are equal.
+  STRING1 != STRING2
+                 True if the strings are not equal.
+  STRING1 &lt; STRING2
+                 True if STRING1 sorts before STRING2 lexicographically.
+  STRING1 &gt; STRING2
+                 True if STRING1 sorts after STRING2 lexicographically.
+
+  arg1 OP arg2   Arithmetic tests.  OP is one of -eq, -ne,
+                 -lt, -le, -gt, or -ge.
+
+Arithmetic binary operators return true if ARG1 is equal, not-equal,
+less-than, less-than-or-equal, greater-than, or greater-than-or-equal
+than ARG2.
+</code></pre>
+<h2>Exceptions</h2>
+<p>None. If you've tested and verified that the operator works but the latest version of ShellCheck says it's unknown, please <a href="https://github.com/koalaman/shellcheck/issues">submit a bug report</a>.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="http://wiki.bash-hackers.org/commands/classictest">The classic test command</a> on the Bash Hackers wiki.</li>
+<li><a href="http://wiki.bash-hackers.org/syntax/ccmd/conditional_expression">The conditional expression</a> on the Bash Hackers wiki.</li>
+<li><a href="https://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and conditionals</a> on the Wooledge BashGuide.</li>
+</ul>

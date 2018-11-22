@@ -1,0 +1,15 @@
+<p>This is a unicode quote. Delete and retype it (or ignore/doublequote for literal).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &#39;hello world’
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &#39;hello world&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Some software, like OS X, Word and WordPress, may automatically replace your regular quotes with slanted Unicode quotes. The shell does not recognize these quotes and will not respect them.</p>
+<p>In this case, you have slanted single quotes in a single quoted string. Try deleting and retyping them, and/or disable “smart quotes” in your editor or OS.</p>
+<h2>Exceptions</h2>
+<p>If you want to use literal slanted single quotes for typographic reasons, you can put them in double quotes to make ShellCheck ignore them:</p>
+<pre><code class="lang-sh">printf &quot;Warning: ‘wakeonlan’ is not installed.\\n&quot;
+</code></pre>
+<p>You can also just [[ignore]] this warning.</p>

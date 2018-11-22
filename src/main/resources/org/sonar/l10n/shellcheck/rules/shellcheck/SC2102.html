@@ -1,0 +1,25 @@
+<p>Ranges can only match single chars (mentioned due to duplicates).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo [100-999].txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo [1-9][0-9][0-9].txt
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a glob range expression (such as <code>[a-z]</code>) that contains multiple of the same character.</p>
+<p>Range expressions can only be used to match a single character in a given set, so <code>[ab]</code> and <code>[abba]</code> will both match the same thing: either one <code>a</code> or one <code>b</code>.</p>
+<p>Having multiple of the same character often means you're trying to match more than one character, such as in the problematic example where someone tried to match any number from 100 to 999. Instead, it matches a single digit just like <code>[0-9].txt</code>, and specifies 0, 1 and 9 multiple times.</p>
+<p>In Bash, most uses can be rewritten using <a href="https://mywiki.wooledge.org/glob#extglob">extglob</a> and/or <a href="https://mywiki.wooledge.org/BraceExpansion">brace expansion</a>. For example:</p>
+<pre><code class="lang-sh">cat *.[dev,prod,test].conf   # Doesn&#39;t work
+cat *.{dev,prod,test}.conf   # Works in bash
+cat *.@(dev|prod|test).conf  # Works in bash with `shopt -s extglob`
+</code></pre>
+<p>In POSIX sh, you may have to write multiple globs, one after the other:</p>
+<pre><code class="lang-sh">cat *.dev.conf *.prod.conf *.test.conf
+</code></pre>
+<h2>Exceptions</h2>
+<p>There is currently a bug in which a range expression whose contents is a variable gets parsed verbatim, e.g. <code>[$foo]</code>. In this case, either ignore the warning or make the square brackets part of the variable contents instead.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

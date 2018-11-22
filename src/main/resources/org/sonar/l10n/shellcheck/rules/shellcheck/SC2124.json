@@ -1,0 +1,14 @@
+{
+  "title": "Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

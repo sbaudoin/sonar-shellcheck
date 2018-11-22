@@ -1,0 +1,32 @@
+<p>Quote 'EOF' to make here document expansions happen on the server side rather than on the client.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ssh host.example.com &lt;&lt; EOF
+  echo &quot;Logged in on $HOSTNAME&quot;
+EOF
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ssh host.example.com &lt;&lt; &quot;EOF&quot;
+  echo &quot;Logged in on $HOSTNAME&quot;
+EOF
+</code></pre>
+<h2>Rationale</h2>
+<p>When the end token of a here document is unquoted, parameter expansion and command substitution will happen on in contents of the here doc.</p>
+<p>This means that before sending the commands to the server, the client replaces <code>$HOSTNAME</code> with localhost, thereby sending <code>echo "Logged in on localhost"</code> to the server. This has the effect of printing the client's hostname instead of the server's.</p>
+<p>Scripts with any kind of variable use are especially problematic because all references will be expanded before the script run. For example,</p>
+<pre><code class="lang-sh">ssh host &lt;&lt; EOF
+  x=&quot;$(uname -a)&quot;
+  echo &quot;$x&quot;
+EOF
+</code></pre>
+<p>will never print anything, neither client nor server details, since before evaluation, it will be expanded to:</p>
+<pre><code class="lang-sh">  x=&quot;Linux localhost ... x86_64 GNU/Linux&quot;
+  echo &quot;&quot;
+</code></pre>
+<p>By quoting the here token, local expansion will not take place, so the server sees <code>echo "Logged in on $HOSTNAME"</code> which is expanded and printed with the server's hostname, which is usually the intention.</p>
+<h2>Exceptions</h2>
+<p>If the client should expand some or all variables, this message can and should be ignored.</p>
+<p>To expand a mix of local and remote variables, the here doc end token should be unquoted, and the remote variables should be escaped, e.g.</p>
+<pre><code class="lang-sh">ssh host.example.com &lt;&lt; EOF
+  echo &quot;Logged in on \$HOSTNAME from $HOSTNAME&quot;
+EOF
+</code></pre>

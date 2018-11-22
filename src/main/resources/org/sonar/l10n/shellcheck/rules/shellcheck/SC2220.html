@@ -1,0 +1,29 @@
+<p>Invalid flags are not handled. Add a <code>*)</code> case.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+while getopts &quot;vr&quot; f
+do
+  case &quot;$f&quot; in
+    v) echo &quot;verbose&quot; ;;
+    r) echo &quot;recursive&quot; ;;
+  esac
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+while getopts &quot;vr&quot; f
+do
+  case &quot;$f&quot; in
+    v) echo &quot;verbose&quot; ;;
+    r) echo &quot;recursive&quot; ;;
+    *) echo &quot;usage: $0 [-v] [-r]&quot; &gt;&amp;2
+       exit 1 ;;
+  esac
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>case</code> statement handling <code>getopts</code> arguments does not have a default branch to handle unknown flags.</p>
+<p>When a flag is not recognized, such as if passing <code>-Z</code> to the example code, <code>getopts</code> will set the variable to a literal question mark <code>?</code>. This should be handled along with all the valid flags, usually by printing a usage message and exiting with failure.</p>
+<p>Using a <code>\?)</code> or <code>?)</code> case will also match invalid flags, but<code>*)</code> would additionally match things like the empty string if the variable name was misspelled.</p>
+<h2>Exceptions</h2>
+<p>If your script's logic handles unrecognized flags in another way, e.g. after the <code>case</code> statement, you can ignore this warning.</p>

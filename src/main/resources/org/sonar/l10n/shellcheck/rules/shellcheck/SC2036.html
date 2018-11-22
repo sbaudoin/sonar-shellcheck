@@ -1,0 +1,14 @@
+<p>If you wanted to assign the output of the pipeline, use a=$(b | c) .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">sum=find | wc -l
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">sum=$(find | wc -l)
+</code></pre>
+<h2>Rationale</h2>
+<p>The intention in this code was that <code>sum</code> would in some way get the value of the command <code>find | wc -l</code>.</p>
+<p>However, <code>|</code> has precedence over the <code>=</code>, so the command is a two stage pipeline consisting of <code>sum=find</code> and <code>wc -l</code>.</p>
+<p><code>sum=find</code> is a plain string assignment. Since it happens by itself in an independent pipeline stage, it has no effect: it produces no output, and the variable disappears when the pipeline stage finishes. Because the assignment produces no output, <code>wc -l</code> will count 0 lines.</p>
+<p>To instead actually assign a variable with the output of a command, command substitution <code>$(..)</code> can be used.</p>
+<h2>Exceptions</h2>
+<p>None. This warning is triggered whenever the first stage of a pipeline is a single assignment, which is never correct.</p>

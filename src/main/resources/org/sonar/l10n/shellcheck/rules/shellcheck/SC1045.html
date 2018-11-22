@@ -1,0 +1,11 @@
+<h1>It's not 'foo &amp;; bar', just 'foo &amp; bar'.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo &amp;; bar
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo &amp; bar
+</code></pre>
+<h2>Rationale</h2>
+<p>Both <code>&amp;</code> and <code>;</code> terminate the command. You should only use one of them.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

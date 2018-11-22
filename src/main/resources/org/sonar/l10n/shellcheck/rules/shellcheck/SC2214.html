@@ -1,0 +1,28 @@
+<p>This case is not specified by getopts.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while getopts &quot;vr&quot; n
+do
+  case &quot;$n&quot; in
+    v) echo &quot;Verbose&quot; ;;
+    r) echo &quot;Recursive&quot; ;;
+    n) echo &quot;Dry-run&quot; ;;
+    *) usage;;
+  esac
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while getopts &quot;vrn&quot; n    # &#39;n&#39; added here
+do
+  case &quot;$n&quot; in
+    v) echo &quot;Verbose&quot; ;;
+    r) echo &quot;Recursive&quot; ;;
+    n) echo &quot;Dry-run&quot; ;;
+    *) usage;;
+  esac
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a <code>case</code> statement in a <code>while getopts</code> loop that matches a flag that hasn't been provided in the <code>getopts</code> option string.</p>
+<p>Either add the flag to the options list, or delete the case statement.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

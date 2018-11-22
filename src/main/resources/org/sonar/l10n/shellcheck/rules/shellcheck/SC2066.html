@@ -1,0 +1,26 @@
+<p>Since you double quoted this, it will not word split, and the loop will only run once.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for s in &quot;$(mycommand)&quot;; do echo &quot;$s&quot;; done
+</code></pre>
+<h2>Correct code</h2>
+<p>The correct code depends on your intention. Let's say you're in a directory with the files <code>file.png</code> and <code>My cat.png</code>, and you want to loop over a command that outputs (or variable that contains):</p>
+<pre><code class="lang-sh">hello world
+My *.png
+</code></pre>
+<h3>Loop over each line without globbing (<code>hello world</code>, <code>My *.png</code>)</h3>
+<pre><code class="lang-sh">mycommand | while IFS= read -r s; do echo &quot;$s&quot;; done
+</code></pre>
+<h3>Loop over each word with globbing (<code>hello</code>, <code>world</code>, <code>My</code>, <code>file.png</code>, <code>My cat.png</code>):</h3>
+<pre><code class="lang-sh"># relies on the fact that IFS by default contains space-tab-linefeed
+for s in $(mycommand); do echo &quot;$s&quot;; done
+</code></pre>
+<h3>Loop over each line with globbing (<code>hello world</code>, <code>My cat.png</code>)</h3>
+<pre><code class="lang-sh"># explicitly set IFS to contain only a line feed
+IFS=&#39;
+&#39;
+for s in $(mycommand); do echo &quot;$s&quot;; done
+</code></pre>
+<h2>Rationale</h2>
+<p>You get this warning because you have a loop that will only ever run exactly one iteration. Since you have a loop, you clearly expect it to run more than once. You just have to decide how it should be split up.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

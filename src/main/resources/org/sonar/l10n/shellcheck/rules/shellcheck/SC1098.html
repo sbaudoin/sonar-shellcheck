@@ -1,0 +1,18 @@
+<p>Quote/escape special characters when using eval, e.g. eval "a=(b)".</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">eval $var=(a b)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">eval &quot;$var=(a b)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Shells differ widely in how they handle unescaped parentheses in <code>eval</code> expressions.</p>
+<ul>
+<li><code>eval foo=bar</code> is allowed by dash, bash and ksh.</li>
+<li><code>eval foo=(bar)</code> is allowed by bash and ksh, but not dash.</li>
+<li><code>eval $var=(bar)</code> is allowed by ksh, but not bash or dash.</li>
+<li><code>eval foo() ( echo bar; )</code> is not allowed by any shell.</li>
+</ul>
+<p>Since the expression is evaluated as shell script code anyways, it should be passed in as a literal string without relying on special case parsing rules in the target shell. Quote/escape the characters accordingly.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,23 @@
+<p>Globs don't work as operands in [ ]. Use a loop.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ current.log -nt backup/*.log ] &amp;&amp; echo &quot;This is the latest file&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">newerThanAll=true
+for log in backup/*.log
+do
+  [ current.log -nt &quot;$log&quot; ] || newerThanAll=false
+done
+[ &quot;$newerThanAll&quot; = &quot;true&quot; ] &amp;&amp; echo &quot;This is the latest file&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Globs in <code>[ ]</code> will expand to a sequence of words, one per matching filename. Meanwhile, operators work on single words.</p>
+<p>The problematic code is equivalent to <code>[ current.log -nt backup/file1.log backup/file2.log backup/file3.log ]</code>, which is invalid syntax. A typical error message is <code>bash: [: too many arguments</code> or <code>dash: somefile: unexpected operator</code>.</p>
+<p>Instead, use a <code>for</code> loop to iterate over matching filenames, and apply your condition to each.</p>
+<h2>Exceptions</h2>
+<p>If you know your glob will only ever match one file, you can check this explicitly and use the first file:</p>
+<pre><code>set -- backup/*.log
+[ $# -eq 1 ] || { echo "There are too many matches."; exit 1; }
+[ file.log -nt "$1" ] &amp;&amp; echo "This is the latest file"
+</code></pre>
+<p>Alternatively, [[ignore]] this warning.</p>

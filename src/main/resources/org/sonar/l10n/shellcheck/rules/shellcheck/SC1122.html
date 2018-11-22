@@ -1,0 +1,17 @@
+<p>Nothing allowed after end token. To continue a command, put it on the line with the <code>&lt;&lt;</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; EOF
+Hello
+EOF | nl
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; EOF | nl
+Hello
+EOF
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a here document, and appear to have added text after the terminating token.</p>
+<p>This is not allowed. If it was meant to continue the command, put it on the line with the <code>&lt;&lt;</code>.</p>
+<p>If it helps, look at &lt;&lt; "END" as if it was &lt; file, and make sure the resulting command is valid. This is what the shell does. You can then append here document data after the command.</p>
+<h2>Exceptions</h2>
+<p>None</p>

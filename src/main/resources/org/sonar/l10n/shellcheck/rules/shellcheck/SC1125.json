@@ -1,0 +1,14 @@
+{
+  "title": "Invalid key=value pair? Ignoring the rest of this directive starting here.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

@@ -1,0 +1,130 @@
+<p>In POSIX sh, <em>something</em> is undefined.
+You have declared that your script works with <code>/bin/sh</code>, but you are using features that have undefined behavior according to the POSIX specification.</p>
+<p>It may currently work for you, but it can or will fail on other OS, the same OS with different configurations, from different contexts (like initramfs/chroot), or in different versions of the same OS, including future updates to your current system.</p>
+<p>Either declare that your script requires a specific shell like <code>#!/bin/bash</code> or <code>#!/bin/dash</code>, or rewrite the script in a portable way.</p>
+<p>For help with rewrites, the Ubuntu wiki has <a href="https://wiki.ubuntu.com/DashAsBinSh">a list of portability issues</a> that broke people's <code>#!/bin/sh</code> scripts when Ubuntu switched from Bash to Dash. See also <a href="http://mywiki.wooledge.org/Bashism">Bashism</a> on wooledge's wiki. ShellCheck may not warn about all these issues.</p>
+<h2><code>$'c-style-escapes'</code></h2>
+<p>bash, ksh:</p>
+<pre><code class="lang-Bash">a=$&#39; \t\n&#39;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">a=&quot;$(printf &#39;%b_&#39; &#39; \t\n&#39;)&quot;; a=&quot;${a%_}&quot; # protect trailing \n
+</code></pre>
+<p>Want some good news? See <a href="http://austingroupbugs.net/view.php?id=249#c590">http://austingroupbugs.net/view.php?id=249#c590</a>.</p>
+<h2><code>$"msgid"</code></h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">echo $&quot;foo $(bar) baz&quot;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">. gettext.sh # GNU Gettext sh library
+# ...
+barout=$(bar)
+eval_gettext &#39;foo $barout baz&#39; # See GNU Gettext doc for more info.
+</code></pre>
+<p>Or you can change them to normal double quotes so you go without <code>gettext</code>.</p>
+<h2>Arithmetic <code>for</code> loops</h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">for ((init; test; next)); do foo; done
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">: $((init))
+while [ $((test)) -ne 0 ]; do foo; : $((next)); done
+</code></pre>
+<h2>Arithmetic exponentiation</h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">printf &quot;%s\n&quot; &quot;$(( 2**63 ))&quot;
+</code></pre>
+<p>POSIX:</p>
+<p>The POSIX standard does not allow for exponents.  However, you can replicate them completely built-in using a POSIX compatible function.  As an example, the <code>pow</code> function from <a href="http://unix.stackexchange.com/a/7925">here</a>.</p>
+<pre><code class="lang-sh">pow () {
+    set &quot;$1&quot; &quot;$2&quot; 1
+    while [ &quot;$2&quot; -gt 0 ]; do
+      set &quot;$1&quot; $(($2-1)) $(($1*$3))
+    done
+    # %d = signed decimal, %u = unsigned decimal
+    # Either should overflow to 0
+    printf &quot;%d\n&quot; &quot;$3&quot;
+}
+</code></pre>
+<p>To compare:</p>
+<pre><code class="lang-sh">$ echo &quot;$(( 2**62 ))&quot;
+4611686018427387904
+$ pow 2 62
+4611686018427387904
+</code></pre>
+<p>Alternatively, if you don't mind using an external program, you can use <code>bc</code>.  Be aware though: <code>bash</code> and other programs may abide by a certain maximum integer that <code>bc</code> does not (for <code>bash</code> that's: 64-bit signed long int, failing back to 32-bit signed long int).</p>
+<p>Example:</p>
+<pre><code class="lang-Bash"># Note the overflow that gives a negative number
+$ echo &quot;$(( 2**63 ))&quot;
+-9223372036854775808
+
+# No such problem
+$ echo 2^63 | bc
+9223372036854775808
+
+# &#39;bc&#39; just keeps on going
+$ echo 2^1280 | bc
+20815864389328798163850480654728171077230524494533409610638224700807\
+21611934672059602447888346464836968484322790856201558276713249664692\
+98162798132113546415258482590187784406915463666993231671009459188410\
+95379622423387354295096957733925002768876520583464697770622321657076\
+83317005651120933244966378183760369413644440628104205339687097746591\
+6057756101739472373801429441421111406337458176
+</code></pre>
+<h2>standalone <code>((..))</code></h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">((a=c+d))
+((d)) &amp;&amp; echo d is true.
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">: $((a=c+d)) # discard the output of the arith expn with `:` command
+[ $((d)) -ne 0 ] &amp;&amp; echo d is true. # manually check non-zero =&gt; true
+</code></pre>
+<h2><code>select</code> loops</h2>
+<p>It takes extra care over terminal columns to make select loop look like bash's, which generates a list with multiple items on one line, or like <code>ls</code>.</p>
+<p>It is, however, still possible to make a naive translation for <code>select foo in bar baz; do eat; done</code>:</p>
+<pre><code class="lang-sh">while
+  _i=0 _foo= foo=
+  for _name in bar baz; do echo &quot;$((_i+=1))) $_name&quot;; done
+  printf &#39;$# &#39;; read _foo
+do
+  case _foo in 1) foo=bar;; 2) foo=baz;; *) continue;; esac
+  eat
+done
+</code></pre>
+<h2>Here-strings</h2>
+<p>Bash, ksh:</p>
+<pre><code class="lang-Bash">grep aaa &lt;&lt;&lt; &quot;$g&quot;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh"># not exactly the same -- &lt;&lt;&lt; adds a trailing \n if $g doesn&#39;t end with \n
+printf &#39;%s&#39; &quot;$g&quot; | grep aaa
+</code></pre>
+<h2>echo flags</h2>
+<p>See <a href="https://unix.stackexchange.com/tags/echo/info">https://unix.stackexchange.com/tags/echo/info</a>.</p>
+<h2><code>${var/pat/replacement}</code></h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">echo &quot;${TERM/%-256*}&quot;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">echo &quot;$TERM&quot; | sed -e &#39;s/-256.*$//g&#39;
+# Special case for this since we are matching the end:
+echo &quot;${TERM%-256*}&quot;
+</code></pre>
+<h2><code>printf %q</code></h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">printf &#39;%q &#39; &quot;$@&quot;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh"># TODO: Interpret it back to printf escapes for hard-to-copy chars like \t?
+# See also: http://git.savannah.gnu.org/cgit/libtool.git/tree/gl/build-aux/funclib.sh?id=c60e054#n1029
+reuse_quote()(
+  for i; do
+    __i_quote=$(printf &#39;%s\n&#39; &quot;$i&quot; | sed -e &quot;s/&#39;/&#39;\\\\&#39;&#39;/g&quot;; echo x)
+    printf &quot;&#39;%s&#39;&quot; &quot;${__i_quote%x}&quot;
+  done
+)
+reuse_quote &quot;$@&quot;
+</code></pre>
+<p>Exception</p>
+<p>Depends on what your expected POSIX shell providers would use.</p>

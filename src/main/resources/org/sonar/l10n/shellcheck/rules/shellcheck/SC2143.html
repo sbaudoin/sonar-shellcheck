@@ -1,0 +1,18 @@
+<p>Use grep -q instead of comparing output with [ -n .. ].</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$(find . | grep &#39;IMG[0-9]&#39;)&quot; ]
+then
+  echo &quot;Images found&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if find . | grep -q &#39;IMG[0-9]&#39;
+then
+  echo &quot;Images found&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>The problematic code has to iterate the entire directory and read all matching lines into memory before making a decision.</p>
+<p>The correct code is cleaner and stops at the first matching line, avoiding both iterating the rest of the directory and reading data into memory.</p>
+<h2>Exceptions</h2>
+<p>The <code>pipefail</code> bash option may interfere with this rewrite, since the <code>if</code> will now in effect be evaluating the statuses of all commands instead of just the last one. Be careful using them together.</p>

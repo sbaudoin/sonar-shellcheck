@@ -1,0 +1,28 @@
+<p>Use <code>elif</code> to start another branch.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if false
+then
+  echo &quot;hi&quot;
+elseif true
+then
+  echo &quot;ho&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if false
+then
+  echo &quot;hi&quot;
+elif true
+then
+  echo &quot;ho&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck noticed that you appear to be using <code>elseif</code> or <code>elsif</code> as a keyword. This is not valid.</p>
+<p><code>sh</code> instead uses <code>elif</code> as its alternative branch keyword.</p>
+<h2>Exceptions</h2>
+<p>If you have made your own function called <code>elseif</code> and intend to call it, you can ignore this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

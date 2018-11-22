@@ -1,0 +1,22 @@
+<p>Quote expansions in this for loop glob to prevent wordsplitting, e.g. "$dir"/*.txt .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for file in $dir/*.txt
+do
+  echo &quot;Found $file&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for file in &quot;$dir&quot;/*.txt
+do
+  echo &quot;Found $file&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>When iterating over globs containing expansions, you can still quote all expansions in the path to better handle whitespace and special characters.</p>
+<p>Just make sure glob characters are outside quotes. <code>"$dir/*.txt"</code> will not glob expand, but <code>"$dir"/*.txt</code> or <code>"$dir"/*."$ext"</code> will.</p>
+<h2>Exceptions</h2>
+<p>Exceptions similar to [[SC2086]] apply. If the variable is expected to contain globs, such as if <code>dir="tmp/**"</code> in the example, you can ignore this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

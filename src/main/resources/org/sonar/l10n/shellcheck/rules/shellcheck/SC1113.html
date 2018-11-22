@@ -1,0 +1,13 @@
+<p>Use #!, not just #, for the shebang.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># /bin/bash
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#! /bin/bash
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be specifying a shebang, but missing the bang (i.e. <code>!</code>). The shebang should always be on the form <code>#!/path/shell</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

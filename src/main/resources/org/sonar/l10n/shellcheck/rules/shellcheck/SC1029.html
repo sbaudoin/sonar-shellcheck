@@ -1,0 +1,11 @@
+<p>In <code>[[..]]</code> you shouldn't escape <code>(</code> or <code>)</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ -e ~/.bashrc -a \( -x /bin/dash -o -x /bin/ash \) ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ -e ~/.bashrc -a ( -x /bin/dash -o -x /bin/ash ) ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>You don't have to -- and can't -- escape <code>(</code> or <code>)</code> inside a <code>[[ .. ]]</code> expression like you do in <code>[ .. ]</code>. Just remove the escaping.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

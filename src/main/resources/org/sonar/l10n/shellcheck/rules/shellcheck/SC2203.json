@@ -1,0 +1,14 @@
+{
+  "title": "Globs are ignored in [[ ]] except right of =\/!=. Use a loop.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

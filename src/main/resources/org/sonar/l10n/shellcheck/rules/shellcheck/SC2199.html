@@ -1,0 +1,20 @@
+<p>Arrays implicitly concatenate in <code>[[ ]]</code>. Use a loop (or explicit * instead of @).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ext=png
+allowedExt=(jpg bmp png)
+[[ &quot;$ext&quot; = &quot;${allowedExt[@]}&quot; ]] &amp;&amp; echo &quot;Extension is valid&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ext=png
+allowedExt=(jpg bmp png)
+for value in &quot;${allowedExt[@]}&quot;
+do
+  [[ &quot;$ext&quot; = &quot;$value&quot; ]] &amp;&amp; echo &quot;Extension is valid&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>Array expansions in <code>[[ .. ]]</code> will implicitly concatenate into a single string, much like in assignments. The problematic code is equivalent to <code>[ "$ext" = "jpg bmp png" ]</code>.</p>
+<p>Instead, use a <code>for</code> loop to iterate over values, and apply your condition to each.</p>
+<p>Alternatively, if you do want to concatenate all the values in the array into a single string for your test, use <code>"$*"</code> or <code>"${array[*]}"</code> to make this explicit.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

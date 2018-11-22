@@ -1,0 +1,13 @@
+<h1>tr replaces sets of chars, not words (mentioned due to duplicates).</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &#39;hello world&#39; | tr &#39;hello&#39; &#39;goodbye&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &#39;hello world&#39; | sed -e &#39;s/hello/goodbye/g&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>tr</code> is for <code>tr</code>ansliteration, turning some characters into other characters. It doesn't match strings or words, only individual characters.</p>
+<p>In this case, it transliterates h-&gt;g, e-&gt;o, l-&gt;d, o-&gt;y, resulting in the string "goddb wbrdd" instead of "goodbye world".</p>
+<p>The solution is to use a tool that does string search and replace, such as sed.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,16 @@
+<p>Delete trailing spaces after \ to break line (or use quotes for literal space).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># There are spaces after the backslash:
+echo hello \  
+     world
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># No spaces after the backslash:
+echo hello \
+     world
+</code></pre>
+<h2>Rationale</h2>
+<p>To break a line you can use <code>\</code> before the line break. However, if there are spaces after the backslash, the escape will apply to them instead of the line break, and the command will not continue on the next line.</p>
+<p>Delete the trailing spaces to make the line break work correctly.</p>
+<h2>Exceptions</h2>
+<p>If you do want a literal escaped space at the end of a line you can ignore this error, but please reconsider and use quotes instead. Trailing whitespace is invisible and frequently stripped on purpose (by editor settings / precommits) or accident (copy-paste), and so should not be relied upon for correctness.</p>

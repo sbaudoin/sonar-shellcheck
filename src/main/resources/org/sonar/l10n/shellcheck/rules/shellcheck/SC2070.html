@@ -1,0 +1,35 @@
+<p><code>-n</code> doesn't work with unquoted arguments. Quote or use <code>[[ ]]</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -n $var ]
+then
+  echo &quot;var has a value&quot;
+else
+  echo &quot;var is empty&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<p>In POSIX:</p>
+<pre><code class="lang-sh">if [ -n &quot;$var&quot; ]
+then
+  echo &quot;var has a value&quot;
+else
+  echo &quot;var is empty&quot;
+fi
+</code></pre>
+<p>In bash/ksh:</p>
+<pre><code class="lang-sh">if [[ -n $var ]]
+then
+  echo &quot;var has a value&quot;
+else
+  echo &quot;var is empty&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>When <code>$var</code> is unquoted, a blank value will cause it to wordsplit and disappear. If <code>$var</code> is empty, these two statements are identical:</p>
+<pre><code class="lang-sh">[ -n $var ]
+[ -n ]
+</code></pre>
+<p><code>[ string ]</code> is shorthand for testing if a string is empty. This is still true if <code>string</code> happens to be <code>-n</code>. <code>[ -n ]</code> is therefore true, and by extension so is <code>[ -n $var ]</code>.</p>
+<p>To fix this, either quote the variable, or (if your shell supports it) use <code>[[ -n $var ]]</code> which generally has fewer caveats than <code>[</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>

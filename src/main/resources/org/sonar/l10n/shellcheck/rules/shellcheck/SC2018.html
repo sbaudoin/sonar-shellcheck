@@ -1,0 +1,19 @@
+<p>Use '[:lower:]' to support accents and foreign alphabets.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">PLATFORM=&quot;$(uname -s | tr &#39;A-Z&#39; &#39;a-z&#39;)&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">PLATFORM=&quot;$(uname -s | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>A-Z</code> and <code>a-z</code> are commonly intended to mean "all uppercase" and "all lowercase letters" respectively. This ignores accented characters in English, and foreign characters in other languages:</p>
+<pre><code>$ tr 'a-z' 'A-Z' &lt;&lt;&lt; "My fiancée ordered a piña colada."
+MY FIANCéE ORDERED A PIñA COLADA.
+</code></pre>
+<p>Instead, you can use <code>[:lower:]</code> and <code>[:upper:]</code> to explicitly specify case:</p>
+<pre><code>$ tr '[:lower:]' '[:upper:]' &lt;&lt;&lt; "My fiancée ordered a piña colada."
+MY FIANCÉE ORDERED A PIÑA COLADA.
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you don't want <code>a-z</code> to match <code>é</code> or <code>A-Z</code> to match <code>Ñ</code>, you can ignore this message.</p>
+<p>Note that the examples used here are multibyte characters in UTF-8. Many implementations (including GNU) fails to deal with them.</p>

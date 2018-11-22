@@ -1,0 +1,27 @@
+<p>-e doesn't work with globs. Use a for loop.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -e dir/*.mp3 ]
+then
+  echo &quot;There are mp3 files.&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for file in dir/*.mp3
+do
+  if [ -e &quot;$file&quot; ]
+  then
+    echo &quot;There are mp3 files&quot;
+    break
+  fi
+done
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ -e file* ]</code> only works if there's 0 or 1 matches. If there are multiple, it becomes <code>[ -e file1 file2 ]</code>, and the test fails.</p>
+<p><code>[[ -e file* ]]</code> doesn't work at all.</p>
+<p>Instead, use a for loop to expand the glob and check each result individually.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/004">BashFaq: How can I check whether a directory is empty or not? How do I check for any *.mpg files, or count how many there are?</a></li>
+</ul>

@@ -1,0 +1,20 @@
+<p>(..) is a subshell. Did you mean [ .. ], a test expression?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if ( 1 -lt 2 )
+then
+  echo &quot;1 is less than 2&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ 1 -lt 2 ]
+then
+  echo &quot;1 is less than 2&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Tests like <code>-eq</code> to check numeric equality or <code>\&lt;</code> for string comparison only work are actually parameters to the <code>test</code> command, and only work as tests in that context. <code>[</code> is an alias for <code>test</code>, so you'll frequently see them written as <code>[ 1 -eq 2 ]</code>.</p>
+<p><code>( .. )</code> is completely unrelated, and is a subshell mostly used to scope shell modifications. They should not be used in <code>if</code> or <code>while</code> statements in shell scripts.</p>
+<p>If you wanted to test a condition, rewrite the <code>( .. )</code> to <code>[ .. ]</code>.</p>
+<h2>Exceptions</h2>
+<p>This error is triggered by having a binary operator as the first parameter in a subshell, and could falsely trigger on e.g. <code>if ( grep -eq "foo|bar" file )</code>. In these cases, check whether the subshell is actually needed.</p>
+<p>Note that there's a similar looking error [[SC2204]] with a low false positive rate.</p>

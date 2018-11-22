@@ -1,0 +1,23 @@
+<p>Remove "exec " if script should continue after this command.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Starting compilation&quot;
+exec ./compile
+echo &quot;Starting deployment&quot;
+exec ./deploy
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Starting compilation&quot;
+./compile
+echo &quot;Starting deployment&quot;
+./deploy
+</code></pre>
+<h2>Rationale</h2>
+<p>The script contains an <code>exec</code> command followed by other commands in the same block. This is likely an error because the script will not resume after an <code>exec</code> command.</p>
+<p>Instead, "exec" refers to the Unix process model's idea of execution (see <a href="http://man7.org/linux/man-pages/man2/execve.2.html"><code>execve(2)</code></a>), in which the current process stops its current program and replaces it with a new one. This is mainly used in wrapper scripts.</p>
+<p>To execute another script or program and then continue, simply drop the <code>exec</code> as in the example.</p>
+<h2>Exceptions</h2>
+<p>If the code after the <code>exec</code> is only there to handle a failure in executing the command you can ignore this warning. For this reason, ShellCheck suppresses the warning if <code>exec</code> is only followed by <code>echo</code>/<code>exit</code> commands.</p>
+<h2>Related resources</h2>
+<ul>
+<li>StackOverflow: <a href="https://stackoverflow.com/questions/3877657/my-shell-script-stops-after-exec">My shell script stops after exec</a></li>
+</ul>

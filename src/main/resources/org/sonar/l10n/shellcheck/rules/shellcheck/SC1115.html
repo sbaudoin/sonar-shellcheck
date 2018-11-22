@@ -1,0 +1,14 @@
+<p>Remove spaces between # and ! in the shebang.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># !/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The script has spaces between the <code>#</code> and <code>!</code> in the shebang. This is not valid.</p>
+<p>Remove the spaces so the OS can correctly recognize the file as a script.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

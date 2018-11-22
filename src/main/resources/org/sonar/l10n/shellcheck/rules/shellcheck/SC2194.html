@@ -1,0 +1,16 @@
+<p>This word is constant. Did you forget the $ on a variable?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case foo in
+  bar) echo &quot;Match&quot;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">case $foo in
+  bar) echo &quot;Match&quot;
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using a <code>case</code> statement to compare a literal word.</p>
+<p>You most likely wanted to treat this word as a <code>$variable</code> or <code>$(command)</code> instead.</p>
+<h2>Exceptions</h2>
+<p>None</p>

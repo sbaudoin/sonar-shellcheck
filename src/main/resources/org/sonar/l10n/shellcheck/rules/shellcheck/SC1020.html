@@ -1,0 +1,16 @@
+<p>You need a space before the if single then "]" else "]]"</p>
+<h2>Problematic code</h2>
+<pre><code>if [ "$STUFF" = ""]; then
+</code></pre>
+<h2>Correct code</h2>
+<pre><code>if [ "$STUFF" = "" ]; then
+</code></pre>
+<h2>Rationale</h2>
+<p>Bourne shells are very whitespace sensitive. Adding or removing spaces can drastically alter the meaning of a script. In these cases, ShellCheck has noticed that you're missing a space at the position indicated.</p>
+<h2>Exceptions</h2>
+<p>none.</p>
+<h2>Ignore</h2>
+<pre><code># shellcheck disable=SC1020
+if [ "$STUFF" = ""]; then
+...
+</code></pre>

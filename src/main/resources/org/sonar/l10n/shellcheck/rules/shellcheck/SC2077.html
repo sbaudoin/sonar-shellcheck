@@ -1,0 +1,13 @@
+<p>You need spaces around the comparison operator.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ 0=1 ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ 0 = 1 ]]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[[ 0 = 1 ]]</code> means "check if 0 and 1 are equal".</p>
+<p><code>[[ str ]]</code> is short form for <code>[[ -n str ]]</code>, and means "check if <code>str</code> is non-empty". It doesn't matter if <code>str</code> happens to contain <code>0=1</code>.</p>
+<p>Always use spaces around the comparison operator in <code>[..]</code> and <code>[[..]]</code>, otherwise it won't be recognized as an operator.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

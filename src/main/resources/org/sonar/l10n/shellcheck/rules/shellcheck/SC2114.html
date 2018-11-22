@@ -1,0 +1,16 @@
+<p>Warning: deletes a system directory.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">rm -rf /usr /lib/nvidia-current/xorg/xorg
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">rm -rf /usr/lib/nvidia-current/xorg/xorg
+</code></pre>
+<h2>Rationale</h2>
+<p>The example line of code was an actual bug in the <a href="https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/commit/a047be85247755cdbe0acce6f1dafc8beb84f2ac">Bumblebee NVIDIA driver</a>.</p>
+<p>Due to an accidental space, it deleted <code>/usr</code> instead of just the particular directory.</p>
+<h2>Exceptions</h2>
+<p>If you do intend to delete a system directory, such as when working in a chroot or initramfs, you can disable this message with a directive:</p>
+<pre><code class="lang-sh"># shellcheck disable=SC2114
+rm -rf /usr
+</code></pre>
+<p>Previous versions of shellcheck, up to and including 0.4.6, would ignore <code>rm</code> statements containing a <code>--</code> (an arbitrary convention). This is no longer the case.</p>

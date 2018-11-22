@@ -1,0 +1,23 @@
+<p>Use var=$(command) to assign output (or quote to assign string).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">user=whoami         # Want to run whoami and assign output
+
+PAGER=cat git log   # Want to assign the string &quot;cat&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">user=$(whoami)
+
+PAGER=&quot;cat&quot; git log
+</code></pre>
+<h2>Rationale</h2>
+<p>Putting <code>var=</code> in front of a command will not assign its output. Use <code>var=$(my command here)</code> to execute the command and capture its output.</p>
+<p>If you do want to assign a literal string, use quotes to make this clear to shellcheck and humans alike.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<p>Quoting a single command (as in <code>PAGER="cat"</code> above) doesn't change how the script works. It's purely to show shellcheck (and humans) that a literal assignment of a command name is intentional.</p>
+<p>This warning triggers generally when a variable is assigned an unquoted command name (from a list of hard coded names). See related warning [[SC2037]] which detects the same kind of error through the patterns <code>var=value -flag</code> and <code>var=value *glob*</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/002">BashFaq: How can I store the return value and/or output of a command in a variable?</a></li>
+<li><a href="https://stackoverflow.com/questions/4651437/how-to-set-a-variable-to-the-output-from-a-command-in-bash">StackOverflow: How to set a variable to the output from a command in Bash</a></li>
+</ul>

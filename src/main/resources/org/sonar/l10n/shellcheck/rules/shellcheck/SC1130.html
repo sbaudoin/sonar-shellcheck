@@ -1,0 +1,14 @@
+<p>You need a space before the :.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">until make
+do:; done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">until make
+do :; done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a keyword immediately followed by a <code>:</code>. <code>:</code> is a synonym for <code>true</code>, the command that "does nothing, successfully", and as a command name it needs a space.</p>
+<p><code>do:</code> is as invalid as <code>dotrue</code>. Use <code>do :</code>, or preferably, <code>do true</code> for readability.</p>
+<h2>Exceptions</h2>
+<p>None</p>

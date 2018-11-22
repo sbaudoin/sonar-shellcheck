@@ -1,0 +1,14 @@
+{
+  "title": "This does not read 'foo'. Remove $\/${} for that, or use ${var?} to quiet.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

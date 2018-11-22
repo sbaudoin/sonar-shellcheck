@@ -1,0 +1,14 @@
+<p>Was this intended as a comment? Use <code>#</code> in sh.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-C">// This is a comment.
+/* This too. */
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># This is a comment.
+# This too.
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found what appears to be a C-style comment, a line starting with <code>//</code> or <code>/*</code>.</p>
+<p>In Bourne based shell scripts, the comment character is <code>#</code></p>
+<h2>Exceptions</h2>
+<p>None.</p>

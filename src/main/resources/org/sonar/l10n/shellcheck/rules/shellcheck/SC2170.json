@@ -1,0 +1,14 @@
+{
+  "title": "Numerical -eq does not dereference in [..]. Expand or use string operator.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

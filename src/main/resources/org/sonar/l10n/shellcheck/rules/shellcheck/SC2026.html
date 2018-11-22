@@ -1,0 +1,27 @@
+<p>This word is outside of quotes. Did you intend to <code>'nest '"'single quotes'"'</code> instead'?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">alias server_uptime=&#39;ssh $host &#39;uptime -p&#39;&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">alias server_uptime=&#39;ssh $host &#39;&quot;&#39;uptime -p&#39;&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>In the first case, the user has four single quotes on a line, wishfully hoping that the shell will match them up as outer quotes around a string with literal single quotes:</p>
+<pre><code class="lang-sh">#                   v--------match--------v
+alias server_uptime=&#39;ssh $host &#39;uptime -p&#39;&#39;
+#                              ^--match--^
+</code></pre>
+<p>The shell, meanwhile, always terminates single quoted strings at the first possible single quote:</p>
+<pre><code class="lang-sh">#                   v---match--v
+alias server_uptime=&#39;ssh $host &#39;uptime -p&#39;&#39;
+#                                        ^^
+</code></pre>
+<p>Which is the same thing as <code>alias server_uptime='ssh $host uptime' -p</code>.</p>
+<p>There is no way to nest single quotes. However, single quotes can be placed literally in double quotes, so we can instead concatenate a single quoted string and a double quoted string:</p>
+<pre><code class="lang-sh">#                   v--match---v
+alias server_uptime=&#39;ssh $host &#39;&quot;&#39;uptime -p&#39;&quot;
+#                               ^---match---^
+</code></pre>
+<p>This results in an alias with embedded single quotes.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,14 @@
+{
+  "title": "tr replaces sets of chars, not words (mentioned due to duplicates).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

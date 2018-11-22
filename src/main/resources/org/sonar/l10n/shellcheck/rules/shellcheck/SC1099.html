@@ -1,0 +1,17 @@
+<p>You need a space before the #.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while sleep 1
+do# show time
+  date
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while sleep 1
+do # show time
+  date
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has noticed that you have a keyword immediately followed by a <code>#</code>. In order for the <code>#</code> to start a comment, it needs to come after a word boundary such as a space.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,26 @@
+<h1>Note that A &amp;&amp; B || C is not if-then-else. C may run when A is true.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ $dryrun ]] &amp;&amp; echo &quot;Would delete file&quot; || rm file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [[ $dryrun ]]
+then
+  echo &quot;Would delete file&quot;
+else
+  rm file
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>It's common to use <code>A &amp;&amp; B</code> to run <code>B</code> when <code>A</code> is true, and <code>A || C</code> to run <code>C</code> when <code>A</code> is false.</p>
+<p>However, combining them into <code>A &amp;&amp; B || C</code> is not the same as <code>if A then B else C</code>.</p>
+<p>In this case, if <code>A</code> is true but <code>B</code> is false, <code>C</code> will run.</p>
+<p>For the code sample above, if the script was run with stdout closed for any reason (such as explicitly running <code>script --dryrun &gt;&amp;-</code>), echo would fail and the file would be deleted, even though <code>$dryrun</code> was set!</p>
+<p>If an <code>if</code> clause is used instead, this problem is avoided.</p>
+<h2>Boring detail</h2>
+<p>We can think of the example above as</p>
+<pre><code class="lang-sh">((([[ $dryrun ]]) &amp;&amp; echo &quot;Would delete file&quot;) || rm file)
+</code></pre>
+<p>expressing the left-associativity of the <code>&amp;&amp;</code> <code>||</code> operators.</p>
+<p>Whenever a command (strictly, a pipeline) succeeds or fails, the execution proceeds following the next <code>&amp;&amp;</code> (for success) or <code>||</code> (for failure).</p>
+<h2>Exceptions</h2>
+<p>Ignore this warning when you actually do intend to run C when either A or B fails.</p>

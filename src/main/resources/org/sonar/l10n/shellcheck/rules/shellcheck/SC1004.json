@@ -1,0 +1,14 @@
+{
+  "title": "This backslash+linefeed is literal. Break outside single quotes if you just want to break the line.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

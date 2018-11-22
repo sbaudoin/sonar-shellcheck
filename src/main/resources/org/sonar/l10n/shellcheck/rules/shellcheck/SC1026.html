@@ -1,0 +1,20 @@
+<p>If grouping expressions inside [[..]], use ( .. ).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ [ a || b ] &amp;&amp; c ]]
+[ [ a -o b ] -a c ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ ( a || b ) &amp;&amp; c ]]
+[ \( a -o b \) -a c ]]  # or  { [ a ] || [ b ]; } &amp;&amp; [ c ]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ .. ]</code> should not be used to group subexpressions inside <code>[[ .. ]]</code> or <code>[ .. ]</code> statements.</p>
+<p>For <code>[[ .. ]]</code>, use regular parentheses.</p>
+<p>For <code>[ .. ]</code>, either use escaped parentheses, or preferably rewrite the expression into multiple <code>[ .. ]</code> joined with <code>&amp;&amp;</code>, <code>||</code> and <code>{ ..; }</code> groups. The latter is preferred because <code>[ .. ]</code> is undefined for more than 4 arguments in POSIX.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf11">Bash Pitfalls: <code>if [ [ a = b ] &amp;&amp; [ c = d ] ]; then ...</code></a></li>
+<li><a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">POSIX <code>test</code></a></li>
+</ul>

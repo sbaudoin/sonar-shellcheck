@@ -1,0 +1,13 @@
+<h1>To assign a variable, use just 'var=value', no 'set ..'.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">set var=42
+set var 42
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=42
+</code></pre>
+<h2>Rationale</h2>
+<p><code>set</code> is not used to set or assign variables in Bourne shells. It's used to set shell options and positional parameters.</p>
+<p>To assign variables, use <code>var=value</code> with no <code>set</code> or other qualifiers.</p>
+<h2>Exceptions</h2>
+<p>If you actually do want to set positional parameters, simply quoting them or using <code>--</code> will make shellcheck stop warning, e.g. <code>set -- var1 var2</code> or <code>set "foo=bar"</code>.</p>

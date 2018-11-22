@@ -1,0 +1,40 @@
+<h1>Quote this to prevent word splitting</h1>
+<h2>Problematic code</h2>
+<pre><code>ls -l $(getfilename)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code># getfilename outputs 1 file
+ls -l "$(getfilename)"
+
+# getfilename outputs multiple files, linefeed separated
+getfilename | while IFS='' read -r line
+do
+  ls -l "$line"
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>When command expansions are unquoted, word splitting and globbing will occur. This often manifests itself by breaking when filenames contain spaces.</p>
+<p>Trying to fix it by adding quotes or escapes to the data will not work. Instead, quote the command substitution itself.</p>
+<p>If the command substitution outputs multiple pieces of data, use a loop instead.</p>
+<h2>Exceptions</h2>
+<p>In rare cases you actually want word splitting, such as in</p>
+<pre><code>gcc $(pkg-config --libs openssl) client.c
+</code></pre>
+<p>This is because <code>pkg-config</code> outputs <code>-lssl -lcrypto</code>, which you want to break up by spaces into <code>-lssl</code> and <code>-lcrypto</code>. An alternative is to put the variables to an array and expand it:</p>
+<pre><code># For bash
+mapfile -t args &lt; &lt;(pkg-config --libs openssl)
+
+# For ksh
+pkg-config --libs openssl | while IFS="" read -r line; do array+=("$line"); done
+
+# expand args
+gcc "${args[@]}" client.c
+</code></pre>
+<p>The power of using an array becomes evident when you want to combine, for example, the command result with user-provided arguments:</p>
+<pre><code>compile () {
+    args=( $(pkg-config --libs openssl) "${@}" )
+    gcc "${args[@]}" client.c
+}
+compile -DDEBUG
++ gcc -lssl -lcrypto -DDEBUG client.c
+</code></pre>

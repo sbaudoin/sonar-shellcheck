@@ -1,0 +1,43 @@
+language: java
+jdk:
+  - oraclejdk8
+addons:
+  sonarcloud:
+    organization: "sbaudoin-github"
+    token:
+      secure: "ME3xy6rslL7B/WN66lnJ9JvKn3IH3T/VbEeiYXBPEIn5FDCa2RnX5F4RmeZYrvFmhhBim4K2v0KEUlCdKaUvwWc4LO+stwG+oQCfeWePCRdr6r6lyN4bDj7YykqOrefp+hJf+EhZi9rwK/Y219sFE/0sbFpZQYoU/rPqTltym/OlDbcPYLyBlWAi6KBdTvjiXjPW6ao6mXAQSoyCNTxoFrhqWTn7ixoAZpxDXaEhdoj/a0uET6N+jvyg36qt52gq6RMDC0YOw8f9n/4PTyOdtRR+RJdyIvT0A10sptjgRFSGF3BYu0ndgyFJVP8AJGn6A5GCAO/7DEo61dPYacowlnts+swoRCoQTmPKYLTIAvKsQqvimIPRXaYJtmsW8h5D9bHNIRpV0e7mU0ySZiHwPV9DuZLaqN3jPfY0Y0r87WGXLTuxR7dmCQWlAZUvbVYcysiYg0CJQA3oYfT2HZdZS8rtSw0IxYrabJO1AdfQzaY26QlsDAMGff588INq1e2VI0FpWL7LySeM1HBtJP2ENPNSouvJ4xTuWBi3rccOomi2MLgxHCtMViVatm7XatTZuskCVkSElHjB6PmR4vv5IeCbeiWeGVR8oVDBHsV330GISjM+KuYKV+X1rceCtrVPiepnXoywOef+SRCjidb9ll2WolQlhywOmSwqVVZqKK0="
+sudo: required
+services:
+  - docker
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+before_install:
+  - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+  - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
+install:
+  - mvn --settings .travis/settings.xml install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - bash it/it.sh 6.6 3.2.0.1227
+  - bash it/it.sh 6.7 3.2.0.1227
+  - bash it/it.sh 7.0 3.2.0.1227
+  - bash it/it.sh 7.1 3.2.0.1227
+deploy:
+  - provider: script
+    script: bash .travis/deploy.sh
+    skip_cleanup: true
+    on:
+      repo: sbaudoin/sonar-shellcheck
+      all_branches: true
+  - provider: releases
+    api_key:
+      secure: "L+SaO0Ly4+q+31zPXri6cPWdPf/Xzo6FcQ4a01BKGtyRf4TZY/AoY/eh+6/hOcFGmQcbKq7RKOnWkLFMIncyzgIFYhReTY/004cgz2+HTtCB6J0aS/8Del2HC6AwIsHzMKgMpNqVmLhjzR5vZ8iwwrN1hxyjwfsejdvpr9jxP0wV9iQHUV+m1j9WrViBEzpBPb2Nx/nZC05VXzqFVdqK5cmCdsXxEL8601wxNGxv6tD/PODpHaZwsatU6LgzvI3WRkc8NXmubMBlzfPXjk6lg00kuX2IyCFCeCQ5oXm2sJWfEJOJCkhK9CX7SB2zcAc6fEyR1bJ/1Q2wRMU37WmelqRkwfbrRH8sQ4dxp5MxSldFxv7gRGvsI0CCE7u7ifCA904fU50upjQ0yCcyv3CNhwFUsd62n5j7p3+J1h6mdzOzvqf2GbDP6l/wF5hEmOQVHK2cxucewLYw4XXH4lFjcbXA3pXUVBFuM7A2xw5lbFZB9vOPNbLynx3nAIkf5ygkpUkZ52MdrCKd8daRLAKn4HdKaUmJ18VBDFQKGCpdy6uGNJxxdd/UDGYKcKpAvoXYAsiKRApftNLP0dVuOQkw46ZeFURGbdogj40xJLc1sjlOrdFqh4+5cPiY9RRthYULDxYryXF9eJgl2P7NhZOpZrogxAwEWIV+rx6YpgUXuio="
+    file_glob: true
+    file:
+      - target/sonar-shellcheck-plugin-*.jar
+    skip_cleanup: true
+    on:
+      repo: sbaudoin/sonar-shellcheck
+      tags: true

@@ -1,0 +1,14 @@
+{
+  "title": "Don't use variables in the printf format string. Use printf '..%s..' '$foo'.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

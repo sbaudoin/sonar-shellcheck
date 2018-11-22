@@ -1,0 +1,17 @@
+<p>In [..] you have to escape \( \) or preferably combine [..] expressions.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ -e ~/.bashrc -a ( -x /bin/dash -o -x /bin/ash ) ]
+</code></pre>
+<h2>Correct code</h2>
+<p>In POSIX:</p>
+<pre><code class="lang-sh">[ -e ~/.bashrc ] &amp;&amp;  { [ -x /bin/dash ] || [ -x /bin/ash ]; }
+</code></pre>
+<p>Obsolete XSI syntax:</p>
+<pre><code class="lang-sh">[ -e ~/.bashrc -a \( -x /bin/dash -o -x /bin/ash \) ]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[</code> is implemented as a regular command, so <code>(</code> is not special.</p>
+<p>The preferred way is not to group inside <code>[ .. ]</code> and instead compose multiple <code>[ .. ]</code> statments using the shell's <code>&amp;&amp;</code>, <code>||</code> and <code>{ ..; }</code> syntax, since this is well defined by POSIX.</p>
+<p>Some shells, such as Bash, support grouping with <code>\( .. \)</code>, but this is an obsolete XSI-only extension.</p>
+<h2>Exceptions</h2>
+<p>None</p>

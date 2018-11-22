@@ -1,0 +1,16 @@
+<p>Ash scripts will be checked as Dash. Add '# shellcheck shell=dash' to silence.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/ash
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/ash
+# shellcheck shell=dash
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has no first class support for <code>ash</code>, but it does support its Debian fork <code>dash</code> and defaults to this whenever <code>ash</code> is specified.</p>
+<p>Unfortunately, while the two are similar, they are not completely compatible. For example, <code>ash</code> supports <code>echo -e</code> but <code>dash</code> does not, so ShellCheck will incorrectly warn about it.</p>
+<p>You can use a [[directive]] to let ShellCheck know you're aware of this problem.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

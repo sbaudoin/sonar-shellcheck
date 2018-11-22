@@ -1,0 +1,21 @@
+<p>This does not export 'FOO'. Remove $/${} for that, or use ${var?} to quiet.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">MYVAR=foo
+export $MYVAR
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">MYVAR=foo
+export MYVAR
+</code></pre>
+<h2>Rationale</h2>
+<p><code>export</code> takes a variable name, but shellcheck has noticed that you give it an expanded variable instead. The problematic code does not export <code>MYVAR</code> but a variable called <code>foo</code> if any.</p>
+<h2>Exceptions</h2>
+<p>If this is intentional and you do want to export <code>foo</code> instead of <code>MYVAR</code>, you can either use a directive:</p>
+<pre><code class="lang-sh"># shellcheck disable=SC2163
+export &quot;$MYVAR&quot;
+</code></pre>
+<p>Or after (but not including) version 0.4.7, take advantage of the fact that ShellCheck only warns when no parameter expansion modifiers are applied:</p>
+<pre><code class="lang-sh">export &quot;${MYVAR}&quot;    # ShellCheck warns
+export &quot;${MYVAR?}&quot;   # No warning
+</code></pre>
+<p><code>${MYVAR?}</code> fails when <code>MYVAR</code> is unset, which is fine since <code>export</code> would have failed too. The main side effect is an improved runtime error message in that case.</p>

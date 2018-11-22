@@ -1,0 +1,14 @@
+{
+  "title": "Note that unlike globs, o* here matches 'ooo' but not 'oscar'",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

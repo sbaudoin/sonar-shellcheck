@@ -1,0 +1,21 @@
+<p>Couldn't find 'done' for this 'do'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">yes() {
+  while echo &quot;y&quot;
+  do
+    true
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">yes() {
+  while echo &quot;y&quot;
+  do
+    true
+  done
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>do</code> without a corresponding <code>done</code>.</p>
+<p>Double check that the <code>done</code> exists, and that it correctly matches the indicated <code>do</code>. A companion warning [[SC1062]] is emitted where ShellCheck first noticed it was missing.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

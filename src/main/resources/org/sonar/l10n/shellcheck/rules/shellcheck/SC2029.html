@@ -1,0 +1,19 @@
+<p>Note that, unescaped, this expands on the client side.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ssh host &quot;echo $HOSTNAME&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ssh host &quot;echo \$HOSTNAME&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">ssh host &#39;echo $HOSTNAME&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash expands all arguments that are not escaped/singlequoted. This means that the problematic code is identical to</p>
+<pre><code class="lang-sh">ssh host &quot;echo clienthostname&quot;
+</code></pre>
+<p>and will print out the client's hostname, not the server's hostname.</p>
+<p>By escaping the <code>$</code> in <code>$HOSTNAME</code>, it will be transmitted literally and evaluated on the server instead.</p>
+<h2>Exceptions</h2>
+<p>If you do want your string expanded on the client side, you can safely ignore this message.</p>
+<p>Keep in mind that the expanded string will be evaluated again on the server side, so for arbitrary variables and command output, you may need to add a layer of escaping with e.g. <code>printf %q</code>.</p>

@@ -1,0 +1,14 @@
+<p>Place shellcheck directives before commands, not after.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=1 # shellcheck disable=SC2034
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># shellcheck disable=SC2034
+var=1
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck expects directives to come before the relevant command. They are not allowed after.</p>
+<h2>Exceptions</h2>
+<p>If this is not a directive and just a comment mentioning ShellCheck, please rewrite or capitalize:</p>
+<pre><code>var=1 # ShellCheck encourages lowercase variable names
+</code></pre>

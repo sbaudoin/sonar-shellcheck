@@ -1,0 +1,30 @@
+<h1>foo appears unused. Verify it or export it.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo=42
+echo &quot;$FOO&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo=42
+echo &quot;$foo&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Variables not used for anything are often associated with bugs, so ShellCheck warns about them.</p>
+<p>Also note that something like <code>local let foo=42</code> does not make a <code>let</code> statement local -- it instead declares an additional local variable named <code>let</code>.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck may not always realize that the variable is in use (especially with indirection), and may not realize you don't care (with throwaway variables or unimplemented features).</p>
+<p>For throwaway variables, consider using <code>_</code> as a dummy:</p>
+<pre><code class="lang-sh">read _ last _ zip _ _ &lt;&lt;&lt; &quot;$str&quot;
+echo &quot;$last, $zip&quot;
+</code></pre>
+<p>or use a directive to disable the warning:</p>
+<pre><code class="lang-sh"># shellcheck disable=SC2034
+read first last email zip lat lng &lt;&lt;&lt; &quot;$str&quot;
+echo &quot;$last, $zip&quot;
+</code></pre>
+<p>For indirection, there's not much you can do without rewriting to use arrays or similar:</p>
+<pre><code class="lang-sh">bar=42  # will always appear unused
+foo=bar
+echo &quot;${!foo}&quot;
+</code></pre>
+<p>This is expected behavior, and not a bug. There is no good way to statically analyze indirection in shell scripts, just like static C analyzers have a hard time preventing segfaults.</p>
+<p>As always, there are ways to [[ignore]] this and other messages if they frequently get in your way.</p>

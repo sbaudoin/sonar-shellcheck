@@ -1,0 +1,15 @@
+<h2>Useless <code>echo</code>? Instead of <code>echo $(cmd)</code>, just use <code>cmd</code></h2>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;$(cat 1.txt)&quot;
+echo `&lt; /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c6`
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat 1.txt # In bash, but faster and still sticks exactly one newline: printf &#39;%s\n&#39; &quot;$(&lt;1.txt)&quot;
+# The original `echo` sticks a newline; we want it too.
+&lt; /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c6; echo
+</code></pre>
+<h2>Rationale</h2>
+<p>The command substitution <code>$(foo)</code> yields the result of command <code>foo</code> with trailing newlines erased, and when it is passed to <code>echo</code> it generally just gives the same result as <code>foo</code>.</p>
+<h2>Exceptions</h2>
+<p>One may want to use command substitutions plus <code>echo</code> to make sure there is exactly one trailing newline. The special command substitution <code>$(&lt;file)</code> in <code>bash</code> is also un-outline-able.</p>
+<p>Anyway, echo is still not that reliable (see [[SC2039#echo-flags]]) and <code>printf</code> should be used instead.</p>

@@ -1,0 +1,13 @@
+<p>Quote arguments to unset so they're not glob expanded.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">unset foo[index]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">unset &#39;foo[index]&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Arguments to <code>unset</code> are subject to regular glob expansion. This is especially relevant when unsetting indices in arrays, where <code>[..]</code> is considered a glob character group.</p>
+<p>In the problematic code, having a file called <code>food</code> in the current directory will result in <code>unset foo[index]</code> expanding to <code>unset food</code>, which will silently succeed without unsetting the element.</p>
+<p>Quoting so that the <code>[..]</code> is passed literally to <code>unset</code> solves the issue.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,11 @@
+<h1>Quote parameters to tr to prevent glob expansion.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">tr -cd [:digit:]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">tr -cd &#39;[:digit:]&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[:digit:]</code> is a shell glob that matches any single character file named e.g. <code>g</code> or <code>t</code> in the current directory. Quoting it prevents the script from breaking in directories with files like this.</p>
+<h2>Exceptions</h2>
+<p>None</p>

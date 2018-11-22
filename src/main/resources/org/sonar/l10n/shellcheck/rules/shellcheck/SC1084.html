@@ -1,0 +1,13 @@
+<p>Use #!, not !#, for the shebang.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">!#/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The shebang has been accidentally swapped. The <code>#</code> should come first: <code>#!</code>, not <code>!#</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

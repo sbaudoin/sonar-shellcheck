@@ -1,0 +1,13 @@
+<p>"Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet)."</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;$array[@]&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;${array[@]}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Some languages use the syntax <code>$array[index]</code> to access an index of an arrays, but a shell will interpret this as <code>$array</code> followed by the unrelated literal string (or glob) <code>[index]</code>.</p>
+<p>Curly braces are needed to tell the shell that the square brackets are part of the expansion.</p>
+<h2>Exceptions</h2>
+<p>If you want the square brackets to be treated literally or as a glob, use <code>${var}[idx]</code> to prevent this warning.</p>
+<p>This does not change how the script works, but clarifies your intent to ShellCheck as well as other programmers.</p>

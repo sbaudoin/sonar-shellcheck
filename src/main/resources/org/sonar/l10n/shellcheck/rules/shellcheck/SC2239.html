@@ -1,0 +1,23 @@
+<p>Ensure the shebang uses the absolute path to the interpreter.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The script's interpreter, as specified in the shebang, does not start with a <code>/</code>.</p>
+<p>The interpreter should always be specified by absolute path to ensure that the script can be executed from any directory. When it's not, it's generally a typo like in the problematic example.</p>
+<p>If you don't know where the interpreter is and you hoped to use <code>#! bash</code>, this is not an option. Use <code>/usr/bin/env</code> instead:</p>
+<pre><code class="lang-sh">#!/usr/bin/env bash
+echo &quot;Hello World&quot;
+</code></pre>
+<p>While not required by POSIX, <code>env</code> can essentially always be found in <code>/usr/bin</code> and will search the PATH for the specified executable.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

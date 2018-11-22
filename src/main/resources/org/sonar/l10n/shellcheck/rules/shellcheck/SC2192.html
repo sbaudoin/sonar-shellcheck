@@ -1,0 +1,14 @@
+<p>This array element has no value. Remove spaces after = or use "" for empty string.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">array=([1]=one [2]= two)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">array=([1]=one [2]=two)
+</code></pre>
+<h2>Rationale</h2>
+<p>You have an array element on the form <code>[index]=</code>. The shell will interpret this as an independent element with index <code>index</code> and value <code>&lt;empty string&gt;</code>.</p>
+<p>This may happen as part of the expression <code>[index]= value</code>, where the space is not allowed and causes the shell to interpret it as <code>[index]="" [index+1]=value</code>.</p>
+<p>If you wanted the element to have a value, remove the spaces after <code>=</code>, e.g. <code>[index]=value</code>.</p>
+<p>If you wanted to assign an empty string, explicitly use emtpy quotes: <code>[index]=""</code>. This makes no difference to the shell, but will make your intention clear to shellcheck and other humans.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

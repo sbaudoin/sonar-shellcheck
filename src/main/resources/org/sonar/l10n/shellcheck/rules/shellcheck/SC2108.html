@@ -1,0 +1,11 @@
+<p>In [[..]], use &amp;&amp; instead of -a.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ &quot;$1&quot; = &quot;-v&quot; -a -z &quot;$2&quot; ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ &quot;$1&quot; = &quot;-v&quot; &amp;&amp; -z &quot;$2&quot; ]]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>-a</code> for logical AND is not supported in a <code>[[ .. ]]</code> expression. Use <code>&amp;&amp;</code> instead.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

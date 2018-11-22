@@ -1,0 +1,12 @@
+<p>Quote this invalid brace expansion since it should be passed literally to eval</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">eval echo {1..$n}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">eval &quot;echo {1..$n}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Using <code>eval somecommand {1..$n}</code> depends both on bash silently failing to interpret the brace expansion, and on it passing failing brace expansions literally.</p>
+<p>Rather than depending on these questionable features (which already behave differently in other shells), use the explicit, predictable way of passing values literally: quoting.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,44 @@
+<p>Instead of '[ true ]', just use 'true'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ true ]
+then
+  echo &quot;always triggers&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;always triggers&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>This is a stylistic suggestion to use <code>true</code> instead of <code>[ true ]</code>.</p>
+<p><code>[ true ]</code> seems to suggest that the value "true" is somehow relevant to the statement. This is not the case, it doesn't matter. You can replace it with <code>[ false ]</code> or <code>[ wombat ]</code>, and it will still always be true:</p>
+<table>
+<thead><tr>
+<th>String</th>
+<th>In brackets</th>
+<th>Outside brackets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>wombat</td>
+<td>true</td>
+<td>unknown command</td>
+</tr>
+</tbody>
+</table>
+<p>It's therefore better to use it without brackets, so that the "true" actually matters.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

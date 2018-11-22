@@ -1,0 +1,20 @@
+<p>Instead of '[ 1 ]', use 'true'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while [ 1 ]
+do
+  echo &quot;infinite loop&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while true
+do
+  echo &quot;infinite loop&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>This is a stylistic suggestion to use <code>true</code> instead of <code>[ 1 ]</code>.</p>
+<p><code>[ 1 ]</code> seems to suggest that the value "1" is somehow relevant to the statement. This is not the case: it doesn't matter. You can replace it with <code>[ 0 ]</code> or <code>[ wombat ]</code>, and it will still always be true.</p>
+<p>If you instead use <code>true</code>, the value is actually considered and can be inverted by replacing with <code>false</code>.</p>
+<p>On bash, you can also use <code>(( 1 ))</code>, which evaluates to true much like in C. <code>(( 0 ))</code> is similarly false.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

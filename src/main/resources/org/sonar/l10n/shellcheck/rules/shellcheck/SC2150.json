@@ -1,0 +1,14 @@
+{
+  "title": "-exec does not automatically invoke a shell. Use -exec sh -c .. for that.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

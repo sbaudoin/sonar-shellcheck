@@ -1,0 +1,12 @@
+<blockquote><p>= is not a valid operator. Use '! a &lt; b' instead.</p>
+</blockquote>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ a &amp;lt;= b ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ ! a &gt; b ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>The operators <code>&lt;=</code> and <code>&gt;=</code> are not supported by Bourne shells. Instead of "less than or equal", rewrite as "not greater than".</p>
+<h2>Exceptions</h2>
+<p>None</p>

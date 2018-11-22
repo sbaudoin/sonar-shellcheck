@@ -1,0 +1,13 @@
+<p>Quote the rhs of = in [[ ]] to prevent glob matching.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ $a = $b ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ $a = &quot;$b&quot; ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>When the right-hand side of <code>=</code>, <code>==</code> or <code>!=</code> is unquoted in <code>[[ .. ]]</code>, it will be treated like a glob.</p>
+<p>This has some unexpected consequences like <code>[[ $var = $var ]]</code> being false (for <code>var='[a]'</code>), or <code>[[ $foo = $bar ]]</code> giving a different result from <code>[[ $bar = $foo ]]</code>.</p>
+<p>The most common intention is to compare one variable to another as strings, in which case the right-hand side must be quoted.</p>
+<h2>Exceptions</h2>
+<p>If you explicitly want to match against a pattern, you can [[ignore]] this warning.</p>

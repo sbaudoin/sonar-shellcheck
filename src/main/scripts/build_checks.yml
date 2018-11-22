@@ -1,0 +1,110 @@
+---
+default:
+  type: CODE_SMELL
+  constantCost: 2min
+  tags_always:
+    - shell
+  tags:
+    - convention
+  severity:
+    default: Major
+    style: Info
+    info: Info
+    error: Blocker
+    warning: Major
+
+rules:
+  SC1008:
+    description: "This shebang was unrecognized. Note that ShellCheck only handles sh/bash/dash/ksh."
+  SC1013:
+    description: "Bash requires ; or \\n here, after redirecting nested compound commands."
+  SC1019:
+    description: "Expected this to be an argument to the unary condition."
+  SC1021:
+    description: "You need a space before the \\)"
+  SC1027:
+    description: "Expected another argument for this operator."
+  SC1033:
+    description: "Did you mean ]] ?"
+  SC1034:
+    description: "Did you mean [[ ?"
+  SC1043:
+    description: "Found end token `EOF' further down, but with wrong casing."
+  SC1047:
+    description: "Expected 'fi' matching previously mentioned 'if'."
+  SC1050:
+    description: "Expected 'then'."
+  SC1055:
+    description: "You need at least one command here. Use 'true;' as a no-op."
+  SC1056:
+    description: "Expected a '}'. If you have one, try a ; or \\n in front of it."
+  SC1057:
+    description: "Did you forget the 'do' for this loop?"
+  SC1058:
+    description: "Expected 'do'."
+  SC1059:
+    description: "No semicolons directly after 'do'."
+  SC1060:
+    description: "Can't have empty do clauses (use 'true' as a no-op)."
+  SC1061:
+    description: "Couldn't find 'done' for this 'do'."
+  SC1062:
+    description: "Expected 'done' matching previously mentioned 'do'."
+  SC1063:
+    description: "You need a line feed or semicolon before the 'do'."
+  SC1067:
+    description: "For indirection, use (associative) arrays or 'read \"var$n\" <<< \"value\"'"
+  SC1070:
+    description: "Parsing stopped here. Mismatched keywords or invalid parentheses?"
+  SC1074:
+    description: "Did you forget the ;; after the previous case item?"
+  SC1076:
+    description: "Trying to do math? Use e.g. [ $((i/2+7)) -ge 18 ] or [[ $((i/2+7)) -ge 18 ]]."
+  SC1080:
+    description: "You need \\ before line feeds to break lines in [ ]."
+  SC1085:
+    description: "Did you forget to move the ;; after extending this case item?"
+  SC1092:
+    description: "Stopping at 100 'source' frames :O"
+  SC1093:
+    description: "This file appears to be recursively sourced. Ignoring."
+  SC1103:
+    description: "This shell type is unknown. Use e.g. sh or bash."
+  SC1106:
+    description: "In arithmetic contexts, use <, >, <=, >=, ==, != instead of -lt, -gt, -le, -ge, -eq, -ne"
+  SC1125:
+    description: "Invalid key=value pair? Ignoring the rest of this directive starting here."
+  SC2000:
+    description: "See if you can use ${#variable} instead."
+  SC2011:
+    description: "Use 'find .. -print0 | xargs -0 ..' or 'find .. -exec .. +' to allow non-alphanumeric filenames."
+  SC2023:
+    description: "The shell may override 'time' as seen in man time(1). Use 'command time ..' for that one."
+  SC2042:
+    description: "Use spaces, not commas, to separate loop elements."
+  SC2049:
+    description: "=~ is for regex. Use == for globs."
+  SC2073:
+    description: "Escape \\< and \\> to prevent it redirecting (or try switch to [[ .. ]])."
+  SC2075:
+    description: "Escaping \\< and \\> is required in [..], but invalid in [[..]]"
+  SC2079:
+    description: "(( )) doesn't support decimals. Use bc or awk."
+  SC2083:
+    description: "Don't add spaces after the slash in './file'."
+  SC2111:
+    description: "ksh does not allow 'function' keyword and '()' at the same time."
+  SC2113:
+    description: "'function' keyword is non-standard. Use 'foo()' instead of 'function foo'."
+  SC2118:
+    description: "Ksh does not support |&. Use 2>&1 |."
+  SC2127:
+    description: "To use ${ ..; } command expansion or cases with ;;& or ;;&, specify #!/usr/bin/env bash or ksh"
+    html: |
+      <p>To use cases with <code>;&</code>, specify <code>#!/usr/bin/env bash</code> or <code>#!/usr/bin/env ksh</code>.</p>
+      <p>To use cases with <code>;;&</code>, specify <code>#!/usr/bin/env bash</code>.</p>
+      <p>To use <code>${ ..; }</code> command expansion, specify <code>#!/usr/bin/env ksh</code>.</p>
+  SC2171:
+    description: "Found trailing ]] or ] outside test. Missing [[ or [?"
+  SC2239:
+    description: "Redirecting to/from command name instead of file. Did you want pipes/xargs (or quote to ignore)?"

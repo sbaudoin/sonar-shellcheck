@@ -1,0 +1,14 @@
+{
+  "title": "Expected a '}'. If you have one, try a ; or \\n in front of it.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

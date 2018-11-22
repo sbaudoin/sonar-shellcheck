@@ -1,0 +1,22 @@
+<p>This is a glob used as a command name. Was it supposed to be in ${..}, array, or is it missing quoting?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for f in $(*.png); do echo &quot;$f&quot;; done   # Trying to loop over a glob
+array=$(*.txt)                          # Trying to assign an array
+echo &quot;$(array[1])&quot;                      # Trying to expand an array
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for f in *.png; do echo &quot;$f&quot;; done
+array=(*.txt)
+echo &quot;${array[1]}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using a glob as a command name. This is usually a mistake caused by one of the following:</p>
+<ul>
+<li>Trying to use <code>`*foo*`</code> or <code>$(*foo*)</code> to expand a glob. </li>
+<li>Using <code>var=$(*.txt)</code> instead of <code>var=(*.txt)</code> to assign an array.</li>
+<li>Using <code>$(..)</code> instead of <code>${..}</code> when expanding an array element.</li>
+<li>Running a program with a name or directory that contains glob characters without escaping them.</li>
+</ul>
+<p>Look up and double check the syntax of what you're trying to do.</p>
+<h2>Exceptions</h2>
+<p>None. If you want to specify a command name via glob, e.g. to not hard code version in <code>./myprogram-*/foo</code>, expand to array or parameters first to allow handling the cases of 0 or 2+ matches.</p>

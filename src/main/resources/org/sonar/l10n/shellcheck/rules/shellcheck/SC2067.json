@@ -1,0 +1,14 @@
+{
+  "title": "Missing ';' or + terminating -exec. You can't use |\/||\/&amp;&amp;, and ';' has to be a separate, quoted argument.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

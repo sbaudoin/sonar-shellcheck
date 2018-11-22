@@ -1,0 +1,15 @@
+<p>This apostrophe terminated the single quoted string!</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &#39;Nothing so needs reforming as other people&#39;s habits.&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &#39;Nothing so needs reforming as other people&#39;\&#39;&#39;s habits.&#39;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">echo &quot;Nothing so needs reforming as other people&#39;s habits.&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>When writing a string in single quotes, you have to make sure that any apostrophes in the text don't accidentally terminate the single quoted string prematurely.</p>
+<p>Escape them properly (see the correct code) or switch quotes to avoid the problem.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

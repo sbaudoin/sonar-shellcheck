@@ -1,0 +1,30 @@
+<p>This function is only defined later. Move the definition up.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+myfunction
+
+myfunction() {
+  echo &quot;Hello World&quot;
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+myfunction() {
+  echo &quot;Hello World&quot;
+}
+myfunction
+</code></pre>
+<h2>Rationale</h2>
+<p>You are calling a function that you are defining later in the file. The function definition must come first.</p>
+<p>Function definitions are much like variable assignments, and define a name at the point the definition is "executed". This is why they must happen before their first use.</p>
+<p>This is especially apparent when defining functions conditionally:</p>
+<pre><code>case "$(uname -s)" in
+  Linux) hi() { echo "Hello from Linux"; } ;;
+  Darwin) hi() { echo "Hello from macOS"; } ;;
+  *) hi() { echo "Hello from something else"; } ;;
+esac
+
+hi
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,26 @@
+<p>Add &lt; /dev/null to prevent ssh from swallowing stdin.</p>
+<p>The same error applies to multiple commands, like <code>ffmpeg</code> and <code>mplayer</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while read -r host
+do
+  ssh &quot;$host&quot; &quot;uptime&quot;
+done &lt; hosts.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while read -r host
+do
+  ssh &quot;$host&quot; &quot;uptime&quot; &lt; /dev/null
+done &lt; hosts.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>Commands that process stdin will compete with the <code>read</code> statement for input. This is especially tricky for commands you wouldn't expect reads from stdin, like <code>ssh .. uptime</code>, <code>ffmpeg</code> and <code>mplayer</code>.</p>
+<p>The most common symptom of this is a <code>while read</code> loop only running once, even though the input contains many lines. This is because the rest of the lines are swallowed by the offending command.</p>
+<p>To refuse such commands input, redirect their stdin with <code>&lt; /dev/null</code>.</p>
+<p>You can also use command specific options like <code>ssh -n</code> and <code>mplayer -noconsolecontrols</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/089">BashFaq: I'm reading a file line by line and running ssh or ffmpeg, only the first line gets processed!</a></li>
+<li><a href="https://stackoverflow.com/questions/13800225/shell-script-while-read-line-loop-stops-after-the-first-line">StackOverflow: Shell script while read line loop stops after the first line</a></li>
+</ul>

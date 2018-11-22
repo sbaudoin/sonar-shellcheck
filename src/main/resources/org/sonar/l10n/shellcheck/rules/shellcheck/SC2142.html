@@ -1,0 +1,17 @@
+<p>Aliases can't use positional parameters. Use a function.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">alias archive=&#39;mv &quot;$@&quot; /backup&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">archive() { mv &quot;$@&quot; /backup; }
+</code></pre>
+<h2>Rationale</h2>
+<p>Aliases just substitute the start of a command with something else. They therefore can't use positional parameters, such as <code>$1</code>. Rewrite your alias as a function.</p>
+<h2>Exceptions</h2>
+<p>If your alias ends up quoting the value, e.g. <code>alias cut_first="awk '{print \$1}'"</code>, you can technically [[ignore]] this error. However, you should consider turning this alias into a more readable function instead: <code>cut_first() { awk '{print $1}' "$@"; }</code></p>
+<p>You can also [[ignore]] this warning if you intentionally referenced the positional parameters of its relevant context, knowing that it won't refer to the parameters of the alias itself. For example, <code>alias whatisthis='echo "This is $0 -$-" #'</code> will show the shell name with flags, i.e. <code>This is dash -smi</code> or <code>This is bash -himBs</code>, and is correct usage because it does not intend for <code>$0</code> to reflect anything related to the <code>whatisthis</code> alias or its invocation.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/080">BashFaq: How can I make an alias that takes an argument?</a></li>
+<li><a href="https://stackoverflow.com/questions/7131670/make-a-bash-alias-that-takes-a-parameter">StackOverflow: Make a Bash alias that takes a parameter?</a></li>
+</ul>

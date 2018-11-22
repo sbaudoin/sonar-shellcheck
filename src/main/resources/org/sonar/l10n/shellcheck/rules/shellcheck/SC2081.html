@@ -1,0 +1,19 @@
+<p><code>[ .. ]</code> can't match globs. Use <code>[[ .. ]]</code> or grep.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ $var == *[^0-9]* ]
+then
+  echo &quot;$var is not numeric&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [[ $var == *[^0-9]* ]]
+then
+  echo &quot;$var is not numeric&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ .. ]</code> aka <code>test</code> can not match against globs.</p>
+<p>In bash/ksh, you can instead use <code>[[ .. ]]</code> which supports this behavior.</p>
+<p>In sh, you can rewrite to use <code>grep</code>.</p>
+<h2>Exceptions</h2>
+<p>None. If you are not trying to match a glob, quote the argument (e.g. <code>[ $var == '*' ]</code> to match literal asterisk.</p>

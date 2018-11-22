@@ -1,0 +1,17 @@
+<p>Delete whitespace after the here-doc end token.</p>
+<h2>Problematic code</h2>
+<p>"▭" below indicates an otherwise invisible space:</p>
+<pre><code class="lang-sh">cat &lt;&lt; &quot;eof&quot;
+Hello
+eof▭
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; &quot;eof&quot;
+Hello
+eof
+</code></pre>
+<h2>Rationale</h2>
+<p>The end token of your here document has trailing whitespace. This is invisible to the naked eye, but shells do not accept it.</p>
+<p>Remove the trailing whitespace.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

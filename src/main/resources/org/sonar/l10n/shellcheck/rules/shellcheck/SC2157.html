@@ -1,0 +1,25 @@
+<p>Argument to implicit -n is always true due to literal strings.
+(Or: Argument to -z is always false due to literal strings. )</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$foo &quot; ]
+then
+  echo &quot;this is always true because of the trailing space&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;$foo&quot; ]
+then
+  echo &quot;correctly checks value&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Since <code>[ str ]</code> and <code>[ -n str ]</code> check that the string is non-empty, any literal characters in the string -- including a space character like in the example -- will cause the test to always be true.</p>
+<p>Equivalently, since <code>[ -z str ]</code> checks that the string is empty, any literal character in the string will cause the test to always be false.</p>
+<p>Double check the string: you may have added trailing characters, or bad quotes or syntax. Some examples include:</p>
+<ul>
+<li><code>[ "$foo " ]</code> like in the example, where the space becomes part of the string</li>
+<li><code>[ "{$foo}" ]</code> instead of <code>[ "${foo}" ]</code>, where the <code>{</code> becomes part of the string</li>
+<li><code>[ "$foo -gt 0" ]</code> instead of <code>[ "$foo" -gt "0" ]</code>, where the <code>-gt</code> becomes part of the string</li>
+</ul>
+<h2>Exceptions</h2>
+<p>None.</p>

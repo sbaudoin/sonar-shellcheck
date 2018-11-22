@@ -1,0 +1,20 @@
+<p>Add a linefeed between end token and terminating ')'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=$(fmt -s &quot;$COLUMNS&quot; &lt;&lt; &quot;eof&quot;
+This is a bunch of text
+eof)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=$(fmt -s &quot;$COLUMNS&quot; &lt;&lt; &quot;eof&quot;
+This is a bunch of text
+eof
+)
+</code></pre>
+<h2>Rationale</h2>
+<p>When embedding a here document in <code>$(..)</code> or <code>(..)</code>, there needs to be a linefeed (newline) between the here doc token and the closing <code>)</code>. Please insert one.</p>
+<p>Failing to do so may cause warnings like this:</p>
+<pre><code>bash: warning: here-document at line 15 delimited by end-of-file (wanted `eof')`
+dash: 5: Syntax error: end of file unexpected (expecting ")")
+</code></pre>
+<h2>Exceptions</h2>
+<p>This error may be incorrectly emitted for <code>ksh</code>, where this is allowed. In this case, please either write it in a standard way or ignore this warning.</p>

@@ -1,0 +1,15 @@
+<p>Use "$@" (with quotes) to prevent whitespace problems.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cp $* ~/dir
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cp &quot;$@&quot; ~/dir
+</code></pre>
+<h2>Rationale</h2>
+<p><code>$*</code>, unquoted, is subject to word splitting and globbing.</p>
+<p>Let's say you have three arguments: <code>baz</code>, <code>foo bar</code> and <code>*</code></p>
+<p><code>"$@"</code> will expand into exactly that: <code>baz</code>, <code>foo bar</code> and <code>*</code></p>
+<p><code>$*</code> will expand into multiple other arguments: <code>baz</code>, <code>foo</code>, <code>bar</code>, <code>file.txt</code> and <code>otherfile.jpg</code></p>
+<p>Since the latter is rarely expected or desired, ShellCheck warns about it.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

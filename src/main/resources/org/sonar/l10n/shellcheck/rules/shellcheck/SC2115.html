@@ -1,0 +1,14 @@
+<p>Use "${var:?}" to ensure this never expands to /* .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">rm -rf &quot;$STEAMROOT/&quot;*
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">rm -rf &quot;${STEAMROOT:?}/&quot;*
+</code></pre>
+<h2>Rationale</h2>
+<p>If <code>STEAMROOT</code> is empty, this will <a href="https://github.com/ValveSoftware/steam-for-linux/issues/3671">end up deleting everything</a> in the system's root directory.</p>
+<p>Using <code>:?</code> will cause the command to fail if the variable is null or unset. Similarly, you can use <code>:-</code> to set a default value if applicable.</p>
+<p>In the case command substitution, assign to a variable first and then use <code>:?</code>. This is relevant even if the command seems simple and obviously correct, since forks and execs can fail due to external system limits and conditions, resulting in a blank substitution.</p>
+<p>For more details about <code>:?</code> see the "Parameter Expansion" section of the Bash man page.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,14 @@
+{
+  "title": "Quote\/escape special characters when using eval, e.g. eval 'a=(b)'.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

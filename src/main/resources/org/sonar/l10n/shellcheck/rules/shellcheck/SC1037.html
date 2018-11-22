@@ -1,0 +1,24 @@
+<p>Braces are required for positionals over 9, e.g. ${10}.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Ninth parameter: $9&quot;
+echo &quot;Tenth parameter: $10&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Ninth parameter: $9&quot;
+echo &quot;Tenth parameter: ${10}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>For legacy reasons, <code>$10</code> is interpreted as the variable <code>$1</code> followed by the literal string <code>0</code>.</p>
+<p>Curly braces are needed to tell the shell that both digits are part of the parameter expansion.</p>
+<p>Please note that accessing any positional parameters beyond <code>$9</code> using <code>${num}</code> is non-POSIX.</p>
+<h2>Exceptions</h2>
+<p>If you wanted the trailing digits to be literal, <code>${1}0</code> will make this clear to both humans and shellcheck.</p>
+<p>In <code>dash</code>, <code>$10</code> is (<a href="https://gnu.org/s/autoconf/manual/html_node/Shell-Substitutions.html">wrongly</a>) interpreted as <code>${10}</code>, so some 'reversed' care should also be taken:</p>
+<pre><code class="lang-sh">bash -c &#39;set a b c d e f g h i j; echo $10 ${1}0&#39; # POSIX: a0 a0
+dash -c &#39;set a b c d e f g h i j; echo $10 ${1}0&#39; # WRONG: j a0
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/025">BashFaq: How can I access positional parameters after $9?</a></li>
+<li><a href="https://stackoverflow.com/questions/4912733/how-to-handle-more-than-10-parameters-in-shell">StackOverflow: How to handle more than 10 parameters in shell</a></li>
+</ul>

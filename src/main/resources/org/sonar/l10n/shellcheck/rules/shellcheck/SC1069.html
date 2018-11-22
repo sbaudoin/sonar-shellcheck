@@ -1,0 +1,13 @@
+<p>You need a space before the [.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if[ -e file ]
+then echo &quot;exists&quot;; fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -e file ]
+then echo &quot;exists&quot;; fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a keyword immediately followed by a <code>[</code>. There needs to be a space between them.</p>
+<h2>Exceptions</h2>
+<p>None</p>

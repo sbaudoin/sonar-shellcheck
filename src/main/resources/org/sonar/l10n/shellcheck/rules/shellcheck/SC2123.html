@@ -1,0 +1,20 @@
+<p>PATH is the shell search path. Use another name.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">PATH=/my/dir
+cat &quot;$PATH/myfile&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>Good practice: always use lowercase for unexported variables.</p>
+<pre><code class="lang-sh">path=/my/dir
+cat &quot;$path/myfile&quot;
+</code></pre>
+<p>Bad practice: use another uppercase name.</p>
+<pre><code class="lang-sh">MYPATH=/my/dir
+cat &quot;$MYPATH/myfile&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>PATH</code> is where the shell looks for the commands it executes. By inadvertently overwriting it, the shell will be unable to find commands (like <code>cat</code> in this case).</p>
+<p>You get this warning when ShellCheck suspects that you didn't meant to overwrite it (because it's a single path with no path separators).</p>
+<p>Best shell scripting practice is to always use lowercase variable names to avoid accidentally overwriting exported and internal variables.</p>
+<h2>Exceptions</h2>
+<p>If you're aware of the above and really do want to set your shell search path to <code>/my/dir</code>, you can ignore this warning.</p>

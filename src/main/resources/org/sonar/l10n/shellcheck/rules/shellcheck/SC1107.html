@@ -1,0 +1,20 @@
+<p>This directive is unknown. It will be ignored.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># shellcheck foobar=baz
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>Depends on your intention.</p>
+<h2>Rationale</h2>
+<p>ShellCheck doesn't recognize the [[directive]] you're trying to use in a <code># shellcheck</code> comment. See the [[Directive]]s page for supported directives.</p>
+<p>It could be misspelled, or you could be using an older version of shellcheck that doesn't support it yet.</p>
+<h2>Exceptions</h2>
+<p>None. If you wish to ignore this warning and continue without it, you need version 0.4.5 (commit 88c56ec) or later and a command grouping:</p>
+<pre><code># Ignore an unrecognized directive in 0.4.5 or later:
+# shellcheck disable=SC1107
+{
+  # shellcheck unrecognized=directive
+  echo "Hello World"
+}
+</code></pre>
+<p>Before 0.4.5, unrecognized directives are considered parse errors.</p>

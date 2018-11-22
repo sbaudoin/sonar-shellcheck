@@ -1,0 +1,19 @@
+<p>This ln has no destination. Check the arguments, or specify '.' explicitly.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ln &quot;$file $dir&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">ln /foo/bar/baz
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ln &quot;$file&quot; &quot;$dir&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">ln /foo/bar/baz .
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>ln</code> command with a single parameter. This may be because the source and destination was accidentally merged into a single argument, because the line was broken in an invalid way, or because you're using a non-standard invocation of <code>ln</code> that defaults to linking the argument into the current directory.</p>
+<p>If you wanted to specify both source and destination, fix the <code>ln</code> statement.</p>
+<p>If you wanted to link a file into the current directory, prefer using the more explicit and POSIX standard invocation <code>ln /your/file .</code></p>
+<h2>Exceptions</h2>
+<p>None.</p>

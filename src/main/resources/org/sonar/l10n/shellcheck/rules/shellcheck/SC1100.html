@@ -1,0 +1,13 @@
+<p>This is a unicode dash. Delete and retype as ASCII minus.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ 3 –gt 2 ]] # Uses unicode en-dash character
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ 3 -gt 2 ]] # Uses regular ASCII hyphen-minus character
+</code></pre>
+<h2>Rationale</h2>
+<p>A character that looks similar to <code>-</code> has made its way into your code. This is usually due to copy-pasting from blogs and other websites that formatted code as text, replacing the ASCII hyphen-minus with a Unicode dash character.</p>
+<p>To fix it, simply delete and retype it.</p>
+<p>For a large script, you can use your editor's Search&amp;Replace by copy-pasting the bad dash.</p>
+<h2>Exceptions</h2>
+<p>None. If you want a literal Unicode dash character, just quote it.</p>

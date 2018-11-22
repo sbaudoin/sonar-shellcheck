@@ -1,0 +1,11 @@
+<h1>Don't put spaces around the = in assignments.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo = 42
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo=42
+</code></pre>
+<h2>Rationale</h2>
+<p>Shells are space sensitive. <code>foo=42</code> means to assign <code>42</code> to the variable <code>foo</code>. <code>foo = 42</code> means to run a command named <code>foo</code>, and pass <code>=</code> as <code>$1</code> and <code>42</code> as <code>$2</code>.</p>
+<h2>Exceptions</h2>
+<p>If you actually wanted to run a command named foo and provide <code>=</code> as the first argument, simply quote it to make ShellCheck be quiet: <code>foo "=" 42</code>.</p>

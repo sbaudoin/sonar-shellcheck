@@ -1,0 +1,16 @@
+<p>Some finds don't have a default path. Specify '.' explicitly.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find -type f
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -type f
+</code></pre>
+<h2>Rationale</h2>
+<p>When not provided a search path, GNU and Busybox <code>find</code> will use a default path of <code>.</code>, the current directory.</p>
+<p>On POSIX, macOS/OSX, FreeBSD, OpenBSD and NetBSD, it will instead result in an error.</p>
+<p>Explicitly specifying a path works across all implementations, and is therefore preferred.</p>
+<h2>Exceptions</h2>
+<p>You will get a false positive if you concatenate a series of pre-path flags:</p>
+<pre><code>find -XLE .
+</code></pre>
+<p>In such cases, please either use <code>find -X -L -E .</code> or [[ignore]] the message.</p>

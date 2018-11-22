@@ -1,0 +1,14 @@
+{
+  "title": "Note that A &amp;&amp; B || C is not if-then-else. C may run when A is true.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

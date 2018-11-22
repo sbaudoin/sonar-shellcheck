@@ -1,0 +1,14 @@
+{
+  "title": "Don't use ls | grep. Use a glob or a for loop with a condition to allow non-alphanumeric filenames.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "ShellCheck directives are only valid in front of complete compound commands, like if, not e.g. individual elif branches.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

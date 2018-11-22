@@ -1,0 +1,11 @@
+<h1>Named class needs outer [], e.g. [[:digit:]].</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">gzip file[:digit:]*.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">gzip file[[:digit:]]*.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>Predefined character groups are supposed to be used inside character ranges. <code>[:digit:]</code> matches one of "digt:" just like <code>[abc]</code> matches one of "abc". <code>[[:digit:]]</code> matches a digit.</p>
+<h2>Exceptions</h2>
+<p>When passing an argument to <code>tr</code> which parses these by itself without relying on globbing, you should quote it instead, e.g. <code>tr -d '[:digit:]'</code></p>

@@ -1,0 +1,14 @@
+{
+  "title": "Quote to prevent word splitting, or split robustly with mapfile or read -a.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

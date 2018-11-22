@@ -1,0 +1,32 @@
+<h1>Use a ( subshell ) to avoid having to cd back.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for dir in */
+do
+  cd &quot;$dir&quot;
+  convert index.png index.jpg
+  cd ..
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for dir in */
+do
+  (
+  cd &quot;$dir&quot; || exit
+  convert index.png index.jpg
+  )
+done
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">for dir in */
+do
+  cd &quot;$dir&quot; || exit
+  convert index.png index.jpg
+  cd ..
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>When doing <code>cd dir; somestuff; cd ..</code>, <code>cd dir</code> can fail when permissions are lacking, if the dir was deleted, or if <code>dir</code> is actually a file.</p>
+<p>In this case, <code>somestuff</code> will run in the wrong directory and <code>cd ..</code> will take you to an even more wrong directory. In a loop, this will likely cause the next <code>cd</code> to fail as well, propagating this error and running these commands far away from the intended directories.</p>
+<p>Check <code>cd</code>s exit status and/or use subshells to limit the effects of <code>cd</code>.</p>
+<h2>Exceptions</h2>
+<p>If you set variables you can't use a subshell. In that case, you should definitely check the exit status of <code>cd</code>, which will also silence this suggestion.</p>

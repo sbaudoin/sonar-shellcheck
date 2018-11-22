@@ -1,0 +1,32 @@
+<p>Quote to prevent word splitting, or split robustly with mapfile or read -a.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">array=( $var )
+</code></pre>
+<h2>Correct code</h2>
+<p>If the variable should be a single element:</p>
+<pre><code class="lang-sh">array=( &quot;$var&quot; )
+</code></pre>
+<p>If it's multiple lines, each of which should be an element:</p>
+<pre><code class="lang-sh"># For bash
+mapfile -t array &lt;&lt;&lt; &quot;$var&quot;
+
+# For ksh
+printf &#39;%s\n&#39; &quot;$var&quot; | while IFS=&quot;&quot; read -r line; do array+=(&quot;$line&quot;); done
+</code></pre>
+<p>If it's a line with multiple words (separated by spaces, other delimiters can be chosen with IFS), each of which should be an element:</p>
+<pre><code class="lang-sh"># For bash
+IFS=&quot; &quot; read -r -a array &lt;&lt;&lt; &quot;$var&quot;
+
+# For ksh
+IFS=&quot; &quot; read -r -A array &lt;&lt;&lt; &quot;$var&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You are expanding a variable unquoted in an array. This will invoke the shell's sloppy word splitting and glob expansion.</p>
+<p>Instead, prefer explicitly splitting (or not splitting):</p>
+<ul>
+<li>If the variable should become a single array element, quote it.</li>
+<li>If you want to split into lines or words, use <code>mapfile</code>, <code>read -ra</code> and/or <code>while</code> loops as appropriate.</li>
+</ul>
+<p>This prevents the shell from doing unwanted splitting and glob expansion, and therefore avoiding problems with data containing spaces or special characters.</p>
+<h2>Exceptions</h2>
+<p>If you have already taken care (through setting IFS and <code>set -f</code>) to have word splitting work the way you intend, you can ignore this warning.</p>

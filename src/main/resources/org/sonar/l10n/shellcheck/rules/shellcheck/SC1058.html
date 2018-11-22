@@ -1,0 +1,17 @@
+<p>Expected <code>do</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for file in *
+  echo &quot;$file&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for file in *
+do
+  echo &quot;$file&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a loop that appears to be missing a <code>do</code> statement. In the problematic code, it was simply forgotten.</p>
+<p>Verify that the <code>do</code> exists, and that it's in the correct place.</p>
+<h2>Exceptions</h2>
+<p>None</p>

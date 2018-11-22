@@ -1,0 +1,11 @@
+<p>Did you mean IFS=$'\t' ?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">IFS=&quot;\t&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">IFS=$&#39;\t&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>IFS="\t"</code> splits on backslash and the letter "t". <code>IFS=$'\t'</code> splits on tab.</p>
+<h2>Exceptions</h2>
+<p>It's extremely rare to want to split on the letter "n" or "t", rather than linefeed or tab.</p>

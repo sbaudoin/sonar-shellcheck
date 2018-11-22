@@ -1,0 +1,32 @@
+<p>SC2116 Useless echo? Instead of 'cmd $(echo foo)', just use 'cmd foo'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">greeting=$(echo &quot;Hello, $name&quot;)
+# or
+tar czf &quot;$(echo &quot;$(date +%F).tar.gz&quot;)&quot; *
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">greeting=&quot;Hello, $name&quot;
+# or
+tar czf &quot;$(date +%F).tar.gz&quot; *
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be using <code>echo</code> to write a value to stdout, and then using <code>$(..)</code> or <code>`..`</code> to capture the value again. This is as pointless as mailing yourself a postcard: you already have what you want, so there's no need to send it on a round trip.</p>
+<p>You can just replace <code>$(echo myvalue)</code> with <code>myvalue</code>.</p>
+<h2>Exceptions</h2>
+<p>Sometimes this pattern is used because of side effect of <code>echo</code> or expansions. For example, here <code>$(echo ..)</code> is used to expand a glob.</p>
+<pre><code>glob="*.png"
+files="$(echo $var)"
+</code></pre>
+<p>The <code>echo</code> is not useless, but this code is problematic because it concatenates filenames by spaces. This will break filenames containing spaces and other characters later when the list is split again. Better options are:</p>
+<ul>
+<li>Arrays, if supported by the shell: <code>files=( $glob ); echo "The first file is ${files[0]}"</code></li>
+<li>Positional parameters when possible: <code>set -- $glob; echo "The first file is $1"</code></li>
+<li>Delaying expansion until it's needed: <code>for file in $glob; do ...</code></li>
+</ul>
+<p>All three methods will let you avoid issues with special characters in filenames.</p>
+<p>As another example, here <code>$(echo ..)</code> is used to expand escape sequences:</p>
+<pre><code>unexpanded='var\tvalue'
+expanded="$(echo "$var")"
+</code></pre>
+<p>In this case, use <code>printf</code> instead. It's well defined with regard to escape sequences.</p>
+<p>Finally, if you really do want to concatenate a series of elements by a character like space, consider doing it explicitly with <code>for</code> or <code>printf</code> (e.g. <code>printf '%s\n' $glob</code>).</p>

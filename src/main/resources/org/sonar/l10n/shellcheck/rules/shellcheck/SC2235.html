@@ -1,0 +1,28 @@
+<p>Use <code>{ ..; }</code> instead of <code>(..)</code> to avoid subshell overhead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">([ &quot;$x&quot; ] || [ &quot;$y&quot; ]) &amp;&amp; [ &quot;$z&quot; ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">{ [ &quot;$x&quot; ] || [ &quot;$y&quot; ]; } &amp;&amp; [ &quot;$z&quot; ]
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be using <code>(..)</code> to group test commands. This creates a subshell, making it unnecessarily slow. Avoid this by using <code>{ ..; }</code> to group.</p>
+<p>Be careful to note that unlike <code>(..)</code>, this requires both a space after the <code>{</code> and a semicolon before the <code>}</code>.</p>
+<p>For example, <code>(cmd)</code>, <code>(cmd;)</code> and <code>( cmd )</code> are all valid, but <code>{cmd}</code>, <code>{cmd;}</code> and <code>{ cmd }</code> are all syntax errors because they lack either or both of the spaces and semicolon. The correct form is <code>{ cmd; }</code></p>
+<p>Here's a small benchmark showing that the subshell version is more than 100x slower:</p>
+<pre><code>$ i=0; time for i in {1..10000}; do ([ "$x" ] || [ "$y" ]) &amp;&amp; [ "$z" ]; done
+real    0m7.122s
+user    0m4.204s
+sys     0m2.825s
+
+$ i=0; time for i in {1..10000}; do { [ "$x" ] || [ "$y" ]; } &amp;&amp; [ "$z" ]; done
+real    0m0.055s
+user    0m0.055s
+sys     0m0.000s
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

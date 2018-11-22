@@ -1,0 +1,20 @@
+<p>This file has a UTF-8 BOM. Remove it with: LC_CTYPE=C sed '1s/^...//' &lt; yourscript .</p>
+<h2>Problematic code</h2>
+<p>This is an encoding error that can't be seen in the script itself, but <code>cat -v</code> will show three bytes of garbage at the start of the file:</p>
+<pre><code>$ cat -v file
+M-oM-;M-?#!/bin/bash
+echo "hello world"
+</code></pre>
+<h2>Correct code</h2>
+<p>The code is correct when this garbage does not appear.</p>
+<h2>Rationale</h2>
+<p>Some editors may save a file with a <a href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte Order Mark</a> to mark the file as UTF-8. Shells do not understand this and will give errors on the first line:</p>
+<pre><code>$ bash myscript
+myscript: line 1: #!/bin/sh: No such file or directory
+
+$ dash myscript
+myscript: 1: myscript: #!/bin/sh: not found
+</code></pre>
+<p>To fix it, remove the byte order mark. One way of doing this is <code>LC_CTYPE=C sed '1s/^...//' &lt; yourscript</code>. Verify that it's not there with <code>cat -v</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>

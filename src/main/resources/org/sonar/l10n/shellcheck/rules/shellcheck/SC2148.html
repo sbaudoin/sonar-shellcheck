@@ -1,0 +1,19 @@
+<p>Tips depend on target shell and yours is unknown. Add a shebang.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;$RANDOM&quot;   # Does this work?
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;$RANDOM&quot;  # Unsupported in sh. Produces warning.
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">#!/bin/bash
+echo &quot;$RANDOM&quot;  # Supported in bash. No warnings.
+</code></pre>
+<h2>Rationale</h2>
+<p>Different shells support different features. To give effective advice, ShellCheck needs to know which shell your script is going to run on. You will get a different numbers of warnings about different things depending on your target shell.</p>
+<p>ShellCheck normally determines your target shell from the shebang (having e.g. <code>#!/bin/sh</code> as the first line). The shell can also be specified from the CLI with <code>-s</code>, e.g. <code>shellcheck -s sh file</code>.</p>
+<p>If you don't specify shebang nor <code>-s</code>, ShellCheck gives this message and proceeds with some default (<code>bash</code>).</p>
+<p>Note that this error can not be ignored with a [[directive]]. It is not a suggestion to improve your script, but a warning that ShellCheck lacks information it needs to be helpful.</p>
+<h2>Exceptions</h2>
+<p>None. Please either add a shebang or use <code>-s</code>.</p>

@@ -1,0 +1,17 @@
+<p>SC2009 Consider using pgrep instead of grepping ps output.</p>
+<h2>Problematic Code</h2>
+<pre><code class="lang-sh">ps ax | grep -v grep | grep &quot;$service&quot; &gt; /dev/null
+</code></pre>
+<h2>Correct Code</h2>
+<pre><code class="lang-sh">pgrep -f &quot;$service&quot; &gt; /dev/null
+</code></pre>
+<h2>Rationale</h2>
+<p>If you are just after a pid from a running program, then pgrep is a much safer alternative. Especially if you are also looking for a pid belonging to a certain user or group. All of the parameters are in one command and it can eliminate multiple greps, cuts, seds, awks, ect.</p>
+<h2>Exceptions</h2>
+<p>What if you have the pid and you are looking for the matching program name?</p>
+<pre><code class="lang-sh">pid=123; ps ax | grep &quot;$pid&quot;
+</code></pre>
+<p>What if you want a range of the ps field, like from the 16th space to the end of the line?</p>
+<pre><code class="lang-sh">ps ax | grep &quot;$pid&quot; | cut -d&quot; &quot; -f16-
+</code></pre>
+<p>Both are valid cases where SC2009 is not valid.</p>

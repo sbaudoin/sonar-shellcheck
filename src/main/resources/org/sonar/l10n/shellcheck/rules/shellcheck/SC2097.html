@@ -1,0 +1,25 @@
+<p>This assignment is only seen by the forked process.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">name=World cmd -m &quot;Hello $name&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">export name=World
+cmd -m &quot;Hello $name&quot;
+</code></pre>
+<p>To prevent setting the variable, this can also be done in a subshell:</p>
+<pre><code class="lang-sh">(
+   export name=World
+   cmd -m &quot;Hello $name&quot;
+) # &#39;name&#39; does not leave this subshell
+</code></pre>
+<h2>Rationale</h2>
+<p>In <code>name=World cmd "$name"</code>, <code>name=World</code> is passed in as part of the environment to <code>cmd</code> (i.e., in the <code>envp</code> parameter to <a href="http://linux.die.net/man/2/execve">execve(2)</a>).  This means that <code>cmd</code> and its children will see the parameter, but no other processes will.</p>
+<p>However, <code>"$name"</code> is not expanded by <code>cmd</code>. <code>"$name"</code> is expanded by the shell before <code>cmd</code> is ever executed, and thus it will not use the new value.</p>
+<p>The solution is to set the variable and export the variable first. If limited scope is desired, a <code>( subshell )</code> can be used.</p>
+<h2>Exceptions</h2>
+<p>In the strange and fabricated scenarios where the script and a program uses a variable name for two different purposes, you can ignore this message. This is hard to conceive, since scripts should use lowercase variable names specifically to avoid collisions with the environment.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/104">BashFaq: Why doesn't foo=bar echo "$foo" print bar?</a></li>
+<li><a href="https://stackoverflow.com/questions/36380569/prefixing-variable-assignment-doesnt-work-with-echo?rq=1">StackOverflow: Prefixing variable assignment doesn't work with echo</a></li>
+</ul>

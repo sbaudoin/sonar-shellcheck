@@ -1,0 +1,30 @@
+<p>Found 'eof' further down, but not on a separate line.</p>
+<pre><code>Close matches include '-eof' (!= 'eof').
+</code></pre>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cat &lt;&lt;-eof
+Hello World
+-eof
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt;- eof
+Hello World
+eof
+</code></pre>
+<h2>Rationale</h2>
+<p>Your here document isn't properly terminated.</p>
+<p>There is a line containing the terminator you've chosen, but it's not by itself on a separate line.</p>
+<p>In the example code, the script uses <code>&lt;&lt;-eof</code>, which is the operator <code>&lt;&lt;-</code> followed by <code>eof</code>. The script therefore looks for <code>eof</code> and skips right past the intended terminator because it starts with a dash.</p>
+<p>You will get some companion SC1042 errors mentioning lines that contain the string as a substring, though they all point to the start of the here document and not the relevant line:</p>
+<pre><code>In foo line 4:
+Hello
+^-- SC1041: Found 'eof' further down, but not on a separate line.
+^-- SC1042: Close matches include '-eof' (!= 'eof').
+</code></pre>
+<p>Look at your here document and see which line was supposed to terminate it. Then ensure it matches the token exactly, and that it's on its own line with no text before or after.</p>
+<p>Under Windows the error might occur due to the standard CRLF line-ending, which is Windows-specific.
+Try to change the line ending into LF.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<hr>
+<p>Note that SC1041 and SC1042 swapped numbers after v0.4.6 to improve the display order. This rare instance of number reuse was justified by them always occuring together on the same line.</p>

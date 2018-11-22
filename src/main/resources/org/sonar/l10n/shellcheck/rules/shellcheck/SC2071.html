@@ -1,0 +1,25 @@
+<blockquote><p>is for string comparisons. Use -gt instead.</p>
+</blockquote>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [[ $var &gt; 10 ]]
+then
+  echo &quot;Incorrectly triggers when var=5&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [[ $var -gt 10 ]]
+then
+  echo &quot;Correct numerical comparison&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>&lt;</code> and <code>&gt;</code>, in both <code>[[</code> and <code>[</code> (when escaped) will do a lexicographical comparison, not a numerical comparison.</p>
+<p>This means that <code>[[ 5 &gt; 10 ]]</code> is true because 5 comes after 10 alphabetically. Meanwhile <code>[[ 5 -gt 10 ]]</code> is false because 5 does not come after 10 numerically.</p>
+<p>If you want to compare numbers by value, use the numerical comparison operators <code>-gt</code>, <code>-ge</code>, <code>-lt</code> and <code>-le</code>.</p>
+<h2>Exceptions</h2>
+<p>If the strings happen to be version numbers and you're using &lt;, or &gt; to compare them as strings, and you consider this an acceptable thing to do, then you can ignore this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf7">Bash Pitfalls: <code>[[ $foo &gt; 7 ]]</code></a></li>
+<li><a href="https://stackoverflow.com/questions/18668556/comparing-numbers-in-bash">StackOverflow: Comparing numbers in Bash</a></li>
+</ul>

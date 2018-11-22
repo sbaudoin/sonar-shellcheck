@@ -1,0 +1,27 @@
+<p>Use <code>$((..))</code> for arithmetics, e.g. <code>i=$((i + 2))</code></p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">i=3
+i=i + 2
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">i=3
+i=$((i + 2))
+</code></pre>
+<h2>Rationale</h2>
+<p>Unlike most languages, variable assignments in shell scripts are space sensitive and (almost) always assign strings.</p>
+<p>To evaluate a mathematical expressions, use <code>$((..))</code> as in the correct code:</p>
+<pre><code>i=$((i + 2))   # Spaces are fine inside $((...))
+</code></pre>
+<p>In the problematic code, <code>i=i + 2</code> will give an error <code>+: command not found</code> because the expression is interpreted similar to something like <code>LC_ALL=C wc -c</code> instead of numerical addition:</p>
+<pre><code> Prefix assignment    Command  Argument
+ LC_ALL=C             wc       -c
+ i=i                  +        2
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you wanted to assign a literal string, quote it:</p>
+<pre><code>game_score="0 - 2"
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

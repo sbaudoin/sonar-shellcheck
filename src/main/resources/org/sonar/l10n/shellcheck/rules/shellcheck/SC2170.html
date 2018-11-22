@@ -1,0 +1,22 @@
+<p>Numerical -eq does not dereference in [..]. Expand or use string operator.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">read -r n
+if [ n -lt 0 ]
+then
+   echo &quot;bad input&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">read -r n
+if [ &quot;$n&quot; -lt 0 ]
+then
+   echo &quot;bad input&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You are comparing a string value with a numerical operator, such as <code>-eq</code>, <code>-ne</code>, <code>-lt</code> or <code>-gt</code>.</p>
+<p>In <code>[[ .. ]]</code>, this would automatically dereference the string, looking to see if there are variables by that name.</p>
+<p>In <code>[ .. ]</code>, which you are using, the string is just treated as an invalid number.</p>
+<p>If you want to compare numbers, expand yourself (e.g. use <code>$var</code> instead of <code>var</code>). If you are trying to compare strings and not numbers, use <code>=</code>, <code>!=</code> <code>\&lt;</code> or <code>\&gt;</code> instead.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

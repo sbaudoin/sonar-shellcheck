@@ -1,0 +1,14 @@
+<p>Quote the parameter to -name so the shell won't interpret it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -name *.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.txt&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Several find options take patterns to match against, including <code>-ilname</code>, <code>-iname</code>, <code>-ipath</code>, <code>-iregex</code>, <code>-iwholename</code>, <code>-lname</code>, <code>-name</code>, <code>-path</code>, <code>-regex</code> and <code>-wholename</code>.</p>
+<p>These compete with the shell's pattern expansion, and must therefore be quoted so that they are passed literally to <code>find</code>.</p>
+<p>The example command may end up executing as <code>find . -name README.txt</code> after the shell has replaced the <code>*.txt</code> with a matching file <code>README.txt</code> from the current directory.</p>
+<p>This may happen today or suddenly in the future.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,22 @@
+<p>Can't use sudo with builtins like cd. Did you want sudo sh -c .. instead?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">sudo cd /root
+pwd
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">sudo sh -c &#39;cd /root &amp;&amp; pwd&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Due to the Unix process model, <code>sudo</code> can only change the privileges of a new, external process. It can not grant privileges to a currently running process.</p>
+<p>This means that shell builtins -- commands that are interpreted by the current shell rather than through program invocation -- cannot be run with <code>sudo</code>. This includes <code>cd</code>, <code>source</code>, <code>read</code>, and others.</p>
+<p>Instead you can run a shell with <code>sudo</code>, and have that shell run the builtins you want. Just be aware that what happens in that shell stays in that shell:</p>
+<pre><code>sudo sh -c 'cd /root &amp;&amp; pwd'  # This shows /root
+pwd                           # This shows the original directory
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://superuser.com/questions/241129/why-wont-sudo-cd-work">SuperUser</a>: Why won't “sudo cd” work?</li>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

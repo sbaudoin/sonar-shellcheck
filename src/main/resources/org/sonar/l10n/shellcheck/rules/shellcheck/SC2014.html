@@ -1,0 +1,16 @@
+<p>This will expand once before find runs, not per file found.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.tar&#39; -exec tar xf {} -C &quot;$(dirname {})&quot; \;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.tar&#39; -exec sh -c &#39;tar xf &quot;$1&quot; -C &quot;$(dirname &quot;$1&quot;)&quot;&#39; _ {} \;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash evaluates any command substitutions before the command they feature in is executed. In this case, the command is <code>find</code>. This means that <code>$(dirname {})</code> will run <strong>before</strong> <code>find</code> runs, and not <strong>while</strong> <code>find</code> runs.</p>
+<p>To run shell code for each file, we can write a tiny script and inline it with <code>sh -c</code>. We add <code>_</code> as a dummy argument that becomes <code>$0</code>, and a filename argument that becomes <code>$1</code> in the inlined script:</p>
+<pre><code class="lang-sh">$ sh -c &#39;echo &quot;$1 is in $(dirname &quot;$1&quot;)&quot;&#39; _ &quot;mydir/myfile&quot;
+mydir/myfile is in mydir
+</code></pre>
+<p>This command can be executed by <code>find -exec</code>, with <code>{}</code> as the filename argument. It executes shell which interprets the inlined script once for each file. Note that the inlined script is single quoted, again to ensure that the expansion does not happen prematurely .</p>
+<h2>Exceptions</h2>
+<p>If you don't care (or if you prefer) that it's only expanded once, like when dynamically selecting the executable to be used by all invocations, you can ignore this message.</p>

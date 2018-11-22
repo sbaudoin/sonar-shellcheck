@@ -1,0 +1,19 @@
+<p>Backslash is literal in <code>"\n"</code>. Prefer explicit escaping: <code>"\\n"</code>.</p>
+<p><strong>Note: this warning has been retired due to being too pedantic</strong></p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">printf &quot;%s\n&quot; &quot;Hello&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">printf &quot;%s\\n&quot; &quot;Hello&quot;
+</code></pre>
+<p>or alternatively, with single quotes:</p>
+<pre><code class="lang-sh">printf &#39;%s\n&#39; &quot;Hello&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>In a double quoted string, you have escaped a character that has no special behavior when escaped. Instead, it's invoking the fallback behavior of being interpreted literally.</p>
+<p>Instead of relying on this implicit fallback, you should escape the backslash explicitly. This makes it clear that it's meant to be passed as a literal backslash in the string parameter.</p>
+<h2>Exceptions</h2>
+<p>None. This is a stylistic issue which can be [[ignore]]d. But can you name the 5 characters that <em>are</em> special when escaped in double quotes?</p>
+<h2>Retired</h2>
+<p>This warning is no longer emitted as of d8a32da07 (strictly after v0.5).</p>
+<p>The number of harmlessly affected <code>printf</code>, <code>sed</code> and <code>grep</code> statements was significantly higher than the number of actual unexpanded escape sequences. It may return some day under a <code>-pedantic</code> type flag.</p>

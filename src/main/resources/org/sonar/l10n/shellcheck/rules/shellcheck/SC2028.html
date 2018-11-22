@@ -1,0 +1,16 @@
+<h1>echo won't expand escape sequences. Consider printf.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Name:\t$value&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">printf &quot;Name:\t%s\n&quot; &quot;$value&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Backslash escapes like <code>\t</code> and <code>\n</code> are not expanded by echo, and become literal backslash-t, backslash-n.</p>
+<p><code>printf</code> does expand these sequences, and should be used instead.</p>
+<p>Other, non-portable methods include <code>echo -e '\t'</code> and <code>echo $'\t'</code>. ShellCheck will warn if this is used in a script with shebang <code>#!/bin/sh</code>.</p>
+<p>If you actually wanted a literal backslash-t, use</p>
+<pre><code class="lang-sh">echo &quot;\\t&quot;
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>

@@ -1,0 +1,32 @@
+<p>Bash doesn't support variables in brace range expansions.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-bash">for i in {1..$n}
+do
+  echo &quot;$i&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-bash">for ((i=0; i&lt;n; i++))
+do
+  echo &quot;$i&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>In Bash, brace expansion happens before variable expansion. This means that brace expansion will not account for variables.</p>
+<p>For integers, use an arithmetic for loop instead. For zero-padded numbers or letters, use of eval may be warranted:</p>
+<pre><code class="lang-bash">from=&quot;a&quot; to=&quot;m&quot;
+for c in $(eval &quot;echo {$from..$to}&quot;); do echo &quot;$c&quot;; done
+</code></pre>
+<p>or more carefully (if <code>from</code>/<code>to</code> could be user input, or if the brace expansion could have spaces):</p>
+<pre><code class="lang-bash">from=&quot;a&quot; to=&quot;m&quot;
+while IFS= read -d &#39;&#39; -r c
+do
+  echo &quot;Read $c&quot;
+done &lt;  &lt;(eval &quot;printf &#39;%s\0&#39; $(printf &quot;{%q..%q}.jpg&quot; &quot;$from&quot; &quot;$to&quot;)&quot;)
+</code></pre>
+<h2>Exceptions</h2>
+<p>None (if you're writing for e.g. zsh, make sure the shebang indicates this so shellcheck won't warn)</p>
+<h2>Related Resources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/169511/how-do-i-iterate-over-a-range-of-numbers-defined-by-variables-in-bash">StackOverflow: Variables in bash seq replacement ({1..10})</a></li>
+</ul>

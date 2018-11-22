@@ -1,0 +1,26 @@
+<p>Can't have empty then clauses (use 'true' as a no-op).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -e foo ]
+then
+  # TODO: handle this
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -e foo ]
+then
+  # TODO: handle this
+  true
+fi
+
+# Or use the no-op colon operator &quot;:&quot;
+if [ -e foo ]
+then
+  # TODO: handle this
+  :
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Shells do not allow empty <code>then</code> clauses. They need at least one command (and comments are not commands).</p>
+<p>If you want a <code>then</code> clause that does nothing, use a dummy command like <code>true</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

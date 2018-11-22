@@ -1,0 +1,14 @@
+{
+  "title": "Delete trailing spaces after \\ to break line (or use quotes for literal space).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

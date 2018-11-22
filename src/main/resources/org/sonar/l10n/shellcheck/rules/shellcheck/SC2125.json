@@ -1,0 +1,14 @@
+{
+  "title": "Brace expansions and globs are literal in assignments. Quote it or use an array.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

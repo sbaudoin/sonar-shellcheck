@@ -1,0 +1,37 @@
+<h1>Quotes/backslashes will be treated literally. Use an array.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">args=&#39;-lh &quot;My File.txt&quot;&#39;
+ls $args
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">args=(-lh &quot;My File.txt&quot;)
+ls &quot;${args[@]}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash does not interpret data as code. Consider almost any other languages, such as Python:</p>
+<pre><code class="lang-sh">print 1+1   # prints 2
+a=&quot;1+1&quot;
+print a     # prints 1+1, not 2
+</code></pre>
+<p>Here, <code>1+1</code> is Python syntax for adding numbers. However, passing a literal string containing this expression does not cause Python to interpret it, see the <code>+</code> and produce the calculated result.</p>
+<p>Similarly, <code>"My File.txt"</code> is Bash syntax for a single word with a space in it. However, passing a literal string containing this expression does not cause Bash to interpret it, see the quotes and produce the tokenized result.</p>
+<p>The solution is to use an array instead, whenever possible.</p>
+<p>If due to <code>sh</code> compatibility you can't use arrays, you can use <code>eval</code> instead. However, this is very insecure and easy to get wrong, leading to various forms of security vulnerabilities and breakage:</p>
+<pre><code class="lang-sh">quote() { local q=${1//\&#39;/\&#39;\\\&#39;\&#39;}; echo &quot;&#39;$q&#39;&quot;; }
+args=&quot;-lh $(quote &quot;My File.txt&quot;)&quot;
+eval ls &quot;$args&quot; # Do not use unless you understand implications
+</code></pre>
+<p>If you ever accidentally forget to use proper quotes, such as with:</p>
+<pre><code class="lang-sh">for f in *.txt; do
+  args=&quot;-lh &#39;$1&#39;&quot; # Example security exploit
+  eval ls &quot;$args&quot; # Do not copy and use
+done
+</code></pre>
+<p>Then you can use <code>touch "'; rm -rf \$'\x2F'; '.txt"</code>  (or someone can trick you into downloading a file with this name, or create a zip file or git repo containing it, or changing their nick and have your chat client create the file for a chat log, or...), and running the script to list your files will run the command <code>rm -rf /</code>.</p>
+<h2>Exceptions</h2>
+<p>Few and far between.</p>
+<h2>Additional resources</h2>
+<ul>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/050">Wooledge BashFAQ #50</a>: I'm trying to put a command in a variable, but the complex cases always fail!</li>
+<li><a href="https://stackoverflow.com/questions/12136948/in-bash-why-do-shell-commands-ignore-quotes-in-arguments-when-the-arguments-are">StackOverflow: In bash, why do shell commands ignore quotes in arguments when the arguments are passed to them as a variable?</a></li>
+</ul>

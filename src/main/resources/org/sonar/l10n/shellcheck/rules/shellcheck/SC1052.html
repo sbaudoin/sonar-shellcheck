@@ -1,0 +1,12 @@
+<p>Semicolons directly after 'then' are not allowed. Just remove it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if true; then; echo &quot;Hi&quot;; fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true; then echo &quot;Hi&quot;; fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>then</code> keywords should not be followed by semicolons. It's not valid shell syntax.</p>
+<p>You can follow them directly with a line break or another command.</p>
+<h2>Exceptions</h2>
+<p>None</p>

@@ -1,0 +1,14 @@
+{
+  "title": "SC2116 Useless echo? Instead of 'cmd $(echo foo)', just use 'cmd foo'.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

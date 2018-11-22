@@ -1,0 +1,21 @@
+<p>You can't have | between this redirection and the command it should apply to.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">&lt; file.txt | grep foo
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">&lt; file.txt grep foo   # or more canonically: grep foo &lt; file.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a stage in a pipeline that consists of a redirection but no command. This doesn't make sense because a redirection without a command will not read or write any data.</p>
+<p>This is most likely to occur when deleting a command that had a redirection, but leaving a <code>|</code> behind instead of moving the redirection to a different command:</p>
+<pre><code># Match lines with line numbers
+nl &lt; foo.txt | grep bar
+
+# Incorrect attempt at removing line numbers. grep now has no input:
+&lt; foo.txt | grep bar
+
+# Line numbers correctly removed. grep now reads foo.txt as intended.
+grep bar &lt; foo.txt
+</code></pre>
+<h2>Exceptions</h2>
+<p>It's technically valid to do e.g. <code>echo foo | &gt; "$(cat)"</code> to truncate a file called "foo", but please consider rewriting such code.</p>

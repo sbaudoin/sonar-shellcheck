@@ -1,0 +1,14 @@
+{
+  "title": "Arrays don't work as operands in [ ]. Use a loop (or concatenate with * instead of @).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

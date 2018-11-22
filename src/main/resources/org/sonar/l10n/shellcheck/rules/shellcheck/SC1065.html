@@ -1,0 +1,21 @@
+<p>Trying to declare parameters? Don't. Use () and refer to params as $1, $2..</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo(input) {
+  echo &quot;$input&quot;
+}
+foo(&quot;hello world&quot;);
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo() {
+  echo &quot;$1&quot;
+}
+foo &quot;hello world&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Shell script functions behave just like scripts and other commands:</p>
+<ul>
+<li>They always take a 0 to N parameters, referred to with <code>$1</code>, <code>$2</code> etc. They can not declare parameters by name.</li>
+<li>They are executed using <code>name arg1 arg2</code>, and not with parentheses as C-like languages.</li>
+</ul>
+<h2>Exceptions</h2>
+<p>None.</p>

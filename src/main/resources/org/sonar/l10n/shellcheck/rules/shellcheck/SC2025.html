@@ -1,0 +1,16 @@
+<h1>Make sure all escape sequences are enclosed in <code>\[..\]</code> to prevent line wrapping issues</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">PS1=&#39;\e[36m\$ \e(B\e[m&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">PS1=&#39;\[\e[36m\]\$ \[\e(B\e[m\]&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash is unable to determine exactly which parts of your prompt are text and which are terminal codes. You have to help it by wrapping invisible control codes in <code>\[..\]</code> (and ensuring that visible characters are not wrapped in <code>\[..\]</code>).</p>
+<p>Note: ShellCheck offers this as a helpful hint and not a robust check. Don't rely on ShellCheck to verify that your prompt is correct.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/053">BashFaq: I have a fancy prompt with colors, and now bash doesn't seem to know how wide my terminal is. Lines wrap around incorrectly.</a></li>
+</ul>

@@ -1,0 +1,12 @@
+<p>To assign the output of a command, use var=$(cmd) .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=grep -c pattern file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=$(grep -c pattern file)
+</code></pre>
+<h2>Rationale</h2>
+<p>To assign the output of a command to a variable, use <code>$(command substitution)</code>. Just typing a command after the <code>=</code> sign does not work.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<p>This warning triggers generally for <code>var=value -flag</code> and <code>var=value *glob*</code>. See related warning [[SC2209]] which matches <code>var=commonCommand</code>.</p>

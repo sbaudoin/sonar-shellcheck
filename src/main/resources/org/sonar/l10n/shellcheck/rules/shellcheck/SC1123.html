@@ -1,0 +1,41 @@
+<p>ShellCheck directives are only valid in front of complete compound commands, like <code>if</code>, not e.g. individual <code>elif</code> branches.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
+then
+  echo &quot;Prod mode&quot;
+# shellcheck disable=2154
+elif [ &quot;$debug&quot; = &quot;true&quot; ]
+then
+  echo &quot;Debug mode&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Applies to entire `if...fi` command
+# shellcheck disable=2154
+if [ &quot;$prod&quot; = &quot;true&quot; ]
+then
+  echo &quot;Prod mode&quot;
+elif [ &quot;$debug&quot; = &quot;true&quot; ]
+then
+  echo &quot;Debug mode&quot;
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
+then
+  echo &quot;Prod mode&quot;
+elif  # Applies only to this [ .. ] command
+      # shellcheck disable=2154
+      [ &quot;$debug&quot; = &quot;true&quot; ]
+then
+  echo &quot;Debug mode&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to have put a directive before a non-command keyword, such as <code>elif</code>, <code>else</code>, <code>do</code>, <code>;;</code> or similar.</p>
+<p>Unlike many other linters, ShellCheck comment directives apply to the next shell command, rather than to the next line of text.</p>
+<p>This means that you can put a directive in front of a <code>while</code> loop, <code>if</code> statement or function definition, and it will apply to that entire structure.</p>
+<p>However, it also means that you can not apply the directive to non-commands like an individual <code>elif</code> or <code>else</code> block since these are not commands by themselves, and rather just parts of an <code>if</code> compound command.</p>
+<p>Please move the directive in front of the nearest applicable command that contains the code you want to apply it to, such as before the <code>if</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

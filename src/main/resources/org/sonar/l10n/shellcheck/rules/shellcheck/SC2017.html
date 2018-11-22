@@ -1,0 +1,13 @@
+<p>Increase precision by replacing a/b*c with a*c/b.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">percent=$((count/total*100))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">percent=$((count*100/total))
+</code></pre>
+<h2>Rationale</h2>
+<p>If integer division is performed before multiplication, the intermediate result will be truncated causing a loss of precision.</p>
+<p>In this case, if  <code>count=1</code> and <code>total=2</code>, then the problematic code results in <code>percent=0</code>, while the correct code gives <code>percent=50</code>.</p>
+<h2>Exceptions</h2>
+<p>If you want and expect truncation you can ignore this message.</p>
+<p>ShellCheck doesn't warn when <code>b</code> and <code>c</code> are identical expressions, e.g. <code>a/10*10</code>, under the assumption that the intent is to rounded to the nearest 10 rather than the no-op of multiply by <code>1</code>.</p>

@@ -1,0 +1,22 @@
+<p>Redirecting to 'echo', a command that doesn't read stdin. Bad quoting or missing xargs?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &lt;&lt; eof
+  Hello World
+eof
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; eof
+  Hello World
+eof
+</code></pre>
+<h2>Rationale</h2>
+<p>You are redirecting to one of several commands that don't read from stdin.</p>
+<p>This may happen when:</p>
+<ul>
+<li>Confusing one command for another, e.g. using <code>echo</code> where <code>cat</code> was intended.</li>
+<li>Incorrectly quoting angle brackets, e.g. using <code>echo &lt;p&gt;Hello</code> which tries to read from a file <code>p</code>.</li>
+<li>Missing <code>xargs</code>, e.g. <code>mv -t dir &lt; files</code> instead of <code>xargs mv -t dir &lt; files</code> (or more safely, <code>tr '\n' '\0' &lt; files | xargs -0 mv -t dir</code>), because stdin should be passed as parameters.</li>
+</ul>
+<p>Check your logic, and rewrite the command so data is passed correctly.</p>
+<h2>Exceptions</h2>
+<p>If you've overridden a command to return output, you can either rename it to make this obvious, or [[ignore]] this message.</p>

@@ -1,0 +1,17 @@
+<p>Scripts are case sensitive. Use 'if', not 'If'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">If true
+Then
+  echo &quot;hello&quot;
+Fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;hello&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Shells are case sensitive and do not accept <code>If</code> or <code>IF</code> in place of lowercase <code>if</code>.</p>
+<h2>Exceptions</h2>
+<p>If you're aware of this and insist on naming a function <code>WHILE</code>, you can quote the name to prevent shellcheck from thinking you meant <code>while</code>. Or if you really want the names, add things like <code>alias If=if IF=if</code> to replace those keywords and ask shellcheck to ignore them.</p>

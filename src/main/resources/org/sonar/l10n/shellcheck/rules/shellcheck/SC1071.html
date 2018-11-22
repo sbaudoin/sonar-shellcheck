@@ -1,0 +1,9 @@
+<p>ShellCheck only supports sh/bash/dash/ksh scripts. Sorry!</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/usr/bin/python
+print &quot;Hello&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You have specified the shebang of an unsupported language or shell dialect.</p>
+<p>ShellCheck only supports a limited number of Bourne-based Unix shells: bash, ksh, dash and POSIX sh.</p>
+<p>It does not support scripts written for other shells like Zsh, Csh, Tcsh or PowerShell, and it does not support other scripting languages like PHP, Python, JavaScript or SQL.</p>

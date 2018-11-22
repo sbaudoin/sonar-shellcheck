@@ -1,0 +1,15 @@
+<h1>Grep uses regex, but this looks like a glob.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">grep &#39;*foo*&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep &#39;foo&#39;   # or more explicitly,  grep &#39;.*foo.*&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>In globs, <code>*</code> matches any number of any character.</p>
+<p>In regex, <code>*</code> matches any number of the preceding character.</p>
+<p><code>grep</code> uses regex, not globs, so this means that <code>grep '*foo'</code> is nonsensical because there's no preceding character for <code>*</code>.</p>
+<p>If the intention was to match "any number of characters followed by foo", use <code>'.*foo'</code>. Also note that since grep matches substrings, this will match "fishfood". Use anchors to prevent this, e.g. <code>foo$</code>.</p>
+<p>This also means that <code>f*</code> will match "hello", because <code>f*</code> matches 0 (or more) "f"s and there are indeed 0 "f" characters in "hello". Again, use <code>grep 'f'</code> to find strings containing "f", or <code>grep '^f'</code> to find strings starting with "f".</p>
+<h2>Exceptions</h2>
+<p>If you're aware of the differences between globs and regex, you can ignore this message.</p>

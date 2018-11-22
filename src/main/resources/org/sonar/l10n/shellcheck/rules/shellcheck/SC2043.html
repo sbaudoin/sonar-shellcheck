@@ -1,0 +1,26 @@
+<p>This loop will only ever run once for a constant value. Did you perhaps mean to loop over dir/*, $var or $(cmd)?"</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for var in value
+do
+  echo &quot;$var&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<p>Correct code depends on what you want to do.</p>
+<p>To iterate over files in a directory, instead of <code>for var in /my/dir</code> use:</p>
+<pre><code class="lang-sh">for var in /my/dir/* ; do echo &quot;$var&quot;; done
+</code></pre>
+<p>To iterate over lines in a file or command output, use a while read loop instead:</p>
+<pre><code class="lang-sh">mycommand | while IFS= read -r line; do echo &quot;$line&quot;; done
+</code></pre>
+<p>To iterate over <em>words</em> written to a command or function's stdout, instead of <code>for var in myfunction</code>, use</p>
+<pre><code class="lang-sh">for var in $(myfunction); do echo &quot;$var&quot;; done
+</code></pre>
+<p>To iterate over <em>words</em> in a variable, instead of  <code>for var in myvariable</code>, use</p>
+<pre><code class="lang-sh">for var in $myvariable; do echo &quot;$var&quot;; done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has detected that your for loop iterates over a single, constant value. This is most likely a bug in your code, caused by you not expanding the value in the way you want.</p>
+<p>You should make sure that whatever you loop over will expand into multiple words.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

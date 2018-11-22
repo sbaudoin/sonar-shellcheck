@@ -1,0 +1,14 @@
+{
+  "title": "Arrays implicitly concatenate in [[ ]]. Use a loop (or explicit * instead of @).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

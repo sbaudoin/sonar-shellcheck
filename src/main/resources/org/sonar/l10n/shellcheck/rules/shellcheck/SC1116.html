@@ -1,0 +1,14 @@
+<p>Missing $ on a $((..)) expression? (or use ( ( for arrays).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=((foo+1))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=$((foo+1))
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be missing the <code>$</code> on an assignment from an arithmetic expression <code>var=$((..))</code> .</p>
+<p>Without the <code>$</code>, this is an array expression which is either nested (ksh) or invalid (bash).</p>
+<h2>Exceptions</h2>
+<p>If you are trying to define a multidimensional Ksh array, add spaces between the <code>( (</code> to clarify:</p>
+<pre><code>var=( (1 2 3) (4 5 6) )
+</code></pre>

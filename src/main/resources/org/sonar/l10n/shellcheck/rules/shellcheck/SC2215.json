@@ -1,0 +1,14 @@
+{
+  "title": "This flag is used as a command name. Bad line break or missing [ .. ]?",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

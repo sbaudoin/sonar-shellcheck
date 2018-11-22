@@ -1,0 +1,17 @@
+<h1>Use $((..)) instead of deprecated $[..]</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">n=1
+n=$[n+1]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">n=1
+n=$((n+1))
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>$[..]</code> syntax was deprecated in Bash 2.0 and replaced with the standard <code>$((..))</code> syntax from Korn shell</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>See also</h2>
+<ul>
+<li><a href="http://unix.stackexchange.com/questions/209833/what-does-a-dollar-sign-followed-by-a-square-bracket-mean-in-bash">http://unix.stackexchange.com/questions/209833/what-does-a-dollar-sign-followed-by-a-square-bracket-mean-in-bash</a></li>
+</ul>

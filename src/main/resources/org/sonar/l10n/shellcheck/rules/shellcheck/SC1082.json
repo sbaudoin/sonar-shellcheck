@@ -1,0 +1,14 @@
+{
+  "title": "This file has a UTF-8 BOM. Remove it with: LC_CTYPE=C sed '1s\/^...\/\/' &lt; yourscript .",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

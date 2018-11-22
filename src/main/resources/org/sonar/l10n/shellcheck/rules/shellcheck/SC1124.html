@@ -1,0 +1,32 @@
+<p>ShellCheck directives are only valid in front of complete commands like 'case' statements, not individual case branches.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case $? in
+  0) echo &quot;Success&quot; ;;
+  # shellcheck disable=2154
+  *) echo &quot;$cmd $flag returned failure&quot; ;;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Applies to everything in the `case` statement
+# shellcheck disable=2154
+case $? in
+  0) echo &quot;Success&quot; ;;
+  *) echo &quot;$cmd $flag returned failure&quot; ;;
+esac
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">case $? in
+  0) echo &quot;Success&quot; ;;
+  *)
+     # Applies to a single command within the `case`
+     # shellcheck disable=2154
+     echo &quot;$cmd $flag returned failure&quot;
+     ;;
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to have put a directive before a branch in a case statement.</p>
+<p>ShellCheck directives can not be scoped to individual branches of <code>case</code> statements, only to the entire <code>case</code>, or to individual commands within it. Please move the directive as appropriate.</p>
+<p>(It is possible to apply directives to all commands within a <code>{ ..: }</code> command group, if you truly wish to apply a directive to multiple commands but not the full <code>case</code> statement.)</p>
+<h2>Exceptions</h2>
+<p>None.</p>

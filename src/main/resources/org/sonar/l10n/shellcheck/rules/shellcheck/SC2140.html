@@ -1,0 +1,35 @@
+<p>Word is on the form "A"B"C" (B indicated). Did you mean "ABC" or "A\"B\"C"?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;&lt;img src=&quot;foo.png&quot; /&gt;&quot; &gt; file.html
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">export &quot;var&quot;=&quot;42&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;&lt;img src=\&quot;foo.png\&quot; /&gt;&quot; &gt; file.html
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">export &quot;var=42&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>This warning triggers when an unquoted literal string is found suspiciously sandwiched between two double quoted strings.</p>
+<p>This usually indicates one of:</p>
+<ul>
+<li>quotes that were supposed to be nested, and therefore need to be escaped (like the <code>&lt;img&gt;</code> example)</li>
+<li>quotes that are just plain unnecessary (like the <code>export</code> example).</li>
+</ul>
+<p>Without escaping, the inner two quotes of the sandwich (the end quote of the first section and the start quote of the second section) are no-ops. The following two statements are identical, so the quotes that were intended to be part of the html output are instead removed:</p>
+<pre><code class="lang-sh">echo &quot;&lt;img src=&quot;foo.png&quot; /&gt;&quot; &gt; file.html
+echo &quot;&lt;img src=foo.png /&gt;&quot; &gt; file.html
+</code></pre>
+<p>Similarly, these statements are identical, but work as intended:</p>
+<pre><code class="lang-sh">export &quot;var&quot;=&quot;42&quot;
+export &quot;var=42&quot;
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you know that the quotes are ineffectual but you prefer it stylistically, you can ignore this message.</p>
+<p>It's common not to realize that double quotes can span multiple elements, or to stylistically prefer to quote individual variables. For example, these statements are identical, but the first is laboriously and redundantly quoted:</p>
+<pre><code class="lang-sh">http://&quot;$user&quot;:&quot;$password&quot;@&quot;$host&quot;/&quot;$path&quot;
+&quot;http://$user:$password@$host/$path&quot;
+</code></pre>
+<p>When ShellCheck detects the first style (i.e. the double quotes include only a single element each), it will suppress the warning.</p>

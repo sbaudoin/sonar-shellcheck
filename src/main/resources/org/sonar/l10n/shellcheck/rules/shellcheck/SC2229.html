@@ -1,0 +1,27 @@
+<p>This does not read 'foo'. Remove $/${} for that, or use ${var?} to quiet.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">read $foo
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">read foo
+</code></pre>
+<h2>Rationale</h2>
+<p><code>read</code> takes a variable name, but shellcheck has noticed that you give it an expanded variable instead. This will populate whatever the variable expans to instead of the variable itself. For example:</p>
+<pre><code>foo=bar
+read $foo   # Reads data into 'bar', not into 'foo'
+read foo    # Reads data into 'foo'
+</code></pre>
+<h2>Exceptions</h2>
+<p>If this is intentional and you do want to read a variable through an indirect reference, you can silence this warning with a directive:</p>
+<pre><code class="lang-sh"># shellcheck disable=SC2229
+read &quot;$foo&quot;
+</code></pre>
+<p>Or take advantage of the fact that ShellCheck only warns when no parameter expansion modifiers are applied:</p>
+<pre><code class="lang-sh">read &quot;${foo}&quot;    # ShellCheck warns
+read &quot;${foo?}&quot;   # No warning
+</code></pre>
+<p><code>${foo?}</code> fails when <code>foo</code> is unset, which is fine since <code>read</code> would have failed too. The main side effect is an improved runtime error message in that case.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf12">Bash Pitfalls #12</a>: <code>read $foo</code></li>
+</ul>

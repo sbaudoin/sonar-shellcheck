@@ -1,0 +1,23 @@
+<p>Did you forget the 'then' for this 'if'?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if true
+  echo &quot;foo&quot;
+elif true
+  echo &quot;bar&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;foo&quot;
+elif true
+then
+  echo &quot;bar&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parsing error in the script, and determined that it's most likely due to a missing <code>then</code> keyword for the <code>if</code> or <code>elif</code> indicated.</p>
+<p>Make sure the <code>then</code> is there.</p>
+<p>Note that the <code>then</code> needs a <code>;</code> or linefeed before it. <code>if true then</code> is invalid, while <code>if true; then</code> is correct.</p>
+<h2>Exceptions</h2>
+<p>None</p>

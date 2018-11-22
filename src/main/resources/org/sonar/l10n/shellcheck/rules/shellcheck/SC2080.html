@@ -1,0 +1,20 @@
+<p>Numbers with leading 0 are considered octal.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo $(( 16 - 08 ))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo $(( 16 - 8 ))
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an integer literal with a leading zero, but containing the digits 8 or 9.</p>
+<p>This is invalid, as the integer will be interpreted as an octal value (e.g. 0777 == 0x1FF == 511).</p>
+<p>To have the value parsed in base 10, either remove the leading zeros as in the example, or specify the radix explicitly:</p>
+<pre><code>echo $((10#08)) 
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>
+<p><a href="https://www.gnu.org/software/bash/manual/html_node/Shell-Arithmetic.html">The BASH manual "Shell Arithmetic" chapter</a></p>

@@ -1,0 +1,12 @@
+<p>You need a space before and after the = .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$var&quot;= 2 ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$var&quot; = 2 ]
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be missing the space on the left side of the operator. Shell in general, and <code>[</code> in particular, is space sensitive. Operators and operands must be separate tokens.</p>
+<p>Please ensure that the operator, like the <code>=</code> in the example, has a space both before and after it.</p>
+<h2>Exceptions</h2>
+<p>None. If you're comparing values in C style reverse order like <code>[ -eq == $1 ]</code>, use quotes: <code>[ "-eq" == "$1" ]</code>. Also, it's pointless since <code>[ a = b ]</code> doesn't assign.</p>

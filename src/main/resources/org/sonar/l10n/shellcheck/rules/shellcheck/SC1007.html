@@ -1,0 +1,21 @@
+<h1>Remove space after = if trying to assign a value (or for empty string, use var='' ... ).</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># I want programs to show text in dutch!
+LANGUAGE= nl
+</code></pre>
+<pre><code class="lang-sh"># I want to run the nl command with English error messages!
+LANGUAGE= nl
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># I want programs to show text in dutch!
+LANGUAGE=nl
+</code></pre>
+<pre><code class="lang-sh"># I want to run the nl command with English error messages!
+LANGUAGE=&#39;&#39; nl
+</code></pre>
+<h2>Rationale</h2>
+<p>It's easy to think that <code>LANGUAGE= nl</code> would assign <code>"nl"</code> to the variable <code>LANGUAGE</code>. It doesn't.</p>
+<p>Instead, it runs <code>nl</code> (the "number lines" command) and sets <code>LANGUAGE</code> to an empty string in its environment.</p>
+<p>Since trying to assign values this way is a common mistake, ShellCheck warns about it and asks you to be explicit when assigning empty strings (except for <code>IFS</code>, due to the common <code>IFS= read ..</code> idiom).</p>
+<h2>Exceptions</h2>
+<p>If you're familiar with this behavior and feel that the explicit version is unnecessary, you can [[ignore]] it.</p>

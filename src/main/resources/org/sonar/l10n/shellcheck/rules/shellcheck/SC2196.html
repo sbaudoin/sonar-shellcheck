@@ -1,0 +1,16 @@
+<p>egrep is non-standard and deprecated. Use grep -E instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">egrep &#39;foo|bar&#39; file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep -E &#39;foo|bar&#39; file
+</code></pre>
+<h2>Rationale</h2>
+<p><code>egrep</code> is a non-standard command. Its functionality is provided in POSIX by <code>grep -E</code>. <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html">POSIX grep</a> says:</p>
+<blockquote><p>This grep has been enhanced in an upwards-compatible way to provide the exact functionality of the historical egrep and fgrep commands as well. It was the clear intention of the standard developers to consolidate the three greps into a single command.</p>
+</blockquote>
+<p>man grep for GNU says:</p>
+<blockquote><p>Direct invocation as either egrep or fgrep is deprecated</p>
+</blockquote>
+<h2>Exceptions</h2>
+<p>ShellCheck will fail to recognize when functions override <code>egrep</code>. Consider giving it a different name or [[ignore]] this error.</p>

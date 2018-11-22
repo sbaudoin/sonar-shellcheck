@@ -1,0 +1,16 @@
+<p>Use array+=("item") to append items to an array.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=(one two)
+var+=three
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=(one two)
+var+=( three )
+</code></pre>
+<h2>Rationale</h2>
+<p>It looks like you are trying to append a string to an array with <code>var+=string</code>. This instead appends to the first element of the array (equivalent to <code>var[0]+=three</code>).</p>
+<p>In the problematic code, the array will therefore contain <code>onethree</code> <code>two</code>.</p>
+<p>Instead, append an array to the array with <code>var+=( elements )</code>. This will append the new items to the array.</p>
+<p>In the correct code, it will contain <code>one</code> <code>two</code> <code>three</code> as expected.</p>
+<h2>Exceptions</h2>
+<p>If ShellCheck mistakenly thinks the variable is an array when it's not (e.g. because the same name was used in a different context), you can ignore this error.</p>

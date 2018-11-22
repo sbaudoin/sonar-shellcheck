@@ -1,0 +1,14 @@
+{
+  "title": "The arguments to this comparison can never be equal. Make sure your syntax is correct.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

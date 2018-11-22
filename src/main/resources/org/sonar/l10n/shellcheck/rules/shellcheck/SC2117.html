@@ -1,0 +1,16 @@
+<p>To run commands as another user, use su -c or sudo.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">whoami
+su
+whoami
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">whoami
+sudo whoami
+</code></pre>
+<h2>Rationale</h2>
+<p>It's commonly believed that <code>su</code> makes a session run as another user. In reality, it starts an entirely new shell, independent of the one currently running your script.</p>
+<p><code>su; whoami</code> will start a root shell and wait for it to exit before running <code>whoami</code>. It will not start a root shell and then proceed to run <code>whoami</code> in it.</p>
+<p>To run commands as another user, use <code>sudo some command</code> or <code>su -c 'some command'</code>. <code>sudo</code> is preferred when available, as it doesn't require additional quoting and can be configured to run passwordless if desired.</p>
+<h2>Exceptions</h2>
+<p>If you're aware of the above and want to e.g. start an interactive shell for a user, feel free to ignore this message.</p>

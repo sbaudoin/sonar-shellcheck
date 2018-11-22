@@ -1,0 +1,14 @@
+{
+  "title": "Prefer [ p ] &amp;&amp; [ q ] as [ p -a q ] is not well defined.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

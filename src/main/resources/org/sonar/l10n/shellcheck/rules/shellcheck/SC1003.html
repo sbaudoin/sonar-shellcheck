@@ -1,0 +1,15 @@
+<p>Want to escape a single quote? echo 'This is how it'\''s done'.</p>
+<p>(Note: in v0.4.6, the error message was accidentally missing the backslash)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &#39;This is not how it\&#39;s done&#39;.
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &#39;This is how it&#39;\&#39;&#39;s done&#39;.
+</code></pre>
+<h2>Rationale</h2>
+<p>In POSIX shell, the shell cares about nothing but another single quote to terminate the quoted segment. Not even backslashes are interpreted.</p>
+<p><a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_02_02">POSIX.1 Shell Command Language § 2.2.2 Single Quotes</a>:</p>
+<blockquote><p>Enclosing characters in single-quotes ( <code>''</code> ) shall preserve the literal value of each character within the single-quotes. A single-quote cannot occur within single-quotes.</p>
+</blockquote>
+<h2>Exceptions</h2>
+<p>If you want your single quoted string to end in a backslash, you can rewrite as <code>'string'\\</code> or [[ignore]] this warning.</p>

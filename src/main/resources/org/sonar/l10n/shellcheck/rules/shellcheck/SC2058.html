@@ -1,0 +1,40 @@
+<p>Unknown unaryoperator.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ -E 42 ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ -e 42 ]
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using an unknown unary operator in a <code>test</code> expression. Perhaps it's a typo?</p>
+<p>In bash, you can use <code>help test</code> to see a list of supported operators:</p>
+<pre><code>  -a FILE        True if file exists.
+  -b FILE        True if file is block special.
+  -c FILE        True if file is character special.
+  -d FILE        True if file is a directory.
+  -e FILE        True if file exists.
+  -f FILE        True if file exists and is a regular file.
+  -g FILE        True if file is set-group-id.
+  -h FILE        True if file is a symbolic link.
+  -L FILE        True if file is a symbolic link.
+  -k FILE        True if file has its `sticky' bit set.
+  -p FILE        True if file is a named pipe.
+  -r FILE        True if file is readable by you.
+  -s FILE        True if file exists and is not empty.
+  -S FILE        True if file is a socket.
+  -t FD          True if FD is opened on a terminal.
+  -u FILE        True if the file is set-user-id.
+  -w FILE        True if the file is writable by you.
+  -x FILE        True if the file is executable by you.
+  -O FILE        True if the file is effectively owned by you.
+  -G FILE        True if the file is effectively owned by your group.
+  -N FILE        True if the file has been modified since it was last read.
+</code></pre>
+<h2>Exceptions</h2>
+<p>None. If you've tested and verified that the operator works but the latest version of ShellCheck says it's unknown, please <a href="https://github.com/koalaman/shellcheck/issues">submit a bug report</a>.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="http://wiki.bash-hackers.org/commands/classictest">The classic test command</a> on the Bash Hackers wiki.</li>
+<li><a href="http://wiki.bash-hackers.org/syntax/ccmd/conditional_expression">The conditional expression</a> on the Bash Hackers wiki.</li>
+<li><a href="https://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and conditionals</a> on the Wooledge BashGuide.</li>
+</ul>

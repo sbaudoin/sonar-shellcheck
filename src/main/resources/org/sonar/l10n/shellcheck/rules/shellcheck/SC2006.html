@@ -1,0 +1,22 @@
+<h1>Use <code>$(...)</code> notation instead of legacy backticked <code>`...`</code>.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Current time: `date`&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Current time: $(date)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Backtick command substitution <code>`...`</code> is legacy syntax with several issues.</p>
+<ol>
+<li>It has a series of undefined behaviors related to quoting in POSIX.</li>
+<li>It imposes a custom escaping mode with surprising results.</li>
+<li>It's exceptionally hard to nest.</li>
+</ol>
+<p><code>$(...)</code> command substitution has none of these problems, and is therefore strongly encouraged.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/082">BashFaq: Why is <code>$(...)</code> preferred over <code>`...`</code> (backticks)?</a></li>
+<li><a href="https://stackoverflow.com/questions/4708549/shell-programming-whats-the-difference-between-command-and-command">StackOverflow: What is the difference between $(command) and <code>`command`</code> in shell programming?</a></li>
+</ul>

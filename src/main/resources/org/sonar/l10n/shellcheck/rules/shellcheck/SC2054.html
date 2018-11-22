@@ -1,0 +1,15 @@
+<p>Use spaces, not commas, to separate array elements.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">flags=(&quot;-l&quot;, &quot;-d&quot;, &quot;--sort=size&quot;)
+ls &quot;${flags[@]}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">flags=(&quot;-l&quot; &quot;-d&quot; &quot;--sort=size&quot;)
+ls &quot;${flags[@]}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to have used commas to separate array elements in an array assignment. Other languages require this, but bash instead treats the commas as literal strings.</p>
+<p>In the problematic code, the first element is <code>-l,</code> with the trailing comma, and the executed command ends up being <code>ls -l, -d, --sort=size</code>.</p>
+<p>In the correct code, the trailing commas have been removed, and the command will be <code>ls -l -d --sort=size</code> as expected.</p>
+<h2>Exceptions</h2>
+<p>None (if you actually want a trailing comma in your strings, move them inside the quotes).</p>

@@ -1,0 +1,19 @@
+<h1>For command expansion, the tick should slant left (` vs ´).</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Your username is ´whoami´&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Your username is $(whoami)&quot; # Preferred
+echo &quot;Your username is `whoami`&quot;  # Deprecated, will give [SC2006]
+</code></pre>
+<h2>Rationale</h2>
+<p>In some fonts it's hard to tell ticks apart, but Bash strongly distinguishes between backticks (grave accent <code>`</code>), forward ticks (acute accent <code>´</code>) and regular ticks (apostrophe <code>'</code>).</p>
+<p>Backticks start command expansions, while forward ticks are literal. To help spot bugs, ShellCheck parses backticks and forward ticks interchangeably.</p>
+<h2>Exceptions</h2>
+<p>If you want to write out literal forward ticks, such as fancyful ascii quotation marks:</p>
+<pre><code class="lang-sh">echo &quot;``Proprietary software is an injustice.´´  - Richard Stallman&quot;
+</code></pre>
+<p>use single quotes instead:</p>
+<pre><code class="lang-sh">echo &#39;``Proprietary software is an injustice.´´  - Richard Stallman&#39;
+</code></pre>
+<p>To nest forward ticks in command expansion, use <code>$(..)</code> instead of <code>`..`</code>.</p>

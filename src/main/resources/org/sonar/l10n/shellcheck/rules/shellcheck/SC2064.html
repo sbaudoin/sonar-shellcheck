@@ -1,0 +1,13 @@
+<p>Use single quotes, otherwise this expands now rather than when signalled.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">trap &quot;echo \&quot;Finished on $(date)\&quot;&quot; EXIT
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">trap &#39;echo &quot;Finished on $(date)&quot;&#39; EXIT
+</code></pre>
+<h2>Rationale</h2>
+<p>With double quotes, all parameter and command expansions will expand when the trap is defined rather than when it's executed.</p>
+<p>In the example, the message will contain the date on which the trap was declared, and not the date on which the script exits.</p>
+<p>Using single quotes will prevent expansion at declaration time, and save it for execution time.</p>
+<h2>Exceptions</h2>
+<p>If you don't care that the trap code is expanded early because the commands/variables won't change during execution of the script, or because you want to use the current and not the future values, then you can ignore this message.</p>

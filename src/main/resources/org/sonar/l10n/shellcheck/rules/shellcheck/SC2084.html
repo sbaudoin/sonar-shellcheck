@@ -1,0 +1,33 @@
+<p>Remove '$' or use '_=$((expr))' to avoid executing output.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">i=4
+$(( i++ ))
+</code></pre>
+<h2>Correct code</h2>
+<p>Bash, Ksh:</p>
+<pre><code class="lang-sh">i=4
+(( i++ ))
+</code></pre>
+<p>POSIX (assuming <code>++</code> is supported):</p>
+<pre><code class="lang-sh">i=4
+_=$(( i++ ))
+</code></pre>
+<p>Alternative POSIX version that does not preserve the exit code:</p>
+<pre><code class="lang-sh">: $(( i++ ))
+</code></pre>
+<h2>Rationale</h2>
+<p><code>$((..))</code> expands to a number. If it's the only word on the line, the shell will try to execute this number as a command name:</p>
+<pre><code class="lang-sh">$ i=4
+$ $(( i++ ))
+4: command not found
+$ echo $i
+5
+</code></pre>
+<p>To avoid trying to execute the number as a command name, use one of the methods mentioned:</p>
+<pre><code class="lang-sh">$ i=4
+$ _=$(( i++ ))
+$ echo $i
+5
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>

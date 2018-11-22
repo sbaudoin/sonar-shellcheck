@@ -1,0 +1,14 @@
+{
+  "title": "Quote expansions in this for loop glob to prevent wordsplitting, e.g. '$dir'\/*.txt .",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

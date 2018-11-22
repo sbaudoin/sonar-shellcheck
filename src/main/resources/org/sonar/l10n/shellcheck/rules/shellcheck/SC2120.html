@@ -1,0 +1,25 @@
+<h1>foo references arguments, but none are ever passed.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">sayhello() {
+  echo &quot;Hello $1&quot;
+}
+sayhello
+</code></pre>
+<p><code>./myscript World</code> just prints "Hello " instead of "Hello World".</p>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">sayhello() {
+  echo &quot;Hello $1&quot;
+}
+sayhello &quot;$@&quot;
+</code></pre>
+<p><code>./myscript World</code> now prints "Hello World".</p>
+<h2>Rationale</h2>
+<p>In a function, <code>$1</code> and up refers to the function's parameters, not the script's parameters.</p>
+<p>If you want to process your script's parameters in a function, you have to explicitly pass them. You can do this with <code>myfunction "$@"</code>.</p>
+<p>Note that <code>"$@"</code> refers to the current context's positional parameters, so if you call a function from a function, you have to pass in <code>"$@"</code> to both of them:</p>
+<pre><code class="lang-sh">first() { second &quot;$@&quot;; }
+second() { echo &quot;The first script parameter is: $1&quot;; }
+first &quot;$@&quot;
+</code></pre>
+<h2>Exceptions</h2>
+<p>If the parameters are optional and you currently just don't want to use them, you can ignore this message.</p>

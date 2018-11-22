@@ -1,0 +1,21 @@
+<p><code>sudo</code> doesn't affect redirects. Use <code>..| sudo tee file</code></p>
+<h2>Problematic code</h2>
+<pre><code>sudo echo 'export FOO=bar' &gt;&gt; /etc/profile
+</code></pre>
+<h2>Correct code</h2>
+<pre><code>echo 'export FOO=bar' | sudo tee -a /etc/profile &gt; /dev/null
+</code></pre>
+<h2>Rationale</h2>
+<p>Redirections are performed by the current shell before <code>sudo</code> is started. This means that it will use the current shell's user and permissions to open and write to the file.</p>
+<p><code>tee</code> is a simple command that opens and writes to files without help from the shell, which means that it will use the permissions that <code>sudo</code> grants it.</p>
+<p>There is nothing special about <code>tee</code>. It's just the simplest command that can both truncate and append to files without help from the shell. Here are equivalent alternatives:</p>
+<p>Truncating:</p>
+<pre><code>echo 'data' | sudo dd of=file
+echo 'data' | sudo sed 'w file'
+</code></pre>
+<p>Appending:</p>
+<pre><code>echo 'data' | sudo awk '{ print $0 &gt;&gt; "file" }'
+echo 'data' | sudo sh -c 'cat &gt;&gt; file'
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you want to run a command as root but redirect as the normal user, you can ignore this message.</p>

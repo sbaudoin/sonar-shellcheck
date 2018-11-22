@@ -1,0 +1,20 @@
+<p>(..) is a subshell. Did you mean [ .. ], a test expression?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if ( -d mydir )
+then
+  echo &quot;It&#39;s a directory&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -d mydir ]
+then
+  echo &quot;It&#39;s a directory&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Tests like <code>-d</code> to see if something is a directory or <code>-z</code> to see if it's non-empty are actually flags to the <code>test</code> command, and only work as tests in that context. <code>[</code> is an alias for <code>test</code>, so you'll frequently see them written as <code>[ -d mydir ]</code>.</p>
+<p><code>( .. )</code> is completely unrelated, and is a subshell mostly used to scope shell modifications. They should not be used in <code>if</code> or <code>while</code> statements in shell scripts.</p>
+<p>If you wanted to test a condition, rewrite the <code>( .. )</code> to <code>[ .. ]</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<p>This error is triggered by having a unary test operator as the first command name in a subshell, which won't normally happen. Note that there's a similar warning [[SC2205]] with a higher false positive rate.</p>

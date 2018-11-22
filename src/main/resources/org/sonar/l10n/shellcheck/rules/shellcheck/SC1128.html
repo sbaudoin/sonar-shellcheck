@@ -1,0 +1,19 @@
+<p>The shebang must be on the first line. Delete blanks and move comments.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Copyright 2018 Foobar, All rights reserved
+#!/bin/bash
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/bash
+# Copyright 2018 Foobar, All rights reserved
+</code></pre>
+<h2>Rationale</h2>
+<p>A shebang only has an effect when it appears as the first line in a script. Specifically, the first two bytes of the file must be <code>#!</code>.</p>
+<p>Adding comments, copyright notices or simply an accidental blank line before it will turn a shebang into an ineffectual comment. This means that the script is no longer in charge of its own interpreter, and may fail to run or produce different results depending on the context it's run (e.g. it may work from <code>bash</code> but not from <code>zsh</code> or via <code>sudo</code>).</p>
+<p>Delete any leading blank lines, and move all comments after the shebang.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

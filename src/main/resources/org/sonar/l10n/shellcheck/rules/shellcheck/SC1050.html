@@ -1,0 +1,17 @@
+<p>Expected 'then'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if true
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found an <code>if</code> statement that appears to be missing a <code>then</code>.</p>
+<p>Make sure the <code>then</code> exists, and that it is the first word of the line (or immediately preceded by a semicolon).</p>
+<h2>Exceptions</h2>
+<p>None</p>

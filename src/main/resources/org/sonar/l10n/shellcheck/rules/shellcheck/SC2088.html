@@ -1,0 +1,12 @@
+<p>Tilde does not expand in quotes. Use $HOME.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">rm &quot;~/Desktop/$filename&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">rm &quot;$HOME/Desktop/$filename&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Tilde does not expand to the user's home directory when it's single or double quoted. Use double quotes and <code>$HOME</code> instead.</p>
+<p>Alternatively, the <code>~/</code> can be left unquoted, as in <code>rm ~/"Desktop/$filename"</code>.</p>
+<h2>Exceptions</h2>
+<p>If you don't want the tilde to be expanded, you can ignore this message.</p>

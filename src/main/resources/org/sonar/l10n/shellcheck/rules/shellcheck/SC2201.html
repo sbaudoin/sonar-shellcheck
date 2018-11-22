@@ -1,0 +1,15 @@
+<p>Brace expansion doesn't happen in <code>[[ ]]</code>. Use a loop.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ &quot;$file&quot; = index.{htm,html,php} ]] &amp;&amp; echo &quot;This is the main file&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for main in index.{htm,html,php}
+do
+  [[ &quot;$file&quot; = &quot;$main&quot; ]] &amp;&amp; echo &quot;This is the main file&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>Brace expansions doesn't happen in <code>[[ ]]</code>. They will just be interpreted literally.</p>
+<p>Instead, use a <code>for</code> loop to iterate over values, and apply your condition to each.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

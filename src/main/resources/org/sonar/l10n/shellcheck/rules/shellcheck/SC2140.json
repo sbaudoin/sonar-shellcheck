@@ -1,0 +1,14 @@
+{
+  "title": "Word is on the form 'A'B'C' (B indicated). Did you mean 'ABC' or 'A\\'B\\'C'?",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

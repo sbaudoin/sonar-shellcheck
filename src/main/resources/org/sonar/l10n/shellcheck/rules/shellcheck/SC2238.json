@@ -1,0 +1,14 @@
+{
+  "title": "Redirecting to\/from command name instead of file. Did you want pipes\/xargs (or quote to ignore)?",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

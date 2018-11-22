@@ -1,0 +1,22 @@
+<p>This pattern will never match the case statement's word. Double check them.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case &quot;$var &quot; in      # Trailing space
+  value) echo &quot;Match&quot;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">case &quot;${var}&quot; in     # No trailing space
+  value) echo &quot;Match&quot;
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has detected that one of the patterns in a <code>case</code> statement will never match.</p>
+<p>Often, this is due to mistakes in the case statement word that results in unintended literal characters. In the problematic code, there's a trailing space that will prevent the match from ever succeeding.</p>
+<p>For more examples of when this could happen, see <a href="https://github.com/koalaman/shellcheck/wiki/SC2193">SC2193</a> for the equivalent warning for <code>[[ .. ]]</code> statements.</p>
+<p>Note that ShellCheck warns about individual patterns in a branch, and will flag <code>*.png</code> in this example even though the branch is not dead:</p>
+<pre><code>case "${img}.jpg" in
+  *.png | *.jpg) echo "It's an image"
+esac
+</code></pre>
+<h2>Exceptions</h2>
+<p>None. If you encounter a bug and wish to [[ignore]] this warning, make sure the directive goes in front of the <code>case</code> and not the individual branch.</p>

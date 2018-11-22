@@ -1,0 +1,15 @@
+<h1>Useless cat. Consider 'cmd &lt; file | ..' or 'cmd file | ..' instead.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cat file | tr &#39; &#39; _ | nl
+cat file | while IFS= read -r i; do echo &quot;${i%?}&quot;; done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">&lt; file tr &#39; &#39; _ | nl  
+while IFS= read -r i; do echo &quot;${i%?}&quot;; done &lt; file
+</code></pre>
+<h2>Rationale</h2>
+<p><code>cat</code> is a tool for con"cat"enating files. Reading a single file as input to a program is considered a <a href="http://en.wikipedia.org/wiki/Cat_(Unix">Useless Use Of Cat (UUOC)</a>#Useless_use_of_cat).</p>
+<p>It's more efficient and less roundabout to simply use redirection. This is especially true for programs that can benefit from seekable input, like <code>tail</code> or <code>tar</code>.</p>
+<p>Many tools also accept optional filenames, e.g. <code>grep -q foo file</code> instead of <code>cat file | grep -q foo</code>.</p>
+<h2>Exceptions</h2>
+<p>Pointing out UUOC is a long standing shell programming tradition, and removing them from a short-lived pipeline in a loop can speed it up by 2x. However, it's not necessarily a good use of time in practice, and rarely affects correctness. [[Ignore]] as you see fit.</p>

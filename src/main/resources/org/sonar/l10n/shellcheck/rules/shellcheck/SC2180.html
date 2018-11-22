@@ -1,0 +1,20 @@
+<p>Bash does not support multidimensional arrays. Use 1D or associative arrays.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo[1][2]=bar
+echo &quot;${foo[1][2]}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>In bash4, consider using associative arrays:</p>
+<pre><code class="lang-sh">declare -A foo
+foo[1,2]=bar
+echo &quot;${foo[1,2]}&quot;
+</code></pre>
+<p>Otherwise, do your own index arithmetic:</p>
+<pre><code class="lang-sh">size=10
+foo[1*size+2]=bar
+echo &quot;${foo[1*size+2]}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash does not support multidimensional arrays. Rewrite it to use 1D arrays. Associative arrays map arbitrary strings to values, and are therefore useful since you can construct keys like <code>"1,2,3"</code> or <code>"val1;val2;val3"</code> to index them.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

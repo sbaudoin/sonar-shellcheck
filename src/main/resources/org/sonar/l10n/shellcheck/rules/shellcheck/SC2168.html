@@ -1,0 +1,13 @@
+<p>'local' is only valid in functions.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">local foo=bar
+echo &quot;$foo&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo=bar
+echo &quot;$foo&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>In Bash, <code>local</code> can only be used in functions. In other contexts, it's an error.</p>
+<h2>Exceptions</h2>
+<p>It's possible to source files containing <code>local</code> from a function context but not from any other context. This is not good practice, but in these cases you can [[ignore]] this error.</p>

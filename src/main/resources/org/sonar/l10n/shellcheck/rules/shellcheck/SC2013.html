@@ -1,0 +1,47 @@
+<h1>To read lines rather than words, pipe/redirect to a 'while read' loop.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for line in $(cat file | grep -v &#39;^ *#&#39;)
+do
+  echo &quot;Line: $line&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep -v &#39;^ *#&#39; &lt; file | while IFS= read -r line
+do
+  echo &quot;Line: $line&quot;
+done
+</code></pre>
+<p>or without a subshell (bash, zsh, ksh):</p>
+<pre><code class="lang-sh">while IFS= read -r line
+do
+  echo &quot;Line: $line&quot;
+done &lt; &lt;(grep -v &#39;^ *#&#39; &lt; file)
+</code></pre>
+<p>or without a subshell, with a pipe (more portable, but write a file on the filesystem):</p>
+<pre><code class="lang-sh">mkfifo mypipe
+grep -v &#39;^ *#&#39; &lt; file &gt; mypipe &amp;
+while IFS= read -r line
+do
+  echo &quot;Line: $line&quot;
+done &lt; mypipe
+rm mypipe
+</code></pre>
+<h2>Rationale</h2>
+<p>For loops by default (subject to <code>$IFS</code>) read word by word. Additionally, glob expansion will occur.</p>
+<p>Given this text file:</p>
+<pre><code class="lang-sh">foo *
+bar
+</code></pre>
+<p>The for loop will print:</p>
+<pre><code class="lang-sh">Line: foo
+Line: aardwark.jpg
+Line: bullfrog.jpg
+...
+</code></pre>
+<p>The while loop will print:</p>
+<pre><code class="lang-sh">Line: foo *
+Line: bar
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you want to read word by word, you should still use a while read loop (e.g. with <code>read -a</code> to read words into an array).</p>
+<p>Rare reasons for ignoring this message is if you don't care because your file only contains numbers and you're not interested in good practices, or if you've set <code>$IFS</code> appropriately and also disabled globbing.</p>

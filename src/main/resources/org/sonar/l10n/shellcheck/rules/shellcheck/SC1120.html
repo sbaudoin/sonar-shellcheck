@@ -1,0 +1,17 @@
+<p>No comments allowed after here-doc token. Comment the next line instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; eof  # --- Start greeting --
+Hello
+eof         # --- End greeting ---
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; eof  # --- Start greeting --
+Hello
+eof
+            # --- End greeting ---
+</code></pre>
+<h2>Rationale</h2>
+<p>The terminator token for a here document must be on an entirely separate line. No comments are allowed on this line.</p>
+<p>Place the comment somewhere else, such as on the following line.</p>
+<h2>Exceptions</h2>
+<p>None</p>

@@ -1,0 +1,14 @@
+{
+  "title": "Remove space after = if trying to assign a value (or for empty string, use var='' ... ).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

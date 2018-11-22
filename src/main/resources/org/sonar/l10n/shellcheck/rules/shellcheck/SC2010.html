@@ -1,0 +1,34 @@
+<p>Don't use ls | grep. Use a glob or a for loop with a condition to allow non-alphanumeric filenames.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ls /directory | grep mystring
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">rm $(ls | grep -v &#39;\.c$&#39;)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo /directory/*mystring*
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># BASH
+shopt -s extglob
+rm -- !(*.c)
+
+# POSIX
+for f in ./*
+do
+  case $f in
+    *.c) true;;
+    *) rm &quot;$f&quot;;;
+  esac
+done
+</code></pre>
+<h2>Rationale</h2>
+<p><a href="https://mywiki.wooledge.org/ParsingLs">Parsing ls</a> is generally a bad idea because the output is fragile and human readable. To better handle non-alphanumeric filenames, use a glob. If you need more advanced matching than a glob can provide, use a <code>for</code> loop.</p>
+<h2>Exceptions</h2>
+<ul>
+<li><code>ls</code> has sorting options that are tricky to get right with other commands. If a specific order of files is needed, ls <em>\&lt;sort options&gt;</em> | grep might be the best alternative.</li>
+</ul>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/020">BashFaq: How can I find and safely handle file names containing newlines, spaces or both?</a></li>
+</ul>

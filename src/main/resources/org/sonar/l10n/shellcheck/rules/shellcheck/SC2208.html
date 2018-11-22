@@ -1,0 +1,12 @@
+<p>Use <code>[[ ]]</code> or quote arguments to -v to avoid glob expansion.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ -v foo[0] ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ -v &#39;foo[0]&#39; ]
+</code></pre>
+<h2>Rationale</h2>
+<p>With <code>[</code>, arguments will undergo glob expansion. If a file <code>foo0</code> exists when the problematic code is run, it will check for the variable <code>foo0</code> instead of the array entry <code>foo[0]</code>. If there additionally exists a <code>foo1</code>, it will simply fail with an error.</p>
+<p>Use <code>[[ ]]</code> or quote the argument.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,11 @@
+<p>'time' is undefined for compound commands, time sh -c instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">time for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">time sh -c &#39;for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>time</code> is only defined for Simple Commands <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/time.html">by POSIX</a>. Timing loops, command groups and similar is not.</p>
+<h2>Exceptions</h2>
+<p>None. If you use a shell that supports this (e.g. bash, ksh), specify this shell in the shebang.</p>

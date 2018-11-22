@@ -1,0 +1,21 @@
+<p>This <code>{</code>/<code>}</code> is literal. Check expression (missing <code>;/\n?</code>) or quote it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">rmf() { rm -f &quot;$@&quot; }
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">eval echo \${foo}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">rmf() { rm -f &quot;$@&quot;; }
+</code></pre>
+<p>and</p>
+<pre><code class="lang-sh">eval &quot;echo \${foo}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Curly brackets are normally used as syntax in parameter expansion, command grouping and brace expansion.</p>
+<p>However, if they don't appear alone at the start of an expression or as part of a parameter or brace expansion, the shell silently treats them as literals. This frequently indicates a bug, so ShellCheck warns about it.</p>
+<p>In the example function, the <code>}</code> is literal because it's not at the start of an expression. We fix it by adding a <code>;</code> before it.</p>
+<p>In the example eval, the code works fine. However, we can quiet the warning and follow good practice by adding quotes around the literal data.</p>
+<p>ShellCheck does not warn about <code>{}</code>, since this is frequently used with <code>find</code> and rarely indicates a bug.</p>
+<h2>Exceptions</h2>
+<p>This error is harmless when the curly brackets are supposed to be literal, in e.g. <code>awk {'print $1'}</code>. However, it's cleaner and less error prone to simply include them inside the quotes: <code>awk '{print $1}'</code>.</p>

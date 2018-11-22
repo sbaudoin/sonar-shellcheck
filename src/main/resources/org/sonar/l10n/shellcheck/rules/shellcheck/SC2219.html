@@ -1,0 +1,16 @@
+<p>Instead of <code>let expr</code>, prefer <code>(( expr ))</code> .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">let a++
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">(( a++ ))
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>(( .. ))</code> arithmetic compound command evaluates expressions in the same way as <code>let</code>, except it's not subject to glob expansion and therefore requires no additional quoting or escaping.</p>
+<p>This warning only triggers in Bash/Ksh scripts. In Sh/Dash, neither <code>let</code> nor <code>(( .. ))</code> are defined, but can be simulated with <code>[ $(( expr )) -ne 0 ]</code> to retain exit code, or <code>: $(( expr ))</code> to ignore it.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>More information</h2>
+<ul>
+<li>Bash Hacker's Wiki: <a href="http://wiki.bash-hackers.org/commands/builtin/let">The let builtin command</a></li>
+</ul>

@@ -1,0 +1,17 @@
+<h1>Shell functions can't be passed to external commands.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo() { bar --baz &quot;$@&quot;; frob --baz &quot;$@&quot;; };
+find . -exec foo {} +
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -exec sh -c &#39;bar --baz &quot;$@&quot;; frob --baz &quot;$@&quot;;&#39; -- {} +
+</code></pre>
+<h2>Rationale</h2>
+<p>Shell functions are only known to the shell. External commands like <code>find</code>, <code>xargs</code>, <code>su</code> and <code>sudo</code> do not recognize shell functions.</p>
+<p>Instead, the function contents can be executed in a shell, either through <code>sh -c</code> or by creating a separate shell script as an executable file.</p>
+<h2>Exceptions</h2>
+<p>If you're intentionally passing a word that happens to have the same name as a declared function, you can quote it to make shellcheck ignore it, e.g.</p>
+<pre><code class="lang-sh">nobody() {
+  sudo -u &quot;nobody&quot; &quot;$@&quot;
+}
+</code></pre>

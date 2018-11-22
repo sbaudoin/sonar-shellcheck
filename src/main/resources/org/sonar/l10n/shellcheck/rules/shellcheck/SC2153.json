@@ -1,0 +1,14 @@
+{
+  "title": "Possible Misspelling: MYVARIABLE may not be assigned, but MY_VARIABLE is.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

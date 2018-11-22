@@ -1,0 +1,19 @@
+<p>Couldn't find 'fi' for this 'if'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;True&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found an <code>if</code> statement that does not appear to have a matching terminating <code>fi</code>.</p>
+<p>This could be because it's missing entirely, or because the <code>if</code> statement was incorrectly terminated by a mismatched <code>done</code>, <code>esac</code>, <code>)</code> or similar. A companion warning [[SC1047]] is emitted at the point where ShellCheck expected the <code>fi</code>.</p>
+<p>Check that the <code>if</code> statement is completely and correctly terminated.</p>
+<h2>Exceptions</h2>
+<p>None</p>

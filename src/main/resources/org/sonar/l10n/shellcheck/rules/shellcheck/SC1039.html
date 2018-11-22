@@ -1,0 +1,27 @@
+<p>Remove indentation before end token (or use <code>&lt;&lt;-</code> and indent with tabs).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for f in *.png
+do
+  cat &lt;&lt; EOF
+     &lt;img src=&quot;$f&quot; /&gt;&lt;br/&gt;
+  EOF
+done &gt; index.html
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for f in *.png
+do
+  cat &lt;&lt; EOF
+     &lt;img src=&quot;$f&quot; /&gt;&lt;br/&gt;
+EOF
+done &gt; index.html
+</code></pre>
+<h2>Rationale</h2>
+<p>The here document delimiter will not be recognized if it is indented.</p>
+<p>You can fix it in one of two ways:</p>
+<ol>
+<li>Simply remove the indentation, even though this may break formatting.</li>
+<li>Use <code>&lt;&lt;-</code> instead of <code>&lt;&lt;</code>, and indent the script with tabs only (spaces will not be recognized).</li>
+</ol>
+<p>Removing the indentation is preferred, since the script won't suddenly break if it's reformatted, copy-pasted, or saved with a different editor.</p>
+<h2>Exceptions</h2>
+<p>If the line was supposed to be a literal part of the here document, consider choosing a less ambiguous token.</p>

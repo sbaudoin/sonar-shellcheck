@@ -1,0 +1,26 @@
+<p>Remove superfluous <code>(..)</code> around test command.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">([ &quot;$x&quot; -gt 0 ]) &amp;&amp; foo
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$x&quot; -gt 0 ] &amp;&amp; foo
+</code></pre>
+<h2>Rationale</h2>
+<p>You are wrapping a single test command in <code>(..)</code>, creating an unnecessary subshell. This serves no purpose, but is dramatically slower:</p>
+<pre><code>$ i=0; time while ( [ "$i" -lt 10000 ] ); do i=$((i+1)); done
+real    0m6.998s
+user    0m3.453s
+sys     0m3.464s
+
+$ i=0; time while [ "$i" -lt 10000 ]; do i=$((i+1)); done
+real    0m0.055s
+user    0m0.054s
+sys     0m0.001s
+</code></pre>
+<p>Just delete the surrounding <code>(..)</code> since they serve no purpose and only slows the script down.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

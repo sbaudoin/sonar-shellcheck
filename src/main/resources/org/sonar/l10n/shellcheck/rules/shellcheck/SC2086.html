@@ -1,0 +1,63 @@
+<h1>Double quote to prevent globbing and word splitting.</h1>
+<p>Problematic code:</p>
+<pre><code class="lang-sh">echo $1
+for i in $*; do :; done # this one and the next one also apply to expanding arrays.
+for i in $@; do :; done
+</code></pre>
+<p>Correct code:</p>
+<pre><code class="lang-sh">echo &quot;$1&quot;
+for i in &quot;$@&quot;; do :; done # or, &#39;for i; do&#39;
+</code></pre>
+<p>Rationale</p>
+<p>The first code looks like "print the first argument". It's actually "Split the first argument by IFS (spaces, tabs and line feeds). Expand each of them as if it was a glob. Join all the resulting strings and filenames with spaces. Print the result."</p>
+<p>The second one looks like "iterate through all arguments". It's actually "join all the arguments by the first character of IFS (space), split them by IFS and expand each of them as globs, and iterate on the resulting list". The third one skips the joining part.</p>
+<p>Quoting variables prevents word splitting and glob expansion, and prevents the script from breaking when input contains spaces, line feeds, glob characters and such.</p>
+<p>Strictly speaking, only expansions themselves need to be quoted, but for stylistic reasons, entire arguments with multiple variable and literal parts are often quoted as one:</p>
+<pre><code class="lang-sh">$HOME/$dir/dist/bin/$file        # Unquoted (bad)
+&quot;$HOME&quot;/&quot;$dir&quot;/dist/bin/&quot;$file&quot;  # Minimal quoting (good)
+&quot;$HOME/$dir/dist/bin/$file&quot;      # Canonical quoting (good)
+</code></pre>
+<p>When quoting composite arguments, make sure to exclude globs and brace expansions, which lose their special meaning in double quotes: <code>"$HOME/$dir/src/*.c"</code> will not expand, but <code>"$HOME/$dir/src"/*.c</code> will.</p>
+<p>Note that <code>$( )</code> starts a new context, and variables in it have to be quoted independently:</p>
+<pre><code class="lang-sh">echo &quot;This $variable is quoted $(but this $variable is not)&quot;
+echo &quot;This $variable is quoted $(and now this &quot;$variable&quot; is too)&quot;
+</code></pre>
+<h2>Exceptions</h2>
+<p>Sometimes you want to split on spaces, like when building a command line:</p>
+<pre><code class="lang-sh">options=&quot;-j 5 -B&quot;
+make $options file
+</code></pre>
+<p>Just quoting this doesn't work. Instead, you should have used an array (bash, ksh, zsh):</p>
+<pre><code class="lang-bash">options=(-j 5 -B) # ksh: set -A options -- -j 5 -B
+make &quot;${options[@]}&quot; file
+</code></pre>
+<p>or a function (POSIX):</p>
+<pre><code class="lang-sh">make_with_flags() { make -j 5 -B &quot;$@&quot;; }
+make_with_flags file
+</code></pre>
+<p>To split on spaces but not perform glob expansion, Posix has a <code>set -f</code> to disable globbing.  You can disable word splitting by setting <code>IFS=''</code>.</p>
+<p>Similarly, you might want an optional argument:</p>
+<pre><code class="lang-sh">debug=&quot;&quot;
+[[ $1 == &quot;--trace-commands&quot; ]] &amp;&amp; debug=&quot;-x&quot;
+bash $debug script
+</code></pre>
+<p>Quoting this doesn't work, since in the default case, <code>"$debug"</code> would expand to one empty argument while <code>$debug</code> would expand into zero arguments. In this case, you can use an array with zero or one elements as outlined above, or you can use an unquoted expansion with an alternate value:</p>
+<pre><code class="lang-sh">debug=&quot;&quot;
+[[ $1 == &quot;--trace-commands&quot; ]] &amp;&amp; debug=&quot;yes&quot;
+bash ${debug:+&quot;-x&quot;} script
+</code></pre>
+<p>This is better than an unquoted value because the alternative value can be properly quoted, e.g. <code>wget ${output:+ -o "$output"}</code>.</p>
+<hr>
+<p>Here are two common cases where this warning seems unnecessary but may still be beneficial:</p>
+<pre><code class="lang-sh">cmd &lt;&lt;&lt; $var         # Requires quoting on Bash 3 (but not 4+)
+: ${var=default}     # Should be quoted to avoid DoS when var=&#39;*/*/*/*/*/*&#39;
+</code></pre>
+<hr>
+<p>As always, this warning can be [[ignored|ignore]] on a case-by-case basis.</p>
+<p>This is especially relevant when BASH may not be available for the array work around.
+For example, use in eval or in command options where script has total control of the variables...</p>
+<pre><code class="lang-sh">FLAGS=&quot;-av -e &#39;ssh -x&#39; --delete --delete-excluded&quot;
+...
+# shellcheck disable=SC2086
+eval rsync $FLAGS ~/dir remote_host:dir
+</code></pre>

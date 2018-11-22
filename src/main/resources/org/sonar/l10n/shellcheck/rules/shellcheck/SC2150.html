@@ -1,0 +1,18 @@
+<p>-exec does not automatically invoke a shell. Use -exec sh -c .. for that.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -type f -exec &#39;cat {} | wc -l&#39; \;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -type f -exec sh -c &#39;cat {} | wc -l&#39; \;         # Insecure
+find . -type f -exec sh -c &#39;cat &quot;$1&quot; | wc -l&#39; _ {} \;  # Secure
+</code></pre>
+<p>Sometimes the command can also be rewritten to not require <code>find</code> to invoke a shell:</p>
+<pre><code class="lang-sh">find . -type f -exec wc -l {} \; | cut -d &#39; &#39; -f 1
+</code></pre>
+<h2>Rationale</h2>
+<p>find <code>-exec</code> and <code>-execdir</code> uses <code>execve(2)</code> style semantics, meaning it expects an executable and zero or more arguments that should be passed to it.</p>
+<p>It does not use <code>system(3)</code> style semantics, meaning it does not accept a shell command as a string, to be parsed and evaluated by the system's command interpreter.</p>
+<p>If you want <code>find</code> to execute a shell command, you have to specify <code>sh</code> (or <code>bash</code>) as the executable, <code>-c</code> as first argument and your shell command as the second.</p>
+<p>To prevent command injection, the filename can be passed as a separate argument to sh and referenced as a positional parameter.</p>
+<h2>Exceptions</h2>
+<p>This warning would trigger falsely if executing a program with spaces in the path, if no other arguments were specified.</p>

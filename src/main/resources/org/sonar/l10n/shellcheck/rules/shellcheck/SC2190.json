@@ -1,0 +1,14 @@
+{
+  "title": "Elements in associative arrays need index, e.g. array=( [index]=value ) .",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

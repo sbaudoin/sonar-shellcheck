@@ -1,0 +1,39 @@
+<p>SC2106: This only exits the subshell caused by the pipeline.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for i in a b c; do
+  echo hi | grep -q bye | break
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for i in a b c; do
+  echo hi | grep -q bye || break
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>The most common cause of this issue is probably using a single <code>|</code> when <code>||</code> was intended.  The reason this message appears, though, is that a construction like this, intended to surface a failure inside of a loop:</p>
+<pre><code class="lang-sh">for i in a b c; do false | break; done; echo ${PIPESTATUS[@]}
+</code></pre>
+<p>may appear to work:</p>
+<pre><code>$ for i in a b c; do false | break; done; echo ${PIPESTATUS[@]}
+1 0
+</code></pre>
+<p>What's actually happening, though, becomes clear if we add some <code>echo</code>s; the entire loop completes, and the <code>break</code> has no effect.</p>
+<pre><code class="lang-sh">$ for i in a b c; do echo $i; false | break; done; echo ${PIPESTATUS[@]}
+a
+b
+c
+1 0
+$ for i in a b c; do false | break; echo $i; done; echo ${PIPESTATUS[@]}
+a
+b
+c
+0
+</code></pre>
+<p>Because bash processes pipelines by creating subshells, control statements like <code>break</code> only take effect in the subshell.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Contrast with the related, but different, problem in <a href="https://unix.stackexchange.com/questions/166546/bash-cannot-break-out-of-piped-while-read-loop-process-substitution-works">this link</a>.</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Pipelines">Bash Reference Manual: Pipelines</a>, esp.:<blockquote><p>Each command in a pipeline is executed in its own subshell.</p>
+</blockquote>
+</li>
+</ul>

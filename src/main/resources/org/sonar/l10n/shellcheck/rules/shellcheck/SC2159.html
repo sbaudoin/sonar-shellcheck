@@ -1,0 +1,18 @@
+<p>[ 0 ] is true. Use 'false' instead</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ 0 ]
+then
+  echo &quot;always triggers&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if false
+then
+  echo &quot;never triggers&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ str ]</code> checks whether <code>str</code> is non-empty. It doesn't matter if <code>str</code> is <code>0</code>, it will still be evaluated for non-emptyness.</p>
+<p>Instead, use the command <code>false</code> which -- as the manual puts it -- does nothing, unsuccessfully.</p>
+<h2>Exceptions</h2>
+<p>None</p>

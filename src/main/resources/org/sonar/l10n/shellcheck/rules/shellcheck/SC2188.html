@@ -1,0 +1,22 @@
+<p>This redirection doesn't have a command. Move to its command (or use 'true' as no-op).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">{ 
+  echo &quot;Report for $(date +%F)&quot;
+  uptime
+  df -h
+}
+  &gt; report.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">{ 
+  echo &quot;Report for $(date +%F)&quot;
+  uptime
+  df -h
+} &gt; report.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a redirection that doesn't actually redirect from/to anything.</p>
+<p>This could indicate a bug, such as in the problematic code where an additional linefeed causes <code>report.txt</code> to be truncated instead of containing report output, or in <code>foo &amp; &gt; bar</code>, where either <code>foo &amp;&gt; bar</code> or <code>foo &gt; bar &amp;</code> was intended.</p>
+<p>However, it could also be intentionally used to truncate a file or check that it's readable. You can make this more explicit for both ShellCheck and human readers by using <code>true</code> or <code>:</code> as a dummy command, e.g. <code>true &gt; file</code> or <code>: &gt; file</code>.</p>
+<h2>Exceptions</h2>
+<p>There are no semantic problems with using <code>&gt; foo</code> over <code>true &gt; foo</code>, so if you don't see this as a potential source of bugs or confusion, you can [[ignore]] it.</p>

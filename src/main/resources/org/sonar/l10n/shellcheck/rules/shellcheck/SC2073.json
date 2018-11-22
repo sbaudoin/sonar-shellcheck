@@ -1,0 +1,14 @@
+{
+  "title": "Escape \\< and \\> to prevent it redirecting (or try switch to [[ .. ]]).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

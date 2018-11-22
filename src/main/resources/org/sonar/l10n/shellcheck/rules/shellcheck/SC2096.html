@@ -1,0 +1,13 @@
+<p>On most OS, shebangs can only specify a single parameter.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/usr/bin/env bash -x
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/usr/bin/env bash
+set -x
+</code></pre>
+<h2>Rationale</h2>
+<p>Most operating systems, including POSIX, Linux and FreeBSD, allow only a single parameter in the shebang. The example is equivalent to calling <code>env 'bash -x'</code> instead of <code>env 'bash' '-x'</code>, and it will therefore fail.</p>
+<p>The shebang should be rewritten to use at most one parameter. Shell options can instead be set in the body of the script.</p>
+<h2>Exceptions</h2>
+<p>macOS X currently allows multiple words in the shebang. Scripts running on OSX exclusively can ignore this warning.</p>

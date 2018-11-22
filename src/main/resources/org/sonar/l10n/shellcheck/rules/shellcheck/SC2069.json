@@ -1,0 +1,14 @@
+{
+  "title": "To redirect stdout+stderr, 2&gt;&amp;1 must be last (or use '{ cmd &gt; file; } 2&gt;&amp;1' to clarify).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

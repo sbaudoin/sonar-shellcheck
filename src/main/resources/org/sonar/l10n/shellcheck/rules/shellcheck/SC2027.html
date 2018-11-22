@@ -1,0 +1,17 @@
+<p>The surrounding quotes actually unquote this. Remove or escape them.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;You enter &quot;$HOSTNAME&quot;. You can smell the wumpus.&quot; &gt;&gt; /etc/issue
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;You enter $HOSTNAME. You can smell the wumpus.&quot; &gt;&gt; /etc/issue
+</code></pre>
+<h2>Rationale</h2>
+<p>Always quoting variables and command expansions is good practice, but blindly putting quotes left and right of them is not.</p>
+<p>In this case, ShellCheck has noticed that the quotes around the expansion are unquoting it, because the left quote is terminating an existing double quoted string, while the right quote starts a new one:</p>
+<pre><code class="lang-sh">echo &quot;You enter &quot;$HOSTNAME&quot;. You can smell the wumpus.&quot;
+     |----------|         |---------------------------|
+        Quoted   No quotes           Quoted
+</code></pre>
+<p>If the quotes were supposed to be literal, they should be escaped. If the quotes were supposed to quote an expansion (as in the example), they should be removed because this is already a double quoted string.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

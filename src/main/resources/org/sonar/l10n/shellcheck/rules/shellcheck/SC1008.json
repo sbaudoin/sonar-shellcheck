@@ -1,0 +1,14 @@
+{
+  "title": "This shebang was unrecognized. Note that ShellCheck only handles sh\/bash\/dash\/ksh.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

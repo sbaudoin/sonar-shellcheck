@@ -1,0 +1,17 @@
+<p>This <code>&amp;</code> terminates the command. Escape it or add space after <code>&amp;</code> to silence.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">curl https://www.google.com/search?q=cats&amp;tbm=isch
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">curl &quot;https://www.google.com/search?q=cats&amp;tbm=isch&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>An unescaped and unquoted <code>&amp;</code> terminates the command, but here it's used in the middle of what would otherwise be a shell word. This most commonly happens when copying a URL with query string parameters without escaping the <code>&amp;</code>.</p>
+<p>Either quote or escape the <code>&amp;</code> if you wanted it as a literal ampersand, or add a space after it to make it easier to see where the previous command stopped.</p>
+<h2>Exceptions</h2>
+<p>If you do want to background one command and run another, e.g. <code>sleep 10&amp;wait</code>, just add a space or linefeed after the <code>&amp;</code> to make this more obvious: <code>sleep 10&amp; wait</code></p>
+<p>This does not change the meaning of the script, it just makes it clear to ShellCheck (and other humans) that the <code>&amp;</code> isn't supposed to be a part of the shell world.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

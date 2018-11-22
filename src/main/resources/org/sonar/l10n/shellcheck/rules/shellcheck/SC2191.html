@@ -1,0 +1,14 @@
+<p>The = here is literal. To assign by index, use ( [index]=value ) with no spaces. To keep as literal, quote it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">array=( [index] = value )
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">array=( [index]=value )
+</code></pre>
+<h2>Rationale</h2>
+<p>The shell doesn't care about the <code>=</code> sign in your array assignment because it's not part of a recognized index assignment. Instead, it's considered a literal character and becomes part of an array element's value.</p>
+<p>In the example problematic code, this is because the <code>=</code> was intended to set the index, but the shell will not recognize it when it is surrounded by spaces.</p>
+<p>Make sure to remove any spaces around the <code>=</code> when assigning by index, such as in the correct code.</p>
+<p>If you wanted the <code>=</code> to be a literal part of the array element, add quotes around it, such as <code>env=( "LC_CTYPE=C" )</code> or <code>specialChars=( "=" "%" ";" )</code> .</p>
+<h2>Exceptions</h2>
+<p>None.</p>

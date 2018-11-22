@@ -1,0 +1,14 @@
+{
+  "title": "This is a glob used as a command name. Was it supposed to be in ${..}, array, or is it missing quoting?",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

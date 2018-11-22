@@ -1,0 +1,14 @@
+<p>Elements in associative arrays need index, e.g. array=( [index]=value ) .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">declare -A foo
+foo=( myvalue )
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">declare -A foo
+foo=( [key]=myvalue )
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be initializing or appending an array element to an associative array without giving it an index. In an indexed array, elements will be auto-indexed by incremented characters. In associative arrays, the index must be given explicitly.</p>
+<p>This could happen because of invalid spaces or otherwise malformed index assignment, such as <code>array=( [key] = value )</code>. This should instead be <code>array=( [key]=value )</code>.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck may be confused when a variable name is reused in different contexts. If shellcheck mistakenly believes the array is associated, please [[ignore]] this error.</p>

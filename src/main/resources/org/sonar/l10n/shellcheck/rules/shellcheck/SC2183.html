@@ -1,0 +1,13 @@
+<p>This format string has 2 variables, but is passed 1 arguments.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot; &quot;$HOSTNAME&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has noticed that you're using a <code>printf</code> format string with more <code>%s</code> variables than arguments to fill them.</p>
+<p>In the problematic example case, the last <code>%s</code> will just become an empty string every time.</p>
+<p>Either remove the unused variables from the format string, or add enough arguments to fill them.</p>
+<h2>Exceptions</h2>
+<p>When using the Ksh/Bash <code>%T</code> timestamp extension, such as <code>printf 'The time is %(%H:%M)T\n'</code>, an argument of <code>-1</code> and no argument are both taken to mean the current time. In these cases, consider specifying <code>-1</code> explicitly.</p>

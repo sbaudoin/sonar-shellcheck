@@ -1,0 +1,22 @@
+<p>You need a space or linefeed between the function name and body.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">function foo{
+  echo &quot;hello world&quot;
+}
+</code></pre>
+<h2>Correct code</h2>
+<p>Prefer POSIX syntax:</p>
+<pre><code class="lang-sh">foo() {
+  echo &quot;hello world&quot;
+}
+</code></pre>
+<p>Alternatively, add the missing space between function name and opening <code>{</code>:</p>
+<pre><code class="lang-sh">#           v-- Here
+function foo {
+  echo &quot;hello world&quot;
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>When using <code>function</code> keyword function definitions without <code>()</code>, a space is required between the function name and the opening <code>{</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

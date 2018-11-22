@@ -1,0 +1,14 @@
+{
+  "title": "Consider using { cmd1; cmd2; } &gt;&gt; file instead of individual redirects.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

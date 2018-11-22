@@ -1,0 +1,26 @@
+<p>Parsing stopped here. Is this keyword correctly matched up?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo hello
+fi
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if true
+then
+  echo hello
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>This error is typically seen when there are too many <code>fi</code>, <code>done</code> or <code>esac</code>s, or when there's a <code>do</code> or <code>then</code> without a corresponding <code>while</code>, <code>for</code> or <code>if</code>. This is often due to deleting a loop or conditional statement but not its terminator.</p>
+<p>In some cases, it can even be caused by bad quoting:</p>
+<pre><code class="lang-sh">var=&quot;foo
+if [[ $var = &quot;bar ]
+then
+  echo true
+fi
+</code></pre>
+<p>In this case, the <code>if</code> ends up inside the double quotes, leaving the <code>then</code> dangling.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

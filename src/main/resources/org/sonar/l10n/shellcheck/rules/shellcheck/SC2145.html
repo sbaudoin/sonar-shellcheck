@@ -1,0 +1,47 @@
+<p>Argument mixes string and array. Use * or separate argument.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">printf &quot;Error: %s\n&quot; &quot;Bad parameters: $@&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">printf &quot;Error: %s\n&quot; &quot;Bad parameters: $*&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The behavior when concatenating a string and array is rarely intended. The preceeding string is prefixed to the first array element, while the succeeding string is appended to the last one. The middle array elements are unaffected.</p>
+<p>E.g., with the parameters <code>foo</code>,<code>bar</code>,<code>baz</code>, <code>"--flag=$@"</code> is equivalent to the three arguments <code>"--flag=foo" "bar" "baz"</code>.</p>
+<p>If the intention is to concatenate all the array elements into one argument, use <code>$*</code>. This concatenates based on <code>IFS</code>.</p>
+<p>If the intention is to provide each array element as a separate argument, put the array expansion in its own argument.</p>
+<h2>Exceptions</h2>
+<p>The POSIX specified behavior of <code>$@</code> (and by extension arrays) as part of other strings is often unexpected:</p>
+<blockquote><p>if the parameter being expanded was embedded within a word, the first field shall be joined with the beginning part of the original word and the last field shall be joined with the end part of the original word. In all other contexts the results of the expansion are unspecified. If there are no positional parameters, the expansion of '@' shall generate zero fields, even when '@' is within double-quotes; however, if the expansion is embedded within a word which contains one or more other parts that expand to a quoted null string, these null string(s) shall still produce an empty field, except that if the other parts are all within the same double-quotes as the '@', it is unspecified whether the result is zero fields or one empty field.</p>
+</blockquote>
+<p>If you're aware of this and intend to take advantage of it, you can ignore this warning. However, you can also usually also rewrite it into a less surprising form. For example, here's a wrapper script that uses this behavior to substitute certain commands by defining a function for them:</p>
+<pre><code>#!/bin/sh
+fixed_fgrep() { grep -F "$@"; }
+fixed_echo() { printf '%s\n' "$*"; }
+fixed_seq() { echo "seq is not portable" &gt;&amp;2; return 1; }
+
+if command -v "fixed_$1" &gt; /dev/null 2&gt;&amp;1
+then
+  # shellcheck disable=SC2145   # I know how fixed_"$@" behaves and it's correct!
+  fixed_"$@"
+else
+  "$@"
+fi
+</code></pre>
+<p>Here's the same script without relying on this behavior:</p>
+<pre><code>#!/bin/sh
+fixed_fgrep() { grep -F "$@"; }
+fixed_echo() { printf '%s\n' "$*"; }
+fixed_seq() { echo "seq is not portable" &gt;&amp;2; return 1; }
+
+cmd="$1"
+shift
+
+if command -v "fixed_$cmd" &gt; /dev/null 2&gt;&amp;1
+then
+ # Perhaps more straight forward with fewer surprises:
+  "fixed_$cmd" "$@"
+else
+  "$cmd" "$@"
+fi
+</code></pre>

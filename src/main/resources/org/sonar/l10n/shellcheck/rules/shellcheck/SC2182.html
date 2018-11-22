@@ -1,0 +1,25 @@
+<p>This printf format string has no variables. Other arguments are ignored.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">place=&quot;world&quot;
+printf hello $place
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">place=&quot;world&quot;
+printf &quot;hello %s\n&quot; &quot;$place&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has noticed that you're using a <code>printf</code> with multiple arguments, but where the first argument has no <code>%s</code> or equivalent variable placeholders.</p>
+<p><code>echo</code> accepts zero or more strings to write, e.g. <code>echo hello world</code>.</p>
+<p><code>printf</code> instead accepts one pattern/template with zero or more <code>%s</code>-style placeholders, and one argument for each placeholder.</p>
+<p>Rewrite your command using the right semantics, otherwise all arguments after the first one will be ignored:</p>
+<pre><code>$ printf hello world\\n
+hello
+
+$ printf "hello world\n"
+hello world
+
+$ printf "hello %s\n" "world"
+hello world
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>

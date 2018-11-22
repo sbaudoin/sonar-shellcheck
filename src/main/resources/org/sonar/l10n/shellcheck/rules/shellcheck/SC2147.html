@@ -1,0 +1,14 @@
+<p>Literal tilde in PATH works poorly across programs.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">PATH=&quot;$PATH:~/bin&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">PATH=&quot;$PATH:$HOME/bin&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Having literal <code>~</code> in PATH is a bad idea. Bash handles it, but nothing else does.</p>
+<p>This means that even if you're always using Bash, you should avoid it because any invoked program that relies on PATH will effectively ignore those entries.</p>
+<p>For example, <code>make</code> may say <code>foo: Command not found</code> even though <code>foo</code> works fine from the shell and Make and Bash both use the same PATH. You'll get similar messages from any non-bash scripts invoked, and <code>whereis</code> will come up empty.</p>
+<p>Use <code>$HOME</code> or full path instead.</p>
+<h2>Exceptions</h2>
+<p>If your directory name actually contains a literal tilde, you can ignore this message.</p>

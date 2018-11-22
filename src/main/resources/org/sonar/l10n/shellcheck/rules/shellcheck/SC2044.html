@@ -1,0 +1,70 @@
+<p>For loops over find output are fragile. Use find -exec or a while read loop.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for file in $(find mydir -mtime -7 -name &#39;*.mp3&#39;)
+do
+  let count++
+  echo &quot;Playing file no. $count&quot;
+  play &quot;$file&quot;
+done
+echo &quot;Played $count files&quot;
+</code></pre>
+<p>This will fail for filenames containing spaces and similar, such as <code>My File.mp3</code>, and has a series of potential globbing issues depending on other filenames in the directory like (if you have <code>MyFile2.mp3</code> and <code>MyFile[2014].mp3</code>, the former file will play twice and the latter will not play at all).</p>
+<h2>Correct code</h2>
+<p>There are many possible fixes, each with its pros and cons.</p>
+<p>The most general fix (that requires the least amount of thinking to apply) is having <code>find</code> output a <code>\0</code> separated list of files and consuming them in a <code>while read</code> loop:</p>
+<pre><code class="lang-sh">while IFS= read -r -d &#39;&#39; file
+do
+  let count++
+  echo &quot;Playing file no. $count&quot;
+  play &quot;$file&quot;
+done &lt;   &lt;(find mydir -mtime -7 -name &#39;*.mp3&#39; -print0)
+echo &quot;Played $count files&quot;
+</code></pre>
+<p>In usage it's very similar to the <code>for</code> loop: it gets its output from a <code>find</code> statement, it executes a shell script body, it allows updating/aggregating variables, and the variables are available when the loop ends.</p>
+<p>It requires Bash, and works with GNU, Busybox, OS X, FreeBSD and OpenBSD find, but not POSIX find.</p>
+<h4>If <code>find</code> is just matching globs recursively</h4>
+<p>If you don't need <code>find</code> logic like <code>-mtime -7</code> and just use it to match globs recursively (all <code>*.mp3</code> files under a directory), you can instead use <code>globstar</code> and <code>nullglob</code> instead of <code>find</code>, and still use a <code>for</code> loop:</p>
+<pre><code class="lang-sh">shopt -s globstar nullglob
+for file in mydir/**/*.mp3
+do
+  let count++
+  echo &quot;Playing file no. $count&quot;
+  play &quot;$file&quot;
+done
+echo &quot;Played $count files&quot;
+</code></pre>
+<p>This is bash 4 specific.</p>
+<h4>For POSIX</h4>
+<p>If you need POSIX compliance, this is a fair approach:</p>
+<pre><code class="lang-sh">find mydir ! -name &quot;$(printf &quot;*\n*&quot;)&quot; -name &#39;*.mp3&#39; &gt; tmp
+while IFS= read -r file
+do
+  let count++
+  echo &quot;Playing file #$count&quot;
+  play &quot;$file&quot;
+done &lt; tmp
+rm tmp
+echo &quot;Played $count files&quot;
+</code></pre>
+<p>The only problem is for filenames containing line feeds. A <code>! -name "$(printf "*\n*")"</code> has been added to simply skip these files, just in case there are any.</p>
+<p>If you don't need variables to be available after the loop (here, if you don't need to print the final play count at the end), you can skip the <code>tmp</code> file and just pipe from <code>find</code> to <code>while</code>.</p>
+<h4>For simple commands with no aggregation</h4>
+<p>If you don't need a shell script loop body or any form of variable  like if we only wanted to play the file, we can dramatically simplify while maintaining POSIX compatibility:</p>
+<pre><code class="lang-sh"># Simple and POSIX
+find mydir -name &#39;*.mp3&#39; -exec play {} \;
+</code></pre>
+<p>This does not allow things like <code>let counter++</code> because <code>let</code> is a shell builtin, not an external command.</p>
+<h4>For shell commands with no aggregation</h4>
+<p>If we do need a shell script body but no aggregation, you can do the above but invoking <code>sh</code> (this is still POSIX):</p>
+<pre><code class="lang-sh">find mydir -name &#39;*.mp3&#39; -exec sh -c &#39;
+    echo &quot;Playing ${1%.mp3}&quot;
+    play &quot;$1&quot;
+  &#39; sh {} \;
+</code></pre>
+<p>This would not be possible without <code>sh</code>, because <code>${1%.mp3}</code> is a shell construct that <code>find</code> can't evaluate by itself. If we had tried to <code>let counter++</code> in this loop, we would have found that the value never changes.</p>
+<p>Note that using <code>+</code> instead of <code>\;</code>, and using an embedded <code>for file in "$@"</code> loop rather than <code>"$1"</code>, will not allow aggregating variables. This is because for large lists, <code>find</code> will invoke the command multiple times, each time with some chunk of the input.</p>
+<h2>Rationale</h2>
+<p><code>for var in $(find ...)</code>  loops rely on word splitting and will evaluate globs, which will wreck havoc with filenames containing whitespace or glob characters.</p>
+<p><code>find -exec</code> <code>for i in glob</code> and <code>find</code>+<code>while</code> do not rely on word splitting, so they avoid this problem.</p>
+<h2>Exceptions</h2>
+<p>If you know about and carefully apply <code>IFS=$'\n'</code> and <code>set -f</code>, you could choose to ignore this message.</p>

@@ -1,0 +1,18 @@
+<p>Don't use $ on the iterator name in for loops.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for $var in *
+do
+  echo &quot;$var&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for var in *
+do
+  echo &quot;$var&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>The variable is named <code>var</code>, and can be expanded to its value with <code>$var</code>.</p>
+<p>The <code>for</code> loop expects the variable's name, not its value (and the name can not be specified indirectly).</p>
+<h2>Exceptions</h2>
+<p>None.</p>

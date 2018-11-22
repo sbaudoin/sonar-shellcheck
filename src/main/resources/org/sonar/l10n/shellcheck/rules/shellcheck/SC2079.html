@@ -1,0 +1,4 @@
+<h1>(( )) doesn't support decimals. Use bc or awk.</h1>
+<p>Bash <a href="https://www.tldp.org/LDP/abs/html/comparison-ops.html">arithmetic conditional evaluation can only be performed on integers</a>. More detail: Bash has limited data types which <a href="http://www.tldp.org/LDP/abs/html/declareref.html">include integer</a>, but everything is effectively <a href="http://www.tldp.org/LDP/abs/html/untyped.html">untyped</a>.</p>
+<p>Suggested workarounds to this constraint use bc or awk, here are 
+<a href="https://stackoverflow.com/questions/11237794/how-to-compare-two-decimal-numbers-in-bash-awk">some examples</a>.</p>

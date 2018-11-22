@@ -1,0 +1,23 @@
+<p>When using &lt;&lt;-, you can only indent with tabs.</p>
+<h2>Problematic code</h2>
+<p>Any code using <code>&lt;&lt;-</code> that is indented with spaces. <code>cat -T script</code> shows</p>
+<pre><code class="lang-sh">    cat &lt;&lt;- foo
+        Hello world
+    foo
+</code></pre>
+<h2>Correct code</h2>
+<p>Code using <code>&lt;&lt;-</code> must be indented with tabs. <code>cat -T script</code> shows</p>
+<pre><code class="lang-sh">^Icat &lt;&lt;- foo
+^I^IHello world
+^Ifoo
+</code></pre>
+<p>Or simply don't indent the end token:</p>
+<pre><code class="lang-sh">    cat &lt;&lt;- foo
+      Hello World
+foo
+</code></pre>
+<h2>Rationale</h2>
+<p><code>&lt;&lt;-</code>, by design, only strips tabs. Not spaces.</p>
+<p>Your editor may be automatically replacing tabs with spaces, either when you type them or when you save the file or both. If you're unable to make it stop, just don't indent the end token.</p>
+<h2>Exceptions</h2>
+<p>None. But note that copy-pasting code to <a href="http://www.shellcheck.net">shellcheck.net</a> may also turn correct tabs into spaces on some OS.</p>

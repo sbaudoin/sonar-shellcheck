@@ -1,0 +1,14 @@
+{
+  "title": "Add &lt; \/dev\/null to prevent ssh from swallowing stdin.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

@@ -1,0 +1,25 @@
+<p>Piping to 'rm', a command that doesn't read stdin. Wrong command or missing xargs?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ls | echo                      # Want to print result
+cat files | rm                 # Want to delete items from a file
+find . -type f | cp dir        # Want to process &#39;find&#39; output
+rm file | true                 # Want to ignore errors
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">ls
+cat files | while IFS= read -r file; do rm -- &quot;$file&quot;; done
+find . -type f -exec cp {} dir \;
+rm file || true
+</code></pre>
+<h2>Rationale</h2>
+<p>You are piping to one of several commands that don't read from stdin.</p>
+<p>This may happen when:</p>
+<ul>
+<li>Confusing one command for another, e.g. using <code>echo</code> where <code>cat</code> was intended.</li>
+<li>Incorrectly refactoring, leaving a <code>|</code> on the previous line.</li>
+<li>Missing <code>xargs</code>, because stdin should be passed as positional parameters instead (use <code>xargs -0</code> if at all possible).</li>
+<li>Intending to use <code>||</code> instead of <code>|</code></li>
+</ul>
+<p>Check your logic, and rewrite the command so data is passed correctly.</p>
+<h2>Exceptions</h2>
+<p>If you've overridden a command to return output, you can either rename it to make this obvious, or [[ignore]] this message.</p>

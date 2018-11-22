@@ -1,0 +1,29 @@
+<p>Redirection applies to the find command itself. Rewrite to work per action (or move to end).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.ppm&#39; -exec pnmtopng {} &gt; {}.png \;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.ppm&#39; -exec sh -c &#39;pnmtopng &quot;$1&quot; &gt; &quot;$1.png&quot;&#39; _ {} \;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck detected a <code>find</code> command with a redirection in the middle.</p>
+<p>This redirection may have been intended to apply only to a specific action like <code>-exec</code> or <code>-print</code>, but it does in fact apply to the entire <code>find</code> command:</p>
+<pre><code># This command
+find . -name '*.ppm' -exec pnmtopng {} &gt; {}.png \;
+
+# Is the same as this
+{
+   find . -name '*.ppm' -exec pnmtopng {} \;
+} &gt; {}.png 
+</code></pre>
+<p>To perform a redirection per action, rewrite it with e.g. <code>-exec sh -c '...' _ {} \;</code></p>
+<p>If the redirection is something like <code>&gt; /dev/null</code> where you don't mind it applying to the whole <code>find</code> and not individual results, move the redirection to the end of command:</p>
+<pre><code>find . -exec foo {} &gt; /dev/null \;     # Ambiguous syntax. Is it per -exec or not?
+find . -exec foo {} \;  &gt; /dev/null    # Identical command with clear intent.
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

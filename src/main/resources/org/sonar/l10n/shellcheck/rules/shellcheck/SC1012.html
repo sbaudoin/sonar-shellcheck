@@ -1,0 +1,28 @@
+<p><code>\t</code> is just literal <code>t</code> here. For tab, use <code>"$(printf '\t')"</code> instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Want tab
+var=foo\tbar
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># Want linefeed
+var=foo\nbar
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=&quot;foo$(printf &#39;\t&#39;)bar&quot;  # As suggested in warning
+var=&quot;$(printf &#39;foo\tbar&#39;)&quot;  # Equivalent alternative
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># Literal, quoted linefeed
+line=&quot;foo
+bar&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a <code>\t</code>, <code>\n</code> or <code>\r</code> in a context where they just become regular letter <code>t</code>, <code>n</code> or <code>r</code>. Most likely, it was intended as a tab, linefeed or carriage return.</p>
+<p>To generate such characters (plus other less common ones including <code>\a</code>, <code>\f</code> and octal escapes) , use <code>printf</code> as in the example. The exception is for linefeeds that would be stripped by command substitution; in these cases, use a literal quoted linefeed instead.</p>
+<p>Other characters like <code>\z</code> generate a [[SC1001]] info message, as the intent is less certain.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,14 @@
+{
+  "title": "It's not 'foo &amp;; bar', just 'foo &amp; bar'.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

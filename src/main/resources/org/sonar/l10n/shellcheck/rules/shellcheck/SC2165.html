@@ -1,0 +1,26 @@
+<p>This nested loop overrides the index variable of its parent.</p>
+<p>And companion warning "This parent loop has its index variable overridden."</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for((i=0; i&lt;10; i++))
+do
+  for i in *
+  do
+    echo &quot;$i&quot;
+  done
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for((i=0; i&lt;10; i++))
+do
+  for j in *
+  do
+    echo &quot;$j&quot;
+  done
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>When nesting loops, especially arithmetic for loops, using the same loop variable can cause unexpected results.</p>
+<p>In the problematic code, <code>i</code> will contain the last filename from the inner loop, which will be interpreted as a value in the next iteration out the outer loop. This results in either an infinite loop or a syntax error, depending on whether the last filename is a valid shell variable name.</p>
+<p>In nested for-in loops, variable merely shadow each other and won't cause infinite loops or syntax errors, but reusing the variable name is rarely intentional.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

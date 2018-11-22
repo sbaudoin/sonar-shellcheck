@@ -1,0 +1,16 @@
+<p>'time' is undefined for pipelines. time single stage or bash -c instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">time foo | bar
+</code></pre>
+<h2>Correct code</h2>
+<p>To time the most relevant stage:</p>
+<pre><code class="lang-sh">foo | { time bar; }
+</code></pre>
+<p>To time everything in a pipeline:</p>
+<pre><code class="lang-sh">time bash -c &#39;foo | bar&#39;
+</code></pre>
+<p>Note that you can not use <code>time sh -c</code> to time an entire pipeline, because POSIX does not guarantee that anything other than the last stage is waited upon by the shell.</p>
+<h2>Rationale</h2>
+<p>This behavior is explicitly left undefined <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/time.html">in POSIX</a>.</p>
+<h2>Exceptions</h2>
+<p>None. This warning is not emitted in <code>ksh</code> or <code>bash</code> where <code>time</code> is defined for pipelines.</p>

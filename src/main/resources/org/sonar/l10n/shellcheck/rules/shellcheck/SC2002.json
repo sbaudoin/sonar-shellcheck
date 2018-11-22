@@ -1,0 +1,14 @@
+{
+  "title": "Useless cat. Consider 'cmd &lt; file | ..' or 'cmd file | ..' instead.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

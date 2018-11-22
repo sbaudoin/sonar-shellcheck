@@ -1,0 +1,14 @@
+<p>Remove leading spaces before the shebang.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">  #!/bin/sh
+echo &quot;Hello world&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The script has leading spaces before the shebang (<code>#!</code>). This is not allowed.</p>
+<p>The <code>#!</code> should be the first two bytes in the file, as they're used as a file signature by the OS to determine whether a file is a script.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

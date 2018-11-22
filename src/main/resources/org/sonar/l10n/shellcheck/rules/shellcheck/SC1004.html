@@ -1,0 +1,18 @@
+<p>This backslash+linefeed is literal. Break outside single quotes if you just want to break the line.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=&#39;This is long \
+piece of text&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=&#39;This is a long &#39;\
+&#39;piece of text&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a single quoted string containing a backslash followed by a linefeed (newline). Unlike double quotes or unquoted strings, this has no special meaning. The string will contain a literal backslash and a linefeed.</p>
+<p>If you wanted to break the line but not add a linefeed to the string, stop the single quote, break the line, and reopen it. This is demonstrated in the correct code.</p>
+<p>If you wanted to break the line and also include the linefeed as a literal, you don't need a backslash:</p>
+<pre><code>var='This is a multi-line string
+with an embedded linefeed'
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you do want a string containing a literal backslash+linefeed combo, such as with <code>sed</code>, you can [[ignore]] this warning.</p>

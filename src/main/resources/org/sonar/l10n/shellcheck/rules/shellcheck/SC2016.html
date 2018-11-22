@@ -1,0 +1,19 @@
+<h1>Expressions don't expand in single quotes, use double quotes for that.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">name=World
+echo &#39;Hello $name&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">name=World
+echo &quot;Hello $name&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Single quotes prevent expansion of everything, including variables and command substitution.</p>
+<p>If you want to use the values of variables and such, use double quotes instead.</p>
+<p>Note that if you have other items that needs single quoting, you can use both in a single word:</p>
+<pre><code class="lang-sh">echo &#39;$1 USD is &#39;&quot;$rate GBP&quot;
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you want <code>$stuff</code> to be a literal dollar sign followed by the characters "stuff", you can [[ignore]] this message.</p>
+<p>ShellCheck tries to be smart about it, and won't warn when this is used with awk, perl and similar, but there are some inherent ambiguities like <code>'I have $1 in my wallet'</code>, which could be "one dollar" or "whatever's in the first parameter".</p>
+<p>In the particular case of <code>sed</code>, ShellCheck uses additional heuristics to try to separate cases like <code>'s/$foo/bar/'</code> (failing to replace the variable <code>$foo</code>) with from the false positives like <code>'$d'</code> (delete last line). If you're still triggering these, consider being more generous with your spaces: use <code>$ { s/foo/bar; }</code> instead of <code>${s/foo/bar/;}</code></p>

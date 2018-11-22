@@ -1,0 +1,16 @@
+<p>Don't use $ on the left side of assignments.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">$greeting=&quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">greeting=&quot;Hello World&quot;
+</code></pre>
+<p>Alternatively, if the goal was to assign to a variable whose name is in another variable (indirection), use <code>declare</code>:</p>
+<pre><code class="lang-sh">name=foo
+declare &quot;$name=hello world&quot;
+echo &quot;$foo&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Unlike Perl or PHP, <code>$</code> is not used when assigning to a variable.</p>
+<h2>Exceptions</h2>
+<p>None</p>

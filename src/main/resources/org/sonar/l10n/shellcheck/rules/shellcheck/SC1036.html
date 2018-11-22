@@ -1,0 +1,24 @@
+<p><code>(</code> is invalid here. Did you forget to escape it?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo (foo) bar
+</code></pre>
+<h2>Correct code</h2>
+<p>Depends on your intention:</p>
+<pre><code class="lang-sh">echo &quot;(foo) bar&quot;  # Literal parentheses
+echo &quot;$(foo) bar&quot; # Command expansion
+echo &quot;foo bar&quot;    # Tried to use parentheses for grouping or function invocation
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck expected an ordinary shell word but found an opening parenthesis instead.</p>
+<p>Determine what you intended the parenthesis to do and rewrite accordingly. Common issues include:</p>
+<ul>
+<li>Wanting them to be literal, as in <code>echo (FAIL) Some tests failed</code>. In this case, it requires quoting.</li>
+<li>Wanting command expansion, as in <code>echo Today is (date)</code>. Add the missing <code>$</code>: <code>echo "Today is $(date)"</code></li>
+<li>Adding parentheses because other languages need them in that context, such as <code>foo (bar, 42)</code> to call a function. This should be <code>foo bar 42</code>. Also, shells do not support tuples or passing arrays as single parameters.</li>
+</ul>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

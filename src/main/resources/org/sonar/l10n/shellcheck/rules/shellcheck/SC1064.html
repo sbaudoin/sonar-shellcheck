@@ -1,0 +1,20 @@
+<p>Expected a { to open the function definition.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo() {
+  echo &quot;hello world&quot;
+}
+foo()
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo() {
+  echo &quot;hello world&quot;
+}
+foo
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found what appears to be the start of a function definition, but without a function body.</p>
+<p>One common cause is that you are trying to call a function by appending parentheses, e.g. <code>foo()</code> like in C. Bash does not use or allow parentheses after a function name to call it. The function <code>foo</code> should be called using just <code>foo</code> like in the example.</p>
+<p>If you are declaring a function, make sure it looks like the correct code above, and that it does not try to declare any parameters (parameters are instead accessed with <code>$1</code> and up).</p>
+<p>If you are trying to do something else, look up the syntax for what you are trying to do.</p>
+<h2>Exceptions</h2>
+<p>POSIX allows the body of a function to be any compound command, e.g. <code>foo() for i; do :; done</code>. Since this usage is rare, ShellCheck requires the body to be {} (or ()). This additional structure requirement helps improve error messages and suggestions by not parsing down a path that less advanced users wouldn't expect.</p>

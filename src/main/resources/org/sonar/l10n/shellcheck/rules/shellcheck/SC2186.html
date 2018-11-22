@@ -1,0 +1,14 @@
+<p>tempfile is deprecated. Use mktemp instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">tmp=$(tempfile)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">tmp=$(mktemp)
+</code></pre>
+<h2>Rationale</h2>
+<p><code>tempfile</code> is a Debian specific utility for creating temporary files. Its man page notes:</p>
+<blockquote><p>tempfile is deprecated; you should use mktemp(1) instead.</p>
+</blockquote>
+<p>Neither <code>tempfile</code> nor <code>mktemp</code> are POSIX, but <code>tempfile</code> is Debian specific while <code>mktemp</code> works on GNU, OSX, BusyBox, *BSD and Solaris.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck will not recognize when a function overrides this name.</p>

@@ -1,0 +1,12 @@
+<p>This cp has no destination. Check the arguments.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cp &quot;$file $dir&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cp &quot;$file&quot; &quot;$dir&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>cp</code> command with a single parameter. This may be because the source and destination was accidentally merged into a single argument, or because the line was broken in an invalid way.</p>
+<p>Fix the <code>cp</code> statement by correctly specifying both source and destination.</p>
+<h2>Exceptions</h2>
+<p>None</p>

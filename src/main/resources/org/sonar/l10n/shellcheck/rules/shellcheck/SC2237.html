@@ -1,0 +1,26 @@
+<p>Use <code>[ -n .. ]</code> instead of <code>! [ -z .. ]</code>.</p>
+<p>(or "Use <code>[ -z .. ]</code> instead of <code>! [ -n .. ]</code>.)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if ! [ -n &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
+if ! [ -z &quot;$STY&quot; ];       then echo &quot;You are already running screen&quot;; fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -z &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
+if [ -n &quot;$STY&quot; ];       then echo &quot;You are already running screen&quot;; fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You have negated <code>test -z</code> or <code>test -n</code>, resulting in a needless double-negative. You can just use the other operator instead:</p>
+<pre><code># Identical tests to verify that a value is assigned
+! [ -z foo ] # Not has no value
+[ -n foo ]   # Has value
+
+# Identical tests to verify that a value is empty
+! [ -n foo ] # Not is non-empty
+[ -z foo ]   # Is empty
+</code></pre>
+<h2>Exceptions</h2>
+<p>This is a stylistic issue that does not affect correctness. If you prefer the original expression, you can't not [[Ignore]] it with a directive or flag.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

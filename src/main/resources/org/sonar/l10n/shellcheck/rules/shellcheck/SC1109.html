@@ -1,0 +1,13 @@
+<p>This is an unquoted HTML entity. Replace with corresponding character.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo &amp;amp;&amp;amp; bar
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo &amp;&amp; bar
+</code></pre>
+<h2>Rationale</h2>
+<p>There is an unquoted HTML entity, such as <code>&amp;amp;</code>, <code>&amp;gt;</code> or <code>&amp;lt;</code> (instead of <code>&amp;</code>, <code>&gt;</code> and <code>&lt;</code>) in your code. This usually happens when copy-pasting from a web site that has mismanaged its code formatting.</p>
+<p>You should go through the entire script and replace HTML entities with their corresponding characters.</p>
+<p>Don't rely on ShellCheck to detect all of them. ShellCheck only warns about certain cases in certain contexts, while this issue tends to affect the entire script.</p>
+<h2>Exceptions</h2>
+<p>If you want to run a command called <code>amp</code> after backgrounding another command, add a space: <code>foo &amp; amp;</code>.</p>

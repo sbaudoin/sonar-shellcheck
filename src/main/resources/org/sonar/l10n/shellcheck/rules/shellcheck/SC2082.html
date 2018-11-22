@@ -1,0 +1,40 @@
+<p>To expand via indirection, use name="foo$n"; echo "${!name}".</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var_1=&quot;hello world&quot;
+n=1
+echo &quot;${var_$n}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>Bash/ksh:</p>
+<pre><code class="lang-sh"># Use arrays instead of dynamic names
+declare -a var
+var[1]=&quot;hello world&quot;
+n=1
+echo &quot;${var[n]}&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># Expand variable names dynamically
+var_1=&quot;hello world&quot;
+n=1
+name=&quot;var_$n&quot;
+echo &quot;${!name}&quot;
+</code></pre>
+<p>POSIX sh:</p>
+<pre><code class="lang-sh"># Expand dynamically with eval
+var_1=&quot;hello world&quot;
+n=1
+eval &quot;tmp=\$var_$n&quot;
+echo &quot;${tmp}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You can expand a variable <code>var_1</code> with <code>${var_1}</code>, but you can not generate the string <code>var_1</code> with an embedded expansion, like <code>${var_$n}</code>.</p>
+<p>Instead, if at all possible, you should use an array. Bash and ksh support both numerical and associative arrays, and an example is shown above.</p>
+<p>If you can't use arrays, you can indirectly reference variables by creating a temporary variable with its name, e.g. <code>myvar="var_$n"</code> and then expanding it indirectly with <code>${!myvar}</code>. This will give the contents of the variable <code>var_1</code>.</p>
+<p>If using POSIX sh, where neither arrays nor <code>${!var}</code> is available, <code>eval</code> can be used. You must be careful in sanitizing the data used to construct the variable name to avoid arbitrary code execution.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/006">BashFaq: How can I use variable variables (indirect variables, pointers, references) or associative arrays?</a></li>
+<li><a href="https://stackoverflow.com/questions/16553089/dynamic-variable-names-in-bash">StackOverflow: Dynamic variable names in Bash</a></li>
+</ul>

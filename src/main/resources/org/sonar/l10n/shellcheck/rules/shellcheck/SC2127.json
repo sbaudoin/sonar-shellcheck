@@ -1,0 +1,14 @@
+{
+  "title": "To use ${ ..; } command expansion or cases with ;;& or ;;&, specify #!\/usr\/bin\/env bash or ksh",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

@@ -1,0 +1,10 @@
+<p>SIGKILL/SIGSTOP can not be trapped.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">trap &#39;echo &quot;unkillable&quot;&#39; KILL
+</code></pre>
+<h2>Correct code</h2>
+<p>Not applicable. This is not possible.</p>
+<h2>Rationale</h2>
+<p>SIGKILL and SIGSTOP can not be caught/ignored (according to POSIX and as implemented on platforms including Linux and FreeBSD). Trying to trap this signal has undefined results.</p>
+<h2>Exceptions</h2>
+<p>None. If you come across one, please file an issue about it.</p>

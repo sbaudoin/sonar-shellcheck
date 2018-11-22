@@ -1,0 +1,32 @@
+<p>Use cd ... || exit in case cd fails.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cd generated_files
+rm -r *.c
+</code></pre>
+<pre><code class="lang-sh">func(){
+  cd foo
+  do_something
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cd generated_files || exit
+rm -r *.c
+</code></pre>
+<pre><code class="lang-sh"># For functions, you may want to use return:
+func(){
+  cd foo || return
+  do_something
+}
+</code></pre>
+<h2>Rationale</h2>
+<p><code>cd</code> can fail for a variety of reasons: misspelled paths, missing directories, missing permissions, broken symlinks and more.</p>
+<p>If/when it does, the script will keep going and do all its operations in the wrong directory. This can be messy, especially if the operations involve creating or deleting a lot of files.</p>
+<p>To avoid this, make sure you handle the cases when <code>cd</code> fails. Ways to do this include</p>
+<ul>
+<li><code>cd foo || exit</code> as suggested to just abort immediately</li>
+<li><code>if cd foo; then echo "Ok"; else echo "Fail"; fi</code> for custom handling</li>
+<li><code>&lt;(cd foo &amp;&amp; cmd)</code> as an alternative to <code>&lt;(cd foo || exit; cmd)</code> in <code>&lt;(..)</code>, <code>$(..)</code> or <code>( )</code></li>
+</ul>
+<h2>Exceptions</h2>
+<p>ShellCheck does not give this warning when <code>cd</code> is on the left of a <code>||</code> or <code>&amp;&amp;</code>, or the condition of a <code>if</code>, <code>while</code> or <code>until</code> loop. Having a <code>set -e</code> command anywhere in the script will disable this message, even though it won't necessarily prevent the issue.</p>
+<p>If you are accounting for <code>cd</code> failures in a way shellcheck doesn't realize, you can disable this message with a [[directive]].</p>

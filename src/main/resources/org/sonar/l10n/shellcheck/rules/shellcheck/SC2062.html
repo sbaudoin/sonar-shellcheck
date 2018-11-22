@@ -1,0 +1,10 @@
+<h1>Quote the grep pattern so the shell won't interpret it.</h1>
+<h2>Problematic code</h2>
+<pre><code>grep foo* file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code>grep "foo*" file
+</code></pre>
+<h2>Rationale</h2>
+<p>The regex passed to grep frequently contains characters that collide with globs. The code above is supposed to match "f followed by 1 or more o's", but if the directory contains a file called "foo.txt", an unquoted pattern will cause it to become <code>grep foo.txt file</code>.</p>
+<p>To prevent this, always quote the regex passed to grep, especially when it contains one or more glob character.</p>

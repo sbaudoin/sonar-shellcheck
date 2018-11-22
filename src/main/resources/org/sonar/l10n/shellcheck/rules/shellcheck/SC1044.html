@@ -1,0 +1,22 @@
+<p>Couldn't find end token `EOF' in the here document.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; EOF
+  Hello World
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">cat &lt;&lt; EOF
+  Hello World
+EOF
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>&lt;&lt;</code> here document (aka heredoc) was not properly terminated. The terminating token needs to be on a separate line without indenting (or indented with tabs only when using <code>&lt;&lt;-</code>).</p>
+<p>Note that you can not put here documents in one liners. For such use cases, use a <code>&lt;&lt;&lt;</code> here string:</p>
+<pre><code>cat &lt;&lt; EOF  hello world  EOF   # Wrong: data and terminator can not be on the same line
+cat &lt;&lt;&lt; "hello world"          # Correct
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

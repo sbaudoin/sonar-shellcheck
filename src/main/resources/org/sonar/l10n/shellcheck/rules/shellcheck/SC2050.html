@@ -1,0 +1,24 @@
+<p>This expression is constant. Did you forget the <code>$</code> on a variable?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ myvar = &quot;test&quot; ]
+then
+  echo &quot;Test mode&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;$myvar&quot; = &quot;test&quot; ]
+then
+  echo &quot;Test mode&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a <code>[ .. ]</code> or <code>[[ .. ]]</code> comparison that only involves literal strings. The intention was probably to check a variable or command output instead.</p>
+<p>This is usually due to missing <code>$</code> or bad quoting:</p>
+<pre><code>if [[ "myvar" = "test" ]]             # always false because myvar is a literal string
+if [[ "$myvar" = "test" ]]            # correctly compares a variable
+
+if [ 'grep -c foo bar' -ge 10 ]       # always false because grep doesn't run
+if [ "$(grep -c foo bar)" -ge 10 ]    # correctly checks grep output
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>

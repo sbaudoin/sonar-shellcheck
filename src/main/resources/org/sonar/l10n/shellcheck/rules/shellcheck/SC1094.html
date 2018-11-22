@@ -1,0 +1,14 @@
+<p>Parsing of sourced file failed. Ignoring it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">source mylib
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># shellcheck disable=SC1094
+source mylib
+</code></pre>
+<p>(or fix <code>mylib</code>)</p>
+<h2>Rationale</h2>
+<p>ShellCheck encountered a parsing error in a sourced file, <code>mylib</code> in the example.</p>
+<p>Fix parsing error, or just disable it with a directive.</p>
+<h2>Exceptions</h2>
+<p>If the file is fine and this is due to a known <code>shellcheck</code> bug, you can ignore it with a [[directive]] as in the example.</p>

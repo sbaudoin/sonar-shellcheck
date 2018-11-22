@@ -1,0 +1,14 @@
+{
+  "title": "expr is antiquated. Consider rewriting this using $((..)), ${} or [[ ]].",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

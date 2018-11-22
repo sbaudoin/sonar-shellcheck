@@ -1,0 +1,21 @@
+<p>Missing ';' or + terminating -exec. You can't use |/||/&amp;&amp;, and ';' has to be a separate, quoted argument.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -type f -exec shellcheck {} | wc -l \;
+find . -exec echo {} ;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -type f -exec sh -c &#39;shellcheck &quot;$1&quot; | wc -l&#39; -- {} \;
+find . -exec echo {} \;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>find -exec</code> is still subject to all normal shell rules, so all shell features like <code>|</code>, <code>||</code>, <code>&amp;</code> and <code>&amp;&amp;</code> will apply to the <code>find</code> command itself, and not to the command you are trying to construct with <code>-exec</code>.</p>
+<p><code>find . -exec foo {} &amp;&amp; bar {} \;</code> means run the command <code>find . -exec foo {}</code>, and if find is successful, run the command <code>bar "{}" ";"</code>.</p>
+<p>To instead go through each file and run <code>foo file &amp;&amp; bar file</code> on it, invoke a shell that can interpret <code>&amp;&amp;</code>:</p>
+<pre><code class="lang-sh">find . -exec sh &#39;foo &quot;$1&quot; &amp;&amp; bar &quot;$1&quot;&#39; -- {} \;
+</code></pre>
+<p>You can also use find <code>-a</code> instead of shell <code>&amp;&amp;</code>:</p>
+<pre><code class="lang-sh">find . -exec foo {} \; -a -exec bar {} \;
+</code></pre>
+<p>This will have the same effect (<code>-a</code> is also the default when two commands are specified, and can therefore be omitted).</p>
+<h2>Exceptions</h2>
+<p>None</p>

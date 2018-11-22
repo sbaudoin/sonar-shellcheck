@@ -1,0 +1,22 @@
+<h1>SC2094 Make sure not to read and write the same file in the same pipeline.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">grep foo file.txt | sed -e &#39;s/foo/bar/g&#39; &gt; file.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep foo file.txt  | sed -e &#39;s/foo/bar/g&#39; &gt; tmpfile &amp;&amp; mv tmpfile file.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>Each step in a pipeline runs in parallel.</p>
+<p>In this case, <code>grep foo file.txt</code> will immediately try to read <code>file.txt</code> while <code>sed .. &gt; file.txt</code> will immediately try to truncate it.</p>
+<p>This is a race condition, and results in the file being partially or (far more likely) entirely truncated.</p>
+<h2>Exceptions</h2>
+<p>You can ignore this error if:</p>
+<ul>
+<li>The file is a device or named pipe. These files don't truncate in the same way.</li>
+<li>The command mentions the filename but doesn't read/write it, such as <code>echo log.txt &gt; log.txt</code>.</li>
+</ul>
+<h2>Additional Resources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6696842/bash-redirect-input-from-file-back-into-same-file">StackOverflow: bash redirect input from file back into same file</a></li>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf13">BashPitfalls: <code>cat file | sed s/foo/bar/ &gt; file</code></a></li>
+</ul>

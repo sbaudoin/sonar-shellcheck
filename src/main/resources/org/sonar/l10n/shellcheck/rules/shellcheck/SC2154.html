@@ -1,0 +1,31 @@
+<p>var is referenced but not assigned.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=name
+n=42
+echo &quot;$var_$n.jpg&quot;   # overextended
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">target=&quot;world&quot;
+echo &quot;hello $tagret&quot;  # misspelled
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">echo &quot;Result: ${mycmd -a myfile}&quot;  # trying to execute commands
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=name
+n=42
+echo &quot;${var}_$n.jpg&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">target=&quot;world&quot;
+echo &quot;hello $target&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">echo &quot;Result: $(mycmd -a myfile)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has noticed that you reference a variable that is not assigned. Double check that the variable is indeed assigned, and that the name is not misspelled.</p>
+<p>Note: This message only triggers for variables with lowercase characters in their name (<code>foo</code> and <code>kFOO</code> but not <code>FOO</code>) due to the standard convention of using lowercase variable names for unexported, local variables.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck does not attempt to figure out runtime or dynamic assignments like with <code>source "$(date +%F).sh"</code> or <code>eval var=value</code>.</p>
+<p>If you know for a fact that the variable is set, you can use <code>${var:?}</code> to fail if the variable is unset (or empty), or explicitly initialize/declare it with <code>var=""</code> or <code>declare var</code>. You can also disable the message with a [[directive]].</p>

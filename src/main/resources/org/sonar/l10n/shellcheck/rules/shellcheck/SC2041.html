@@ -1,0 +1,18 @@
+<p>This is a literal string. To run as a command, use $(..) instead of '..' .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">for i in &#39;seq 1 10&#39;
+do
+  echo &quot;$i&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for i in $(seq 1 10)
+do
+  echo &quot;$i&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>The intent was to run the code in the single quotes. This would have worked with slanted backticks, <code>`..`</code>, but here the very similar looking single quotes <code>'..'</code> were used, resulting in a string literal instead of command output.</p>
+<p>This is one of the many problems with backticks, so it's better to use <code>$(..)</code> to expand commands.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

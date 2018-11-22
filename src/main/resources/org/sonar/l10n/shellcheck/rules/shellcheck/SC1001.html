@@ -1,0 +1,19 @@
+<p>This <code>\o</code> will be a regular 'o' in this context.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Want literal backslash
+echo Yay \o/
+
+# Want other characters
+bell=\a
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &#39;Yay \o/&#39;
+
+bell=&quot;$(printf &#39;\a&#39;)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You have escaped something that has no special meaning when escaped. The backslash will be simply be ignored.</p>
+<p>If the backslash was supposed to be literal, single quote or escape it.</p>
+<p>If you wanted it to expand to something, rewrite the expression to use <code>printf</code> (or in bash, <code>$'\t'</code>). If the sequence in question is <code>\n</code>, <code>\t</code> or <code>\r</code>, you instead get a [[SC1012]] that describes this.</p>
+<h2>Exceptions</h2>
+<p>None. ShellCheck (as of 2017-07-03, commit 31bb02d6) will not warn when the first letter of a command is unnecessarily escaped, as this is frequently used to suppress aliases interactively.</p>

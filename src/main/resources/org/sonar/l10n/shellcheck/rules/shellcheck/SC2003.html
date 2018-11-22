@@ -1,0 +1,17 @@
+<h1>expr is antiquated. Consider rewriting this using $((..)), ${} or [[ ]].</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">i=$(expr 1 + 2)
+l=$(expr length &quot;$var&quot;)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">i=$((1+2))
+l=${#var}
+</code></pre>
+<h2>Rationale</h2>
+<p><a href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/expr.html">To quote POSIX:</a></p>
+<blockquote><p>The expr utility has a rather difficult syntax [...] In many cases, the arithmetic and string features provided as part of the shell command language are easier to use than their equivalents in expr. Newly written scripts should avoid expr in favor of the new features within the shell.</p>
+</blockquote>
+<h2>Exceptions</h2>
+<p><code>sh</code> doesn't have a great replacement for the <code>:</code> operator (regex match). ShellCheck tries not to warn when using expr with <code>:</code>, but e.g. <code>op=:; expr string "$op" regex</code> will still trigger it.</p>
+<p>Other than that, all uses of <code>expr</code> can be rewritten to use modern shell features instead.</p>
+<p>Bash has <code>[[ string =~ regex ]]</code>, so not even <code>expr .. : ..</code> is necessary.</p>

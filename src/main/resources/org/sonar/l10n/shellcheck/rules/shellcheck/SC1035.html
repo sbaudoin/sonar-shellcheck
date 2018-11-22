@@ -1,0 +1,12 @@
+<p>You need a space here</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if ![-z foo ]; then true; fi # if command `[-z&#39; w/ args `foo&#39;, `]&#39; fails..
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if ! [ -z foo ]; then true; fi # if command `[&#39; w/ args `-z&#39;, `foo&#39;, `]&#39; fails..
+</code></pre>
+<h2>Rationale</h2>
+<p>Bourne shells are very whitespace sensitive. Adding or removing spaces can drastically alter the meaning of a script. In these cases, ShellCheck has noticed that you're missing a space at the position indicated.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck does not understand <a href="https://www.gnu.org/software/bash/manual/html_node/History-Interaction.html">Bash History Expansion</a>, an interactive shell feature also using <code>!</code> (such as <code>!!</code> to expand to the previous command).</p>
+<p>These features are disabled by default in shells and very rarely used in scripts, but may occasionally be found in interactively sourced files like <code>.bashrc</code>. Please ignore the error in these cases.</p>

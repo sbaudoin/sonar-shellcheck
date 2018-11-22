@@ -1,0 +1,26 @@
+<h1>Don't use variables in the printf format string. Use printf "..%s.." "$foo".</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">printf &quot;Hello, $NAME\n&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">printf &quot;Hello, %s\n&quot; &quot;$NAME&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>printf</code> interprets escape sequences and format specifiers in the format string. If variables are included, any escape sequences or format specifiers in the data will be interpreted too, when you most likely wanted to treat it as data. Example:</p>
+<pre><code class="lang-sh">coverage=&#39;96%&#39;
+printf &quot;Unit test coverage: %s\n&quot; &quot;$coverage&quot;
+printf &quot;Unit test coverage: $coverage\n&quot;
+</code></pre>
+<p>The first printf writes <code>Unit test coverage: 96%</code>.</p>
+<p>The second writes <code>bash: printf: `\': invalid format character</code></p>
+<h2>Exceptions</h2>
+<p>Sometimes you may actually want to interpret data as a format string, like in:</p>
+<pre><code class="lang-sh">octToAscii() { printf &quot;\\$1&quot;; }
+octToAscii 130
+</code></pre>
+<p>In Bash, Ksh and BusyBox, there's a <code>%b</code> format specifier that expands escape sequences without interpreting other format specifiers: <code>printf '%b' "\\$1"</code>. In POSIX, you can instead [[ignore]] this warning.</p>
+<p>Other times, you might have a pattern in a variable:</p>
+<pre><code class="lang-sh">filepattern=&quot;file-%d.jpg&quot;
+printf -v filename &quot;$filepattern&quot; &quot;$number&quot;
+</code></pre>
+<p>This has no good rewrite. Please [[ignore]] the warning with a [[directive]].</p>

@@ -1,0 +1,18 @@
+<p>Shells are space sensitive. Use '&lt; &lt;(cmd)', not '&lt;&lt;(cmd)'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while IFS= read -r line
+do
+  printf &quot;%q\n&quot; &quot;$line&quot;
+done &lt;&lt;(curl -s http://example.com)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while IFS= read -r line
+do
+  printf &quot;%q\n&quot; &quot;$line&quot;
+done &lt;  &lt;(curl -s http://example.com)
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using <code>&lt;&lt;(</code> which is an invalid construct.</p>
+<p>You probably meant to redirect <code>&lt;</code> from process substitution <code>&lt;(..)</code> instead. To do this, a space is needed between the <code>&lt;</code> and <code>&lt;(..)</code>, i.e. <code>&lt; &lt;(cmd)</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

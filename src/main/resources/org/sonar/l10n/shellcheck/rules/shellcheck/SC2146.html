@@ -1,0 +1,16 @@
+<p>This action ignores everything before the -o. Use \( \) to group.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -name &#39;*.avi&#39; -o -name &#39;*.mkv&#39; -exec cp {} /media \;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . \( -name &#39;*.avi&#39; -o -name &#39;*.mkv&#39; \) -exec cp {} /media \;
+</code></pre>
+<h2>Rationale</h2>
+<p>In <code>find</code>, two predicates with no operator between them is considered a logical, short-circuiting AND (as if using <code>-a</code>). E.g., <code>-name '*.mkv' -exec ..</code> is the same as <code>-name '*.mkv' -a -exec ..</code>.</p>
+<p><code>-a</code> has higher precedence than <code>-o</code>, so <code>-name '*.avi' -o -name '*.mkv' -a -exec ..</code> is equivalent to <code>-name '*.avi' -o \( -name '*.mkv' -a -exec .. \)</code>.</p>
+<p>In other words, the problematic code means "if name matches <code>*.avi</code>, do nothing. Otherwise, if it matches <code>*.mkv</code>, execute a command.".</p>
+<p>In the correct code, we use <code>\( \)</code> to group to get the evaluation order we want. The correct code means "if name matches <code>*.avi</code> or <code>*.mkv</code>, then execute a command", which was what was intended.</p>
+<h2>Exceptions</h2>
+<p>If you're aware of this, you can either ignore this error or group to make it explicit. For example, to decompress all gz files except tar.gz, you can use:</p>
+<pre><code class="lang-sh">find . -name &#39;*.tar.gz&#39; -o \( -name &#39;*.gz&#39; -exec gzip -d {} + \)
+</code></pre>

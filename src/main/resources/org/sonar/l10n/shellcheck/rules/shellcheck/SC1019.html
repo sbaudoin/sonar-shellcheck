@@ -1,0 +1,17 @@
+<p>Expected this to be an argument to the unary condition.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ -x ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ -x &quot;myfile&quot; ]
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a unary test operator that does not appear to be followed by a valid shell word.</p>
+<p>This could be because of a misplaced <code>]</code>, <code>)</code>, or a missing space before the <code>]</code>.</p>
+<p>Check the syntax, make sure the test operator has an operand, and try again.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

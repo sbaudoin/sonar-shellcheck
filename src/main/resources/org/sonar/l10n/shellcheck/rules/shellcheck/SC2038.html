@@ -1,0 +1,13 @@
+<p>Use -print0/-0 or find -exec + to allow for non-alphanumeric filenames.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . -type f | xargs md5sum
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -type f -print0 | xargs -0 md5sum
+find . -type f -exec md5sum {} +
+</code></pre>
+<h2>Rationale</h2>
+<p>By default, <code>xargs</code> interprets spaces and quotes in an unsafe and unexpected way. Whenever it's used, it should be used with <code>-0</code> or <code>--null</code> to split on <code>\0</code> bytes, and <code>find</code> should be made to output <code>\0</code> separated filenames.</p>
+<p>POSIX does not require find or xargs to support null terminators, so you can also use <code>find -exec +</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

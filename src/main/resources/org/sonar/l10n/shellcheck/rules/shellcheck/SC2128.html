@@ -1,0 +1,21 @@
+<p>Expanding an array without an index only gives the first element.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">myarray=(foo bar)
+for f in $myarray
+do
+  cat &quot;$f&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">myarray=(foo bar)
+for f in &quot;${myarray[@]}&quot;
+do
+  cat &quot;$f&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>When referencing arrays, <code>$myarray</code> is equivalent to <code>${myarray[0]}</code> -- it results in only the first of multiple elements.</p>
+<p>To get all elements as separate parameters, use the index <code>@</code> (and make sure to double quote). In the example, <code>echo "${myarray[@]}"</code> is equivalent to <code>echo "foo" "bar"</code>.</p>
+<p>To get all elements as a single parameter, concatenated by the first character in <code>IFS</code>, use the index <code>*</code>. In the example, <code>echo "${myarray[*]}"</code> is equivalent to <code>echo "foo bar"</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -1,0 +1,16 @@
+<h1>$/${} is unnecessary on arithmetic variables.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo $(($n+1))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo $((n+1))
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>$</code> on regular variables in arithmetic contexts is unnecessary, and can even lead to subtle bugs. This is because the contents of <code>$((..))</code> is first expanded into a string, and then evaluated as an expression:</p>
+<pre><code class="lang-sh">$ a=&#39;1+1&#39;
+$ echo $(($a * 5))    # becomes 1+1*5
+6
+$ echo $((a * 5))     # evaluates as (1+1)*5
+10
+</code></pre>
+<p>The <code>$</code> is unavoidable for special variables like <code>$1</code> vs <code>1</code>, <code>$#</code> vs <code>#</code>. It's also required when adding modifiers to parameters expansions, like <code>${#var}</code> or <code>${var%-}</code>. ShellCheck does not warn about these cases.</p>

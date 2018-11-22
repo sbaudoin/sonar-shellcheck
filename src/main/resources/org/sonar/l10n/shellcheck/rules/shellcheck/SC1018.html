@@ -1,0 +1,4 @@
+<h1>This is a unicode non-breaking space. Delete it and retype as space.</h1>
+<p>You copy-pasted some code, probably from a blog or web site, which for formatting reasons contained unicode no-break spaces or unicode zero-width spaces instead of regular spaces or in words.</p>
+<p>To humans, a zero-width space is invisible and a non-breaking space is indistinguishable from a regular space, but the shell does not agree.</p>
+<p>If you have just a few, delete the indiciated space/word and retype it. If you have tons, do a search&amp;replace in your editor (copy-paste an offending space into the search field, and type a regular space into the replace field), or use <code>sed -e $'s/\xC2\xA0/ /g' -e $'s/\xE2\x80\x8b//g' -i yourfile</code> to remove them.</p>

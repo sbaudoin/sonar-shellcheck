@@ -1,0 +1,18 @@
+<p>Consider using grep -c instead of grep|wc.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">grep foo | wc -l
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">grep -c foo
+</code></pre>
+<h2>Rationale</h2>
+<p>This is purely a stylistic issue. <code>grep</code> can count lines without piping to <code>wc</code>.</p>
+<p>Note that in many cases, this number is only used to see whether there are matches (i.e. <code>== 0</code>). In these cases, it's better and more efficient to use <code>grep -q</code> and check its exit status:</p>
+<pre><code class="lang-sh">if grep -q pattern file
+then
+  echo &quot;The file contains the pattern&quot;
+fi
+</code></pre>
+<p>Also note that in <code>foo | grep bar | wc -l</code>, wc will mask the exit code of grep by default (i.e. without <code>set -o pipefail</code>), and always return success. If replacing with <code>foo | grep -c bar</code>, grep will exit non-zero when the count is 0. This is convenient for conditional statements but may require handling when used with <code>set -e</code>.</p>
+<h2>Exceptions</h2>
+<p>If you e.g. want to count characters instead of lines, and you actually care about the number and not just whether it's greater than 0, you can [[ignore]] this error.</p>

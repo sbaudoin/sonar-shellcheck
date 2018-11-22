@@ -1,0 +1,18 @@
+<p>Prefer [ p ] &amp;&amp; [ q ] as [ p -a q ] is not well defined.</p>
+<p>And likewise, prefer <code>[ p ] || [ q ]</code> over <code>[ p -o q ]</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$1&quot; = &quot;test&quot; -a -z &quot;$2&quot; ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$1&quot; = &quot;test&quot; ] &amp;&amp; [ -z &quot;$2&quot; ]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>-a</code> and <code>-o</code> to mean AND and OR in a <code>[ .. ]</code> test expression is not well defined, and can cause incorrect results when arguments start with dashes or contain <code>!</code>. <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">From POSIX</a>:</p>
+<blockquote><p>The XSI extensions specifying the -a and -o binary primaries and the '(' and ')' operators have been marked obsolescent. (Many expressions using them are ambiguously defined by the grammar depending on the specific expressions being evaluated.) Scripts using these expressions should be converted to the forms given below. Even though many implementations will continue to support these obsolescent forms, scripts should be extremely careful when dealing with user-supplied input that could be confused with these and other primaries and operators. Unless the application developer knows all the cases that produce input to the script, invocations like:</p>
+<p><code>test "$1" -a "$2"</code></p>
+<p>should be written as:</p>
+<p><code>test "$1" &amp;&amp; test "$2"</code></p>
+</blockquote>
+<p>Using multiple <code>[ .. ]</code> expressions with shell AND/OR operators <code>&amp;&amp;</code> and <code>||</code> is well defined and therefore preferred (but note that they have equal precedence, while <code>-a</code>/<code>-o</code> is unspecified but usually implemented as <code>-a</code> having higher precedence).</p>
+<h2>Exceptions</h2>
+<p>If the shell variant being used is ksh derived (such as the bash shell) it will have the shell builtin command <code>[[ ... ]]</code>. This has the operators <code>&amp;&amp;</code>, <code>||</code>, <code>(</code>, <code>)</code>, <code>!</code> which safely avoid the ambiguity by noting which arguments were quoted and requiring the operators to be unquoted (except by the <code>[[ ... ]]</code> construct itself).</p>

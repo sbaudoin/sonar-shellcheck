@@ -1,0 +1,50 @@
+<h1>var was modified in a subshell. That change might be lost.</h1>
+<h2>Problematic code</h2>
+<p>There are many ways of accidentally creating subshells, but a common one is piping to a loop:</p>
+<pre><code class="lang-bash">n=0
+printf &quot;%s\n&quot; {1..10} | while read i; do (( n+=i )); done
+echo $n
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-bash"># Bash specific: process substitution. Also try shopts like lastpipe.
+n=0
+while read i; do (( n+=i )); done &lt; &lt;(printf &quot;%s\n&quot; {1..10})
+echo $n
+</code></pre>
+<p>In <code>sh</code>, a temp file (better if fifo or fd) can be used instead of process substitution. And if it's acceptable to do it with waiting, try Here Documents.</p>
+<h2>Rationale</h2>
+<p>Variables set in subshells are not available outside the subshell. This is a wide topic, and better described on the <a href="http://mywiki.wooledge.org/BashFAQ/024">Wooledge Bash Wiki</a>.</p>
+<p>Here are some constructs that cause subshells (shellcheck may not warn about all of them). In each case, you can replace <code>subshell1</code> by a command or function that sets a variable, e.g. simply <code>var=foo</code>, and the variable will appear to be unset after the command is run. Similarly, you can replace <code>regular</code> with <code>var=foo</code>, and it will be set afterwards:</p>
+<p>Pipelines:</p>
+<pre><code class="lang-sh">subshell1 | subshell2 | subshell3    # Bash, Dash, Ash
+subshell1 | subshell2 | regular      # Ksh, Zsh
+</code></pre>
+<p>Command substitution:</p>
+<pre><code class="lang-sh">regular &quot;$(subshell1)&quot; &quot;`subshell2`&quot;
+</code></pre>
+<p>Process substitution:</p>
+<pre><code class="lang-sh">regular &lt;(subshell1) &gt;(subshell2)
+</code></pre>
+<p>Some forms of grouping:</p>
+<pre><code class="lang-sh">( subshell )
+{ regular; }
+</code></pre>
+<p>Backgrounding:</p>
+<pre><code class="lang-sh">subshell1 &amp;
+subshell2 &amp;
+</code></pre>
+<p>Anything executed by external processes:</p>
+<pre><code class="lang-sh">find . -exec subshell1 {} \;
+find . -print0 | xargs -0 subshell2
+sudo subshell3
+su -c subshell4
+</code></pre>
+<p>This applies not only to setting variables, but also setting shell options and changing directories.</p>
+<h2>Exceptions</h2>
+<p>You can ignore this error if you don't care that the changes aren't reflected, because work on the value branches and shouldn't be recombined.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/024">BashFaq: I set variables in a loop that's in a pipeline. Why do they disappear after the loop terminates?</a></li>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf8">Bash Pitfalls: grep foo bar | while read -r; do ((count++)); done</a></li>
+<li><a href="https://stackoverflow.com/questions/16854280/a-variable-modified-inside-a-while-loop-is-not-remembered">StackOverflow: A variable modified inside a while loop is not remembered</a></li>
+</ul>

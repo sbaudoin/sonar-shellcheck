@@ -1,0 +1,15 @@
+<p>Shells disambiguate $(( differently or not at all. If the first $( should start command substitution, add a space after it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;$((cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;$( (cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You appear to be using <code>$((</code> with two (or more) parentheses in a row, where the first <code>$(</code> should open a subshell.</p>
+<p>This is an ill-defined structure that is parsed differently between different shells and shell versions. Prefer adding spaces to make it unambiguous, both to shells and humans.</p>
+<p>Consider the <code>$(((</code> in <code>$(((1)) )</code>:</p>
+<p>Ash, dash and Bash 1 parses it as <code>$(( (</code> and subsequently fail to find the matching <code>))</code>. Zsh and Bash 2+ looks ahead and parses it as <code>$( ((</code>. Ksh parses it as <code>$( ( (</code>.</p>
+<h2>Exceptions</h2>
+<p><strong>Alternatively</strong>, you may indeed have correctly spaced your parentheses, but ShellCheck failed to parse <code>$((</code> as an arithmetic expression while accidentally succeeding in parsing it as <code>$(</code> + <code>(</code>.</p>
+<p>In these cases, double check the syntax to ensure ShellCheck can parse the <code>$((</code>, or ignore this error and hope that it won't affect analysis too severely.</p>

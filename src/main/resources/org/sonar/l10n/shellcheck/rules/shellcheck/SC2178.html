@@ -1,0 +1,27 @@
+<p>Variable was used as an array but is now assigned a string.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">flags[0]=&quot;-r&quot;
+flags[1]=&quot;--delete-after&quot;
+
+if [ &quot;$dryrun&quot; ]
+then
+   flags=&quot;--dry-run&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">flags[0]=&quot;-r&quot;
+flags[1]=&quot;--delete-after&quot;
+
+if [ &quot;$dryrun&quot; ]
+then
+   flags=( &quot;--dry-run&quot; )
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck noticed that you have used a variable as an array, but then assign it a string. <code>array=foo</code> is equivalent to <code>array[0]=foo</code>, and leaves the rest of the elements unaffected.</p>
+<p>In the incorrect code, <code>"${flags[@]}"</code> would contain <code>--dry-run</code> <code>--delete-after</code>.</p>
+<p>To set an array to only a single, given element, you should use <code>array=( foo )</code>.</p>
+<p>In the correct code, <code>"${flags[@]}"</code> will contain <code>--dry-run</code> only.</p>
+<p>Another possible cause is accidentally missing the <code>$</code> on a previous assignment: <code>var=(my command); var=bar</code> instead of <code>var=$(my command); var=bar</code>. If the variable is not intended to be an array, ensure that it's never assigned as one.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck can get confused by variable scope if the same variable name was used as an array previously, but is a string in the current context. You can [[ignore]] it in this case.</p>

@@ -1,0 +1,12 @@
+<p>You need a space after the '{'.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">foo() {echo &quot;hello world;}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo() { echo &quot;hello world;}
+</code></pre>
+<h2>Rationale</h2>
+<p><code>{</code> is only recognized as the start of a command group when it's a separate token.</p>
+<p>If it's not a separate token, like in the problematic example, it will be considered a literal character, as if writing <code>"{echo"</code> with quotes, and therefore usually cause a syntax error.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
