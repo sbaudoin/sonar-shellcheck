@@ -81,7 +81,7 @@ if data['total'] != 3:
     print('Wrong total number of issues: ' + str(data['total']), file=sys.stderr)
     sys.exit(1)
 issues = False
-if data['issues'][0]['message'] == 'To assign the output of a command, use var=$(cmd) .' and data['issues'][0]['line'] == 3:
+if data['issues'][0]['message'] == 'To assign the output of a command, use var=\$(cmd) .' and data['issues'][0]['line'] == 3:
     print('issues metrics OK')
     issues = True
 
