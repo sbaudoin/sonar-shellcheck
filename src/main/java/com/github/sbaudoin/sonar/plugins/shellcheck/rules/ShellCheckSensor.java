@@ -164,6 +164,7 @@ public class ShellCheckSensor implements Sensor {
      * Saves in SonarQube all the issues found in the passed JSON output. If the output is not JSON compliant, an {@code IllegaArgumentException}
      * is raised.
      *
+     * @param inputFile the file that has the issues to be saved
      * @param output JSON output received from shellcheck
      * @param context the execution sensor context (taken from the method {@link #execute(SensorContext)} of the child class)
      */
