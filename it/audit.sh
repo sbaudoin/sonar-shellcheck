@@ -30,6 +30,8 @@ sleep 10
 
 # Check audit result
 echo "Checking result..."
+apt-get -qq install -y python-pip > /dev/null
+pip install -q requests
 python << EOF
 from __future__ import print_function
 import requests
