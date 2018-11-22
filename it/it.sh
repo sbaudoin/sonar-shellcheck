@@ -21,18 +21,10 @@ docker-compose -f $SCRIPT_DIR/docker-compose.yml up -d sonarqube
 CONTAINER_NAME=it_sonarqube_1
 # Wait for SonarQube to be up
 grep -q "SonarQube is up" <(docker logs --follow --tail 0 $CONTAINER_NAME)
-# Copy the plugins
+# Copy the plugin
 echo "Installing the plugins..."
-sudo pip install -q lxml
-YAML_PLUGIN_VERSION=$(python -c "
-from lxml import etree
-
-pom = etree.parse('pom.xml')
-print pom.xpath('/a:project/a:dependencyManagement//a:dependency[a:artifactId=\'sonar-yaml-plugin\']/a:version', namespaces={'a': 'http://maven.apache.org/POM/4.0.0'})[0].text
-")
-wget -q -O /tmp/sonar-yaml-plugin-$YAML_PLUGIN_VERSION.jar https://oss.sonatype.org/content/groups/public/com/github/sbaudoin/sonar-yaml-plugin/$YAML_PLUGIN_VERSION/sonar-yaml-plugin-$YAML_PLUGIN_VERSION.jar
-docker cp /tmp/sonar-yaml-plugin-$YAML_PLUGIN_VERSION.jar $CONTAINER_NAME:/opt/sonarqube/extensions/plugins
-docker cp $SCRIPT_DIR/../target/sonar-shellcheck-plugin-*.jar $CONTAINER_NAME:/opt/sonarqube/extensions/plugins
+MAVEN_VERSION=$(grep '<version>' $SCRIPT_DIR/../pom.xml | head -1 | sed 's/<\/\?version>//g'| awk '{print $1}')
+docker cp $SCRIPT_DIR/../target/sonar-shellcheck-plugin-$MAVEN_VERSION.jar $CONTAINER_NAME:/opt/sonarqube/extensions/plugins
 # Restart SonarQube
 docker-compose -f $SCRIPT_DIR/docker-compose.yml restart sonarqube
 # Wait for SonarQube to be up
