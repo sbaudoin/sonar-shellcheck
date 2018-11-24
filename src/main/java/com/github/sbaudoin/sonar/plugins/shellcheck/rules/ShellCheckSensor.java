@@ -89,7 +89,7 @@ public class ShellCheckSensor implements Sensor {
                 // Save all found issues
                 saveIssues(inputFile, output.get(0), context);
             } else if (output.size() > 1) {
-                throw new RuntimeException("Cannot parse shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
+                throw new UnexpectedCommandOutputException("Cannot parse shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
             }
         }
     }
@@ -259,6 +259,15 @@ public class ShellCheckSensor implements Sensor {
 
         public boolean isReady() {
             return ready;
+        }
+    }
+
+    /**
+     * Class thrown when the executed command does not return the expected output
+     */
+    public class UnexpectedCommandOutputException extends RuntimeException {
+        public UnexpectedCommandOutputException(String message) {
+            super(message);
         }
     }
 }
