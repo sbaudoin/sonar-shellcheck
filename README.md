@@ -23,11 +23,48 @@ ShellCheck SonarQube Plugin
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.sbaudoin:sonar-shellcheck-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.sbaudoin:sonar-shellcheck-plugin)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.sbaudoin:sonar-shellcheck-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sbaudoin:sonar-shellcheck-plugin)
 
-SonarQube plugin to analyze Shell scripts with [shellcheck](https://github.com/koalaman/shellcheck).
+SonarQube plugin to analyze Shell scripts with [ShellCheck](https://github.com/koalaman/shellcheck).
+
+## Requirements
+* SonarQube 6.6 minimum (including 7.0+).
+* On the machine that will audit the code:
+    * [ShellCheck](https://github.com/koalaman/shellcheck) must be installed
+    * [Sonar scanner](https://github.com/SonarSource/sonar-scanner-cli) configured to point to your Sonar server
+
+Tested on Linux.
 
 ## Installation
+1. Download the [ShellCheck plugin](https://github.com/sbaudoin/sonar-shellcheck/releases)
+2. Copy the plugin JAR file into the `extensions/plugins` directory of SonarQube and restart SonarQube
+3. Optional: create a new quality profile to enable some rules (by default, if you do not create a custom profile, all rules are enabled)
+    1. Log in SonarQube
+    2. Create a new quality profile for the Shell language and enable the ShellCheck rules (search with the tag "shell")
+4. Install ShellCheck and the Sonar scanner on a Linux machine. If needed, you can set the path to the `shellcheck` executable
+   in the general settings of SonarQube.
 
-Plugin for SonarQube 6.6+
+## Execution
+1. Prior to executing a code audit, you must create a file `sonar-project.properties` that will contain some details about your project (this is a requirement from the Sonar scanner):
 
-1. [download the plugin JAR file](https://github.com/sbaudoin/sonar-shellcheck/releases) and copy it to the `extensions/plugins` directory of SonarQube and restart.
-2. Install [shellcheck](https://github.com/koalaman/shellcheck) on the machine that will run the SonarQube scanner.
+    ```INI
+    # must be unique in a given SonarQube instance
+    sonar.projectKey=com.mycompany:my-scripts
+    # this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.
+    sonar.projectName=A Name
+    sonar.projectVersion=1.0-SNAPSHOT
+    
+    # Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
+    # This property is optional if sonar.modules is set.
+    sonar.sources=.
+    
+    # Encoding of the source code. Default is default system encoding
+    #sonar.sourceEncoding=UTF-8
+    ```
+
+    You just have to do that once. Ideally, add this file along with your playbooks in your preferred SCM.
+2. Run the Sonar scanner from the playbook directory :
+
+        sonar-scanner
+
+3. Go to SonarQube and check the result
+
+Subsequent scans will just required the last step to be executed. It can easily be integrated into a continuous integration pipeline.
