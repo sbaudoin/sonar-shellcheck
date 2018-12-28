@@ -1,7 +1,10 @@
 package com.github.sbaudoin.sonar.plugins.shellcheck.rules;
 
 import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
+import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.HighlightingData;
+import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.ShellHighlighting;
 import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
+import com.github.sbaudoin.sonar.plugins.shellcheck.linecounter.LineCounter;
 import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,8 +15,10 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -21,6 +26,9 @@ import org.sonar.api.utils.log.Loggers;
 import java.io.*;
 import java.util.*;
 
+/**
+ * SonarQube sensor class responsible for analyzing Shell scripts with ShellCheck
+ */
 public class ShellCheckSensor implements Sensor {
     private static final Logger LOGGER = Loggers.get(ShellCheckSensor.class);
 
@@ -34,8 +42,17 @@ public class ShellCheckSensor implements Sensor {
      */
     private FilePredicate mainFilesPredicate;
 
+    private FileLinesContextFactory fileLinesContextFactory;
 
-    public ShellCheckSensor(FileSystem fileSystem) {
+
+    /**
+     * Constructor
+     *
+     * @param fileSystem injected by the Sonar framework, used to get access to the scanned files
+     * @param fileLinesContextFactory injected by the Sonar framework, used to set line measures
+     */
+    public ShellCheckSensor(FileSystem fileSystem, FileLinesContextFactory fileLinesContextFactory) {
+        this.fileLinesContextFactory = fileLinesContextFactory;
         this.fileSystem = fileSystem;
         this.mainFilesPredicate = fileSystem.predicates().and(
                 fileSystem.predicates().hasType(InputFile.Type.MAIN),
@@ -66,7 +83,7 @@ public class ShellCheckSensor implements Sensor {
             command.addAll(Arrays.asList(getShellCheckPath(context), "-x", "-f", "json"));
             command.add(new File(inputFile.uri()).getAbsolutePath());
 
-            // Execute shallcheck and get a parsable output
+            // Execute shellcheck and get a parsable output
             List<String> output = new ArrayList<>();
             List<String> error = new ArrayList<>();
             try {
@@ -88,6 +105,8 @@ public class ShellCheckSensor implements Sensor {
             if (output.size() == 1) {
                 // Save all found issues
                 saveIssues(inputFile, output.get(0), context);
+                computeLinesMeasures(context, inputFile);
+                saveSyntaxHighlighting(context, inputFile);
             } else if (output.size() > 1) {
                 throw new UnexpectedCommandOutputException("Cannot parse shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
             }
@@ -217,6 +236,38 @@ public class ShellCheckSensor implements Sensor {
     protected RuleKey getRuleKey(SensorContext context, String ruleId) {
         RuleKey key = CheckRepository.getRuleKey(ruleId);
         return (context.activeRules().find(key) != null)?key:null;
+    }
+
+
+    /**
+     * Calculates and feeds line measures (comments, actual number of code lines)
+     *
+     * @param context the sensor context
+     * @param script the Shell script to be analyzed
+     */
+    private void computeLinesMeasures(SensorContext context, InputFile script) {
+        LineCounter.analyse(context, fileLinesContextFactory, script);
+    }
+
+    /**
+     * Saves the syntax highlighting for the analyzed code
+     *
+     * @param context the sensor context
+     * @param inputFile the source file
+     */
+    private void saveSyntaxHighlighting(SensorContext context, InputFile inputFile) {
+        try {
+            List<HighlightingData> highlightingDataList = new ShellHighlighting(inputFile.contents()).getHighlightingData();
+
+            NewHighlighting highlighting = context.newHighlighting().onFile(inputFile);
+
+            for (HighlightingData highlightingData : highlightingDataList) {
+                highlightingData.highlight(highlighting);
+            }
+            highlighting.save();
+        } catch (IOException e) {
+            LOGGER.warn("Unable to highlight code for file " + inputFile.filename(), e);
+        }
     }
 
 

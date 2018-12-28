@@ -85,7 +85,7 @@ public class ShellCheckSensorTest {
         FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
         when(fileLinesContextFactory.createFor(any(InputFile.class))).thenReturn(mock(FileLinesContext.class));
 
-        sensor = new ShellCheckSensor(fs);
+        sensor = new ShellCheckSensor(fs, fileLinesContextFactory);
     }
 
     @Test

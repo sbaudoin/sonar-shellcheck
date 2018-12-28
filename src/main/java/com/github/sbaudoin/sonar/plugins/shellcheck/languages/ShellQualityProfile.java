@@ -18,14 +18,29 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.languages;
 import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 
+import java.util.Map;
+
 /**
- * Default, built-in quality profile for the projects having YAML files
+ * Default, built-in quality profile for the projects having Shell scripts
  */
 public class ShellQualityProfile implements BuiltInQualityProfilesDefinition {
     @Override
     public void define(Context context) {
-        NewBuiltInQualityProfile profile = context.createBuiltInQualityProfile("Sonar way", ShellLanguage.KEY);
-        profile.setDefault(true);
+        NewBuiltInQualityProfile profile = context.createBuiltInQualityProfile("ShellCheck", ShellLanguage.KEY);
+        // Try to set this profile as default
+        boolean hasDefault = false;
+        Map<String, BuiltInQualityProfile> profiles = context.profilesByLanguageAndName().get(ShellLanguage.KEY);
+        if (profiles != null) {
+            for (BuiltInQualityProfile p : profiles.values()) {
+                if (p.isDefault()) {
+                    hasDefault = true;
+                    break;
+                }
+            }
+        }
+        if (!hasDefault) {
+            profile.setDefault(true);
+        }
 
        // All rules
         CheckRepository.getRuleKeys().forEach(key -> profile.activateRule(CheckRepository.REPOSITORY_KEY, key));

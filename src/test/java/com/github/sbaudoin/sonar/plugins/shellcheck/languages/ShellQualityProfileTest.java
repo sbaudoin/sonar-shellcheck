@@ -11,7 +11,7 @@ public class ShellQualityProfileTest extends TestCase {
         BuiltInQualityProfilesDefinition.Context context = new BuiltInQualityProfilesDefinition.Context();
         ShellQualityProfile qp = new ShellQualityProfile();
         qp.define(context);
-        BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile("shell", "Sonar way");
+        BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile("shell", "ShellCheck");
         assertNotNull(profile);
         assertTrue(profile.isDefault());
         assertEquals(1, profile.rules().size());
