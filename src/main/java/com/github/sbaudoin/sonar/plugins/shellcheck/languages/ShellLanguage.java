@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Describes the YAML language and tells when it applies
+ * Describes the Shell language and tells when it applies
  */
 public class ShellLanguage extends AbstractLanguage {
     public static final String NAME = "Shell";
@@ -46,9 +46,9 @@ public class ShellLanguage extends AbstractLanguage {
 
 
     /**
-     * Returns the file suffixes ({@code .yml} and {@code .yaml} by default) that identify YAML files
+     * Returns the file suffixes ({@code .sh} and {@code .ksh} by default) that identify Shell scripts
      *
-     * @return a list of file suffixes that identify YAML files
+     * @return a list of file suffixes that identify Shell scripts
      */
     @Override
     public String[] getFileSuffixes() {
