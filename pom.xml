@@ -20,6 +20,7 @@
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <powermock.version>1.7.1</powermock.version>
+        <sonar.exclusions>**/lexer/BashLexerBase.java</sonar.exclusions>
     </properties>
 
     <issueManagement>
