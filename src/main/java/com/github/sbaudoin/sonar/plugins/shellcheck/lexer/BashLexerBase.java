@@ -1585,7 +1585,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
             { if (isEmptyConditionalCommand()) {
                                     setEmptyConditionalCommand(false);
                                     backToPreviousState();
-                                    return token(TokenType._EXPR_CONDITIONAL);
+                                    return token(TokenType.EXPR_CONDITIONAL_END);
                                  } else {
                                     setEmptyConditionalCommand(false);
                                     return token(TokenType.WORD);
@@ -1704,7 +1704,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
             // fall through
           case 232: break;
           case 48: 
-            { backToPreviousState(); return token(TokenType._EXPR_ARITH_SQUARE);
+            { backToPreviousState(); return token(TokenType.EXPR_ARITH_SQUARE_END);
             } 
             // fall through
           case 233: break;
@@ -2087,7 +2087,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
             // fall through
           case 294: break;
           case 110: 
-            { backToPreviousState(); setEmptyConditionalCommand(false); return token(TokenType._EXPR_CONDITIONAL);
+            { backToPreviousState(); setEmptyConditionalCommand(false); return token(TokenType.EXPR_CONDITIONAL_END);
             } 
             // fall through
           case 295: break;
@@ -2184,7 +2184,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
                                   } else {
                                     backToPreviousState();
 
-                                    return token(TokenType._EXPR_ARITH);
+                                    return token(TokenType.EXPR_ARITH_END);
                                   }
             } 
             // fall through
@@ -2417,7 +2417,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
             // fall through
           case 348: break;
           case 164: 
-            { backToPreviousState(); return token(TokenType._BRACKET_KEYWORD);
+            { backToPreviousState(); return token(TokenType.BRACKET_KEYWORD_END);
             } 
             // fall through
           case 349: break;

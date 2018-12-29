@@ -11,6 +11,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class HeredocSharedImpl {
     /**
+     * Hide constructor
+     */
+    private HeredocSharedImpl() {
+    }
+
+    /**
      * Returned the marker cleaned out of the meaningless characters suchs as quotes or {@code $}
      *
      * @param marker the marker to be cleaned
@@ -98,7 +104,6 @@ public class HeredocSharedImpl {
         if (length > 0 && (markerText.charAt(start) == '\'' || markerText.charAt(start) == '"') && markerText.charAt(end) == markerText.charAt(start)) {
             start++;
             end--;
-            length -= 2;
         }
 
         return new TextOffsets(start, end + 1);

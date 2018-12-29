@@ -1,5 +1,6 @@
 package com.github.sbaudoin.sonar.plugins.shellcheck.lexer;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public interface ShellLexer {
      * tokens for each recognized token in the stream set by the constructor.
      *
      * @return the list of Tokens found in the script
+     * @throws IOException if an error occurred reading the input script
      */
-    List<Token> parse();
+    List<Token> parse() throws IOException;
 }

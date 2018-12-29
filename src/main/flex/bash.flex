@@ -325,7 +325,7 @@ Filedescriptor = "&" {IntegerLiteral} | "&-"
                                   } else {
                                     backToPreviousState();
 
-                                    return token(TokenType._EXPR_ARITH);
+                                    return token(TokenType.EXPR_ARITH_END);
                                   }
                                 }
 
@@ -389,7 +389,7 @@ Filedescriptor = "&" {IntegerLiteral} | "&-"
 /***************** _______ END OF INITIAL STATE _______ **************************/
 
 <S_TEST_COMMAND> {
-  " ]]"                         { backToPreviousState(); return token(TokenType._BRACKET_KEYWORD); }
+  " ]]"                         { backToPreviousState(); return token(TokenType.BRACKET_KEYWORD_END); }
   "&&"                          { return token(TokenType.AND_AND); }
   "||"                          { return token(TokenType.OR_OR); }
   "$" / "("                     { goToState(S_DOLLAR_PREFIXED); return token(TokenType.DOLLAR); }
@@ -401,13 +401,13 @@ Filedescriptor = "&" {IntegerLiteral} | "&-"
   "]"                          { if (isEmptyConditionalCommand()) {
                                     setEmptyConditionalCommand(false);
                                     backToPreviousState();
-                                    return token(TokenType._EXPR_CONDITIONAL);
+                                    return token(TokenType.EXPR_CONDITIONAL_END);
                                  } else {
                                     setEmptyConditionalCommand(false);
                                     return token(TokenType.WORD);
                                  }
                                }
-  " ]"                         { backToPreviousState(); setEmptyConditionalCommand(false); return token(TokenType._EXPR_CONDITIONAL); }
+  " ]"                         { backToPreviousState(); setEmptyConditionalCommand(false); return token(TokenType.EXPR_CONDITIONAL_END); }
 }
 
 <S_TEST, S_TEST_COMMAND> {
@@ -479,7 +479,7 @@ Filedescriptor = "&" {IntegerLiteral} | "&-"
 <S_ARITH_SQUARE_MODE> {
   "["                           { return token(TokenType.EXPR_ARITH_SQUARE); }
 
-  "]"                           { backToPreviousState(); return token(TokenType._EXPR_ARITH_SQUARE); }
+  "]"                           { backToPreviousState(); return token(TokenType.EXPR_ARITH_SQUARE_END); }
 }
 
 <S_ARITH_ARRAY_MODE> {

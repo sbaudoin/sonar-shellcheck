@@ -21,6 +21,7 @@ import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,10 @@ public class ShellHighlighting {
             throw new IllegalArgumentException("Input source code cannot be null");
         }
         this.code = script;
-        List<Token> tokens = new BashLexer(new StringReader(script)).parse();
-        if (tokens == null) {
-            LOGGER.warn("Could not parse Shell script");
-        } else {
-            tokens.forEach(this::highlightToken);
+        try {
+            new BashLexer(new StringReader(script)).parse().forEach(this::highlightToken);
+        } catch (IOException e) {
+            LOGGER.warn("Could not parse Shell script and highlight code", e);
         }
     }
 
