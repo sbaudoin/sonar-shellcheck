@@ -4,7 +4,7 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
 import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.HighlightingData;
 import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.ShellHighlighting;
 import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
-import com.github.sbaudoin.sonar.plugins.shellcheck.linecounter.LineCounter;
+import com.github.sbaudoin.sonar.plugins.shellcheck.measures.LineCounter;
 import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.json.JSONArray;
 import org.json.JSONException;
