@@ -371,7 +371,7 @@
             </reporting>
         </profile>
         <profile>
-            <id>lexer</id>
+            <id>generate_lexer</id>
             <build>
                 <plugins>
                     <plugin>
@@ -386,9 +386,9 @@
                                 <configuration>
                                     <outputDirectory>src/main/java</outputDirectory>
                                     <lexDefinitions>
-                                        <lexDefinition>src/main/flex/bash.flex</lexDefinition>
+                                        <lexDefinition>src/main/jflex/bash.jflex</lexDefinition>
                                     </lexDefinitions>
-                                    <skeleton>src/main/flex/skeleton</skeleton>
+                                    <skeleton>src/main/jflex/skeleton</skeleton>
                                 </configuration>
                             </execution>
                         </executions>
