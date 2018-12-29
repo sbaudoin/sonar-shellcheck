@@ -74,7 +74,7 @@ public class ShellHighlighting {
         switch (token.type) {
             case COMMENT: case SHEBANG:
                 LOGGER.trace(String.format("Highlighting comment at %d:%d", token.line, token.column));
-                addHighlighting(token, TypeOfText.CONSTANT);
+                addHighlighting(token, TypeOfText.COMMENT);
                 break;
 
             case ARITH_ASS_BIT_AND: case ARITH_ASS_BIT_OR: case ARITH_ASS_BIT_XOR: case ARITH_ASS_DIV:
@@ -84,7 +84,8 @@ public class ShellHighlighting {
             case ARITH_EQ: case ARITH_EXPONENT: case ARITH_GE: case ARITH_GT: case ARITH_LE:
             case ARITH_LT: case ARITH_MINUS: case ARITH_MINUS_MINUS: case ARITH_MOD: case ARITH_MULT:
             case ARITH_NE: case ARITH_NEGATE: case ARITH_PLUS: case ARITH_PLUS_PLUS: case ARITH_QMARK:
-            case ARITH_SHIFT_LEFT: case ARITH_SHIFT_RIGHT: case AND_AND: case OR_OR:
+            case ARITH_SHIFT_LEFT: case ARITH_SHIFT_RIGHT: case AND_AND: case OR_OR: case EQ:
+            case COND_OP: case COND_OP_EQ_EQ: case COND_OP_NOT: case COND_OP_REGEX:
                 LOGGER.trace(String.format("Highlighting arithmetic expression at %d:%d", token.line, token.column));
                 addHighlighting(token, TypeOfText.KEYWORD_LIGHT);
                 break;
@@ -93,6 +94,7 @@ public class ShellHighlighting {
             case ELIF_KEYWORD: case ELSE_KEYWORD: case ESAC_KEYWORD: case FI_KEYWORD: case FOR_KEYWORD:
             case FUNCTION_KEYWORD: case IF_KEYWORD: case LET_KEYWORD: case SELECT_KEYWORD:
             case THEN_KEYWORD: case TIME_KEYWORD: case TRAP_KEYWORD: case UNTIL_KEYWORD: case WHILE_KEYWORD:
+            case ASSIGNMENT_WORD:
                 LOGGER.trace(String.format("Highlighting keyword at %d:%d", token.line, token.column));
                 addHighlighting(token, TypeOfText.KEYWORD);
                 break;
@@ -100,15 +102,15 @@ public class ShellHighlighting {
             case HEREDOC_LINE: case HEREDOC_MARKER_END: case HEREDOC_MARKER_IGNORING_TABS_END:
             case HEREDOC_MARKER_START: case HEREDOC_MARKER_TAG:
                 LOGGER.trace(String.format("Highlighting label at %d:%d", token.line, token.column));
-                addHighlighting(token, TypeOfText.ANNOTATION);
+                addHighlighting(token, TypeOfText.STRUCTURED_COMMENT);
                 break;
 
             case VARIABLE:
                 LOGGER.trace(String.format("Highlighting identifier at %d:%d", token.line, token.column));
-                addHighlighting(token, TypeOfText.KEYWORD);
+                addHighlighting(token, TypeOfText.CONSTANT);
                 break;
 
-            case ARITH_HEX_NUMBER: case ARITH_NUMBER: case ARITH_OCTAL_NUMBER:
+            case ARITH_HEX_NUMBER: case ARITH_NUMBER: case ARITH_OCTAL_NUMBER: case INTEGER_LITERAL:
                 LOGGER.trace(String.format("Highlighting number at %d:%d", token.line, token.column));
                 addHighlighting(token, TypeOfText.CONSTANT);
                 break;
