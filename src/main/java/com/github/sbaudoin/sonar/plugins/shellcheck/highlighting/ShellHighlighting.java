@@ -48,9 +48,9 @@ public class ShellHighlighting {
         }
         this.code = script;
         try {
-            new BashLexer(new StringReader(script)).parse().forEach(this::highlightToken);
+            new BashLexer(new StringReader(script)).scan().forEach(this::highlightToken);
         } catch (IOException e) {
-            LOGGER.warn("Could not parse Shell script and highlight code", e);
+            LOGGER.warn("Could not scan Shell script and highlight code", e);
         }
     }
 
@@ -99,7 +99,7 @@ public class ShellHighlighting {
                 addHighlighting(token, TypeOfText.KEYWORD);
                 break;
 
-            case HEREDOC_LINE: case HEREDOC_MARKER_END: case HEREDOC_MARKER_IGNORING_TABS_END:
+            case HEREDOC_LINE: case HEREDOC_CONTENT: case HEREDOC_MARKER_END: case HEREDOC_MARKER_IGNORING_TABS_END:
             case HEREDOC_MARKER_START: case HEREDOC_MARKER_TAG:
                 LOGGER.trace(String.format("Highlighting label at %d:%d", token.line, token.column));
                 addHighlighting(token, TypeOfText.STRUCTURED_COMMENT);
@@ -115,7 +115,7 @@ public class ShellHighlighting {
                 addHighlighting(token, TypeOfText.CONSTANT);
                 break;
 
-            case STRING_BEGIN: case STRING_END: case STRING_DATA: case STRING2: case BACKQUOTE:
+            case STRING_BEGIN: case STRING_END: case STRING_DATA: case STRING_CONTENT: case STRING2: case BACKQUOTE:
                 LOGGER.trace(String.format("Highlighting string or regex at %d:%d", token.line, token.column));
                 addHighlighting(token, TypeOfText.STRING);
                 break;

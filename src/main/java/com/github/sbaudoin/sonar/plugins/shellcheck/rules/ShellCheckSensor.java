@@ -108,7 +108,7 @@ public class ShellCheckSensor implements Sensor {
                 computeLinesMeasures(context, inputFile);
                 saveSyntaxHighlighting(context, inputFile);
             } else if (output.size() > 1) {
-                throw new UnexpectedCommandOutputException("Cannot parse shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
+                throw new UnexpectedCommandOutputException("Cannot scan shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
             }
         }
     }

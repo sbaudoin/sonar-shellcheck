@@ -1814,7 +1814,7 @@ goToState(X_STRINGMODE); return token(TokenType.STRING_BEGIN);
           case 251: break;
           case 67: 
             { if (!isParamExpansionOther() && (!isParamExpansionWord() || !isParamExpansionHash())) {
-                                    // If we expect an array reference parse the next tokens as arithmetic expression
+                                    // If we expect an array reference scan the next tokens as arithmetic expression
                                     goToState(S_ARITH_ARRAY_MODE);
                                   }
 

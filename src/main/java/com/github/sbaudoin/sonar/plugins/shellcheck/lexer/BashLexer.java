@@ -9,6 +9,11 @@ import java.util.List;
  * Main Bash lexer class
  */
 public class BashLexer extends BashLexerBase implements ShellLexer {
+    private Token currentToken;
+    // REquired to aggregate STRING_DATA and EREDOC_LINE into STRING_CONTENT and HEREDOC_CONTENT
+    private Token nextToken;
+
+
     /**
      * Constructs a new Bash lexer for the passed Shell script supposed to be a Bash 4 script
      *
@@ -27,20 +32,46 @@ public class BashLexer extends BashLexerBase implements ShellLexer {
     public BashLexer(boolean isBash4, Reader in) {
         super(in);
         this.isBash4 = isBash4;
+        this.currentToken = null;
     }
 
 
-    /**
-     * Analyses the Shell script and returns the list of tokens found
-     *
-     * @return the list of tokens found in the Bash script passed in the constructor
-     */
     @Override
-    public List<Token> parse() throws IOException {
+    public List<Token> scan() throws IOException {
         List<Token> tokens = new ArrayList<>();
-        for (Token t = yylex(); t != null; t = yylex()) {
+        for (Token t = next(); t != null; t = next()) {
             tokens.add(t);
         }
         return tokens;
     }
+
+    @Override
+    public Token next() throws IOException {
+        if (currentToken != null && (currentToken.type == TokenType.STRING_CONTENT || currentToken.type == TokenType.HEREDOC_CONTENT)) {
+            currentToken = nextToken;
+            nextToken = null;
+        } else {
+            currentToken = yylex();
+            if (currentToken != null && (currentToken.type == TokenType.STRING_DATA || currentToken.type == TokenType.HEREDOC_LINE)) {
+                Token firstToken = currentToken;
+                int length = firstToken.length;
+                while ((nextToken = yylex()) != null) {
+                    if (nextToken.type == TokenType.STRING_DATA || nextToken.type == TokenType.HEREDOC_LINE) {
+                        length += nextToken.length;
+                    } else {
+                        break;
+                    }
+                }
+                currentToken = new Token(firstToken.type == TokenType.STRING_DATA ? TokenType.STRING_CONTENT : TokenType.HEREDOC_CONTENT, firstToken.start, length, firstToken.line, firstToken.column);
+            }
+        }
+        return currentToken;
+    }
+
+    @Override
+    public Token getToken() {
+        return currentToken;
+    }
+
+
 }

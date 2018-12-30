@@ -64,9 +64,9 @@ public abstract class AbstractBashLexer {
      * This is called to return the next Token from the input {@link Reader}
      *
      * @return next token, or null if no more tokens.
-     * @throws java.io.IOException if the input reader cannot be read
+     * @throws IOException if the input reader cannot be read
      */
-    protected abstract Token yylex() throws java.io.IOException;
+    protected abstract Token yylex() throws IOException;
 
     /**
      * Returns the character at position <tt>pos</tt> from the
