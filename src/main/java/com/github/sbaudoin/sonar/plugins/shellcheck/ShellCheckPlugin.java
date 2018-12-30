@@ -8,9 +8,14 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.sonar.api.Plugin;
 
 public class ShellCheckPlugin implements Plugin {
+    public static final String ADD_SHELL_LANGUAGE_PROPERTY = "plugin.shellcheck.language.add";
+
+
     @Override
     public void define(Context context) {
-        context.addExtension(ShellLanguage.class);
+        if (Boolean.parseBoolean(System.getProperty(ADD_SHELL_LANGUAGE_PROPERTY, "true"))) {
+            context.addExtension(ShellLanguage.class);
+        }
         context.addExtension(ShellQualityProfile.class);
 
         // Add plugin settings (file extensions, etc.)
