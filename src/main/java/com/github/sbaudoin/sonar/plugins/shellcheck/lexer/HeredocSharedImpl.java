@@ -38,6 +38,18 @@ public class HeredocSharedImpl {
     }
 
     /**
+     * Returns the start offset of the passed marker text
+     *
+     * @param markerText a marker text
+     * @param ignoredLeadingTabs {@code true} to request that leading tabs are ignored. If not, the text fragment
+     *        identified by the offsets may contain the tabs.
+     * @return the start offset of the passed marker text
+     */
+    public static int startMarkerTextOffset(String markerText, boolean ignoredLeadingTabs) {
+        return getStartEndOffsets(markerText, ignoredLeadingTabs).start;
+    }
+
+    /**
      * Tells if the passed string is an evaluating marker. An evaluating marker is a string that
      * does not start with a quote ({@code "} or {@code '}), a backslash or a {@code $}.
      *
@@ -62,11 +74,29 @@ public class HeredocSharedImpl {
     }
 
     /**
+     * Replaces the marker name in the original marker by the passed new name. The method will ignore the leading
+     * tabs in the determination of the original marker boundaries.
+     *
+     * @param newName a new name for the marker
+     * @param originalMarker the original marker text
+     * @return the original marker with a new name
+     */
+    public static String wrapMarker(String newName, String originalMarker) {
+        TextOffsets offsets = getStartEndOffsets(originalMarker, true);
+        int start = offsets.start;
+        int end = offsets.end;
+
+        return (end <= originalMarker.length() && start < end)
+                ? originalMarker.substring(0, start) + newName + originalMarker.substring(end)
+                : newName;
+    }
+
+    /**
      * Returns the text offsets (a pair of integer marking the beginning and the end of a portion of text)
      * that mark the true boundaries of the marker: all meaningless characters such as {@code $} or quotes
      * are removed.
      *
-     * @param markerText
+     * @param markerText a marker text
      * @param ignoredLeadingTabs {@code true} to request that leading tabs are ignored. If not, the text fragment
      *        identified by the offsets may contain the tabs.
      * @return offsets (boundaries) identifying the actual marker

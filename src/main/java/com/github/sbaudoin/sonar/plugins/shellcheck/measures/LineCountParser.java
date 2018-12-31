@@ -15,6 +15,7 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.measures;
 
+import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.ShellLocation;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.BashLexer;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.TokenType;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,9 +53,16 @@ public final class LineCountParser {
         lineNumber = 0;
 
         // Get heredoc lines: these are lines to be ignored while looking for comments
-        List<Integer> hdLines = new BashLexer(new StringReader(contents)).parse().stream()
-                .filter(token -> token.type == TokenType.HEREDOC_LINE)
-                .mapToInt(token -> token.line).boxed().collect(Collectors.toList());
+        List<Integer> hdLines = new ArrayList<>();
+        BashLexer lexer = new BashLexer(new StringReader(contents));
+        while (lexer.next() != null) {
+            if (lexer.getToken().type == TokenType.HEREDOC_CONTENT) {
+                ShellLocation start = new ShellLocation(contents, lexer.getToken());
+                for (int line = start.line() ; line < start.shift(lexer.getToken().length).line() ; line++) {
+                    hdLines.add(line);
+                }
+            }
+        }
 
         BufferedReader reader = new BufferedReader(new StringReader(contents));
         String line;

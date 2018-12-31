@@ -153,7 +153,7 @@ public class ShellCheckSensorTest {
             sensor.execute(context);
             fail("Invalid command output accepted");
         } catch (RuntimeException e) {
-            assertEquals("Cannot parse shellcheck output: 2 lines returned by shellcheck whereas only one is expected", e.getMessage());
+            assertEquals("Cannot scan shellcheck output: 2 lines returned by shellcheck whereas only one is expected", e.getMessage());
         }
     }
 

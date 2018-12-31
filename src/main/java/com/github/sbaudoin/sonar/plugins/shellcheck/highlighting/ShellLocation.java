@@ -18,7 +18,7 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.highlighting;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.Token;
 
 /**
- * Wrapper class used to locate tokens in Shell scripts and help highlight it
+ * Wrapper class used to locate tokens in Shell scripts and help highlight them
  */
 public class ShellLocation {
     private final String content;
@@ -33,7 +33,7 @@ public class ShellLocation {
      * @param content the Shell script to highlight
      * @param token a token to be pointed to (and certainly highlighted) in the Shell script
      */
-    ShellLocation(String content, Token token) {
+    public ShellLocation(String content, Token token) {
         this(content, token.line + 1, token.column + 1, token.start);
     }
 
@@ -116,6 +116,19 @@ public class ShellLocation {
     public char readChar() {
         return content.charAt(characterOffset);
     }
+
+    /**
+     * Tells if the passed {@code ShellLocation} has the same offset or not (this is a kind of shallow version of the
+     * {@code equals} method)
+     *
+     * @param other another {@code ShellLocation}
+     * @return {@code true} if the offset of the passed {@code ShellLocation} equals to the offset of this class,
+     * {@code false} if not
+     */
+    public boolean isSameAs(ShellLocation other) {
+        return this.characterOffset == other.characterOffset;
+    }
+
 
     /**
      * Shifts the internal pointers (line, column and offset) of one character. The column and line pointers are

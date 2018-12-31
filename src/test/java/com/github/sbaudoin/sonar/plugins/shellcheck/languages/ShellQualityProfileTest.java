@@ -17,4 +17,29 @@ public class ShellQualityProfileTest extends TestCase {
         assertEquals(1, profile.rules().size());
         assertEquals("rule1", profile.rules().get(0).ruleKey());
     }
+
+    public void testProfileNotSetAsDefault() {
+        BuiltInQualityProfilesDefinition.Context context = new BuiltInQualityProfilesDefinition.Context();
+
+        // Register a default profile first
+        DummyProfile qp1 = new DummyProfile();
+        qp1.define(context);
+
+        ShellQualityProfile qp2 = new ShellQualityProfile();
+        qp2.define(context);
+
+        BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile("shell", "ShellCheck");
+        assertNotNull(profile);
+        assertFalse(profile.isDefault());
+    }
+
+
+    private class DummyProfile implements BuiltInQualityProfilesDefinition {
+        @Override
+        public void define(Context context) {
+            NewBuiltInQualityProfile profile = context.createBuiltInQualityProfile("Sonar Way", ShellLanguage.KEY);
+            profile.setDefault(true);
+            profile.done();
+        }
+    }
 }

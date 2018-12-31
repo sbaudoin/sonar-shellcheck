@@ -5,11 +5,11 @@ import java.util.ArrayDeque;
 /**
  * Class to store information about the current parsing of strings.
  * In bash strings can be nested. An expression like "$("$("abcd")")" is one string which contains subshell commands.
- * Each subshell command contains a separate string.  To parse this we need a stack of parsing states.
+ * Each subshell command contains a separate string.  To scan this we need a stack of parsing states.
  * This is what this class does.
  *
  * @author jansorg
- * @see <a href="https://github.com/BashSupport/BashSupport">the IntelliJ IDEA Bash Support plugin</a>
+ * @see <a href="https://github.com/BashSupport/BashSupport/blob/master/src/com/ansorgit/plugins/bash/lang/lexer/StringLexingstate.java">the IntelliJ IDEA Bash Support plugin</a>
  */
 public class StringLexingstate {
     private final ArrayDeque<SubshellState> subshells = new ArrayDeque<>(5);
