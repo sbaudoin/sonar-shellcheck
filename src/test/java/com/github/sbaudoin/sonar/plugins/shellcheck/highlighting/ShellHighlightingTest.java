@@ -2,23 +2,31 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.highlighting;
 
 import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.BashLexer;
+import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.Token;
+import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.TokenType;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LoggerLevel;
 
 import java.io.IOException;
-import java.io.StringReader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.*;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(ShellHighlighting.class)
 public class ShellHighlightingTest {
     @Rule
     public LogTester logTester = new LogTester();
 
     @Test
-    public void testConstructors() throws IOException {
+    public void testConstructors() throws Exception {
         try {
             new ShellHighlighting(null);
             fail("Null values should not be accepted");
@@ -28,6 +36,23 @@ public class ShellHighlightingTest {
 
         ShellHighlighting sh = new ShellHighlighting(Utils.getInputFile("test1.sh").contents());
         assertEquals(5, sh.getHighlightingData().size());
+
+        whenNew(BashLexer.class).withAnyArguments().thenThrow(new IOException("Boom!"));
+        logTester.clear();
+        new ShellHighlighting("foo");
+        assertTrue(logTester.logs(LoggerLevel.WARN).size() > 0);
+        assertEquals("Could not scan Shell script and highlight code", logTester.logs(LoggerLevel.WARN).get(0));
+    }
+
+    @Test
+    public void test0LengthToken() throws Exception {
+        ShellHighlighting sh = new ShellHighlighting("");
+        try {
+            Whitebox.invokeMethod(sh, "addHighlighting", new Token(TokenType.HEREDOC_LINE, 14, 0, 2, 5), null);
+            fail("Expected exception not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Cannot highlight an empty token", e.getMessage());
+        }
     }
 
     @Test
@@ -35,7 +60,6 @@ public class ShellHighlightingTest {
         ShellHighlighting sh = new ShellHighlighting(Utils.getInputFile("test4.sh").contents());
 
         assertEquals(22, sh.getHighlightingData().size());
-        sh.getHighlightingData().forEach(data -> System.out.println(data.getStartLine() + ":" + data.getStartColumnIndex() + " = " + data.getTypeOfText()));
 
         // SHEBANG
         assertHighlightingData(sh.getHighlightingData().get(0), 1, 1, 2, 1, TypeOfText.COMMENT);

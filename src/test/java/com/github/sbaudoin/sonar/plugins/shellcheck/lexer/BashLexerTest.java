@@ -213,7 +213,7 @@ public class BashLexerTest {
         testTokenization("$((10#$x/10))", DOLLAR, EXPR_ARITH, ARITH_NUMBER, ARITH_BASE_CHAR, VARIABLE, ARITH_DIV, ARITH_NUMBER, EXPR_ARITH_END);
     }
 
-    @Ignore
+    @Ignore("unsure how the let expression should be tokenized. A solution might be to parse it as an lazy expression.")
     @Test
     public void testLetExpressions() throws IOException {
         //fixme unsure how the let expression should be tokenized. A solution might be to parse it as an lazy expression
@@ -626,7 +626,7 @@ public class BashLexerTest {
     }
 
 
-    @Ignore
+    @Ignore("currently unsupported, the case lexing is not context sensitive (hard to fix)")
     @Test
     public void testUnsupported() throws IOException {
 
@@ -1027,7 +1027,7 @@ public class BashLexerTest {
     }
 
     @Test
-    @Ignore //ignored for now because there is a match-all rule for the heredoc start marker
+    @Ignore("ignored for now because there is a match-all rule for the heredoc start marker")
     public void _testHeredocErrors() throws IOException {
         testTokenization("cat <<\"END\"", WORD, WHITESPACE, HEREDOC_MARKER_TAG, HEREDOC_MARKER_START);
 

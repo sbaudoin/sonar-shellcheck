@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class BashLexer extends BashLexerBase implements ShellLexer {
     private Token currentToken;
-    // REquired to aggregate STRING_DATA and EREDOC_LINE into STRING_CONTENT and HEREDOC_CONTENT
+    // Required to aggregate STRING_DATA and EREDOC_LINE into STRING_CONTENT and HEREDOC_CONTENT
     private Token nextToken;
 
 
@@ -47,22 +47,28 @@ public class BashLexer extends BashLexerBase implements ShellLexer {
 
     @Override
     public Token next() throws IOException {
-        if (currentToken != null && (currentToken.type == TokenType.STRING_CONTENT || currentToken.type == TokenType.HEREDOC_CONTENT)) {
+        if (isStringOrHeredocContent(currentToken)) {
             currentToken = nextToken;
             nextToken = null;
         } else {
             currentToken = yylex();
-            if (currentToken != null && (currentToken.type == TokenType.STRING_DATA || currentToken.type == TokenType.HEREDOC_LINE)) {
+            if (isStringOrHeredocContent(currentToken)) {
                 Token firstToken = currentToken;
                 int length = firstToken.length;
                 while ((nextToken = yylex()) != null) {
-                    if (nextToken.type == TokenType.STRING_DATA || nextToken.type == TokenType.HEREDOC_LINE) {
+                    if (isStringOrHeredocContent(nextToken)) {
                         length += nextToken.length;
                     } else {
                         break;
                     }
                 }
-                currentToken = new Token(firstToken.type == TokenType.STRING_DATA ? TokenType.STRING_CONTENT : TokenType.HEREDOC_CONTENT, firstToken.start, length, firstToken.line, firstToken.column);
+                currentToken = new Token(
+                        firstToken.type == TokenType.STRING_DATA ? TokenType.STRING_CONTENT : TokenType.HEREDOC_CONTENT,
+                        firstToken.start,
+                        length,
+                        firstToken.line,
+                        firstToken.column
+                );
             }
         }
         return currentToken;
@@ -74,4 +80,8 @@ public class BashLexer extends BashLexerBase implements ShellLexer {
     }
 
 
+    private boolean isStringOrHeredocContent(Token token) {
+        return token != null && (token.type == TokenType.STRING_DATA || token.type == TokenType.HEREDOC_LINE
+                || token.type == TokenType.STRING_CONTENT || token.type == TokenType.HEREDOC_CONTENT);
+    }
 }

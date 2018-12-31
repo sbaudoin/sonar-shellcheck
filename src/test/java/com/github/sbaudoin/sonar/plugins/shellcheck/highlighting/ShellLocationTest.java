@@ -13,6 +13,7 @@ public class ShellLocationTest extends TestCase {
         assertEquals(1, location1.line());
         assertEquals(1, location1.column());
         assertTrue(location1.isSameAs(new ShellLocation(SCRIPT, 1, 1, 0)));
+        assertFalse(location1.isSameAs(new ShellLocation(SCRIPT, 1, 1, 1)));
     }
 
     public void testToString() {
