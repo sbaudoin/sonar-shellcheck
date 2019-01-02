@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, Sylvain Baudoin
+ * Copyright (c) 2018-2019, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,12 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.checks;
 
+import com.github.sbaudoin.sonar.plugins.shellcheck.highlighting.ShellHighlighting;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
@@ -24,6 +28,8 @@ import org.sonar.api.utils.log.LoggerLevel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(ShellHighlighting.class)
 public class CheckRepositoryTest {
     @Rule
     public LogTester logTester = new LogTester();
