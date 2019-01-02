@@ -26,7 +26,7 @@ import java.util.ArrayDeque;
  * @see <a href="https://github.com/BashSupport/BashSupport/blob/master/src/com/ansorgit/plugins/bash/lang/lexer/_BashLexer.java">the IntelliJ IDEA Bash Support plugin</a>
  */
 public abstract class AbstractBashLexer {
-    private final ArrayDeque<Integer> lastStates = new ArrayDeque(25);
+    private final ArrayDeque<Integer> lastStates = new ArrayDeque<>(25);
     private boolean inHereString = false;
     private final StringLexingstate string = new StringLexingstate();
     private final HeredocLexingState heredocState = new HeredocLexingState();
