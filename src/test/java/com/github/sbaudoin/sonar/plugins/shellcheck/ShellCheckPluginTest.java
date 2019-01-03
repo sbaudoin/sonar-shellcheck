@@ -15,35 +15,47 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck;
 
-import junit.framework.TestCase;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarQubeSide;
 import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
 
-public class ShellCheckPluginTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class ShellCheckPluginTest {
+    @Rule
+    public final EnvironmentVariables environmentVariables = new EnvironmentVariables();
+
+
+    @Test
     public void testExtensionCounts1() {
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
         assertEquals(6, context.getExtensions().size());
     }
 
+    @Test
     public void testExtensionCounts2() {
-        System.setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_PROPERTY, "false");
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "false");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
         assertEquals(5, context.getExtensions().size());
     }
 
+    @Test
     public void testExtensionCounts3() {
-        System.setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_PROPERTY, "True");
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "True");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
         assertEquals(6, context.getExtensions().size());
     }
 
+    @Test
     public void testExtensionCounts4() {
-        System.setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_PROPERTY, "something");
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "something");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
         assertEquals(5, context.getExtensions().size());

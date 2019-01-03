@@ -23,12 +23,12 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.sonar.api.Plugin;
 
 public class ShellCheckPlugin implements Plugin {
-    public static final String ADD_SHELL_LANGUAGE_PROPERTY = "plugin.shellcheck.language.add";
+    public static final String ADD_SHELL_LANGUAGE_ENV_VAR = "SHELLCHECK_LANGUAGE_ADD";
 
 
     @Override
     public void define(Context context) {
-        if (Boolean.parseBoolean(System.getProperty(ADD_SHELL_LANGUAGE_PROPERTY, "true"))) {
+        if (Boolean.parseBoolean(System.getenv().getOrDefault(ADD_SHELL_LANGUAGE_ENV_VAR, "true"))) {
             context.addExtension(ShellLanguage.class);
         }
         context.addExtension(ShellQualityProfile.class);
