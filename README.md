@@ -60,8 +60,8 @@ Tested on Linux.
     #sonar.sourceEncoding=UTF-8
     ```
 
-    You just have to do that once. Ideally, add this file along with your playbooks in your preferred SCM.
-2. Run the Sonar scanner from the playbook directory :
+    You just have to do that once. Ideally, add this file along with your scripts in your preferred SCM.
+2. Run the Sonar scanner from the directory where you wrote the file `sonar-project.properties`:
 
         sonar-scanner
 
@@ -70,6 +70,12 @@ Tested on Linux.
 Subsequent scans will just required the last step to be executed. It can easily be integrated into a continuous integration pipeline.
 
 ## Known issues
-**Warning!** The version 1.0.0 of this plugin appears to be incompatible with the other [Sonar i-Code CNES plugin](https://github.com/lequal/sonar-icode-cnes-plugin) that also scans Shell script.
+### Plugin not compatible with the Sonar i-Code CNES plugin
+The version 1.0.0 of this plugin appeared to be incompatible with the other [Sonar i-Code CNES plugin](https://github.com/lequal/sonar-icode-cnes-plugin) that also scans Shell script.
 If you already have that plugin installed you cannot install and use this ShellCheck plugin (you will have to decide which plugin to run).
 The [issue #1](https://github.com/sbaudoin/sonar-shellcheck/issues/1) has been filed to trace this incompatibility problem.
+
+This problem was fixed in version 2.0.0. If you want to run both the Sonar i-Code CNES plugin and the ShellCheck plugin, you must set the following environment variable before starting SonarQube:
+
+```bash
+export SHELLCHECK_LANGUAGE_ADD=false
