@@ -1,6 +1,6 @@
 {
   "title": "This loop will only ever run once for a constant value. Did you perhaps mean to loop over dir\/*, $var or $(cmd)?'",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

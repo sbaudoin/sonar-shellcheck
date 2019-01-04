@@ -1,6 +1,6 @@
 {
   "title": "foo appears unused. Verify it or export it.",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

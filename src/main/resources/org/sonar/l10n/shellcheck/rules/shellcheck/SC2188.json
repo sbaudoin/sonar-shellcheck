@@ -1,6 +1,6 @@
 {
   "title": "This redirection doesn't have a command. Move to its command (or use 'true' as no-op).",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

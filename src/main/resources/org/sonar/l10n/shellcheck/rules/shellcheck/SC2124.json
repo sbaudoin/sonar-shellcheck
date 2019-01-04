@@ -1,6 +1,6 @@
 {
   "title": "Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

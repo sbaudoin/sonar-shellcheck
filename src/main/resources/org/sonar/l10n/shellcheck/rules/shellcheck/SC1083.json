@@ -1,6 +1,6 @@
 {
   "title": "This {\/} is literal. Check expression (missing ;\/\\n?) or quote it.",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

@@ -62,6 +62,8 @@ rules:
     description: "Trying to do math? Use e.g. [ $((i/2+7)) -ge 18 ] or [[ $((i/2+7)) -ge 18 ]]."
   SC1080:
     description: "You need \\ before line feeds to break lines in [ ]."
+  SC1083:
+    type: BUG
   SC1085:
     description: "Did you forget to move the ;; after extending this case item?"
   SC1092:
@@ -80,8 +82,12 @@ rules:
     description: "Use 'find .. -print0 | xargs -0 ..' or 'find .. -exec .. +' to allow non-alphanumeric filenames."
   SC2023:
     description: "The shell may override 'time' as seen in man time(1). Use 'command time ..' for that one."
+  SC2034:
+    type: BUG
   SC2042:
     description: "Use spaces, not commas, to separate loop elements."
+  SC2043:
+    type: BUG
   SC2049:
     description: "=~ is for regex. Use == for globs."
   SC2073:
@@ -98,6 +104,8 @@ rules:
     description: "'function' keyword is non-standard. Use 'foo()' instead of 'function foo'."
   SC2118:
     description: "Ksh does not support |&. Use 2>&1 |."
+  SC2124:
+    type: BUG
   SC2127:
     description: "To use ${ ..; } command expansion or cases with ;;& or ;;&, specify #!/usr/bin/env bash or ksh"
     html: |
@@ -106,5 +114,11 @@ rules:
       <p>To use <code>${ ..; }</code> command expansion, specify <code>#!/usr/bin/env ksh</code>.</p>
   SC2171:
     description: "Found trailing ]] or ] outside test. Missing [[ or [?"
+  SC2188:
+    type: BUG
+  SC2193:
+    type: BUG
+  SC2215:
+    type: BUG
   SC2239:
     description: "Redirecting to/from command name instead of file. Did you want pipes/xargs (or quote to ignore)?"

@@ -1,6 +1,6 @@
 {
   "title": "This flag is used as a command name. Bad line break or missing [ .. ]?",
-  "type": "CODE_SMELL",
+  "type": "BUG",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",
