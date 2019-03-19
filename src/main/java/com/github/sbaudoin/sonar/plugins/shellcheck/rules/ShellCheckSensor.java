@@ -90,6 +90,12 @@ public class ShellCheckSensor implements Sensor {
     public void execute(SensorContext context) {
         LOGGER.debug("ShellCheck sensor executed with context: " + context);
 
+        // Skip analysis if no rules enabled from this plugin
+        if (context.activeRules().findByRepository(CheckRepository.REPOSITORY_KEY).isEmpty()) {
+            LOGGER.info("No active rules found for this plugin, skipping.");
+            return;
+        }
+
         for (InputFile inputFile : fileSystem.inputFiles(mainFilesPredicate)) {
             LOGGER.debug("Analyzing file: " + inputFile.filename());
 
@@ -103,8 +109,10 @@ public class ShellCheckSensor implements Sensor {
             List<String> error = new ArrayList<>();
             try {
                 executeCommand(command, output, error);
-            } catch (InterruptedException| IOException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                return;
+            } catch (IOException e) {
                 return;
             }
             if (!error.isEmpty()) {
@@ -189,7 +197,8 @@ public class ShellCheckSensor implements Sensor {
 
             return status;
         } catch (InterruptedException|IOException e) {
-            LOGGER.error("Error executing command", e);
+            LOGGER.error("Error executing command: {}", e.getMessage());
+            LOGGER.debug("Stack trace:", e);
             throw e;
         }
     }

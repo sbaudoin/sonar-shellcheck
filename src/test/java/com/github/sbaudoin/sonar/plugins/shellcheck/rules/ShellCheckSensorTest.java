@@ -48,8 +48,8 @@ import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.issueExists;
 import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.setShellRights;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 
 public class ShellCheckSensorTest {
     private static final String RULE_ID1 = "SC2037";
@@ -155,6 +155,21 @@ public class ShellCheckSensorTest {
         } catch (RuntimeException e) {
             assertEquals("Cannot scan shellcheck output: 2 lines returned by shellcheck whereas only one is expected", e.getMessage());
         }
+    }
+
+    @Test
+    public void testExecuteWithIOException() throws IOException, InterruptedException {
+        InputFile script1 = Utils.getInputFile("test1.sh");
+        InputFile script2 = Utils.getInputFile("test2.sh");
+        InputFile script3 = Utils.getInputFile("test3.sh");
+        context.fileSystem().add(script1).add(script2).add(script3);
+
+        ShellCheckSensor theSensor = spy(sensor);
+        doThrow(new IOException("Boom!")).when(theSensor).executeCommand(any(), any(), any());
+
+        theSensor.execute(context);
+        Collection<Issue> issues = context.allIssues();
+        assertEquals(0, issues.size());
     }
 
     @Test
