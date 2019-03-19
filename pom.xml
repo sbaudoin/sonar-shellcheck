@@ -236,7 +236,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>site</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>format</goal>
                         </goals>
