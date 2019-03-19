@@ -36,7 +36,7 @@ public class ShellLanguageTest {
     @Test
     public void defaultSuffixes() {
         settings.setProperty(ShellCheckSettings.FILE_SUFFIXES_KEY, "");
-        Assert.assertArrayEquals(new String[] { ".sh", ".ksh" }, shell.getFileSuffixes());
+        Assert.assertArrayEquals(new String[] { ".sh", ".ksh", ".bash" }, shell.getFileSuffixes());
     }
 
     @Test
