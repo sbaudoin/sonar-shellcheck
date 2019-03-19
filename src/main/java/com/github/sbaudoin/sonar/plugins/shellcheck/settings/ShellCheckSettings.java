@@ -26,7 +26,7 @@ public class ShellCheckSettings {
     public static final String SHELLCHECK_PATH_KEY = "sonar.shellcheck.shellcheck.path";
     public static final String SHELLCHECK_PATH_DEFAULT_VALUE = "";
     public static final String FILE_SUFFIXES_KEY = "sonar.shell.file.suffixes";
-    public static final String FILE_SUFFIXES_DEFAULT_VALUE = ".sh,.ksh";
+    public static final String FILE_SUFFIXES_DEFAULT_VALUE = ".sh,.ksh,.bash";
 
 
     private ShellCheckSettings() {
