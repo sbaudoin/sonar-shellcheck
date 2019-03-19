@@ -255,6 +255,14 @@ public class ShellCheckSensorTest {
         assertTrue(issueExists(issues, ruleKey2, shellScript, 6, "Double quote to prevent globbing and word splitting."));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testSaveIssuesInvalidOutput() throws IOException {
+        InputFile shellScript = Utils.getInputFile("test1.sh");
+        String json = "this is an invalid JSON";
+
+        sensor.saveIssues(shellScript, json, context);
+    }
+
     @Test
     public void testSaveIssue() throws IOException {
         InputFile shellScript = Utils.getInputFile("test1.sh");
