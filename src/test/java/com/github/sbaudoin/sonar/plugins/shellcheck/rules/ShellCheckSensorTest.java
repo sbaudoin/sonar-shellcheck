@@ -290,6 +290,29 @@ public class ShellCheckSensorTest {
         assertEquals(RuleKey.of(CheckRepository.REPOSITORY_KEY, RULE_ID1), sensor.getRuleKey(context, RULE_ID1));
     }
 
+    @Test
+    public void testSkip() throws IOException {
+        context.settings().appendProperty(ShellCheckSettings.SKIP_KEY, "true");
+
+        InputFile script1 = Utils.getInputFile("test1.sh");
+        context.fileSystem().add(script1);
+
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            context.settings().appendProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "src\\test\\resources\\scripts\\shellcheck4.cmd");
+        } else {
+            context.settings().appendProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "src/test/resources/scripts/shellcheck4.sh");
+            setShellRights("src/test/resources/scripts/shellcheck4.sh");
+        }
+
+        sensor.execute(context);
+
+        Collection<Issue> issues = context.allIssues();
+        assertEquals(0, issues.size());
+        assertEquals(1, logTester.logs(LoggerLevel.INFO).size());
+        assertEquals("Plugin disabled by configuration for this project, skipping.", logTester.logs(LoggerLevel.INFO).get(0));
+    }
+
+
     private class DummySensorDescriptor implements SensorDescriptor {
         private String sensorName;
         private String languageKey;

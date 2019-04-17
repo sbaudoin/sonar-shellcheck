@@ -90,6 +90,13 @@ public class ShellCheckSensor implements Sensor {
     public void execute(SensorContext context) {
         LOGGER.debug("ShellCheck sensor executed with context: " + context);
 
+        // Skip if requested for the project
+        Optional<Boolean> skip = context.config().getBoolean(ShellCheckSettings.SKIP_KEY);
+        if (skip.isPresent() && skip.get()) {
+            LOGGER.info("Plugin disabled by configuration for this project, skipping.");
+            return;
+        }
+
         // Skip analysis if no rules enabled from this plugin
         if (context.activeRules().findByRepository(CheckRepository.REPOSITORY_KEY).isEmpty()) {
             LOGGER.info("No active rules found for this plugin, skipping.");
