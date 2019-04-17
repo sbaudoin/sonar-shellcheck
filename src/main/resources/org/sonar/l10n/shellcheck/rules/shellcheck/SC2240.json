@@ -1,5 +1,5 @@
 {
-  "title": "This default assignment may cause DoS due to globbing. Quote it.",
+  "title": "The dot command does not support arguments in sh\/dash. Set them as variables.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Info"
+  "defaultSeverity": "Major"
 }

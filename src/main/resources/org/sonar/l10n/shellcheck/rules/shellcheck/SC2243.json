@@ -1,5 +1,5 @@
 {
-  "title": "This default assignment may cause DoS due to globbing. Quote it.",
+  "title": "Prefer explicit -n to check for output (or run command without [\/[[ to check for success)",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

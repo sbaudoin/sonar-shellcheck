@@ -9,6 +9,7 @@ esac
 <h2>Correct code</h2>
 <pre><code class="lang-sh">case &quot;$1&quot; in
   -\?) echo &quot;Usage: $0 [-n]&quot;;;
+# &#39;-?&#39;) echo &quot;Usage: $0 [-n]&quot;;;  # Also valid
   -n) echo &quot;Hello World&quot;;;
    *) exit 1;;
 esac

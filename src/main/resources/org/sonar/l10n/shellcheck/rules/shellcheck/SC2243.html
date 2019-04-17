@@ -1,0 +1,31 @@
+<p>Prefer explicit -n to check for output (or run command without [/[[ to check for success)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$(mycommand --myflags)&quot; ]
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Check that the command outputs something on stdout
+if [ -n &quot;$(mycommand --myflags)&quot; ]
+then
+  echo &quot;The command had output on stdout&quot;
+fi
+
+# Check instead that the command succeeded (exit code = 0)
+if mycommand --myflags
+then
+  echo &quot;The command reported success&quot;
+fi
+</code></pre>
+<p>(if the command instead outputs "0" or "false", see [[SC2244]] for integer and "boolean" comparisons)</p>
+<h2>Rationale</h2>
+<p><code>[ "$(mycommand)" ]</code> is equivalent to <code>[ -n "$(mycommand)" ]</code> and checks whether the command's output on stdout was non-empty.</p>
+<p>Users more familiar with other languages are often surprised to learn that it is nothing like e.g. <code>if (myfunction())</code>, since it does not care about what the command/function <code>return</code>s.</p>
+<p>Using an explicit <code>-n</code> helps clarify that this is purely a string operation. And of course, if the intention was to check whether the command ran successfully, now would be a good time to fix it as in the alternate example.</p>
+<h2>Exceptions</h2>
+<p>If you are familiar with the semantics of <code>[</code>, you can [[ignore]] this suggestion with no ill effects.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

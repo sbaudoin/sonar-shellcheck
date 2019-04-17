@@ -1,5 +1,5 @@
 {
-  "title": "This default assignment may cause DoS due to globbing. Quote it.",
+  "title": "echo doesn't read from stdin, are you sure you should be piping to it?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Info"
+  "defaultSeverity": "Major"
 }

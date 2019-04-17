@@ -22,6 +22,8 @@ barout=$(bar)
 eval_gettext &#39;foo $barout baz&#39; # See GNU Gettext doc for more info.
 </code></pre>
 <p>Or you can change them to normal double quotes so you go without <code>gettext</code>.</p>
+<h2><code>${var:1}</code> (substring expansion)</h2>
+<p><a href="https://wiki.ubuntu.com/DashAsBinSh#A.24.7Bfoo:3.5B:1.5D.7D">https://wiki.ubuntu.com/DashAsBinSh#A.24.7Bfoo:3.5B:1.5D.7D</a></p>
 <h2>Arithmetic <code>for</code> loops</h2>
 <p>Bash:</p>
 <pre><code class="lang-Bash">for ((init; test; next)); do foo; done
@@ -126,5 +128,11 @@ reuse_quote()(
 )
 reuse_quote &quot;$@&quot;
 </code></pre>
+<h2><code>jobs</code> flags</h2>
+<p>The only acceptable flags under POSIX sh for <code>jobs</code> are <code>-l</code> and <code>-p</code> (<a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/jobs.html">see spec</a>). Common flags supported by other shells are <code>-s</code> and <code>-r</code>, to check for stopped/suspended jobs and running jobs. A portable alternative is using <code>grep</code> or <code>awk</code>:</p>
+<pre><code class="lang-sh">&quot;$(jobs | awk &#39;/(S|s)(topped|uspended)/&#39;)&quot; # instead of jobs -s
+&quot;$(jobs | awk &#39;/(R|r)(unning)/&#39;)&quot;          # instead of jobs -r
+</code></pre>
+<p>Although the state of stopped jobs is <code>Stopped</code> in Bash and dash, and it's the one specified by POSIX, <code>Suspended</code> is also a valid alternative (but Zsh happens to not respect the capitalization, that's why we try to match <code>suspended</code>). Similarly, the state of running jobs is <code>Running</code> according to POSIX. Bash and dash respect this, but Zsh uses <code>running</code>.</p>
 <p>Exception</p>
 <p>Depends on what your expected POSIX shell providers would use.</p>

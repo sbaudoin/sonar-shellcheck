@@ -8,7 +8,7 @@ done
 <h2>Correct code</h2>
 <pre><code>for f in *.wav
 do
-  [[ -e $f ]] || break  # handle the case of no *.wav files
+  [[ -e "$f" ]] || break  # handle the case of no *.wav files
   echo "$f"
 done
 </code></pre>

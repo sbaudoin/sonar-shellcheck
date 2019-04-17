@@ -1,0 +1,50 @@
+<p>Consider adding a default *) case, even if it just exits with error.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case &quot;$1&quot; in
+  start) start_service ;;
+  stop)  stop_service ;;
+  restart|reload|force-reload)
+    stop_service;
+    start_service;;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">case &quot;$1&quot; in
+  start) start_service ;;
+  stop)  stop_service ;;
+  restart|reload|force-reload)
+    stop_service;
+    start_service;;
+  *)
+    echo &gt;&amp;2 &quot;Invalid choice: $1&quot;
+    exit 1
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>case</code> statement that may not be considering all possible cases. This may mean that only the <a href="https://en.wikipedia.org/wiki/Happy_path">happy paths</a> are accounted for.</p>
+<p>Consider adding a default case to handle other values. If you don't know what to do or don't believe it'll ever happen, exiting with an error is good, fail-fast practice.</p>
+<p>The example is adapted from a real world Debian init script, which due to a missing default case reports success on any misspelled command (here with underscore instead of dash):</p>
+<pre><code>$ /etc/init.d/screen-cleanup force_reload &amp;&amp; echo success
+success
+</code></pre>
+<h2>Exceptions</h2>
+<p>This suggestion only triggers in verbose mode (<code>-S verbose</code>).</p>
+<p>If you don't have a default case because the default should be to take no action, consider adding a comment to other humans:</p>
+<pre><code>case "$(uname)" in
+  CYGWIN*) cygwin=1;;
+  MINGW*) mingw=1;;
+  *) # No special workarounds identified
+esac
+</code></pre>
+<p>If you believe that it's impossible for the expression to have any other value, it's considered good practice to add the equivalent of an <code>assert(0)</code> to fail fast if this assumption should turn out to be incorrect in the current or future versions:</p>
+<pre><code>case "$result" in
+  true)  proceed;;
+  false) cancel;;
+  *) echo &gt;&amp;2 "Submit bug report: '$result' should be true or false."
+     exit 127
+esac
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

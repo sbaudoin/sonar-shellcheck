@@ -1,5 +1,5 @@
 {
-  "title": "This default assignment may cause DoS due to globbing. Quote it.",
+  "title": "-d only applies to the first expansion of this glob. Use a loop to check any\/all.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Info"
+  "defaultSeverity": "Major"
 }

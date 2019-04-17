@@ -1,5 +1,5 @@
 {
-  "title": "=~ is for regex. Use == for globs.",
+  "title": "=~ is for regex, but this looks like a glob. Use = instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

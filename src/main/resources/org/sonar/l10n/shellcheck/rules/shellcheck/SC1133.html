@@ -1,0 +1,22 @@
+<p>Unexpected start of line. If breaking lines, |/||/&amp;&amp; should be at the end of the previous one.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">dmesg
+  | grep &quot;error&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">dmesg |
+  grep &quot;error&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a line that unexpectedly started with <code>|</code>, <code>||</code> or <code>&amp;&amp;</code>. This usually happens when a line is broken incorrectly.</p>
+<p>When breaking around a <code>|</code>, <code>||</code> or <code>&amp;&amp;</code>, there are two options:</p>
+<ul>
+<li>Break the line <em>after</em> this token. <code>dmesg</code> is a complete command by itself, but <code>dmesg |</code> is not so the shell knows to continue on the next line.</li>
+<li>Use a <code>\</code> at the end of the previous line to explicitly tell the shell to continue on the next.</li>
+</ul>
+<h2>Exceptions</h2>
+<p>None. This is a syntax error.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

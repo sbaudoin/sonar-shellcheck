@@ -1,5 +1,5 @@
 {
-  "title": "Backslash is literal in '\\n'. Prefer explicit escaping: '\\\\n'.",
+  "title": "Flip leading $ and ' if this should be a quoted substitution.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

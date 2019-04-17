@@ -1,0 +1,25 @@
+<p>Literal carriage return. Run script through <code>tr -d '\r'</code> .</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">$ cat -v myscript
+#!/bin/sh^M
+echo &quot;Hello World&quot;^M
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">$ cat -v myscript
+#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The script uses Windows/DOS style <code>\r\n</code> line terminators instead of UNIX style <code>\n</code> terminators. The additional <code>\r</code> aka <code>^M</code> aka carriage return characters will be treated literally, and results in all sorts strange bugs and messages.</p>
+<p>You can verify this with <code>cat -v yourfile</code> and see whether or not each line ends with a <code>^M</code>. To delete them, open the file in your editor and save the file as "Unix", "UNIX/OSX Format", <code>:set ff=unix</code> or similar if it supports it.</p>
+<p>If you don't know how to get your editor to save a file with Unix line terminators, you can use <code>tr</code>:</p>
+<pre><code>tr -d '\r' &lt; badscript   &gt; goodscript
+</code></pre>
+<p>This will read a script <code>badscript</code> with possible carriage returns, and write <code>goodscript</code> without them.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/052">BashFaq: How do I convert a file from DOS format to UNIX format (remove CRs from CR-LF line terminators)?</a></li>
+<li><a href="https://stackoverflow.com/questions/39527571/are-shell-scripts-sensitive-to-encoding-and-line-endings">StackOverflow: Are shell scripts sensitive to encoding and line endings?</a></li>
+</ul>

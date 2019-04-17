@@ -10,6 +10,6 @@ read -r name
 <h2>Rationale</h2>
 <p>By default, <code>read</code> will interpret backslashes before spaces and line feeds, and otherwise strip them. This is rarely expected or desired.</p>
 <p>Normally you just want to read data, which is what <code>read -r</code> does. You should always use <code>-r</code> unless you have a good reason not to.</p>
-<p>Note that <code>read -r</code> will still strip leading and trailing spaces. <code>IFS="" read -r</code> prevents this.</p>
+<p>Note that <a href="https://www.tldp.org/LDP/abs/html/internal.html#READR"><code>read -r</code></a> will still strip leading and trailing spaces. <code>IFS="" read -r</code> prevents this.</p>
 <h2>Exceptions</h2>
 <p>If you want backslashes to affect field splitting and line terminators instead of being read, you can disable this message with a [[directive]].</p>

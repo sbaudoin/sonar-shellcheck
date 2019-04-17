@@ -22,3 +22,10 @@ export foo
 <pre><code class="lang-sh">local foo
 foo=$(mycmd)
 </code></pre>
+<h2>Problematic code in the case of <code>readonly</code></h2>
+<pre><code class="lang-sh">readonly foo=&quot;$(mycmd)&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
+readonly foo
+</code></pre>

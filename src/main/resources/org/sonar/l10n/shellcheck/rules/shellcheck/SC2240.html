@@ -1,0 +1,19 @@
+<p>The dot command does not support arguments in sh/dash. Set them as variables.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+. include/myscript example.com 80
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+host=example.com port=80 . include/myscript
+</code></pre>
+<h2>Rationale</h2>
+<p>In Bash and Ksh, you can use <code>. myscript arg1 arg2..</code> to set <code>$1</code> and <code>$2</code> in the sourced script.</p>
+<p>This is not the case in Dash, where any additional arguments are ignored, or in POSIX sh where the behavior is unspecified.</p>
+<p>Instead, assign arguments to variables and rewrite the sourced script to read from them.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

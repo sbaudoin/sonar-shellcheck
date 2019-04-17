@@ -17,4 +17,9 @@ foo
 <p>If you are declaring a function, make sure it looks like the correct code above, and that it does not try to declare any parameters (parameters are instead accessed with <code>$1</code> and up).</p>
 <p>If you are trying to do something else, look up the syntax for what you are trying to do.</p>
 <h2>Exceptions</h2>
-<p>POSIX allows the body of a function to be any compound command, e.g. <code>foo() for i; do :; done</code>. Since this usage is rare, ShellCheck requires the body to be {} (or ()). This additional structure requirement helps improve error messages and suggestions by not parsing down a path that less advanced users wouldn't expect.</p>
+<p>POSIX allows the body of a function to be any compound command, e.g. <code>foo() for i; do :; done</code>. Since this usage is rare, ShellCheck intentionally requires the body to be <code>{ ..; }</code> (or <code>( ..; )</code>):</p>
+<pre><code>foo() {
+  for i; do :; done
+}
+</code></pre>
+<p>This additional structure requirement helps improve error messages and suggestions by not parsing down a path that less advanced users wouldn't expect.</p>

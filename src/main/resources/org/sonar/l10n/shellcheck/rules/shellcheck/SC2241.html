@@ -1,0 +1,15 @@
+<p>The exit status can only be one integer 0-255. Use stdout for other data.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">exit foo bar
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo foo
+echo bar
+exit
+</code></pre>
+<h2>Rationale</h2>
+<p>In bash, <code>exit</code> can only be used to signal success or failure (0 = success, 1-255 = failure).</p>
+<p>To exit with textual or multiple values from a function, write them to stdout and capture them with command substitution instead.</p>
+<p>See [[SC2242]] for more information.</p>
+<h2>Exceptions</h2>
+<p>None</p>

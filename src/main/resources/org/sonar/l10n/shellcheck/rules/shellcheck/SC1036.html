@@ -17,7 +17,12 @@ echo &quot;foo bar&quot;    # Tried to use parentheses for grouping or function 
 <li>Adding parentheses because other languages need them in that context, such as <code>foo (bar, 42)</code> to call a function. This should be <code>foo bar 42</code>. Also, shells do not support tuples or passing arrays as single parameters.</li>
 </ul>
 <h2>Exceptions</h2>
-<p>None</p>
+<p>Bash allows some parentheses as part of assignment-like tokens to certain commands, including <code>export</code> and <code>eval</code>. This is a workaround in Bash to allow commands that normally would not be valid:</p>
+<pre><code>eval foo=(bar)       # Valid command
+echo foo=(bar)       # Invalid syntax
+f=foo; eval $f=(bar) # Also invalid
+</code></pre>
+<p>In these cases, please quote the command, such as `eval "foo=(bar)". This does not change the behavior, but stops relying on bash specific parsing quirks.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
