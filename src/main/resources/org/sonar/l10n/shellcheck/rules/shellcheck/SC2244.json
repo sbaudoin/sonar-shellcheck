@@ -1,5 +1,5 @@
 {
-  "title": "This default assignment may cause DoS due to globbing. Quote it.",
+  "title": "Prefer explicit -n to check non-empty string (or use =\/-ne to check boolean\/integer).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

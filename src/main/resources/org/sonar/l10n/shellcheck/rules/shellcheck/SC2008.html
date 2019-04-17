@@ -1,0 +1,12 @@
+<p>echo doesn't read from stdin, are you sure you should be piping to it?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">find . | echo
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find .
+</code></pre>
+<h2>Rationale</h2>
+<p>You are piping command output to <code>echo</code>, but <code>echo</code> ignores all piped input.</p>
+<p>In particular, <code>echo</code> is not responsible for putting output on screen. Commands already output data, and with no further actions that will end up on screen.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -52,13 +52,13 @@ if not os.path.isfile(sev_file):
 
 # Load YAML configuration
 try:
-    config = yaml.load(open(os.path.dirname(os.path.abspath(__file__)) + '/build_checks.yml').read())
+    config = yaml.load(open(os.path.dirname(os.path.abspath(__file__)) + '/build_checks.yml').read(), Loader=yaml.FullLoader)
 except yaml.YAMLError as exc:
     print("Error in configuration file:", exc, file=sys.stderr)
     sys.exit(1)
 # Complete with severities
 try:
-    severities = yaml.load(open(sev_file).read())
+    severities = yaml.load(open(sev_file).read(), Loader=yaml.FullLoader)
     if not 'rules' in config:
         config['rules'] = {}
     for rule in severities:
@@ -76,10 +76,15 @@ for filename in os.listdir(sc_path):
     if not (re.match('SC[0-9]{4}\.md', filename)):
         continue
 
-    print('Processing ', filename , '...')
+    rule = filename.replace('.md', '')
+
+    if get_config(rule, 'ignored'):
+        print('  Ignoring ', filename, '...')
+        continue
+
+    print('  Processing ', filename, '...')
 
     # Read MD file
-    rule = filename.replace('.md', '')
     md_data = open(sc_path + '/' + filename, 'r').read()
     md_data = re.sub('^(### .*):$', '\\1', md_data, flags=re.MULTILINE)
     md_data = re.sub('^## (.*)$', '\\1', md_data, flags=re.MULTILINE)
@@ -108,17 +113,24 @@ for filename in os.listdir(sc_path):
 
 # Process rules defined in build_checks.yml if needed
 for rule in config['rules']:
+    if get_config(rule, 'ignored'):
+        continue
     if not os.path.isfile(rule + '.html') or not os.path.isfile(rule + '.json') and 'description' in config['rules'][rule]:
-        print('Generating additional files for', rule, '...')
+        print('  Generating additional files for', rule, '...')
 
         # Write HTML file
         file = open(rule + '.html', 'w')
         if 'html' in config['rules'][rule]:
             file.write(config['rules'][rule]['html'])
         else:
-            file.write('<p>')
-            file.write(html_parser.escape(config['rules'][rule]['description']))
-            file.write('</p>')
+            # We cannot continue if there is no description
+            if 'description' not in config['rules'][rule]:
+                file.close()
+                continue
+            else:
+                file.write('<p>')
+                file.write(html_parser.escape(config['rules'][rule]['description']))
+                file.write('</p>')
         file.close()
 
         # Write JSON file

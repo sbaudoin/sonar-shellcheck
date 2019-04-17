@@ -9,17 +9,18 @@ default:
   severity:
     default: Major
     style: Info
+    verbose: Info
     info: Info
     error: Blocker
     warning: Major
 
 rules:
-  SC1008:
-    description: "This shebang was unrecognized. Note that ShellCheck only handles sh/bash/dash/ksh."
   SC1013:
     description: "Bash requires ; or \\n here, after redirecting nested compound commands."
-  SC1019:
-    description: "Expected this to be an argument to the unary condition."
+  SC1015:
+    ignored: True  # See Wiki: rule retired
+  SC1016:
+    ignored: True  # See Wiki: rule retired
   SC1021:
     description: "You need a space before the \\)"
   SC1027:
@@ -29,27 +30,18 @@ rules:
   SC1034:
     description: "Did you mean [[ ?"
   SC1043:
+
     description: "Found end token `EOF' further down, but with wrong casing."
-  SC1047:
-    description: "Expected 'fi' matching previously mentioned 'if'."
-  SC1050:
-    description: "Expected 'then'."
   SC1055:
     description: "You need at least one command here. Use 'true;' as a no-op."
   SC1056:
     description: "Expected a '}'. If you have one, try a ; or \\n in front of it."
   SC1057:
     description: "Did you forget the 'do' for this loop?"
-  SC1058:
-    description: "Expected 'do'."
   SC1059:
     description: "No semicolons directly after 'do'."
   SC1060:
     description: "Can't have empty do clauses (use 'true' as a no-op)."
-  SC1061:
-    description: "Couldn't find 'done' for this 'do'."
-  SC1062:
-    description: "Expected 'done' matching previously mentioned 'do'."
   SC1063:
     description: "You need a line feed or semicolon before the 'do'."
   SC1067:
@@ -74,6 +66,8 @@ rules:
     description: "This shell type is unknown. Use e.g. sh or bash."
   SC1106:
     description: "In arithmetic contexts, use <, >, <=, >=, ==, != instead of -lt, -gt, -le, -ge, -eq, -ne"
+  SC1117:
+    ignored: True  # See Wiki: rule retired
   SC1125:
     description: "Invalid key=value pair? Ignoring the rest of this directive starting here."
   SC2000:
@@ -88,14 +82,10 @@ rules:
     description: "Use spaces, not commas, to separate loop elements."
   SC2043:
     type: BUG
-  SC2049:
-    description: "=~ is for regex. Use == for globs."
   SC2073:
     description: "Escape \\< and \\> to prevent it redirecting (or try switch to [[ .. ]])."
   SC2075:
     description: "Escaping \\< and \\> is required in [..], but invalid in [[..]]"
-  SC2079:
-    description: "(( )) doesn't support decimals. Use bc or awk."
   SC2083:
     description: "Don't add spaces after the slash in './file'."
   SC2111:
@@ -120,5 +110,3 @@ rules:
     type: BUG
   SC2215:
     type: BUG
-  SC2239:
-    description: "Redirecting to/from command name instead of file. Did you want pipes/xargs (or quote to ignore)?"

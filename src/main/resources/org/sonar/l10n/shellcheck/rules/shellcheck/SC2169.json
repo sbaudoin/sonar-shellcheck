@@ -1,5 +1,5 @@
 {
-  "title": "In dash, [[ ]] is not supported.",
+  "title": "In dash, something is not supported.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

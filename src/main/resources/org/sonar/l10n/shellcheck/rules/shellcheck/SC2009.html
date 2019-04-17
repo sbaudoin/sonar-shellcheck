@@ -7,11 +7,17 @@
 </code></pre>
 <h2>Rationale</h2>
 <p>If you are just after a pid from a running program, then pgrep is a much safer alternative. Especially if you are also looking for a pid belonging to a certain user or group. All of the parameters are in one command and it can eliminate multiple greps, cuts, seds, awks, ect.</p>
+<p>If you want a field that's not the pid, consider doing this through <code>ps</code> + <code>pgrep</code> instead of <code>ps</code> + <code>grep</code>:</p>
+<pre><code>for pid in $(pgrep '^python$')
+do
+  user=$(ps -o user= -p "$pid")
+  echo "The process $pid is run by $user"
+done
+</code></pre>
+<p>This is more robust than <code>ps .. | grep python | cut ..</code> because it does not try to match against unrelated fields, such as if the user's name was <code>pythonguru</code>.</p>
 <h2>Exceptions</h2>
-<p>What if you have the pid and you are looking for the matching program name?</p>
-<pre><code class="lang-sh">pid=123; ps ax | grep &quot;$pid&quot;
+<p>You can [[ignore]] this error if you are trying to match against something that <code>pgrep</code> doesn't support:</p>
+<pre><code># pgrep does not support filtering by 'nice' value
+# shellcheck disable=SC2009
+ps -axo nice=,pid= | grep -v '^  0'
 </code></pre>
-<p>What if you want a range of the ps field, like from the 16th space to the end of the line?</p>
-<pre><code class="lang-sh">ps ax | grep &quot;$pid&quot; | cut -d&quot; &quot; -f16-
-</code></pre>
-<p>Both are valid cases where SC2009 is not valid.</p>

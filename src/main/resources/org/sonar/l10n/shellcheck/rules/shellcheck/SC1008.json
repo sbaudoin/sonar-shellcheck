@@ -1,5 +1,5 @@
 {
-  "title": "This shebang was unrecognized. Note that ShellCheck only handles sh\/bash\/dash\/ksh.",
+  "title": "This shebang was unrecognized. ShellCheck only supports sh\/bash\/dash\/ksh. Add a 'shell' directive to specify.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Info"
+  "defaultSeverity": "Blocker"
 }

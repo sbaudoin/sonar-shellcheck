@@ -1,0 +1,36 @@
+<p>-d only applies to the first expansion of this glob. Use a loop to check any/all.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -f ksh* ]
+then
+  echo &quot;The file exists&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">for f in ksh*
+do
+  if [ -f &quot;$f&quot; ]
+  then
+    echo &quot;Found a matching file: $f&quot;
+  fi
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>Ksh has the curious behavior of ignoring anything after an unrecognized flag to <code>test</code>/<code>[</code>, which means that file checking operators against globs will effectively apply the operator to the first expansion:</p>
+<pre><code class="lang-sh">[ -f ksh* ]                              # This
+[ -f ksh93u ksh93u.tar ksh93u.tar.gz ]   # Becomes this
+[ -f ksh93u ]                            # And is interpreted like this
+</code></pre>
+<p>This is an issue when you have multiple matches for a glob. Instead of checking some or all, it only checks the first result and ignores the rest. To ensure that all results are considered (either to check that <em>any</em> or <em>all</em> results match the operator), use a loop explicitly.</p>
+<p>If you really only want to match the first result of the glob expansion as sorted alphabetically in the current locale, you can make this intention explicit:</p>
+<pre><code>matches=( ksh* )
+if [ -f "${matches[0]}" ]
+then
+  echo "The first result is a file"
+fi
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you only care that entries exists, use <code>-e</code>. ShellCheck does not warn in this case, since all files resulting from glob expansion necessarily exist.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

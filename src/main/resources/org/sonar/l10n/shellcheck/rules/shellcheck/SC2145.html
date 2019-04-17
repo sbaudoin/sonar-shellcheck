@@ -5,6 +5,12 @@
 <h2>Correct code</h2>
 <pre><code class="lang-sh">printf &quot;Error: %s\n&quot; &quot;Bad parameters: $*&quot;
 </code></pre>
+<h2>Problematic code 2</h2>
+<pre><code class="lang-sh">printf &quot;Error: %s\n&quot; &quot;Bad parameters: ${ARRAY_VAR[@]}&quot;
+</code></pre>
+<h2>Correct code 2</h2>
+<pre><code class="lang-sh">printf &quot;Error: %s\n&quot; &quot;Bad parameters: &quot; &quot;${ARRAY_VAR[@]}&quot;
+</code></pre>
 <h2>Rationale</h2>
 <p>The behavior when concatenating a string and array is rarely intended. The preceeding string is prefixed to the first array element, while the succeeding string is appended to the last one. The middle array elements are unaffected.</p>
 <p>E.g., with the parameters <code>foo</code>,<code>bar</code>,<code>baz</code>, <code>"--flag=$@"</code> is equivalent to the three arguments <code>"--flag=foo" "bar" "baz"</code>.</p>

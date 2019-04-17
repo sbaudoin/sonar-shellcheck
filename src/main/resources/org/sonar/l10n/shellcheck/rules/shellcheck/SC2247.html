@@ -1,0 +1,19 @@
+<p>Flip leading $ and " if this should be a quoted substitution.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=$&quot;(whoami)&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=&quot;$(whoami)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a <code>$"(</code> or <code>$"{</code> . This is most likely due to flipping the dollar-sign and double quote:</p>
+<pre><code>echo $"(cmd)"  # Supposed to be "$(cmd)"
+echo $"{var}"  # Supposed to be "${var}"
+</code></pre>
+<p>Instead of quoted substitutions, these will be interpreted as localized string resources (<code>$".."</code>) containing literal parentheses or curly braces. If this was not intentional, you should flip the <code>"</code> and <code>$</code> like in the example.</p>
+<h2>Exceptions</h2>
+<p>If you intentionally wanted a localized string literal <code>$".."</code> that starts with <code>(</code> or <code>{</code>, either [[ignore]] this error or start it with a different character.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

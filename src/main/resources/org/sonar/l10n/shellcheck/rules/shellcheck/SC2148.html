@@ -12,8 +12,13 @@ echo &quot;$RANDOM&quot;  # Supported in bash. No warnings.
 </code></pre>
 <h2>Rationale</h2>
 <p>Different shells support different features. To give effective advice, ShellCheck needs to know which shell your script is going to run on. You will get a different numbers of warnings about different things depending on your target shell.</p>
-<p>ShellCheck normally determines your target shell from the shebang (having e.g. <code>#!/bin/sh</code> as the first line). The shell can also be specified from the CLI with <code>-s</code>, e.g. <code>shellcheck -s sh file</code>.</p>
-<p>If you don't specify shebang nor <code>-s</code>, ShellCheck gives this message and proceeds with some default (<code>bash</code>).</p>
+<p>If you add a shebang (e.g. <code>#!/bin/bash</code> as the first line), the OS will use this interpreter when the script is executed, and ShellCheck will use this shell when offering advice.</p>
+<p>If you for any reason can't or won't add a shebang, there are multiple other ways to let shellcheck know which shell you're coding for:</p>
+<ul>
+<li>Specify the shell using the <code>-s</code> or <code>--shell</code> flag, e.g. <code>shellcheck -s bash myfile</code></li>
+<li>Use a shellcheck [[directive]], adding <code># shellcheck shell=ksh</code> before the first command in the file.</li>
+<li>Give the script a <code>.bash</code>, <code>.ksh</code> or <code>.dash</code> extension (<code>.sh</code> will not assume <code>--shell=sh</code> since it's so generic)</li>
+</ul>
 <p>Note that this error can not be ignored with a [[directive]]. It is not a suggestion to improve your script, but a warning that ShellCheck lacks information it needs to be helpful.</p>
 <h2>Exceptions</h2>
-<p>None. Please either add a shebang or use <code>-s</code>.</p>
+<p>None. Please either add a shebang, directive, extension or use <code>-s</code>.</p>

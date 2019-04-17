@@ -1,0 +1,39 @@
+<p>Prefer explicit -n to check non-empty string (or use =/-ne to check boolean/integer).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$1&quot; ]
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Check if $1 is empty or non-empty
+if [ -n &quot;$1&quot; ]
+then
+  echo &quot;True, $1 is a non-empty value&quot;
+fi
+
+# Check instead if $1 is true or false, as in Java
+[ &quot;$1&quot; = &quot;true&quot; ]
+
+# Check instead if $1 is non-zero or zero, as in C
+[ &quot;$1&quot; -ne 0 ]
+
+# Check instead if $1 is defined (even if just assigned the empty string) or undefined
+[ &quot;${1+x}&quot; = &quot;x&quot; ]
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[ "$var" ]</code> is equivalent to <code>[ -n "$var" ]</code> and checks that a string is non-empty.</p>
+<p>Users more familiar with other languages are often surprised to learn that <code>[ "$var" ]</code> is true when:</p>
+<ul>
+<li><code>var=false</code></li>
+<li><code>var=0</code></li>
+<li><code>var=null</code></li>
+<li><code>var=" "</code></li>
+</ul>
+<p>Adding the explicit <code>-n</code> helps clarify that this is a string comparison, and not related to any concept of boolean values or "truthiness" as it is in most languages.</p>
+<h2>Exceptions</h2>
+<p>If you are familiar with the semantics of <code>[</code>, you can [[ignore]] this stylistic suggestion with no ill effects.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

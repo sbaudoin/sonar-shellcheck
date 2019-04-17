@@ -6,6 +6,8 @@
 <pre><code class="lang-sh">tr -cd &#39;[:digit:]&#39;
 </code></pre>
 <h2>Rationale</h2>
-<p><code>[:digit:]</code> is a shell glob that matches any single character file named e.g. <code>g</code> or <code>t</code> in the current directory. Quoting it prevents the script from breaking in directories with files like this.</p>
+<p>From the shell's point of view, unquoted <code>[:digit:]</code> is a glob equivalent to <code>[dgit:]</code> that matches any single character filename from the group, such as <code>d</code> or <code>t</code>, in the current directory.</p>
+<p>If someone starts learning D and creates a directory named <code>d</code> to hold the source code, the glob will be expanded and the script will end up executing <code>tr -cd d</code> instead, which is clearly unintended.</p>
+<p>Quoting the argument prevents this, and will pass it correctly as the literal string <code>[:digit:]</code> no matter which files exist in the current directory.</p>
 <h2>Exceptions</h2>
 <p>None</p>

@@ -1,1 +1,20 @@
-<p>This shebang was unrecognized. Note that ShellCheck only handles sh/bash/dash/ksh.</p>
+<p>This shebang was unrecognized. ShellCheck only supports sh/bash/dash/ksh. Add a 'shell' directive to specify.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/mywrapper
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/mywrapper
+# shellcheck shell=bash
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You have specified a shebang that ShellCheck doesn't recognize. This can be due to invoking the script via a wrapper, specifying a dummy like <code>#!/bin/false</code> to prevent execution, or trying to check a script for a non-Bourne shell or tool.</p>
+<p>If this really is a sh/bash/dash/ksh script, please add a <code>shell</code> directive after the shebang to tell ShellCheck how to interpret the script, as in the example. You can also specify the shell with the <code>-s</code> flag.</p>
+<p>If this is a script in some other language, like <code>#!/bin/sed</code> for a <code>sed</code> script, then sorry -- ShellCheck does not support <code>sed</code>, <code>awk</code>, <code>expect</code> scripts. It only supports Bourne style shell scripts.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

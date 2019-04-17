@@ -1,4 +1,4 @@
-<p>Use find instead of ls to better handle non-alphanumeric filenames.</p>
+<p>Use <code>find</code> instead of <code>ls</code> to better handle non-alphanumeric filenames.</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">ls -l | grep &quot; $USER &quot; | grep &#39;\.txt$&#39;
 </code></pre>
@@ -15,7 +15,52 @@ total 0
 -rw-r----- 1 me me 0 Feb  5 20:11 foo?bar
 </code></pre>
 <p>It shows three seemingly identical filenames, and did you spot the time format change? How it formats and what it redacts can differ between locale settings, <code>ls</code> version, and whether output is a tty.</p>
-<p><code>ls</code> can usually be substituted for <code>find</code> if it's the filenames you're after.</p>
+<h2>Tips for replacing <code>ls</code> with <code>find</code></h2>
+<h3>Just the filenames, ma'am</h3>
+<p><code>ls</code> can usually be replaced by <code>find</code> if it's just the filenames you're after. Note that if you are using <code>ls</code> to get at the contents of a directory, a straight substitution of <code>find</code> may not yield the same results as <code>ls</code>. Here is an example:</p>
+<pre><code>$ ls -c1 .snapshot
+rnapdev1-svm_4_05am_6every4hours.2019-04-01_1605
+rnapdev1-svm_4_05am_6every4hours.2019-04-01_2005
+rnapdev1-svm_4_05am_6every4hours.2019-04-02_0005
+rnapdev1-svm_4_05am_6every4hours.2019-04-02_0405
+rnapdev1-svm_4_05am_6every4hours.2019-04-02_0805
+rnapdev1-svm_4_05am_6every4hours.2019-04-02_1205
+snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
+</code></pre>
+<p>versus</p>
+<pre><code>$ find .snapshot -maxdepth 1
+.snapshot
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0005
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0405
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0805
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_1605
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_2005
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_1205
+.snapshot/snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
+</code></pre>
+<p>You can see two differences here. The first is that the <code>find</code> output has the full paths to the found files, relative to the current working directory from which <code>find</code> was run whereas <code>ls</code> only has the filenames. You may have to adjust your code to not add the directory to the filenames as you process them when moving from <code>ls</code> to <code>find</code>.</p>
+<p>The second difference in the two outputs is that the <code>find</code> command includes the searched directory as an entry. This can be eliminated by always using a negative name option for the searched directory:</p>
+<pre><code>$ find .snapshot -maxdepth 1 ! -name .snapshot
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0005
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0405
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0805
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_1605
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_2005
+.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_1205
+.snapshot/snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
+</code></pre>
+<p><strong>Note:</strong> If the directory argument to <code>find</code> is a fully expressed path (<code>/home/somedir/.snapshot</code>), then you should use <code>basename</code> on the <code>-name</code> filter:</p>
+<pre><code>$ theDir="$HOME/.snapshot"
+$ find "$theDir" -maxdepth 1 ! -name "$(basename $theDir)"
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0005
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0405
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0805
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_1605
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-01_2005
+/home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_1205
+/home/matt/.snapshot/snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
+</code></pre>
+<h3>All the other info</h3>
 <p>If trying to parse out any other fields, first see whether <code>stat</code> (GNU, OS X, FreeBSD) or <code>find -printf</code> (GNU) can give you the data you want directly.</p>
 <h2>Exceptions</h2>
 <p>If the information is intended for the user and not for processing (<code>ls -l ~/dir | nl; echo "Ok to delete these files?"</code>) you can ignore this error with a [[directive]].</p>

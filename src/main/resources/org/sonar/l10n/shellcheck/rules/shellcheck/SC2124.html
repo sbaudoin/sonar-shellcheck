@@ -1,4 +1,8 @@
 <p>Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.</p>
+<h2>Danger!</h2>
+<blockquote><p>Changing this parameter can be dangerous. Its behavior is influenced by the value of <code>IFS</code>. In certain situations (like feeding strings into commands) this can result in unexpected results from a seemingly aesthetic-only change.
+<a href="https://wiki.bash-hackers.org/syntax/shellvars#special_parameters_and_shell_variables">[More info]</a></p>
+</blockquote>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">var=$@
 for i in $var; do ..; done

@@ -6,9 +6,15 @@
 <pre><code class="lang-sh">string=&quot;stirng&quot; ; echo &quot;${string//ir/ri}&quot;
 </code></pre>
 <h2>Rationale</h2>
-<p>Let's assume somewhere earlier in your code you have put data into a variable (Ex: $string). Now you want to do a search and replace inside the contents of $string and echo the contents out. You could pass this to sed as done in the example above, but for simple substitutions utilizing the shell for the same feature is a lot simpler and should be utilized whenever possible.</p>
+<p>Let's assume somewhere earlier in your code you have put data into a variable (Ex: $string). Now you want to do a search and replace inside the contents of $string and echo the contents out. You could pass this to sed as done in the example above, but for simple substitutions, parameter expansion can do it with less overhead.</p>
 <h2>Exceptions</h2>
 <p>Occasionally a more complex sed substitution is required. For example, getting the last character of a string.</p>
 <pre><code class="lang-sh">string=&quot;stirng&quot; ; echo &quot;$string&quot; | sed -e &quot;s/^.*\(.\)$/\1/&quot;
 </code></pre>
 <p>This is a bit simple for the example and there are alternative ways of doing this in the shell, but this SC2001 flags on several of my crazy complex sed commands which are beyond the scope of this example. Utilizing some of the more complex capabilities of sed is required occasionally and it is safe to ignore SC2001.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Bash Manual: <a href="https://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion">Shell Parameter Expansion</a></li>
+<li>Wooledge BashGuide: <a href="https://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion">Parameter Expansion</a>.</li>
+<li>Bash Hacker Wiki: <a href="http://wiki.bash-hackers.org/syntax/pe">Parameter Expansion</a></li>
+</ul>

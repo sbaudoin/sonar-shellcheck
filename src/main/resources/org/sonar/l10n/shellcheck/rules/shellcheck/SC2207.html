@@ -8,9 +8,11 @@
 mapfile -t array &lt; &lt;(mycommand)
 
 # For bash 3.x+
-while IFS=$&#39;\n&#39; read -r line; do array+=(&quot;$line&quot;); done &lt; &lt;(mycommand)
+array=()
+while IFS=&#39;&#39; read -r line; do array+=(&quot;$line&quot;); done &lt; &lt;(mycommand)
 
 # For ksh
+array=()
 mycommand | while IFS=&quot;&quot; read -r line; do array+=(&quot;$line&quot;); done
 </code></pre>
 <p>If it outputs a line with multiple words (separated by spaces, other delimiters can be chosen with IFS), each of which should be an element:</p>

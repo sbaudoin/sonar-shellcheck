@@ -1,0 +1,18 @@
+<p>This shebang specifies a directory. Ensure the interpreter is a file.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh/
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The shebang specifies which file to use as an interpreter, but probably due to some kind of typo, your script's interpreter ends in a <code>/</code>, indicating a directory.</p>
+<p>Ensure it points to a valid executable filename.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

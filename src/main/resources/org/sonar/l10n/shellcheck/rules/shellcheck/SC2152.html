@@ -12,12 +12,13 @@
 </code></pre>
 <h2>Rationale</h2>
 <p>In many languages, <code>return</code> is used to return from the function with a final result.</p>
-<p>In bash, <code>return</code> can only be used to signal success or failure (0 = success, 1-255 = failure), more akin to <code>throw/raise</code> in other languages.</p>
+<p>In sh/bash, <code>return</code> can only be used to signal success or failure (0 = success, 1-255 = failure), more akin to <code>throw/raise</code> in other languages.</p>
 <p>Results should instead be written to stdout and captured:</p>
 <pre><code class="lang-sh">message=$(myfunc)
 echo &quot;The function wrote: $message&quot;
 </code></pre>
-<p>In functions that return small integers, such as getting the cpu temperature, the value should still be written to stdout. <code>return</code> should be reserved for error conditions, such as "can't determine CPU temperature".</p>
+<p>In functions that return small integers, such as getting the cpu temperature, the value should still be written to stdout. <code>return</code> should be reserved for error conditions, such as "can't determine CPU temperature". Error or failure messages should be written to stderr.</p>
+<p>Note in particular that <code>return -1</code> is equivalent to <code>return 255</code>, but that <code>return 1</code> is the more canonical way of expressing the first possible error code.</p>
 <h2>Exceptions</h2>
 <p>None</p>
 <h2>Related resources</h2>
