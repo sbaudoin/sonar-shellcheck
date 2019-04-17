@@ -15,6 +15,7 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.settings;
 
+import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
@@ -27,6 +28,8 @@ public class ShellCheckSettings {
     public static final String SHELLCHECK_PATH_DEFAULT_VALUE = "";
     public static final String FILE_SUFFIXES_KEY = "sonar.shell.file.suffixes";
     public static final String FILE_SUFFIXES_DEFAULT_VALUE = ".sh,.ksh,.bash";
+    public static final String SKIP_KEY = "sonar.shell.skip";
+    public static final String SKIP_DEFAULT_VALUE = "false";
 
 
     private ShellCheckSettings() {
@@ -49,6 +52,14 @@ public class ShellCheckSettings {
                         .defaultValue(SHELLCHECK_PATH_DEFAULT_VALUE)
                         .category("ShellCheck")
                         .onQualifiers(Qualifiers.PROJECT)
+                        .build(),
+                PropertyDefinition.builder(SKIP_KEY)
+                        .name("Skip quality gate check")
+                        .description(
+                                "If set to true, ShellCheck will not be executed for this project.")
+                        .onQualifiers(Qualifiers.PROJECT)
+                        .type(PropertyType.BOOLEAN)
+                        .defaultValue(SKIP_DEFAULT_VALUE)
                         .build()
         );
     }

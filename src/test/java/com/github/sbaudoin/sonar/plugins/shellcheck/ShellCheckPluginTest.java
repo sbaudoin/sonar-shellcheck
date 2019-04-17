@@ -34,7 +34,7 @@ public class ShellCheckPluginTest {
     public void testExtensionCounts1() {
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
-        assertEquals(6, context.getExtensions().size());
+        assertEquals(7, context.getExtensions().size());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ShellCheckPluginTest {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "false");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
-        assertEquals(5, context.getExtensions().size());
+        assertEquals(6, context.getExtensions().size());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ShellCheckPluginTest {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "True");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
-        assertEquals(6, context.getExtensions().size());
+        assertEquals(7, context.getExtensions().size());
     }
 
     @Test
@@ -58,6 +58,6 @@ public class ShellCheckPluginTest {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "something");
         Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
         new ShellCheckPlugin().define(context);
-        assertEquals(5, context.getExtensions().size());
+        assertEquals(6, context.getExtensions().size());
     }
 }
