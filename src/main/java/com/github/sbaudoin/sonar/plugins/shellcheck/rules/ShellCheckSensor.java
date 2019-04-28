@@ -205,6 +205,8 @@ public class ShellCheckSensor implements Sensor {
             return status;
         } catch (InterruptedException|IOException e) {
             LOGGER.error("Error executing command: {}", e.getMessage());
+            LOGGER.error("Is the command installed and in the path?");
+            LOGGER.error("Hint: run the scanner in debug mode to get the complete stack trace");
             LOGGER.debug("Stack trace:", e);
             throw e;
         }
