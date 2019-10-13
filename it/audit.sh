@@ -18,7 +18,7 @@ echo "sonar.host.url=http://sonarqube:9000" > /tmp/sonar-scanner-$SCANNER_VERSIO
 # Audit code
 echo "Launching scanner..."
 cd /usr/src/myapp/it
-sonar-scanner
+sonar-scanner 2>&1 | tee /tmp/scanner.log
 if [ $? -ne 0 ]
 then
     echo "Error scanning Shell scripts" >&2
@@ -85,5 +85,5 @@ if data['issues'][0]['message'] == 'To assign the output of a command, use var=\
     print('issues metrics OK')
     issues = True
 
-sys.exit(0 if lines and ncloc and files and directories and comment_lines and violations and issues else 1)
+sys.exit(0 if lines and ncloc and files and comment_lines and violations and issues else 1)
 EOF
