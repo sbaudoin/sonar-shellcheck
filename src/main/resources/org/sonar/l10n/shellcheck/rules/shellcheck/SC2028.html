@@ -3,7 +3,7 @@
 <pre><code class="lang-sh">echo &quot;Name:\t$value&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">printf &quot;Name:\t%s\n&quot; &quot;$value&quot;
+<pre><code class="lang-sh">printf &#39;Name:\t%s\n&#39; &quot;$value&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Backslash escapes like <code>\t</code> and <code>\n</code> are not expanded by echo, and become literal backslash-t, backslash-n.</p>

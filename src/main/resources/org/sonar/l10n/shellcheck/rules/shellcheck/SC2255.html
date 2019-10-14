@@ -1,0 +1,17 @@
+<p><code>[ ]</code> does not apply arithmetic evaluation. Evaluate with <code>$((..))</code> for numbers, or use string comparator for strings.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ 2*3 -eq array[i] ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ $((2*3)) -eq $((array[i])) ]
+</code></pre>
+<h2>Rationale</h2>
+<p>When using <code>[[ .. ]]</code> with numerical comparators (<code>-eq</code>, <code>-lt</code>, etc), the value on either side will be evaluated as an arithmetic expression. This means that <code>2*3</code> will be evaluated to <code>6</code>, and <code>x</code> will be evaluated to the contents of the variable <code>$x</code>.</p>
+<p>When using <code>[ .. ]</code>, this does not happen. <code>2*3</code> and <code>x</code> will both be considered invalid numbers. Instead, use e.g. <code>$((2*3))</code> to evaluate the expression before passing it to <code>[ .. ]</code>.</p>
+<p>Alternatively, if the expression should be considered a string, quote the expression and use a string comparison operator like <code>=</code> and <code>!=</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

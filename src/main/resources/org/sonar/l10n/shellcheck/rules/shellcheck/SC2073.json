@@ -1,5 +1,5 @@
 {
-  "title": "Escape \\< and \\> to prevent it redirecting (or try switch to [[ .. ]]).",
+  "title": "Escape \\&lt; to prevent it redirecting (or switch to [[ .. ]]).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

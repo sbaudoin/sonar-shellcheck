@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "[ ] does not apply arithmetic evaluation. Evaluate with $((..)) for numbers, or use string comparator for strings.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Blocker"
 }

@@ -1,30 +1,31 @@
 <p>You probably wanted &amp;&amp; here, otherwise it's always true.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [[ $1 != foo || $1 != bar ]]
+<pre><code class="lang-sh">if [ &quot;$1&quot; != foo ] || [ &quot;$1&quot; != bar ]
 then
   echo &quot;$1 is not foo or bar&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [[ $1 != foo &amp;&amp; $1 != bar ]]
+<pre><code class="lang-sh">if [ &quot;$1&quot; != foo ] &amp;&amp; [ &quot;$1&quot; != bar ]
 then
   echo &quot;$1 is not foo or bar&quot;
 fi
 </code></pre>
 <h2>Rationale</h2>
 <p>This is not a bash issue, but a simple, common logical mistake applicable to all languages.</p>
-<p><code>[[ $1 != foo || $1 != bar ]]</code> is always true (when <code>foo != bar</code>):</p>
+<p><code>[ "$1" != foo ] || [ "$1" != bar ]</code> is always true (when <code>foo != bar</code>):</p>
 <ul>
 <li>If <code>$1 = foo</code> then <code>$1 != bar</code> is true, so the statement is true.</li>
 <li>If <code>$1 = bar</code> then <code>$1 != foo</code> is true, so the statement is true.</li>
 <li>If <code>$1 = cow</code> then <code>$1 != foo</code> is true, so the statement is true.</li>
 </ul>
-<p><code>[[ $1 != foo &amp;&amp; $1 != bar ]]</code> matches when <code>$1</code> is neither <code>foo</code> nor <code>bar</code>:</p>
+<p><code>[ $1 != foo ] &amp;&amp; [ $1 != bar ]</code> matches when <code>$1</code> is neither <code>foo</code> nor <code>bar</code>:</p>
 <ul>
 <li>If <code>$1 = foo</code>, then <code>$1 != foo</code> is false, so the statement is false.</li>
 <li>If <code>$1 = bar</code>, then <code>$1 != bar</code> is false, so the statement is false.</li>
 <li>If <code>$1 = cow</code>, then both <code>$1 != foo</code> and <code>$1  != bar</code> is true, so the statement is true.</li>
 </ul>
-<p>This statement is identical to <code>! [[ $1 = foo || $1 = bar ]]</code>, which also works correctly.</p>
+<p>This statement is identical to <code>! [ "$1" = foo ] || [ "$1" = bar ]</code>, which also works correctly (by <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan's law</a>)</p>
+<p>This warning is equivalent to [[SC2055]] and [[SC2056]], which trigger for intra-<code>test</code> expressions and arithmetic contexts respectively.</p>
 <h2>Exceptions</h2>
 <p>Rare.</p>

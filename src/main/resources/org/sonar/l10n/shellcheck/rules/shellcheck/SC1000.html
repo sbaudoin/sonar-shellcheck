@@ -1,0 +1,14 @@
+<h1>$ is not used specially and should therefore be escaped.</h1>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;$&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;\$&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>$</code> is special in double quotes, but there are some cases where it's interpreted literally:</p>
+<ol>
+<li>Following a backslash: <code>echo "\$"</code></li>
+<li>In a context where the shell can't make sense of it, such as at the end of the string, (<code>"foo$"</code>) or before some constructs (<code>"$'foo'"</code>).</li>
+</ol>
+<p>To avoid relying on strange and shell-specific behavior, any <code>$</code> intended to be literal should be escaped with a backslash.</p>

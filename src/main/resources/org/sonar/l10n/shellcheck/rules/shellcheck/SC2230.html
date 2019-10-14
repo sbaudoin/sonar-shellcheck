@@ -9,6 +9,21 @@
 <p><code>which</code> is a non-standard, external tool that locates an executable in PATH. <code>command -v</code> is a POSIX standard builtin, which uses the same lookup mechanism that the shell itself would.</p>
 <h2>Exceptions</h2>
 <p>None</p>
+<h2>Caveats</h2>
+<p>With BASH 5.0.7 (via homebrew on macOS 10.13.6), <code>command -v</code> appears to take multiple parameters:</p>
+<pre><code># grep is in /usr/bin/grep
+# foobar is not in path
+#
+$ command -v -- grep foobar; echo $?
+0
+</code></pre>
+<p>but succeeds (with exit code 0) if <em>any</em> command exists. In the above
+example, it should have failed and exited with 1 unless <em>all</em> commands
+exist.</p>
+<p>An alternative is:</p>
+<pre><code>$ hash &lt;file1&gt; &lt;file2&gt;
+</code></pre>
+<p>Which observes the standard behaviour of failures.</p>
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://stackoverflow.com/a/677212/1899640">Check if a program exists from a Bash script</a> on StackOverflow.</li>

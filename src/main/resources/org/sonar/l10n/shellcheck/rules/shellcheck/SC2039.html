@@ -11,6 +11,18 @@ You have declared that your script works with <code>/bin/sh</code>, but you are 
 <pre><code class="lang-sh">a=&quot;$(printf &#39;%b_&#39; &#39; \t\n&#39;)&quot;; a=&quot;${a%_}&quot; # protect trailing \n
 </code></pre>
 <p>Want some good news? See <a href="http://austingroupbugs.net/view.php?id=249#c590">http://austingroupbugs.net/view.php?id=249#c590</a>.</p>
+<h2>Testing Equality</h2>
+<p><code>==</code> operator is not supported in POSIX <code>sh</code></p>
+<p>Bash:</p>
+<pre><code class="lang-Bash">if [ &quot;$a&quot; == &quot;$b&quot; ]; then
+    echo &quot;equal&quot;
+fi
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">if [ &quot;$a&quot; = &quot;$b&quot; ]; then
+    echo &quot;equal&quot;
+fi
+</code></pre>
 <h2><code>$"msgid"</code></h2>
 <p>Bash:</p>
 <pre><code class="lang-Bash">echo $&quot;foo $(bar) baz&quot;
@@ -134,5 +146,30 @@ reuse_quote &quot;$@&quot;
 &quot;$(jobs | awk &#39;/(R|r)(unning)/&#39;)&quot;          # instead of jobs -r
 </code></pre>
 <p>Although the state of stopped jobs is <code>Stopped</code> in Bash and dash, and it's the one specified by POSIX, <code>Suspended</code> is also a valid alternative (but Zsh happens to not respect the capitalization, that's why we try to match <code>suspended</code>). Similarly, the state of running jobs is <code>Running</code> according to POSIX. Bash and dash respect this, but Zsh uses <code>running</code>.</p>
+<h2>Redirect both stdout and stderr</h2>
+<p>Change:</p>
+<pre><code>&gt;&amp; and &amp;&gt;
+</code></pre>
+<p>To:</p>
+<pre><code>command &gt; file 2&gt;&amp;1 or command 2&gt;&amp;1 | othercommand
+</code></pre>
+<p>No Comments / Exceptions</p>
+<h2>Heredoc</h2>
+<p>Change:</p>
+<pre><code>sed 's/some_replacement//g' &lt;&lt;&lt; "${var}"
+</code></pre>
+<p>To:</p>
+<pre><code>printf '%s' "${var}" | sed 's/some_replacement//g'
+</code></pre>
+<p>No Comments / Exceptions</p>
+<h2>Prefixing signal names with <code>SIG</code></h2>
+<p>Instead of e.g.:</p>
+<pre><code class="lang-sh">trap my_handler SIGTERM
+</code></pre>
+<p>use:</p>
+<pre><code class="lang-sh">trap my_handler TERM
+# or (`trap -l` for a list of signal numbers):
+trap my_handler 15
+</code></pre>
 <p>Exception</p>
 <p>Depends on what your expected POSIX shell providers would use.</p>

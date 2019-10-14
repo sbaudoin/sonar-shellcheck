@@ -43,5 +43,4 @@ Line: bullfrog.jpg
 Line: bar
 </code></pre>
 <h2>Exceptions</h2>
-<p>If you want to read word by word, you should still use a while read loop (e.g. with <code>read -a</code> to read words into an array).</p>
-<p>Rare reasons for ignoring this message is if you don't care because your file only contains numbers and you're not interested in good practices, or if you've set <code>$IFS</code> appropriately and also disabled globbing.</p>
+<p>If you do want to read word by word, you can set <code>$IFS</code> appropriately and disable globbing with <code>set -f</code>, and then [[ignore]] this warning. Alternatively, you can pipe through <code>tr ' ' '\n'</code> to turn words into lines, and then use <code>while read</code>. In Bash/Ksh, you can also use a <code>while read -a</code> loop to get an array of words per line.</p>

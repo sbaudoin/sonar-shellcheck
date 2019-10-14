@@ -1,9 +1,9 @@
 <h1>Use <code>$(...)</code> notation instead of legacy backticked <code>`...`</code>.</h1>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;Current time: `date`&quot;
+<pre><code class="lang-sh">echo &quot;You are running on `uname`&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;Current time: $(date)&quot;
+<pre><code class="lang-sh">echo &quot;You are running on $(uname)&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Backtick command substitution <code>`...`</code> is legacy syntax with several issues.</p>

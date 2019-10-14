@@ -1,0 +1,12 @@
+<p>-eq is for integer comparisons. Use = instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ $foo -eq &quot;Y&quot; ]]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ $foo = &quot;Y&quot; ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>Shells have two sets of comparison operators: for integers (<code>-eq</code>, <code>-gt</code>, ...) and strings (<code>=</code>, <code>&gt;</code>, ...). ShellCheck has noticed that you're using an integer comparison with string data.</p>
+<p>If you are in fact comparing integers, double check your parameters. Certain mistakes like <code>$$foo</code> or <code>${bar}}</code> can introduce non-numeric characters into otherwise numeric arguments.</p>
+<h2>Exceptions</h2>
+<p>None.</p>

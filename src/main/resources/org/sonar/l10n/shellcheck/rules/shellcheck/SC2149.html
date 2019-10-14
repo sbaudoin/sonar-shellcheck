@@ -1,0 +1,32 @@
+<p>Remove $/${} for numeric index, or escape it for string.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Regular array
+index=42
+echo $((array[$index]))
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># Associative array
+index=banana
+echo $((array[$index]))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code># Regular array
+index=42
+echo $((array[index]))
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh"># Associative array
+index=banana
+echo $((array[\$index]))
+</code></pre>
+<h2>Rationale</h2>
+<p>For a numerically indexed array, the <code>$</code> is mostly pointless and can be removed like in [[SC2004]].</p>
+<p>For associative arrays, the <code>$</code> should be escaped to avoid accidental dereferencing:</p>
+<pre><code class="lang-sh">declare -A array
+index=&#39;$1&#39;
+array[$index]=42
+echo &quot;$(( array[$index] ))&quot;    # bash: array: bad array subscript
+echo &quot;$(( array[\$index] ))&quot;   # 42
+</code></pre>
+<h2>Exceptions</h2>
+<p>None.</p>

@@ -3,7 +3,7 @@
 <pre><code class="lang-sh">export foo=&quot;$(mycmd)&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">foo=$(mycmd)
+<pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
 export foo
 </code></pre>
 <h2>Rationale</h2>
@@ -21,6 +21,12 @@ export foo
 <h2>Correct code</h2>
 <pre><code class="lang-sh">local foo
 foo=$(mycmd)
+</code></pre>
+<h2>Rationale</h2>
+<p>The exit status of the command is overridden by the exit status of the creation of the local variable. For example:</p>
+<pre><code class="lang-bash">$ f() { local foo=$(false) || echo foo; }; f
+$ f() { local foo; foo=$(false) || echo foo; }; f
+foo
 </code></pre>
 <h2>Problematic code in the case of <code>readonly</code></h2>
 <pre><code class="lang-sh">readonly foo=&quot;$(mycmd)&quot;

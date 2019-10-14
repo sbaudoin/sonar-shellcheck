@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "!\/bin\/sh was specified, so __ is not supported, even when sh is actually bash.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

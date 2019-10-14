@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "This ! is not on a condition and skips errexit. Use &amp;&amp; exit 1 instead, or make sure $? is checked.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Info"
 }

@@ -1,1 +1,30 @@
-<p>Escape \&lt; and \&gt; to prevent it redirecting (or try switch to [[ .. ]]).</p>
+<p>Escape <code>\&lt;</code> to prevent it redirecting (or switch to <code>[[ .. ]]</code>).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;aardvark&quot; &lt; &quot;zebra&quot; ]
+then
+  echo &quot;Alphabetical!&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;aardvark&quot; \&lt; &quot;zebra&quot; ]
+then
+  echo &quot;Alphabetical!&quot;
+fi
+</code></pre>
+<p>or optionally in Bash/Ksh:</p>
+<pre><code class="lang-sh">if [[ &quot;aardvark&quot; &lt; &quot;zebra&quot; ]]
+then
+  echo &quot;Alphabetical!&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using the operator <code>&lt;</code> or <code>&gt;</code> in a <code>[</code> test expression.</p>
+<p>In this context, it will be considered a file redirection operator instead, so <code>[ "aardvark" &lt; "zebra" ]</code> is equivalent to <code>[ "aardvark" ] &lt; ./zebra</code>, which is true if there exists a readable file <code>zebra</code> in the current directory.</p>
+<p>If you wanted to compare two strings lexicographically (alphabetically), escape the <code>&lt;</code> or <code>&gt;</code> with a backslash as in the correct example.</p>
+<p>If you want to compare two numbers numerically, use <code>-lt</code> or <code>-ge</code> instead.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

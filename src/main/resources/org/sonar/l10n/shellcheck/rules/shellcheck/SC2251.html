@@ -1,0 +1,25 @@
+<p>This ! is not on a condition and skips errexit. Use <code>&amp;&amp; exit 1</code> instead, or make sure $? is checked.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">set -e
+! false
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">set -e
+! false &amp;&amp; exit 1
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a command inverted with <code>!</code> that may have no effect. In particular, it does not appear as a condition in an <code>if</code> statement or <code>while</code> loop, or as the final command in a script or function.</p>
+<p>The most common reason for this is thinking that it'll trigger <code>set -e</code> aka <code>errexit</code> if a command succeeds, as in the example. This is not the case: <code>!</code> will inhibit errexit both on success and failure of the inverted command.</p>
+<p>Using <code>&amp;&amp; exit</code> will instead exit when failure when the command succeeds.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck will not detect cases where <code>$?</code> is implicitly or explicitly used to check the value afterwards:</p>
+<pre><code>set -e;
+check_success() { [ $? -eq 0 ] || exit 1; }
+! false; check_success
+! true; check_success
+</code></pre>
+<p>In this case, you can [[ignore]] the warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>StackOverflow: <a href="https://stackoverflow.com/questions/39581150/why-do-i-need-parenthesis-in-bash-set-e-and-negated-return-code/39582012">Why do I need parenthesis In bash <code>set -e</code> and negated return code</a></li>
+</ul>

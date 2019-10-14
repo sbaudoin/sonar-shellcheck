@@ -1,0 +1,21 @@
+<p>Unexpected characters after terminating <code>]</code>. Missing semicolon/linefeed?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -e &quot;foo.txt&quot; ]: then
+  echo &quot;Exists&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -e &quot;foo.txt&quot; ]; then
+  echo &quot;Exists&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found unexpected characters after the <code>]</code> or <code>]]</code> in a <code>test</code> expression. In the example, a colon was accidentally used instead of a semicolon.</p>
+<p>Similarly, a missing space before a comment (<code>[ -e foo ]#comment</code>), an additional square bracket (<code>[[ -e foo ]]]</code>), or a missing semicolon before a <code>then</code> on the same line (<code>if [ foo ]then</code>) can cause this warning.</p>
+<p>Make sure the <code>]</code> or <code>]]</code> is not immediately followed by another shell word character.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

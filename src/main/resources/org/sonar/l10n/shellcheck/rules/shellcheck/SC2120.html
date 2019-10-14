@@ -22,4 +22,4 @@ second() { echo &quot;The first script parameter is: $1&quot;; }
 first &quot;$@&quot;
 </code></pre>
 <h2>Exceptions</h2>
-<p>If the parameters are optional and you currently just don't want to use them, you can ignore this message.</p>
+<p>If the parameters are optional and you currently just don't want to use them, you can ignore this message. In versions strictly greater than v0.6.0, ignoring SC2120 on a function will also disable SC2119 on each of the call sites.</p>
