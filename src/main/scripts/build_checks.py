@@ -13,23 +13,26 @@ import html as html_parser
 ############################
 # FUNCTIONS
 ############################
-def get_config(rule, name):
-    if 'rules' in config and rule in config['rules'] and name in config['rules'][rule]:
-        return config['rules'][rule][name]
+def get_config(rule_name, name):
+    if 'rules' in config and rule_name in config['rules'] and name in config['rules'][rule_name]:
+        return config['rules'][rule_name][name]
     return config['default'].get(name, None)
 
-def get_tags(rule):
-    tags_always = get_config(rule, 'tags_always')
+
+def get_tags(rule_name):
+    tags_always = get_config(rule_name, 'tags_always')
     if not tags_always:
         tags_always = []
-    return tags_always + get_config(rule, 'tags')
+    return tags_always + get_config(rule_name, 'tags')
+
 
 def get_default_severity(severity):
     return config['default']['severity'][severity]
 
-def get_severity(rule):
-    if 'rules' in config and rule in config['rules'] and 'severity' in config['rules'][rule]:
-        return get_default_severity(config['rules'][rule]['severity'])
+
+def get_severity(rule_name):
+    if 'rules' in config and rule_name in config['rules'] and 'severity' in config['rules'][rule_name]:
+        return get_default_severity(config['rules'][rule_name]['severity'])
     return get_default_severity('default')
 
 
@@ -84,6 +87,9 @@ for filename in os.listdir(sc_path):
 
     print('  Processing ', filename, '...')
 
+    if get_config(rule, 'description'):
+        print('    INFO: configured description ignored')
+
     # Read MD file
     md_data = open(sc_path + '/' + filename, 'r').read()
     md_data = re.sub('^(### .*):$', '\\1', md_data, flags=re.MULTILINE)
@@ -100,13 +106,14 @@ for filename in os.listdir(sc_path):
     title = re.sub('<[^>]*>', '', html.splitlines()[0])
     title = re.sub('"', '\'', title)
 
-    json_data = {}
-    json_data['title'] = title
-    json_data['type'] = get_config(rule, 'type')
-    json_data['status'] = 'ready'
-    json_data['remediation'] = { 'func': 'Constant/Issue', 'constantCost': get_config(rule, 'constantCost') }
-    json_data['tags'] = get_tags(rule)
-    json_data['defaultSeverity'] = get_severity(rule)
+    json_data = {
+        'title': title,
+        'type': get_config(rule, 'type'),
+        'status': 'ready',
+        'remediation': {'func': 'Constant/Issue', 'constantCost': get_config(rule, 'constantCost')},
+        'tags': get_tags(rule),
+        'defaultSeverity': get_severity(rule)
+    }
     file = open(rule + '.json', 'w')
     file.write(json.dumps(json_data, indent=2).replace('/', '\\/'))
     file.close()
@@ -115,7 +122,8 @@ for filename in os.listdir(sc_path):
 for rule in config['rules']:
     if get_config(rule, 'ignored'):
         continue
-    if not os.path.isfile(rule + '.html') or not os.path.isfile(rule + '.json') and 'description' in config['rules'][rule]:
+    if not os.path.isfile(rule + '.html') or not os.path.isfile(rule + '.json')\
+            and 'description' in config['rules'][rule]:
         print('  Generating additional files for', rule, '...')
 
         # Write HTML file
