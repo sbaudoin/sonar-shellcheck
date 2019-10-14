@@ -1,1 +1,23 @@
-<p>Found trailing ]] or ] outside test. Missing [[ or [?</p>
+<p>Found trailing ] outside test. Add missing [ or quote if intentional.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if foo -eq bar ]; then true; fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">tr -d ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ foo -eq bar ]; then true; fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">tr -d &#39;]&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a non-test command that ends with <code>]</code> or <code>]]</code>.</p>
+<p>If this was intended to be a test expression like in the first example, add the missing <code>[</code> or <code>[[</code>.</p>
+<p>If the <code>]</code> was intended to be literal, like in <code>tr -d ]</code>, you can quote to make this obvious.</p>
+<h2>Exceptions</h2>
+<p><code>tr -d ]</code> is valid and not different from <code>tr -d ']'</code>, so in these cases you can ignore the error instead.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

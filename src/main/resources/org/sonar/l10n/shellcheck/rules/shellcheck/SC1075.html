@@ -20,7 +20,8 @@ fi
 <h2>Rationale</h2>
 <p>Many languages allow alternate branches with <code>else if</code>, but <code>sh</code> is not one of them. Use <code>elif</code> instead.</p>
 <h2>Exceptions</h2>
-<p><code>else if</code> is a valid (though confusing) way of nesting an <code>if</code> statement in a parent's <code>else</code>. If this is your intention, please use canonical formatting and put a linefeed between <code>else</code> and <code>if</code>.</p>
+<p><code>else if</code> is a valid (though confusing) way of nesting an <code>if</code> statement in a parent's <code>else</code>. If this is your intention, consider using canonical formatting by putting a linefeed between <code>else</code> and <code>if</code>.</p>
+<p>This does not change the behavior of the script, but merely makes it more obvious to ShellCheck (and other humans) that you didn't expect the <code>else if</code> to behave the way it does in C. Alternatively, you can [[ignore]] it with no ill effects.</p>
 <pre><code class="lang-sh">
 if x
 then

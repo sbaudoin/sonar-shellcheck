@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "Parse error: failed to process file.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Blocker"
 }

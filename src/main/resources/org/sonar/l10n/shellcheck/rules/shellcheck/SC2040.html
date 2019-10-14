@@ -1,0 +1,4 @@
+<h1>!/bin/sh was specified, so <em>__</em> is not supported, even when sh is actually bash.</h1>
+<p>The shebang indicates that the script works with <code>/bin/sh</code>, but you are using non-standard features that may not work with <code>/bin/sh</code>, <strong>even if /bin/sh is actually bash</strong>. Bash behaves differently when invoked as <code>sh</code>, and disabling support for the highlighted feature is one part of that.</p>
+<p>Specify <code>#!/usr/bin/env bash</code> to ensure that bash (or your shell of choice) will be used, or rewrite the script to be more portable.</p>
+<p>The Ubuntu wiki has <a href="https://wiki.ubuntu.com/DashAsBinSh">a list of portability issues</a> and suggestions on how to rewrite them.</p>

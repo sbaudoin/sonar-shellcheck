@@ -14,3 +14,12 @@ $ echo $((a * 5))     # evaluates as (1+1)*5
 10
 </code></pre>
 <p>The <code>$</code> is unavoidable for special variables like <code>$1</code> vs <code>1</code>, <code>$#</code> vs <code>#</code>. It's also required when adding modifiers to parameters expansions, like <code>${#var}</code> or <code>${var%-}</code>. ShellCheck does not warn about these cases.</p>
+<p>The <code>$</code> is also required (and not warned about) when you need to specify the <em>base</em> for a variable value:</p>
+<pre><code class="lang-sh">$ a=09
+$ echo $((a + 1))          # leading zero forces octal interpretation
+bash: 09: value too great for base (error token is &quot;09&quot;)
+$ echo $((10#a + 1))
+bash: 10#a: value too great for base (error token is &quot;10#a&quot;)
+$ echo $((10#$a + 1))
+10
+</code></pre>

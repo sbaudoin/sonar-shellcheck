@@ -1,24 +1,7 @@
-<p>Tips depend on target shell and yours is unknown. Add a shebang.</p>
-<h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$RANDOM&quot;   # Does this work?
+<p>Add shebang to the top of your script:</p>
+<pre><code class="lang-bash">#!/bin/bash
 </code></pre>
-<h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
-echo &quot;$RANDOM&quot;  # Unsupported in sh. Produces warning.
+<p>Alternatively, if that is not possible / desirable, you can use the <code>--shell</code> switch:</p>
+<pre><code class="lang-bash">shellcheck --shell=bash without-shebang.sh
 </code></pre>
-<p>or</p>
-<pre><code class="lang-sh">#!/bin/bash
-echo &quot;$RANDOM&quot;  # Supported in bash. No warnings.
-</code></pre>
-<h2>Rationale</h2>
-<p>Different shells support different features. To give effective advice, ShellCheck needs to know which shell your script is going to run on. You will get a different numbers of warnings about different things depending on your target shell.</p>
-<p>If you add a shebang (e.g. <code>#!/bin/bash</code> as the first line), the OS will use this interpreter when the script is executed, and ShellCheck will use this shell when offering advice.</p>
-<p>If you for any reason can't or won't add a shebang, there are multiple other ways to let shellcheck know which shell you're coding for:</p>
-<ul>
-<li>Specify the shell using the <code>-s</code> or <code>--shell</code> flag, e.g. <code>shellcheck -s bash myfile</code></li>
-<li>Use a shellcheck [[directive]], adding <code># shellcheck shell=ksh</code> before the first command in the file.</li>
-<li>Give the script a <code>.bash</code>, <code>.ksh</code> or <code>.dash</code> extension (<code>.sh</code> will not assume <code>--shell=sh</code> since it's so generic)</li>
-</ul>
-<p>Note that this error can not be ignored with a [[directive]]. It is not a suggestion to improve your script, but a warning that ShellCheck lacks information it needs to be helpful.</p>
-<h2>Exceptions</h2>
-<p>None. Please either add a shebang, directive, extension or use <code>-s</code>.</p>
+<p>See <code>shellcheck --help</code> for a list of supported flavors.</p>

@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "Prefer escape over ending quote to make $ literal. Instead of 'It costs $'5, use 'It costs \\$5'",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Info"
 }

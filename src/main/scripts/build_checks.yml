@@ -30,7 +30,6 @@ rules:
   SC1034:
     description: "Did you mean [[ ?"
   SC1043:
-
     description: "Found end token `EOF' further down, but with wrong casing."
   SC1055:
     description: "You need at least one command here. Use 'true;' as a no-op."
@@ -44,8 +43,6 @@ rules:
     description: "Can't have empty do clauses (use 'true' as a no-op)."
   SC1063:
     description: "You need a line feed or semicolon before the 'do'."
-  SC1067:
-    description: "For indirection, use (associative) arrays or 'read \"var$n\" <<< \"value\"'"
   SC1070:
     description: "Parsing stopped here. Mismatched keywords or invalid parentheses?"
   SC1074:
@@ -70,6 +67,8 @@ rules:
     ignored: True  # See Wiki: rule retired
   SC1125:
     description: "Invalid key=value pair? Ignoring the rest of this directive starting here."
+  SC1134:
+    description: "Parse error: failed to process file."
   SC2000:
     description: "See if you can use ${#variable} instead."
   SC2011:
@@ -82,8 +81,6 @@ rules:
     description: "Use spaces, not commas, to separate loop elements."
   SC2043:
     type: BUG
-  SC2073:
-    description: "Escape \\< and \\> to prevent it redirecting (or try switch to [[ .. ]])."
   SC2075:
     description: "Escaping \\< and \\> is required in [..], but invalid in [[..]]"
   SC2083:
@@ -102,8 +99,6 @@ rules:
       <p>To use cases with <code>;&</code>, specify <code>#!/usr/bin/env bash</code> or <code>#!/usr/bin/env ksh</code>.</p>
       <p>To use cases with <code>;;&</code>, specify <code>#!/usr/bin/env bash</code>.</p>
       <p>To use <code>${ ..; }</code> command expansion, specify <code>#!/usr/bin/env ksh</code>.</p>
-  SC2171:
-    description: "Found trailing ]] or ] outside test. Missing [[ or [?"
   SC2188:
     type: BUG
   SC2193:

@@ -1,5 +1,5 @@
 {
-  "title": "Quote to prevent word splitting, or split robustly with mapfile or read -a.",
+  "title": "Quote to prevent word splitting\/globbing, or split robustly with mapfile or read -a.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

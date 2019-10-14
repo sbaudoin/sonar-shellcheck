@@ -1,0 +1,24 @@
+<p>Quote expansions in case patterns to match literally rather than as a glob.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">case $input in
+  -       ) echo &quot;Reading from stdin...&quot; ;;
+  $output ) echo &quot;Input should be different from output&quot; ;;
+esac
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">case $input in
+  -         ) echo &quot;Reading from stdin...&quot; ;;
+  &quot;$output&quot; ) echo &quot;Input should be different from output&quot; ;;
+esac
+</code></pre>
+<h2>Rationale</h2>
+<p>When unquoted variables and command expansions are used in case branch patterns, they will be interpreted as globs.</p>
+<p>This can lead to some surprising behavior, such as <code>case $x in $x) trigger;; esac</code> not triggering in some cases, such as when <code>x='Pride and Prejudice [1813].epub'</code>.</p>
+<p>To match the literal content of the variable or expansion, make sure to double quote the expansion.</p>
+<h2>Exceptions</h2>
+<p>If you intended to match a dynamically generated pattern, you can ignore this suggestion with a directive.</p>
+<h2>Related resources</h2>
+<ul>
+<li>[[SC2053]], where the same effect can be seen with <code>[[ $x = $x ]]</code>.</li>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

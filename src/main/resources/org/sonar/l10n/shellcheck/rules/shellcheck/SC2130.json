@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "-eq is for integer comparisons. Use = instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

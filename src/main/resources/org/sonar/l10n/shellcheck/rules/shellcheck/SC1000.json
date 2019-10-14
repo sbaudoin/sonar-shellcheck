@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "$ is not used specially and should therefore be escaped.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

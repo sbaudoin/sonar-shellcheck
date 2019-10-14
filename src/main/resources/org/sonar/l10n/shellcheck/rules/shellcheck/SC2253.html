@@ -1,0 +1,18 @@
+<p>Use -R to recurse, or explicitly a-r to remove read permissions.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">chmod -r 0700 dir
+chmod -r file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">chmod -R 0700 dir
+chmod a-r file
+</code></pre>
+<h2>Rationale</h2>
+<p>Many tools use <code>-r</code> for recursive operation, but in <code>chmod</code> this removes read permissions.</p>
+<p>If you wanted to change permissions recursively, change the flag to <code>-R</code>. If you wanted to remove read permissions, consider using <code>a-r</code> explicitly to make this more obvious.</p>
+<h2>Exceptions</h2>
+<p>If you're using it correctly and don't mind the potential for confusion, you can save a single character by ignoring this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,5 +1,5 @@
 {
-  "title": "Found trailing ] outside test. Add missing [ or quote if intentional.",
+  "title": "Quote expansions in case patterns to match literally rather than as a glob.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
