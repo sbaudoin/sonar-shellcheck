@@ -30,13 +30,12 @@ The script is very useful but some manual fixing will certainly be required.
 Configuration
 -------------
 
-`build_checks.yml` defines the behaviour/configuration on a rule basis. Because that are tens of rules
+`build_checks.yml` defines the behaviour/configuration on a rule basis. Because there are tens of rules
 in ShellCheck, not all rules are defined. Instead default settings (block `default`) are defined and
 are overridable per rule (`rules` block) if the values cannot be extracted from the source code or
 Wiki.
 
 ```yaml
----
 default:
   type: CODE_SMELL
   constantCost: 2min
