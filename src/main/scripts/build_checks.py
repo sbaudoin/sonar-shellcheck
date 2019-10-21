@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 import mistune
 import re
 import json
@@ -91,7 +90,12 @@ for filename in os.listdir(sc_path):
         print('    INFO: configured description ignored')
 
     # Read MD file
-    md_data = open(sc_path + '/' + filename, 'r').read()
+    md_data = open(sc_path + '/' + filename, 'r', encoding='utf-8').read()
+    # Check utf-8 code points > 3 bytes
+    for c in md_data:
+        if c > '\uffff':
+            print('    WARN: this file may contain UTF-8 code points not supported by MySQL')
+            break
     md_data = re.sub('^(### .*):$', '\\1', md_data, flags=re.MULTILINE)
     md_data = re.sub('^## (.*)$', '\\1', md_data, flags=re.MULTILINE)
     md_data = re.sub('###', '##', md_data, flags=re.MULTILINE)
