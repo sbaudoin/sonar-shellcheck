@@ -28,7 +28,8 @@ SonarQube plugin to analyze Shell scripts with [ShellCheck](https://github.com/k
 ## Requirements
 * SonarQube 6.6 or 7.0+
   
-  **WARNING! This plugin is currently not compatible with SQ 8!**
+  **WARNING! This plugin is currently not compatible with SQ 8!** This is due to [a known bug](https://jira.sonarsource.com/browse/SONAR-12617)
+  that prevent plugins from accessing environment variables.
 
 * On the machine that will audit the code:
     * [ShellCheck](https://github.com/koalaman/shellcheck) 0.4.0 minimum must be installed
