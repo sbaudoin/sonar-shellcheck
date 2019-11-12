@@ -24,7 +24,7 @@ fi
 </ul>
 <p>To check that a command returns success, use <code>if mycommand; then ...</code>.</p>
 <p>To check that a command returns failure, use <code>if ! mycommand; then ...</code>. Notice that <code>!</code> will overwrite <code>$?</code> value.</p>
-<p>To additionally capture output with command substitution: <code>if output=$(mycommand); then ...</code></p>
+<p>To additionally capture output with command substitution: <code>if ! output=$(mycommand); then ...</code></p>
 <p>This also applies to <code>while</code>/<code>until</code> loops.</p>
 <h2>Exceptions</h2>
 <p>The default Solaris 10 bourne shell does not support '!' outside of the test command (<code>if ! mycommand; then ...</code> returns <code>!: not found</code>)</p>
