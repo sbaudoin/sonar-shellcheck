@@ -26,11 +26,8 @@ ShellCheck SonarQube Plugin
 SonarQube plugin to analyze Shell scripts with [ShellCheck](https://github.com/koalaman/shellcheck).
 
 ## Requirements
-* SonarQube 6.6 or 7.0+
+* SonarQube 7.1+, 8.0+
   
-  **WARNING! This plugin is currently not compatible with SQ 8!** This is due to [a known bug](https://jira.sonarsource.com/browse/SONAR-12617)
-  that prevent plugins from accessing environment variables.
-
 * On the machine that will audit the code:
     * [ShellCheck](https://github.com/koalaman/shellcheck) 0.4.0 minimum must be installed
     * [Sonar scanner](https://github.com/SonarSource/sonar-scanner-cli) configured to point to your Sonar server
@@ -79,7 +76,19 @@ The version 1.0.0 of this plugin appeared to be incompatible with the other [Son
 If you already have that plugin installed you cannot install and use this ShellCheck plugin (you will have to decide which plugin to run).
 The [issue #1](https://github.com/sbaudoin/sonar-shellcheck/issues/1) has been filed to trace this incompatibility problem.
 
-This problem was fixed in version 2.0.0. If you want to run both the Sonar i-Code CNES plugin and the ShellCheck plugin, you must set the following environment variable before starting SonarQube:
+This problem was fixed in version 2.0.0. If you want to run both the Sonar i-Code CNES plugin and the ShellCheck plugin, you must set the following environment variable before starting SonarQube
+so that only the i-Code CNES Shell language is installed:
 
 ```bash
 export SHELLCHECK_LANGUAGE_ADD=false
+```
+
+You can also set the property ``sonar.shell.addlanguage`` in the file ``SQ_install_dir/conf/sonar.properties`` :
+
+```properties
+sonar.shell.addlanguage=false
+```
+
+If both variables are defined, the environment variable takes precedence.
+
+**For SonarQube 8.0, only the configuration property is available due to a [a known bug](https://jira.sonarsource.com/browse/SONAR-12617).**
