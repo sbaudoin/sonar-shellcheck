@@ -18,13 +18,25 @@ package com.github.sbaudoin.sonar.plugins.shellcheck;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarQubeSide;
+import org.sonar.api.SonarRuntime;
+import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.internal.PluginContextImpl;
 import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
 
-import static org.junit.Assert.assertEquals;
+import java.security.AccessControlException;
 
+import static org.junit.Assert.assertEquals;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ShellCheckPlugin.class})
 public class ShellCheckPluginTest {
     @Rule
     public final EnvironmentVariables environmentVariables = new EnvironmentVariables();
@@ -32,7 +44,7 @@ public class ShellCheckPluginTest {
 
     @Test
     public void testExtensionCounts1() {
-        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
+        Plugin.Context context = getContext(null);
         new ShellCheckPlugin().define(context);
         assertEquals(7, context.getExtensions().size());
     }
@@ -40,7 +52,7 @@ public class ShellCheckPluginTest {
     @Test
     public void testExtensionCounts2() {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "false");
-        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
+        Plugin.Context context = getContext(null);
         new ShellCheckPlugin().define(context);
         assertEquals(6, context.getExtensions().size());
     }
@@ -48,7 +60,7 @@ public class ShellCheckPluginTest {
     @Test
     public void testExtensionCounts3() {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "True");
-        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
+        Plugin.Context context = getContext(null);
         new ShellCheckPlugin().define(context);
         assertEquals(7, context.getExtensions().size());
     }
@@ -56,8 +68,105 @@ public class ShellCheckPluginTest {
     @Test
     public void testExtensionCounts4() {
         environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "something");
-        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SERVER));
+        Plugin.Context context = getContext(null);
         new ShellCheckPlugin().define(context);
         assertEquals(6, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts5() {
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "false");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(6, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts6() {
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "True");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(7, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts7() {
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "something");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(6, context.getExtensions().size());
+    }
+
+     // Special test for SQ 8.0
+     // @see https://community.sonarsource.com/t/cannot-access-environment-variables-from-a-plugin-in-sonarqube-8/15743/6
+    @Test
+    public void testExtensionCounts8() {
+        mockStatic(System.class);
+        when(System.getenv()).thenThrow(new AccessControlException("Forbidden access"));
+
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "false");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(6, context.getExtensions().size());
+    }
+
+    // Special test for SQ 8.0
+    // @see https://community.sonarsource.com/t/cannot-access-environment-variables-from-a-plugin-in-sonarqube-8/15743/6
+    @Test
+    public void testExtensionCounts9() {
+        mockStatic(System.class);
+        when(System.getenv()).thenThrow(new AccessControlException("Forbidden access"));
+
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "true");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(7, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts10() {
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "True");
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "false");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(7, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts11() {
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "True");
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "true");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(7, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts12() {
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "false");
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "false");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(6, context.getExtensions().size());
+    }
+
+    @Test
+    public void testExtensionCounts13() {
+        environmentVariables.set(ShellCheckPlugin.ADD_SHELL_LANGUAGE_ENV_VAR, "false");
+        MapSettings settings = new MapSettings().setProperty(ShellCheckPlugin.ADD_SHELL_LANGUAGE_CONF_PROP, "true");
+        Plugin.Context context = getContext(settings);
+        new ShellCheckPlugin().define(context);
+        assertEquals(6, context.getExtensions().size());
+    }
+
+
+    private Plugin.Context getContext(MapSettings settings) {
+        SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(7, 1), SonarQubeSide.SERVER);
+        PluginContextImpl.Builder contextBuilder = new PluginContextImpl.Builder();
+        contextBuilder.setSonarRuntime(runtime);
+        if (settings != null) {
+                contextBuilder.setBootConfiguration(settings.asConfig());
+        }
+        return contextBuilder.build();
     }
 }
