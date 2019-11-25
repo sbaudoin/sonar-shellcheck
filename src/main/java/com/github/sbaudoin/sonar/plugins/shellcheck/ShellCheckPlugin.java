@@ -22,7 +22,6 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.rules.ShellCheckSensor;
 import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.sonar.api.Plugin;
 
-import javax.swing.text.html.Option;
 import java.security.AccessControlException;
 import java.util.Optional;
 
