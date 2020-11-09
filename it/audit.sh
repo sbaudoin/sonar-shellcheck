@@ -2,8 +2,14 @@
 
 # Install requirements
 echo "Installing ShellCheck..."
-apt-get -qq update
-apt-get -qq install -y shellcheck > /dev/null
+if grep -q Debian /etc/issue
+then
+    apt-get -qq update
+    apt-get -qq install -y shellcheck > /dev/null
+else
+    apk update
+    apk add -q shellcheck
+fi
 
 # Install sonar-runner
 echo "Installing Sonar scanner..."
@@ -37,9 +43,14 @@ sleep 10
 
 # Check audit result
 echo "Checking result..."
-apt-get -qq install -y python-pip > /dev/null
-pip install -q requests
-python << EOF
+if grep -q Debian /etc/issue
+then
+    apt-get -qq install -y python3-pip > /dev/null
+else
+    apk add -q curl gcc musl-dev libffi-dev openssl-dev py3 py3-dev
+fi
+pip3 install -q requests
+python3 << EOF
 from __future__ import print_function
 import requests
 import sys
@@ -88,7 +99,7 @@ if data['total'] != 3:
     print('Wrong total number of issues: ' + str(data['total']), file=sys.stderr)
     sys.exit(1)
 issues = False
-if data['issues'][0]['message'] == 'To assign the output of a command, use var=\$(cmd) .' and data['issues'][0]['line'] == 3:
+if data['issues'][0]['message'] == 'Use var=\$(command) to assign output (or quote to assign string).' and data['issues'][0]['line'] == 3:
     print('issues metrics OK')
     issues = True
 
