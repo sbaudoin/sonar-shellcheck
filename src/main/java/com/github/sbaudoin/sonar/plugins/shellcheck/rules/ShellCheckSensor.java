@@ -298,7 +298,7 @@ public class ShellCheckSensor implements Sensor {
                 highlightingData.highlight(highlighting);
             }
             highlighting.save();
-        } catch (IOException e) {
+        } catch (IllegalArgumentException|IOException e) {
             LOGGER.warn("Unable to highlight code for file " + inputFile.filename(), e);
         }
     }

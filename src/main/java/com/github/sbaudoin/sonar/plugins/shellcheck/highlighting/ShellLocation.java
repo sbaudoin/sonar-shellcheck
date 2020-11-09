@@ -142,7 +142,7 @@ public class ShellLocation {
      * @see #shift(int)
      */
     private ShellLocation shift(char c) {
-        if (c == '\n') {
+        if (c == '\n' || c == '\r') {
             return new ShellLocation(content, line + 1, 1, characterOffset + 1);
         }
         return new ShellLocation(content, line, column + 1, characterOffset + 1);
