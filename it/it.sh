@@ -21,6 +21,8 @@ docker-compose -f $SCRIPT_DIR/docker-compose.yml up -d sonarqube
 CONTAINER_NAME=$(docker ps --format "{{.Names}}" | grep 'it_sonarqube_1.*' | head -1)
 # Wait for SonarQube to be up
 grep -q "SonarQube is up" <(docker logs --follow --tail 0 $CONTAINER_NAME)
+echo "SonarQube started!"
+
 # Copy the plugin
 echo "Installing the plugins..."
 MAVEN_VERSION=$(grep '<version>' $SCRIPT_DIR/../pom.xml | head -1 | sed 's/<\/\?version>//g'| awk '{print $1}')
@@ -30,6 +32,7 @@ docker-compose -f $SCRIPT_DIR/docker-compose.yml restart sonarqube
 # Wait for SonarQube to be up
 grep -q "SonarQube is up" <(docker logs --follow --tail 0 $CONTAINER_NAME)
 # Check plug-in installation
+docker exec -u root $CONTAINER_NAME bash -c "if grep -q Alpine /etc/issue; then apk update && apk add -q curl; fi"
 if ! docker exec $CONTAINER_NAME curl -su admin:admin http://localhost:9000/api/plugins/installed | python -c '
 import sys
 import json
@@ -45,6 +48,7 @@ then
     echo "Plugin not installed" >&2
     exit 1
 fi
+echo "Plugin successfully installed!"
 
 # Audit code
 echo "Audit test Shell scripts..."
