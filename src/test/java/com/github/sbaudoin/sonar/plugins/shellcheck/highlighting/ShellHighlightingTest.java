@@ -25,11 +25,14 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.*;
@@ -116,6 +119,44 @@ public class ShellHighlightingTest {
         // FI_KEYWORD
         assertHighlightingData(sh.getHighlightingData().get(21), 19, 1, 19, 3, TypeOfText.KEYWORD);
     }
+
+    @Test
+    public void testHighlightLineBreaks() {
+        String[] scripts = new String[] {
+                "#!/bin/bash\n" +
+                        "\n" +
+                        "echo \"Hello world!\"\n",
+                "#!/bin/bash\r" +
+                        "\r" +
+                        "echo \"Hello world!\"\r",
+                "#!/bin/bash\r\n" +
+                        "\r\n" +
+                        "echo \"Hello world!\"\r\n"
+        };
+
+        for (int i = 0; i < scripts.length; i++) {
+            String script = scripts[i];
+            ShellHighlighting sh = new ShellHighlighting(script);
+            List<HighlightingData> data = sh.getHighlightingData();
+            assertEquals(4, data.size());
+            assertHighlightingData(data.get(0), 1, 1, (i < 2)?2:3, 1, TypeOfText.COMMENT);
+            assertHighlightingData(data.get(1), 3, 6, 3, 7, TypeOfText.STRING);
+            assertHighlightingData(data.get(2), 3, 7, 3, 19, TypeOfText.STRING);
+            assertHighlightingData(data.get(3), 3, 19, 3, 20, TypeOfText.STRING);
+        }
+
+        ShellHighlighting sh = new ShellHighlighting("#!/bin/bash\n" +
+                "\n" +
+                "echo \"Hello\rworld!\"\n"
+        );
+        List<HighlightingData> data = sh.getHighlightingData();
+        assertEquals(4, data.size());
+        assertHighlightingData(data.get(0), 1, 1, 2, 1, TypeOfText.COMMENT);
+        assertHighlightingData(data.get(1), 3, 6, 3, 7, TypeOfText.STRING);
+        assertHighlightingData(data.get(2), 3, 7, 4, 7, TypeOfText.STRING);
+        assertHighlightingData(data.get(3), 4, 7, 4, 8, TypeOfText.STRING);
+    }
+
 
     private void assertHighlightingData(HighlightingData hd, int startLine, int startColumnIndex, int endLine, int endColumnIndex, TypeOfText typeOfText) {
         assertEquals(startLine, hd.getStartLine());
