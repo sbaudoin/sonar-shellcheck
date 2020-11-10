@@ -1,0 +1,14 @@
+{
+  "title": "Missing second '(' or ')' to start arithmetic or terminate the condition of the 'for ((;;))' loop",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

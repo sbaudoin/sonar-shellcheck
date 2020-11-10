@@ -1,0 +1,27 @@
+<p>In POSIX sh, unary <code>-a</code> in place of <code>-e</code> is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+if [ -a file.txt ]
+then
+  echo &quot;file.txt exists&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+if [ -e file.txt ]
+then
+  echo &quot;file.txt exists&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p><code>-a</code> was used in some shells to check for the existence of a file, but the POSIX standard and better supported equivalent is <code>-e</code>.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

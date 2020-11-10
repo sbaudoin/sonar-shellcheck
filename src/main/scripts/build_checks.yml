@@ -25,16 +25,10 @@ rules:
     description: "You need a space before the \\)"
   SC1027:
     description: "Expected another argument for this operator."
-  SC1033:
-    description: "Did you mean ]] ?"
-  SC1034:
-    description: "Did you mean [[ ?"
   SC1043:
     description: "Found end token `EOF' further down, but with wrong casing."
   SC1055:
     description: "You need at least one command here. Use 'true;' as a no-op."
-  SC1056:
-    description: "Expected a '}'. If you have one, try a ; or \\n in front of it."
   SC1057:
     description: "Did you forget the 'do' for this loop?"
   SC1059:
@@ -43,8 +37,6 @@ rules:
     description: "Can't have empty do clauses (use 'true' as a no-op)."
   SC1063:
     description: "You need a line feed or semicolon before the 'do'."
-  SC1070:
-    description: "Parsing stopped here. Mismatched keywords or invalid parentheses?"
   SC1074:
     description: "Did you forget the ;; after the previous case item?"
   SC1076:
@@ -65,14 +57,12 @@ rules:
     description: "In arithmetic contexts, use <, >, <=, >=, ==, != instead of -lt, -gt, -le, -ge, -eq, -ne"
   SC1117:
     ignored: True  # See Wiki: rule retired
-  SC1125:
-    description: "Invalid key=value pair? Ignoring the rest of this directive starting here."
   SC1134:
     description: "Parse error: failed to process file."
-  SC2000:
-    description: "See if you can use ${#variable} instead."
-  SC2011:
-    description: "Use 'find .. -print0 | xargs -0 ..' or 'find .. -exec .. +' to allow non-alphanumeric filenames."
+  SC1137:
+    description: "Missing second '(' or ')' to start arithmetic or terminate the condition of the 'for ((;;))' loop"
+  SC1138:
+    description: "Remove spaces in arithmetic for loop."
   SC2023:
     description: "The shell may override 'time' as seen in man time(1). Use 'command time ..' for that one."
   SC2034:
@@ -105,3 +95,61 @@ rules:
     type: BUG
   SC2215:
     type: BUG
+  SC2258:
+    description: "The trailing comma is part of the value, not a separator. Delete or quote it."
+  SC2265:
+    description: "Use && for logical AND. Single & will background and return true."
+  SC2266:
+    description: "Use || for logical OR. Single | will pipe."
+  SC3003:
+    description: "$'..' is not supported in dash and undefined in POSIX sh."
+  SC3004:
+    description: "$\"..\" is not supported in dash and undefined in POSIX sh."
+  SC3005:
+    description: "arithmetic for loops are not supported in dash and undefined in POSIX sh."
+  SC3006:
+    description: "standalone ((..)) is not supported in dash and undefined in POSIX sh."
+  SC3007:
+    description: "$[..] in place of $((..)) is not supported in dash and undefined in POSIX sh."
+  SC3008:
+    description: "select loops are not supported in dash and undefined in POSIX sh."
+  SC3009:
+    description: "brace expansion is not supported in dash and undefined in POSIX sh."
+  SC3010:
+    description: "[[ ]] is not supported in dash and undefined in POSIX sh."
+  SC3011:
+    description: "here-strings are not supported in dash and undefined in POSIX sh."
+  SC3012:
+    description: "lexicographical operators <, >, \\<, \\>, <=, >=, \\<=, \\>= are undefined in POSIX sh."
+  SC3015:
+    description: "=~ regex matching is not supported in dash and undefined in POSIX sh."
+  SC3016:
+    description: "unary -v (in place of [ -n \"${var+x}\" ]) is not supported in dash and undefined in POSIX sh."
+  SC3019:
+    description: "exponentials are not supported in dash and undefined in POSIX sh."
+  SC3029:
+    description: "|& in place of 2>&1 | is not supported in dash and undefined in POSIX sh."
+  SC3030:
+    description: "arrays are not supported in dash and undefined in POSIX sh."
+  SC3032:
+    description: "coproc is not supported in dash and undefined in POSIX sh."
+  SC3033:
+    description: "naming functions outside [a-zA-Z_][a-zA-Z0-9_]* is not supported in dash and undefined in POSIX sh."
+  SC3036:
+    description: "echo flags besides -n are not supported in dash and undefined in POSIX sh."
+  SC3040:
+    description: "set option not supported in dash and undefined in POSIX sh."
+  SC3041:
+    description: "only set flags -a, -b, -C, -e, -f, -h, -m, -n, -u, -v, -x, -o are supported in dash or defined in POSIX sh."
+  SC3042:
+    description: "double-dashed set flags are not supported in dash and undefined in POSIX sh."
+  SC3044:
+    description: "'let', 'caller', 'builtin', 'complete', 'compgen', 'declare', 'dirs', 'disown', 'enable', 'mapfile', 'readarray', 'pushd', 'popd', 'shopt', 'suspend', 'typeset' are not supported in dash and undefined in POSIX sh."
+  SC3051:
+    description: "'source' in place of '.' is not supported in dash and undefined in POSIX sh."
+  SC3052:
+    description: "arithmetic base conversion is not supported in dash and undefined in POSIX sh."
+  SC3058:
+    description: "string operations on $@/$* are not supported in dash and undefined in POSIX sh."
+  SC3059:
+    description: "case modification is not supported in dash and undefined in POSIX sh."

@@ -1,1 +1,12 @@
-<p>Invalid key=value pair? Ignoring the rest of this directive starting here.</p>
+<p>Invalid key=value pair in directive</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># shellcheck disable=SC2153 (variable not a misspelling)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># shellcheck disable=SC2153 # variable not a misspelling
+</code></pre>
+<h2>Rationale</h2>
+<p>A comment at the end of a directive must be preceded by a <code>#</code>
+to avoid it being interpreted as an instruction.
+The <a href="Directive#documenting-directive-use">directive page</a>
+contains more guidance about commenting style.</p>

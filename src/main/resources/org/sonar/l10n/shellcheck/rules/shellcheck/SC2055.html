@@ -28,3 +28,11 @@ fi
 <p>This statement is identical to <code>! [[ $1 = foo || $1 = bar ]]</code>, which also works correctly.</p>
 <h2>Exceptions</h2>
 <p>Rare.</p>
+<ul>
+<li>If I want to check that $FOO, $BAR and $COW are all equal:<pre><code class="lang-sh">if [[ $FOO != $BAR || $FOO != $COW ]]
+then
+  echo &quot;$FOO and $BAR and $COW are not all equal&quot;
+fi
+</code></pre>
+</li>
+</ul>

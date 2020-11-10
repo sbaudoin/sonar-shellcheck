@@ -13,16 +13,13 @@ mapfile -t array &lt;&lt;&lt; &quot;$var&quot;
 # For ksh
 printf &#39;%s\n&#39; &quot;$var&quot; | while IFS=&quot;&quot; read -r line; do array+=(&quot;$line&quot;); done
 </code></pre>
-<p>If it's a line with multiple words (separated by spaces, other delimiters can be chosen with IFS), each of which should be an element:</p>
+<p>If it's a line with multiple words (separated by spaces, other delimiters can be chosen with IFS), <a href="https://stackoverflow.com/a/30212526">each of which should be an element</a>:</p>
 <pre><code class="lang-sh"># For bash
-read -r -a array &lt;&lt;&lt; &quot;$var&quot;
+IFS=&quot; &quot; read -r -a array &lt;&lt;&lt; &quot;$var&quot;
 
 # For ksh
-read -r -A array &lt;&lt;&lt; &quot;$var&quot;
+IFS=&quot; &quot; read -r -A array &lt;&lt;&lt; &quot;$var&quot;
 </code></pre>
-<ol>
-<li><a href="https://stackoverflow.com/questions/1469849">https://stackoverflow.com/questions/1469849</a></li>
-</ol>
 <h2>Rationale</h2>
 <p>You are expanding a variable unquoted in an array. This will invoke the shell's sloppy word splitting and glob expansion.</p>
 <p>Instead, prefer explicitly splitting (or not splitting):</p>

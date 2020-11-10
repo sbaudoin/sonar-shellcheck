@@ -1,0 +1,17 @@
+<p>In POSIX sh, prefixing signal names with 'SIG' is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">trap &#39;handle_interrupt&#39; SIGINT
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">trap &#39;handle_interrupt&#39; INT
+</code></pre>
+<h2>Rationale</h2>
+<p>POSIX does not allow specifying the "SIG" prefix of a signal name like "INT". Bash and Ksh supports this as an extension.</p>
+<p>Simply remove the "SIG" from the signal name.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

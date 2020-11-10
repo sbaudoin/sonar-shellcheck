@@ -1,0 +1,14 @@
+{
+  "title": "In POSIX sh, using lower\/mixed case for signal names is undefined.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

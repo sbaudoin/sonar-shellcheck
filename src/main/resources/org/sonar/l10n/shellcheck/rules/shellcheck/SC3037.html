@@ -1,0 +1,21 @@
+<p>In POSIX sh, echo flags are undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo -ne &#39;Foo:\tBar&#39;
+</code></pre>
+<h2>Correct code</h2>
+<p>Rewrite in terms of the more robust and standardized <code>printf</code>:</p>
+<pre><code class="lang-sh">#!/bin/sh
+printf &#39;Foo:\tBar&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>echo</code> has historically behaved differently on different systems. Use <code>printf</code> instead to ensure compatibility between shells.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

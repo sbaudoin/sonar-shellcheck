@@ -6,7 +6,7 @@
 <pre><code class="lang-sh">pgrep -f &quot;$service&quot; &gt; /dev/null
 </code></pre>
 <h2>Rationale</h2>
-<p>If you are just after a pid from a running program, then pgrep is a much safer alternative. Especially if you are also looking for a pid belonging to a certain user or group. All of the parameters are in one command and it can eliminate multiple greps, cuts, seds, awks, ect.</p>
+<p>If you are just after a pid from a running program, then pgrep is a much safer alternative. Especially if you are also looking for a pid belonging to a certain user or group. All of the parameters are in one command and it can eliminate multiple greps, cuts, seds, awks, etc.</p>
 <p>If you want a field that's not the pid, consider doing this through <code>ps</code> + <code>pgrep</code> instead of <code>ps</code> + <code>grep</code>:</p>
 <pre><code>for pid in $(pgrep '^python$')
 do

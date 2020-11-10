@@ -1,5 +1,5 @@
 {
-  "title": "Did you mean [[ ?",
+  "title": "See similar error [[SC1033]]",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

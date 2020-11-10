@@ -1,1 +1,12 @@
-<p>Use &#x27;find .. -print0 | xargs -0 ..&#x27; or &#x27;find .. -exec .. +&#x27; to allow non-alphanumeric filenames.</p>
+<p>Use <code>find -print0</code> or <code>find -exec</code> to better handle non-alphanumeric filenames.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ls | xargs -n1 wc -w
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">find . -maxdepth 1 -print0 | xargs -0 -n1 wc -w
+</code></pre>
+<pre><code class="lang-sh">find . -maxdepth 1 -exec wc -w {} \;
+</code></pre>
+<h2>Rationale</h2>
+<p>Using <code>-print0</code> separates each output with a NUL character, rather than a newline, which is safer to pipe into <code>xargs</code>. Alternatively using <code>-exec</code> avoids the problem of piping and parsing filenames in the first place.</p>
+<p>See [[SC2012]] for more details on this issue.</p>

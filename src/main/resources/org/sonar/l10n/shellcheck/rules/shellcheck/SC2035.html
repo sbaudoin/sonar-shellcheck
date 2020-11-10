@@ -14,4 +14,5 @@
 <p>Using <code>./*</code> will instead cause the glob to be expanded into <code>./-f</code>, which no program will treat as an option.</p>
 <p>Similarly, <code>--</code> by convention indicates the end of options, and nothing after it will be treated like flags (except for some programs possibly still special casing <code>-</code> as e.g. stdin).</p>
 <p>Note that changing <code>*</code> to <code>./*</code> in GNU Tar parameters will add <code>./</code> prefix to path names in the created archive. This may cause subtle problems (eg. to search for a specific file in archive, the <code>./</code> prefix must be specified as well). So using <code>-- *</code> is a safer fix for GNU Tar commands.</p>
+<p><code>echo</code> and <code>printf</code> does not have issues unless the glob is the first word in the command. ShellCheck 0.7.2+ does not warn for these commands.</p>
 <p>For more information, see "<a href="http://www.dwheeler.com/essays/filenames-in-shell.html">Filenames and Pathnames in Shell: How to do it Correctly</a>".</p>

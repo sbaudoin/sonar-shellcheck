@@ -1,0 +1,14 @@
+{
+  "title": "This redirection overrides the output pipe. Use 'tee' to output to both.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

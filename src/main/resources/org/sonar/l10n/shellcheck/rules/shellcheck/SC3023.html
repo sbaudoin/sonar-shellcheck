@@ -1,0 +1,16 @@
+<p>In POSIX sh, FDs outside of 0-9 are undefined.</p>
+<p>(or "In dash, ... are not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Open FD #10 for writing
+exec 10&gt; file
+</code></pre>
+<h2>Correct code</h2>
+<p>Either rewrite the script to only use FDs in the valid range, or switch to a shell that allows a larger range like <code>bash</code> or <code>ksh</code>.</p>
+<h2>Rationale</h2>
+<p>The shell grammar is only required to recognize a single digit before redirections to set the file descriptor, which limits the portable range to 0-9.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

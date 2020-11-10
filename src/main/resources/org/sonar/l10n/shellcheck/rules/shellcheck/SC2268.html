@@ -1,0 +1,31 @@
+<p>Avoid outdated x-prefix in comparisons as it no longer serves a purpose.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;x$pass&quot; = &quot;xswordfish&quot; ]
+
+test x&quot;$var&quot; = x
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$pass&quot; = &quot;swordfish&quot; ] 
+
+test &quot;$var&quot; = &quot;&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Some older shells would get confused if the first argument started with a dash, or consisted of <code>!</code> or <code>(</code>. As a workaround, people would prefix variables and values to be compared with <code>x</code> to ensure the left-hand side always started with an alphanumeric character.</p>
+<p>POSIX ensures <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">this is not necessary</a>, and all modern shells now follow suite.</p>
+<h2>Examples</h2>
+<p>Bash 1.14 from 1992 incorrectly fails this test. This was fixed for Bash 2.0 in 1996:</p>
+<pre><code>var='!'
+[ "$var" = "!" ]
+</code></pre>
+<p>Dash 0.5.4 from 2007 incorrectly passes this test. This was fixed for Dash 0.5.5 in 2008:</p>
+<pre><code>x='(' y=')'
+[ "$x" = "$y" ]
+</code></pre>
+<p>Zsh (while not supported by ShellCheck) fixed the same problem in 2015.</p>
+<h2>Exceptions</h2>
+<p>This warning is optional, and not enabled by default.</p>
+<p>If you are targeting especially old shells, you should not enable this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#A.5B_.24foo_.3D_.22bar.22_.5D">Wooledge Bash Pitfall #4</a></li>
+</ul>

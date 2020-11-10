@@ -21,6 +21,6 @@ fi
 <pre><code class="lang-sh">((([[ $dryrun ]]) &amp;&amp; echo &quot;Would delete file&quot;) || rm file)
 </code></pre>
 <p>expressing the left-associativity of the <code>&amp;&amp;</code> <code>||</code> operators.</p>
-<p>Whenever a command (strictly, a pipeline) succeeds or fails, the execution proceeds following the next <code>&amp;&amp;</code> (for success) or <code>||</code> (for failure).</p>
+<p>Whenever a command (strictly, a pipeline) succeeds or fails, the execution proceeds following the next <code>&amp;&amp;</code> (for success) or <code>||</code> (for failure). (More strictly, the parentheses should be replaced with <code>{ command; }</code> to avoid making a subshell, but that's ugly and boring.)</p>
 <h2>Exceptions</h2>
 <p>Ignore this warning when you actually do intend to run C when either A or B fails.</p>

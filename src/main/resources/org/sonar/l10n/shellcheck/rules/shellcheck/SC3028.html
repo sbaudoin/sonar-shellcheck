@@ -1,0 +1,22 @@
+<p>In POSIX sh, VARIABLE is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;$HOSTNAME $UID $RANDOM&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>Either switch to a shell like <code>bash</code> that supports the special variable you're trying to use, or use an external command to get the information you want:</p>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;$(hostname) $(id -u) $(awk &#39;BEGIN { srand(); print int(rand()*32768) }&#39; /dev/null)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>The variable you are attempting to use is a special variable in bash or ksh. To get the same information from <code>dash</code> or POSIX <code>sh</code>, use an external command instead.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,5 +1,5 @@
 {
-  "title": "Unknown unaryoperator.",
+  "title": "Unknown unary operator.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

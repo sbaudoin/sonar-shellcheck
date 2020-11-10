@@ -1,5 +1,5 @@
 {
-  "title": "Invalid key=value pair? Ignoring the rest of this directive starting here.",
+  "title": "Invalid key=value pair in directive",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

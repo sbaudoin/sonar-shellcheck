@@ -1,5 +1,5 @@
 {
-  "title": "Use 'find .. -print0 | xargs -0 ..' or 'find .. -exec .. +' to allow non-alphanumeric filenames.",
+  "title": "Use find -print0 or find -exec to better handle non-alphanumeric filenames.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

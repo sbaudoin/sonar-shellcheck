@@ -1,0 +1,23 @@
+<p>In POSIX sh, exec flags are undefined.</p>
+<p>(or "In dash, ... are not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+exec -ca ls busybox
+</code></pre>
+<h2>Correct code</h2>
+<p>Switch to a shell that does support the <code>exec</code> flags you are using, like <code>bash</code>:</p>
+<pre><code class="lang-sh">#!/bin/bash
+exec -ca ls busybox
+</code></pre>
+<p>In POSIX, you can use <code>env</code> to start a command with a clean environment, but there is no way to generally specifying the zeroth argument.</p>
+<h2>Rationale</h2>
+<p>Flags to <code>exec</code> are bash and ksh extensions. <code>dash</code> and POSIX <code>sh</code> does not support them.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

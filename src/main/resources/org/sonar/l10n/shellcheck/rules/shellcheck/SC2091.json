@@ -1,5 +1,5 @@
 {
-  "title": "Remove surrounding $() to avoid executing output.",
+  "title": "Remove surrounding $() to avoid executing output (or use eval if intentional).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

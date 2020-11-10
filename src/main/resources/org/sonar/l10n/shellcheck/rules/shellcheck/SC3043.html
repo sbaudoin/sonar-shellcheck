@@ -1,0 +1,22 @@
+<p>In POSIX sh, <code>local</code> is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">myfunc() {
+  local i=0
+  ..
+}
+</code></pre>
+<h2>Correct code</h2>
+<p>In POSIX sh, you can adopt some convention to avoid accidentally overwriting variables names, e.g. prefixing with the function name:</p>
+<pre><code class="lang-sh">myfunc() {
+  _myfunc_i=0
+  ..
+}
+</code></pre>
+<h2>Rationale</h2>
+<p><code>local</code> is supported in many shells, including bash, ksh, dash, and BusyBox ash. However, strictly speaking, it's not POSIX.</p>
+<h2>Exceptions</h2>
+<p>Since quite a lot of real world shells support this feature, you may decide to [[ignore]] the warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

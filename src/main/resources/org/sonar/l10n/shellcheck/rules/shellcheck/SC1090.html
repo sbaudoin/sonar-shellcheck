@@ -1,17 +1,14 @@
 <p>Can't follow non-constant source. Use a directive to specify location.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">. &quot;$(find_install_dir)/lib.sh&quot;
+<pre><code class="lang-sh">. &quot;${util_path}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># shellcheck source=src/lib.sh
-. &quot;$(find_install_dir)/lib.sh&quot;
+<pre><code class="lang-sh"># shellcheck source=src/util.sh
+. &quot;${util_path}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck is not able to include sourced files from paths that are determined at runtime. The file will not be read, potentially resulting in warnings about unassigned variables and similar.</p>
 <p>Use a [[Directive]] to point shellcheck to a fixed location it can read instead.</p>
+<p>ShellCheck v0.7.2+ will strip a single expansion followed by a slash, e.g. <code>${var}/util.sh</code> or <code>$(dirname "${BASH_SOURCE[0]}")/util.sh</code>, and treat them as <code>./util.sh</code>. This  allowing the use of <code>source-path</code> directives or <code>-P</code> flags to specify the a location.</p>
 <h2>Exceptions</h2>
 <p>If you don't care that ShellCheck is unable to account for the file, specify <code># shellcheck source=/dev/null</code>.</p>
-<h3>shellcheck -P <em>SOURCEPATH</em>, --source-path=<em>SOURCEPATH</em></h3>
-<p><code>shellcheck -P dir1:dir2/libs</code></p>
-<p>Specify paths to search for sourced files, separated by <code>:</code> on Unix and <code>;</code> on Windows. Absolute paths will also be rooted in these.</p>
-<p>The special path <strong><em><code>SCRIPTDIR</code></em></strong> can be used to specify searching the currently checked script's directory, as in <strong><code>-P SCRIPTDIR</code></strong> or <strong><code>-P SCRIPTDIR/../libs</code></strong>. Subsequent <code>-P</code> flags accumulate and take precedence.</p>

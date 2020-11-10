@@ -2,14 +2,14 @@
 <h2>Problematic code in the case of <code>export</code></h2>
 <pre><code class="lang-sh">export foo=&quot;$(mycmd)&quot;
 </code></pre>
-<h2>Correct code</h2>
+<h3>Correct code:</h3>
 <pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
 export foo
 </code></pre>
-<h2>Rationale</h2>
+<h3>Rationale:</h3>
 <p>In the original code, the return value of <code>mycmd</code> is ignored, and <code>export</code> will instead always return true. This may prevent conditionals, <code>set -e</code> and traps from working correctly.</p>
 <p>When first marked for export and assigned separately, the return value of the assignment will be that of <code>mycmd</code>. This avoids the problem.</p>
-<h2>Exceptions</h2>
+<h3>Exceptions:</h3>
 <p>If you intend to ignore the return value of an assignment, you can either ignore this warning or use</p>
 <pre><code class="lang-sh">foo=$(mycmd) || true
 export foo
@@ -18,11 +18,11 @@ export foo
 <h2>Problematic code in the case of <code>local</code></h2>
 <pre><code class="lang-sh">local foo=&quot;$(mycmd)&quot;
 </code></pre>
-<h2>Correct code</h2>
+<h3>Correct code:</h3>
 <pre><code class="lang-sh">local foo
 foo=$(mycmd)
 </code></pre>
-<h2>Rationale</h2>
+<h3>Rationale</h3>
 <p>The exit status of the command is overridden by the exit status of the creation of the local variable. For example:</p>
 <pre><code class="lang-bash">$ f() { local foo=$(false) || echo foo; }; f
 $ f() { local foo; foo=$(false) || echo foo; }; f
@@ -31,7 +31,20 @@ foo
 <h2>Problematic code in the case of <code>readonly</code></h2>
 <pre><code class="lang-sh">readonly foo=&quot;$(mycmd)&quot;
 </code></pre>
-<h2>Correct code</h2>
+<h3>Correct code:</h3>
 <pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
 readonly foo
 </code></pre>
+<p>Word splitting and quoting issue with dash, maybe others</p>
+<p>A serious quoting problem with dash is another reason to declare and assign separately. Dash is the <a href="https://wiki.ubuntu.com/DashAsBinSh">default, <code>/bin/sh</code> shell on Ubuntu</a>. More specifically, dash version 0.5.8-2.10 and others cannot run these two examples:</p>
+<pre><code class="lang-sh">f(){ local e=$1; }
+f &quot;1 2&quot;
+
+export g=$(printf &#39;%s&#39; &quot;foo 2&quot;)
+</code></pre>
+<p>While this runs fine in other shells, <a href="http://mywiki.wooledge.org/BashPitfalls#local_var.3D.24.28cmd.29">dash doesn't treat any of these as assignments</a> and fails both like this:</p>
+<pre><code>local: 2: bad variable name
+export: 2: bad variable name
+</code></pre>
+<p>The direct workaround to this bug is to quote the right-hand-side of the assignment. Separating declaraction and assignment also makes this runs fine in any shell.</p>
+<p>(A rule to catch this problem is in the works at <a href="https://github.com/koalaman/shellcheck/issues/1556">#1556</a>).</p>

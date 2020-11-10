@@ -1,0 +1,18 @@
+<p>In POSIX sh, += is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=&quot;Hello &quot;
+var+=&quot;World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=&quot;Hello &quot;
+var=&quot;${var}World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Using <code>+=</code> to concatenate to an existing variable is a ksh/bash extension. For POSIX sh or dash, write out the full expression. Be careful to use braces if the text you append could be confused for a variable (as in the example, to avoid <code>$varWorld</code> being interpreted as <code>${varWorld}</code>)</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

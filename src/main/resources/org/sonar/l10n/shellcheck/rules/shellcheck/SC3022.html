@@ -1,0 +1,16 @@
+<p>In POSIX sh, named file descriptors is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">exec {n}&gt; &quot;$output&quot;
+echo &quot;Your fd is $n&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>There is no simple, mechanical alternative for POSIX sh, but you can either switch to a shell that does support this (like <code>bash</code>), or hard code (or <code>eval</code>) a specific file descriptor.</p>
+<h2>Rationale</h2>
+<p>The syntax for opening an arbitrary file descriptor and assigning it to a variable for later use is a <code>bash</code> and <code>ksh</code> extension. It does not work on POSIX sh or <code>dash</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

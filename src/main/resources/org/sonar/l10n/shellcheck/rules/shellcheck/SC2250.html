@@ -1,0 +1,18 @@
+<h1>Prefer putting braces around variable references even when not strictly required.</h1>
+<p>This error is optional and not enabled by default.</p>
+<p>Problematic code:</p>
+<pre><code class="lang-shell">partial_path=&#39;example&#39;
+
+curl &quot;http://example.com/$partial_path_version/explain.html&quot;
+</code></pre>
+<p>Correct code:</p>
+<pre><code class="lang-shell">partial_path=&#39;example&#39;
+
+curl &quot;http://example.com/${partial_path}_version/explain.html&quot;
+</code></pre>
+<p>Rationale:</p>
+<p>If a variable gets called, and there is a string that gets appended to the variable that could get misinterpreted as possibly part of the name of the variable. Then it will not call the right variable.</p>
+<p>Related resources:</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/18320133/how-do-we-separate-variables-from-letters-in-shell-scripting">StackOverflow: How do we separate variables from letters in shell scripting</a></li>
+</ul>

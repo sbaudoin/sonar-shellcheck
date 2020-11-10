@@ -1,0 +1,33 @@
+<p>This function unconditionally re-invokes itself. Missing <code>command</code>?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">ls() {
+  ls --color=always &quot;$@&quot;
+}
+
+cd() {
+  cd &quot;$@&quot; &amp;&amp; ls
+}
+</code></pre>
+<h2>Correct code</h2>
+<p>Note that <code>command</code> is the literal name of a shell builtin. You should not replace it:</p>
+<pre><code class="lang-sh">ls() {
+  command ls --color=always &quot;$@&quot;
+}
+
+cd() {
+  command cd &quot;$@&quot; &amp;&amp; ls
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a function that immediately and unconditionally re-invokes itself, causing infinite recursion.</p>
+<p>This generally happens when writing a wrapper function with the same name as an existing command, but forgetting to make sure it invokes the existing command and not itself. This is what happened in both of the problematic examples.</p>
+<p>To invoke a command when a function by the same name is defined, i.e. to suppress function lookup during execution, use the command confusingly named <code>command</code>. For example, to run the system's <code>ls</code> instead of the shell function <code>ls</code>, use <code>command ls</code>.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck does not intend to warn about infinite recursion or fork bombs in general. This warning is purely meant for unintentional bugs in well meaning wrapper functions.</p>
+<p>If ShellCheck is triggering on an intentionally malicious fork bomb, either [[ignore]] the issue, or simply add a leading command or condition:</p>
+<pre><code>:() { true &amp;&amp; :|: &amp; }
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -14,7 +14,7 @@ echo &quot;hello $tagret&quot;  # misspelled
 <h2>Correct code</h2>
 <pre><code class="lang-sh">var=name
 n=42
-echo &quot;${var}_$n.jpg&quot;
+echo &quot;${var}_${n}.jpg&quot;
 </code></pre>
 <p>or</p>
 <pre><code class="lang-sh">target=&quot;world&quot;
@@ -28,4 +28,4 @@ echo &quot;hello $target&quot;
 <p>Note: This message only triggers for variables with lowercase characters in their name (<code>foo</code> and <code>kFOO</code> but not <code>FOO</code>) due to the standard convention of using lowercase variable names for unexported, local variables.</p>
 <h2>Exceptions</h2>
 <p>ShellCheck intentionally does not attempt to figure out runtime or dynamic assignments like with <code>source "$(date +%F).sh"</code> or <code>eval var=value</code>. See [[SC2034]] for an extended discussion of why this is the case.</p>
-<p>If you know for a fact that the variable is set, you can use <code>${var:?}</code> to fail if the variable is unset (or empty), or explicitly initialize/declare it with <code>var=""</code> or <code>declare var</code>. You can also disable the message with a [[directive]].</p>
+<p>If you know for a fact that the variable is set, you can use <code>${var:?}</code> to fail if the variable is unset (or empty), initialize it to a default value if uninitialized with <code>: "${var:=}"</code>, or explicitly initialize/declare it with <code>var=""</code> or <code>declare var</code>. You can also disable the message with a [[directive]].</p>

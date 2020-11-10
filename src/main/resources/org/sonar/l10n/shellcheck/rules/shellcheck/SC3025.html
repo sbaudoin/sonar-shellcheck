@@ -1,0 +1,18 @@
+<p>In POSIX sh, /dev/{tcp,udp} is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo foo &gt; /dev/tcp/myhost/1234
+</code></pre>
+<h2>Correct code</h2>
+<p>Rewrite using a tool like netcat (<code>nc</code>):</p>
+<pre><code class="lang-sh">echo foo | nc myhost 1234
+</code></pre>
+<h2>Rationale</h2>
+<p><code>/dev/tcp/$host/$port</code> and <code>/dev/udp/$host/$port</code> are recognized in redirections by bash and ksh, and a socket connection is made instead of opening a file. They do not physically exist in <code>/dev</code>.</p>
+<p>POSIX sh and dash do not support this, so any such code should be rewritten to use a socket tool explicitly. The obvious candidate is netcat aka <code>nc</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -23,5 +23,19 @@ fi
 <p>To set an array to only a single, given element, you should use <code>array=( foo )</code>.</p>
 <p>In the correct code, <code>"${flags[@]}"</code> will contain <code>--dry-run</code> only.</p>
 <p>Another possible cause is accidentally missing the <code>$</code> on a previous assignment: <code>var=(my command); var=bar</code> instead of <code>var=$(my command); var=bar</code>. If the variable is not intended to be an array, ensure that it's never assigned as one.</p>
-<h2>Exceptions</h2>
-<p>ShellCheck can get confused by variable scope if the same variable name was used as an array previously, but is a string in the current context. You can [[ignore]] it in this case.</p>
+<h2>Bugs</h2>
+<p>There is a <a href="https://github.com/koalaman/shellcheck/issues/1309">known issue</a> with this check's handling of <code>local</code> variables, causing ShellCheck to flag variables that were previously declared as arrays, even if they are in different scopes.</p>
+<p>The easiest workaround is to simply use different variable names. Alternatively, you can [[ignore]] the check.</p>
+<p>It is also possible to satisfy ShellCheck by declaring the <code>local</code> variable separately from assigning to it, e.g.:</p>
+<pre><code class="lang-sh">foo () {
+   local -a baz
+   baz+=(&quot;foo&quot; &quot;bar&quot;)
+   echo &quot;${baz[@]}&quot;
+}
+
+bar () {
+   local baz # ShellCheck gets confused if these lines are merged as local baz=&quot;qux&quot;
+   baz=&quot;qux&quot;
+   echo &quot;$baz&quot;
+}
+</code></pre>

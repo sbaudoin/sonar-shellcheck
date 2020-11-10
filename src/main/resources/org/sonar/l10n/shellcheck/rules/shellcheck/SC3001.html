@@ -1,0 +1,39 @@
+<p>In POSIX sh, process substitution is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+while IFS= read -r n
+do
+  sum=$((sum+n))
+done &lt; &lt;(program)
+</code></pre>
+<h2>Correct code</h2>
+<p>The easiest fix is to switch to a shell that does support process substitution, by changing the shebang to <code>#!/bin/bash</code> or <code>ksh</code>.</p>
+<pre><code class="lang-sh">#!/bin/bash
+while IFS= read -r n
+do
+  sum=$((sum+n))
+done &lt; &lt;(program)
+</code></pre>
+<p>Alternatively, process substitution can often be replaced with temporary files:</p>
+<pre><code class="lang-sh">#!/bin/sh
+tmp=&quot;$(mktemp)&quot;
+program &gt; &quot;$tmp&quot;
+while IFS= read -r n
+do
+  sum=$((sum+n))
+done &lt; &quot;$tmp&quot;
+rm &quot;$tmp&quot;
+</code></pre>
+<p>If streaming is important, the temporary file can be a named pipe, and the producer or consumer can be run as a background job.</p>
+<h2>Rationale</h2>
+<p>Process substitution is a ksh and bash extension. It does not work in sh or dash scripts.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,22 @@
+<p>In POSIX sh, <code>source</code> in place of <code>.</code> is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+source mylib.sh
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+. mylib.sh
+</code></pre>
+<h2>Rationale</h2>
+<p><code>source</code> is a bash and ksh specific alias for the harder-to-pronounce/search command <code>.</code> ("dot")</p>
+<p>When writing for <code>dash</code> or <code>sh</code>, use <code>.</code> instead.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

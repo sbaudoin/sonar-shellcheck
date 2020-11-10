@@ -1,0 +1,22 @@
+<p>In POSIX sh, string replacement is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;${var//foo/bar}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>Either switch the shebang to <code>bash</code> or <code>ksh</code>, or rewrite the expansion using a tool like <code>sed</code>:</p>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;$var&quot; | sed &#39;s/foo/bar/g&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>String replacement in parameter expansion is a <code>bash</code> and <code>ksh</code> extension. <code>dash</code> and POSIX <code>sh</code> does not support it.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,23 @@
+<p>In POSIX sh, some-command-with-flag is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<p>ShellCheck has noticed you're using flags for commands that don't necessarily support them. Some examples:</p>
+<pre><code class="lang-sh">#!/bin/sh
+read -e     # Using libreadline
+export -f   # Exporting functions
+ulimit -v   # Setting vspace limits
+wait   -n   # Waiting for a single process
+</code></pre>
+<h2>Correct code</h2>
+<p>There are generally no simple rewrites. The easiest solution is instead to change the shebang and switch to a shell that <em>does</em> support the features you want, such as <code>bash</code>.</p>
+<p>Alternatively, look up how to do what you want to do in POSIX sh.</p>
+<h2>Rationale</h2>
+<p>External commands (<code>grep</code>, <code>ls</code>, <code>find</code>) invoke a binary on the system and therefore accept the same flags from all shells.</p>
+<p>However, some commands are instead built into the shell and therefore accept different flags depending on which shell is running them.</p>
+<p>You have specified <code>sh</code> or <code>dash</code> in the shebang, but the flags you are using only works when it's executed in e.g. <code>bash</code>. You should either explicitly declare that the script requires <code>bash</code> to run, or you should only use features that work on all shells.</p>
+<h2>Exceptions</h2>
+<p>If the code is gated on a check of the current shell, you can [[ignore]] this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

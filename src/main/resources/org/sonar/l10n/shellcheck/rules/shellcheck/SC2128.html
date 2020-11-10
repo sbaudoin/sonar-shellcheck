@@ -17,5 +17,19 @@ done
 <p>When referencing arrays, <code>$myarray</code> is equivalent to <code>${myarray[0]}</code> -- it results in only the first of multiple elements.</p>
 <p>To get all elements as separate parameters, use the index <code>@</code> (and make sure to double quote). In the example, <code>echo "${myarray[@]}"</code> is equivalent to <code>echo "foo" "bar"</code>.</p>
 <p>To get all elements as a single parameter, concatenated by the first character in <code>IFS</code>, use the index <code>*</code>. In the example, <code>echo "${myarray[*]}"</code> is equivalent to <code>echo "foo bar"</code>.</p>
-<h2>Exceptions</h2>
-<p>None.</p>
+<h2>Bugs</h2>
+<p>There is a <a href="https://github.com/koalaman/shellcheck/issues/1309">known issue</a> with this check's handling of <code>local</code> variables, causing ShellCheck to flag variables that were previously declared as arrays, even if they are in different scopes.</p>
+<p>The easiest workaround is to simply use different variable names. Alternatively, you can [[ignore]] the check.</p>
+<p>It is also possible to satisfy ShellCheck by declaring the <code>local</code> variable separately from assigning to it, e.g.:</p>
+<pre><code class="lang-sh">foo () {
+   local -a baz
+   baz+=(&quot;foo&quot; &quot;bar&quot;)
+   echo &quot;${baz[@]}&quot;
+}
+
+bar () {
+   local baz # ShellCheck gets confused if these lines are merged as local baz=&quot;qux&quot;
+   baz=&quot;qux&quot;
+   echo &quot;$baz&quot;
+}
+</code></pre>
