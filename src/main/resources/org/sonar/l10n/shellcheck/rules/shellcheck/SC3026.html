@@ -1,0 +1,18 @@
+<p>In POSIX sh, ^ in place of ! in glob bracket expressions is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo foo-[^0]*.jpg
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo foo-[!0]*.jpg
+</code></pre>
+<h2>Rationale</h2>
+<p><code>[^c]</code> is frequently used in most regular expression variants to mean "any character except <code>c</code>". This is so pervasive that bash, ksh, dash, and BusyBox ash, all allow it.</p>
+<p>However, strictly speaking, the only range complement syntax guaranteed to be supported across shells is <code>[!c]</code>.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.
+Or just rewrite it to be on the technically correct side.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

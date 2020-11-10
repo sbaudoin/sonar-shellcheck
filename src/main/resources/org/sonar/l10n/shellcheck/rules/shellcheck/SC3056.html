@@ -1,0 +1,23 @@
+<p>In POSIX sh, name matching prefixes are undefined.</p>
+<p>(or "In dash, ... are not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+echo &quot;${!ANDROID_*}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>The easiest solution is to switch to a shell that <em>does</em> support name matching prefixes, like <code>bash</code>:</p>
+<pre><code class="lang-sh">#!/bin/bash
+echo &quot;${!ANDROID_*}&quot;
+</code></pre>
+<p>Alternatively, extract the data you want from <code>env</code> or <code>set</code></p>
+<h2>Rationale</h2>
+<p>Using <code>${!name*}</code> to find all variable names with a given prefix is a bash and ksh extension that <code>dash</code> and POSIX <code>sh</code> does not support.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

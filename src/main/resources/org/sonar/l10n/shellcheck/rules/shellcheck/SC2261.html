@@ -1,0 +1,22 @@
+<p>Multiple redirections compete for stdout. Use cat, tee, or pass filenames instead.</p>
+<p>(or <code>stdin</code>, or <code>stderr</code>, or <code>FD 3</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">grep foo &lt; input1 &lt; input2 &gt; output1 &gt; output2 &gt; output3
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Merge inputs into a single stream, write outputs individually
+cat input1 input2 | grep foo | tee output1 output2 &gt; output3
+
+# Pass inputs as filenames, write outputs individually
+grep foo input1 input2 | tee output1 output2 &gt; output3
+</code></pre>
+<h2>Rationale</h2>
+<p>A file descriptor, whether stdin, stdout, stderr, or non-standard ones, can only point to a single file/pipe.</p>
+<p>For input, many commands support processing multiple filenames. In these cases you can just specify the filenames instead of redirecting. Alternatively, you can use <code>cat</code> to merge multiple filenames into a single stream.</p>
+<p>For output, you can use <code>tee</code> to write to multiple output sinks in parallel.</p>
+<h2>Exceptions</h2>
+<p>Zsh will automatically <code>cat</code> inputs and <code>tee</code> outputs, but none of the shells supported by ShellCheck do.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,14 @@
+{
+  "title": "This alias can't be defined and used in the same parsing unit. Use a function instead.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

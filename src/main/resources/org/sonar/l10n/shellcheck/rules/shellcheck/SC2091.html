@@ -1,9 +1,15 @@
-<p>Remove surrounding $() to avoid executing output.</p>
+<p>Remove surrounding $() to avoid executing output (or use eval if intentional).</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">if $(which epstopdf)
 then
   echo &quot;Found epstopdf&quot;
 fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">make_command() {
+  printf &#39;cat header %q footer &gt; %q\n&#39; &quot;$1&quot; &quot;$2&quot; | tee log
+}
+$(make_command foo.html output/foo.html)
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">if which epstopdf
@@ -11,18 +17,30 @@ then
   echo &quot;Found epstopdf&quot;
 fi
 </code></pre>
-<h2>Rationale</h2>
-<p>ShellCheck has detected that you have a command that just consists of a command substitution.</p>
-<p>This is typically done in order to try to get the shell to execute a command, because <code>$(..)</code> does indeed execute commands. However, it's also replaced by the output of that command.</p>
-<p>When you run <code>echo "The date is $(date +%F)"</code>, bash evalutes the <code>$(..)</code>. The command then becomes <code>echo "The date is 2015-04-29"</code>, which writes out the string <code>The date is 2015-04-29</code></p>
-<p>The problem is when you use <code>$(date +%F)</code> alone as a command. Bash evaluates the <code>$(..)</code>, and the command then becomes <code>2015-04-29</code>. There is no command called <code>2015-04-29</code>, so you get <code>bash: 2015-04-29: command not found</code>.</p>
-<p>Sometimes this results in this confounding <code>command not found</code> messages. Other times you get even stranger issues, like the example problematic code which always evaluates to false.</p>
-<p>The solution is simply to remove the surrounding <code>$()</code>. This will execute the command instead of the command's output.</p>
-<h2>Exceptions</h2>
-<p>If you really want to execute the output of a command rather than the command itself, you can ignore this message or assign the output to a new variable first:</p>
-<pre><code class="lang-sh">readonly command_to_execute=&quot;$(print_the_command)&quot;
-$command_to_execute
+<p>or</p>
+<pre><code class="lang-sh">make_command() {
+  printf &#39;cat header %q footer &gt; %q\n&#39; &quot;$1&quot; &quot;$2&quot; | tee log
+}
+eval &quot;$(make_command foo.html output/foo.html)&quot;
 </code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has detected that you have a command that just consists of a command substitution. This often happens when you want to run a command (possibly from a variable name), without realizing that <code>$(..)</code> is for capturing and not for executing.</p>
+<p>For example, if you have this shell function:</p>
+<pre><code>sayhello() { echo "hello world"; }
+</code></pre>
+<p>Then <code>$(sayhello)</code> will:</p>
+<ol>
+<li>Run <code>sayhello</code>, capturing "hello world"</li>
+<li>Run <code>hello world</code>, resulting in <code>bash: hello: command not found</code></li>
+</ol>
+<p>Meanwhile, just <code>sayhello</code> will:</p>
+<ol>
+<li>Run <code>sayhello</code>, outputting "hello world" to screen</li>
+</ol>
+<p>Note that this is equally true if the command is in a variable, e.g. <code>x=sayhello; $($x)</code>.</p>
+<p>If you <em>do</em> have a command that outputs a second command, similar to how <code>ssh-agent</code> outputs <code>export</code> commands to run, then you should do this via <code>eval</code>. This way, quotes, pipes, redirections, semicolons, and other shell constructs will work as expected. Note that this kind of design is best avoided when possible, since correctly escaping all values can be difficult and error prone.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
 <h2>Related resources</h2>
 <ul>
 <li>StackOverflow: <a href="https://stackoverflow.com/questions/18611842/bash-function-command-not-found">Bash Function -&gt; Command not found</a></li>

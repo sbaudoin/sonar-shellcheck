@@ -1,0 +1,14 @@
+{
+  "title": "This translated string is the name of a variable. Flip leading $ and ' if this should be a quoted substitution.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

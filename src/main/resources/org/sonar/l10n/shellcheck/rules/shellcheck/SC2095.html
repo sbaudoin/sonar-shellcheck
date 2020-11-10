@@ -1,5 +1,5 @@
-<p>Add &lt; /dev/null to prevent ssh from swallowing stdin.</p>
-<p>The same error applies to multiple commands, like <code>ffmpeg</code> and <code>mplayer</code>.</p>
+<p>Use ssh -n to prevent ssh from swallowing stdin.</p>
+<p>The same error applies to multiple commands, like <code>ffmpeg -nostdin</code> and <code>mplayer -noconsolecontrols</code>.</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">while read -r host
 do
@@ -9,14 +9,22 @@ done &lt; hosts.txt
 <h2>Correct code</h2>
 <pre><code class="lang-sh">while read -r host
 do
-  ssh &quot;$host&quot; &quot;uptime&quot; &lt; /dev/null
+  ssh -n &quot;$host&quot; &quot;uptime&quot;
+done &lt; hosts.txt
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">while read -r host
+do
+  ssh &quot;$host&quot; &lt;&lt;&#39;EOF&#39;
+uptime
+EOF
 done &lt; hosts.txt
 </code></pre>
 <h2>Rationale</h2>
 <p>Commands that process stdin will compete with the <code>read</code> statement for input. This is especially tricky for commands you wouldn't expect reads from stdin, like <code>ssh .. uptime</code>, <code>ffmpeg</code> and <code>mplayer</code>.</p>
 <p>The most common symptom of this is a <code>while read</code> loop only running once, even though the input contains many lines. This is because the rest of the lines are swallowed by the offending command.</p>
-<p>To refuse such commands input, redirect their stdin with <code>&lt; /dev/null</code>.</p>
-<p>You can also use command specific options like <code>ssh -n</code> and <code>mplayer -noconsolecontrols</code>.</p>
+<p>To refuse such commands input, you can use a command specific option like <code>ssh -n</code> or <code>ffmpeg -nostdin</code>.</p>
+<p>More generally, you can also redirect their stdin with <code>&lt; /dev/null</code>. This works for all commands with this behavior.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
 <h2>Related resources</h2>

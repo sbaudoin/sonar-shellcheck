@@ -24,6 +24,7 @@ do
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warn [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warning [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' WarningC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
+    sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warnMsg [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warnWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' err [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' ErrorC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE

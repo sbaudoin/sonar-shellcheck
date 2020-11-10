@@ -1,27 +1,28 @@
 <p>Iterating over ls output is fragile. Use globs.</p>
 <h2>Problematic code</h2>
-<pre><code>for f in $(ls *.wav)
+<pre><code class="lang-sh">for f in $(ls *.wav)
 do
-  echo "$f"
+  echo &quot;$f&quot;
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code>for f in *.wav
+<pre><code class="lang-sh">for f in *.wav
 do
-  [[ -e "$f" ]] || break  # handle the case of no *.wav files
-  echo "$f"
+  [[ -e &quot;$f&quot; ]] || break  # handle the case of no *.wav files
+  echo &quot;$f&quot;
 done
 </code></pre>
 <p>Also note that in Bash, <code>shopt -s nullglob</code> will allow the loop to run 0 times instead of 1 if there are no matches. There are also <a href="http://mywiki.wooledge.org/BashPitfalls#for_i_in_.24.28ls_.2A.mp3.29">several other conditions</a> to be aware of.</p>
 <h2>Rationale</h2>
 <p>When looping over a set of files, it's always better to use globs when possible. Using command expansion causes word splitting and glob expansion, which will cause problems for certain filenames (typically first seen when trying to process a file with spaces in the name).</p>
 <p>The following files can or will break the first loop:</p>
-<pre><code>touch 'filename with spaces.wav'
-touch 'filename with * globs.wav'
-touch 'More_Globs[2003].wav'
-touch 'files_with_fønny_chæracters_in_certain_locales.wav'
+<pre><code class="lang-sh">touch &#39;filename with spaces.wav&#39;
+touch &#39;filename with * globs.wav&#39;
+touch &#39;More_Globs[2003].wav&#39;
+touch &#39;files_with_fønny_chæracters_in_certain_locales.wav&#39;
 </code></pre>
 <h2>Related resources</h2>
 <ul>
 <li><a href="http://mywiki.wooledge.org/BashPitfalls#pf1">Bash Pitfalls: for i in $(ls *.mp3)</a></li>
+<li><a href="https://stackoverflow.com/questions/2107945/how-to-loop-over-directories-in-linux">How to loop over directories in Linux?</a></li>
 </ul>

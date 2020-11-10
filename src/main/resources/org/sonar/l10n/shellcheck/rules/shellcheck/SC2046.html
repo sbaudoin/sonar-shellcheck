@@ -18,23 +18,14 @@ done
 <p>If the command substitution outputs multiple pieces of data, use a loop instead.</p>
 <h2>Exceptions</h2>
 <p>In rare cases you actually want word splitting, such as in</p>
-<pre><code>gcc $(pkg-config --libs openssl) client.c
+<pre><code># shellcheck disable=SC2046
+gcc $(pkg-config --libs openssl) client.c
 </code></pre>
-<p>This is because <code>pkg-config</code> outputs <code>-lssl -lcrypto</code>, which you want to break up by spaces into <code>-lssl</code> and <code>-lcrypto</code>. An alternative is to put the variables to an array and expand it:</p>
-<pre><code># For bash
-mapfile -t args &lt; &lt;(pkg-config --libs openssl)
-
-# For ksh
-pkg-config --libs openssl | while IFS="" read -r line; do array+=("$line"); done
+<p>This is because <code>pkg-config</code> outputs <code>-lssl -lcrypto</code>, which you want to break up by spaces into <code>-lssl</code> and <code>-lcrypto</code>.</p>
+<p>A bash alternative in these cases is to use <code>read -a</code> for words or <code>mapfile</code> for lines. ksh can also use <code>read -a</code>, or a <code>while read</code> loop for lines. In this case, since <code>pkg-config</code> outputs words, you could use:</p>
+<pre><code># Read words into an array in bash and ksh
+read -ra args &lt; &lt;(pkg-config --libs openssl)
 
 # expand args
 gcc "${args[@]}" client.c
-</code></pre>
-<p>The power of using an array becomes evident when you want to combine, for example, the command result with user-provided arguments:</p>
-<pre><code>compile () {
-    args=( $(pkg-config --libs openssl) "${@}" )
-    gcc "${args[@]}" client.c
-}
-compile -DDEBUG
-+ gcc -lssl -lcrypto -DDEBUG client.c
 </code></pre>

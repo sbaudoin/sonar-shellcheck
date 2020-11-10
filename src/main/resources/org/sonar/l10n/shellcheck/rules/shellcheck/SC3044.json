@@ -1,0 +1,14 @@
+{
+  "title": "let, caller, builtin, complete, compgen, declare, dirs, disown, enable, mapfile, readarray, pushd, popd, shopt, suspend, typeset are not supported in dash and undefined in POSIX sh.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

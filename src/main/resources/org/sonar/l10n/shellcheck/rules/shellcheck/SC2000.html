@@ -1,1 +1,19 @@
-<p>See if you can use ${#variable} instead.</p>
+<h1>See if you can use ${#variable} instead</h1>
+<p><code>${#variable}</code> will be equal to the number of characters in <code>"${variable}"</code></p>
+<p>This is the same result as <code>"$( echo "$variable" | wc -m )"</code>
+When "$variable" only contains single-byte characters, it's also the same as <code>"$( echo "$variable" | wc -c )"</code></p>
+<p>example code</p>
+<pre><code class="lang-bash">#!/usr/bin/env  bash
+
+if [ &quot;$( echo &quot;$1&quot; | wc -c )&quot; -gt 1 ]; then
+  echo &quot;greater than 1&quot;
+fi
+
+if [ &quot;$( echo &quot;$1&quot; | wc -m )&quot; -gt 1 ]; then
+  echo &quot;greater than 1&quot;
+fi
+
+if [ &quot;${#1}&quot; -gt 1 ]; then
+  echo &quot;greater than 1&quot;
+fi
+</code></pre>

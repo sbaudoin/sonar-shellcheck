@@ -19,9 +19,22 @@ done
 <p><code>[ -e file* ]</code> only works if there's 0 or 1 matches. If there are multiple, it becomes <code>[ -e file1 file2 ]</code>, and the test fails.</p>
 <p><code>[[ -e file* ]]</code> doesn't work at all.</p>
 <p>Instead, use a for loop to expand the glob and check each result individually.</p>
+<p>If you are looking for the existence of a directory, do:</p>
+<pre><code class="lang-sh">for f in /path/to/your/files*; do
+
+    ## Check if the glob gets expanded to existing files.
+    ## If not, f here will be exactly the pattern above
+    ## and the exists test will evaluate to false.
+    [ -e &quot;$f&quot; ] &amp;&amp; echo &quot;files do exist&quot; || echo &quot;files do not exist&quot;
+
+    ## This is all we needed to know, so we can break after the first iteration
+    break
+done
+</code></pre>
 <h2>Exceptions</h2>
 <p>None.</p>
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://mywiki.wooledge.org/BashFAQ/004">BashFaq: How can I check whether a directory is empty or not? How do I check for any *.mpg files, or count how many there are?</a></li>
+<li><a href="https://stackoverflow.com/a/6364244/2309247">sh - Check if a file exists with wildcard in shell script - Stack Overflow</a></li>
 </ul>

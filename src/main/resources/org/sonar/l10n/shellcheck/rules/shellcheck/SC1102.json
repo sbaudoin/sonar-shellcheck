@@ -1,5 +1,5 @@
 {
-  "title": "Shells disambiguate $(( differently or not at all. If the first $( should start command substitution, add a space after it.",
+  "title": "Shells disambiguate $(( differently or not at all. For $(command substition), add space after $( . For $((arithmetics)), fix parsing errors.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Blocker"
 }

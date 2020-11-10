@@ -1,5 +1,5 @@
 {
-  "title": "Consider using grep -c instead of grep|wc.",
+  "title": "Consider using grep -c instead of grep | wc",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

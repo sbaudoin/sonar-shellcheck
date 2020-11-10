@@ -1,0 +1,14 @@
+{
+  "title": "only set flags -a, -b, -C, -e, -f, -h, -m, -n, -u, -v, -x, -o are supported in dash or defined in POSIX sh.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

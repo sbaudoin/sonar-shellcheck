@@ -29,3 +29,10 @@ echo &quot;You said $msg&quot;
 <p>The same is true for <code>${@: -1}</code>, which results in 0 or 1 elements: <code>var=${*: -1}</code> assigns the last element or an empty string.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
+<h2>Adding an element to an array may trigger this warning when you forget the parenthesis.</h2>
+<pre><code>filelist="${filelist[@]}" "$filename"
+</code></pre>
+<p>What was meant is:</p>
+<pre><code>filelist=("${filelist[@]}" "$filename")
+</code></pre>
+<p>Note: this syntax is compatible with older shells, in later shells (bash 3.1+ and zsh 4.2+) you can do: <code>filelist+=("$filename")</code></p>

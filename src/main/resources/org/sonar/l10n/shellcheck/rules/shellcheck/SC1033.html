@@ -1,1 +1,28 @@
-<p>Did you mean ]] ?</p>
+<p>Test expression was opened with double <code>[[</code> but closed with single <code>]</code>. Make sure they match.</p>
+<p>(or SC1034 for vice versa)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[[ -z &quot;$var&quot; ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[[ -z &quot;$var&quot; ]]
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a test expression <code>[ ... ]</code> (POSIX) or <code>[[ ... ]]</code> (ksh/bash), but where the opening and closing brackets did not match (i.e. <code>[[ .. ]</code> or <code>[ .. ]]</code>). The brackets need to match up to work.</p>
+<p>Note in particular that <code>[..]</code> do <em>not</em> work like parentheses in other languages. You can not do:</p>
+<pre><code class="lang-sh"># Invalid
+[[ x ] || [ y ]]
+</code></pre>
+<p>Instead, use one of
+You would instead use two separate test expressions joined by <code>||</code>:</p>
+<pre><code class="lang-sh"># Valid basic test expressions (sh/bash/ksh)
+[ x ] || [ y ]
+
+# Valid extended test expressions (bash/ksh)
+[[ x ]] || [[ y ]]
+</code></pre>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

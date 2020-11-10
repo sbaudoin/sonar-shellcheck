@@ -1,29 +1,39 @@
 <p>which is non-standard. Use builtin 'command -v' instead.</p>
+<p>Note: This check is opt-in only in ShellCheck 0.7.1+ (<code>shellcheck -o deprecate-which</code>).</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">which grep
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">command -v grep
+<pre><code class="lang-sh"># For the path of a single, unaliased, external command,
+# or to check whether this will just &quot;run&quot; in this shell:
+command -v grep
+# To check whether commands exist, without obtaining a reusable path:
+hash grep
 </code></pre>
 <h2>Rationale</h2>
 <p><code>which</code> is a non-standard, external tool that locates an executable in PATH. <code>command -v</code> is a POSIX standard builtin, which uses the same lookup mechanism that the shell itself would.</p>
 <h2>Exceptions</h2>
-<p>None</p>
+<p>This check is opt-in only in 0.7.1+, and you may choose to [[ignore]] it in earlier versions. <code>which</code> is very common, and some prefer its executable-or-nothing behavior over <code>command -v</code>'s handling of builtins, functions and aliases.</p>
 <h2>Caveats</h2>
-<p>With BASH 5.0.7 (via homebrew on macOS 10.13.6), <code>command -v</code> appears to take multiple parameters:</p>
+<h3><code>command -v</code> does not check ALL parameters</h3>
+<p><code>command -v</code> succeeds (with exit code 0) if <em>any</em> command exists:</p>
 <pre><code># grep is in /usr/bin/grep
 # foobar is not in path
 #
 $ command -v -- grep foobar; echo $?
 0
 </code></pre>
-<p>but succeeds (with exit code 0) if <em>any</em> command exists. In the above
-example, it should have failed and exited with 1 unless <em>all</em> commands
-exist.</p>
+<p>In the above example, it should have failed and exited with 1 unless <em>all</em> commands
+exist, if it were to be a replacement for <code>which</code>. Other problems associated with
+<code>command</code> include its inclusion of builtins, aliases, and functions.</p>
 <p>An alternative is:</p>
 <pre><code>$ hash &lt;file1&gt; &lt;file2&gt;
 </code></pre>
 <p>Which observes the standard behaviour of failures.</p>
+<p>To obtain a path, <code>type -p</code> can be used instead. Like <code>command -v</code>, it has a similarly
+quirky behavior with builtins, aliases, and functions, although this is
+arguably milder since it would print nothing for these cases. The failure condition is
+similar to <code>hash</code>.</p>
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://stackoverflow.com/a/677212/1899640">Check if a program exists from a Bash script</a> on StackOverflow.</li>

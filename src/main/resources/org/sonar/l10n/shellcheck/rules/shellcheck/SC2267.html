@@ -1,0 +1,22 @@
+<p>GNU xargs -i is deprecated in favor of -I{}</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Implicit replacement string
+xargs -i ls {}
+
+# Explicit replacement string
+xargs -imyfilename ls myfilename
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">xargs -I {} ls {}
+
+xargs -I filename ls filename
+</code></pre>
+<h2>Rationale</h2>
+<p><code>xargs -i</code> is a GNU specific option. It has been deprecated in favor of the POSIX standard option <code>-I</code>.</p>
+<p>Note that <code>-i</code> will implicitly use <code>{}</code> as a token if nothing is specified, while <code>-I</code> requires it to be explicit.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

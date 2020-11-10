@@ -16,10 +16,10 @@ fi
 <p><code>[</code> is just regular command, like <code>whoami</code> or <code>grep</code>, but with a funny name (see <code>ls -l /bin/[</code>). It's a shorthand for <code>test</code>.</p>
 <p>If you want to check the exit status of a certain command, use that command directly as demonstrated in the correct code.</p>
 <p>If you want to check the output of a command, use <code>"$(..)"</code> to get its output, and then use <code>test</code> or  <code>[</code>/<code>[[</code> to do a string comparison:</p>
-<pre><code># Check output of `whoami` against the string `root`
-if [ "$(whoami)" = "root" ]
+<pre><code class="lang-sh"># Check output of `whoami` against the string `root`
+if [ &quot;$(whoami)&quot; = &quot;root&quot; ]
 then
-  echo "Running as root"
+  echo &quot;Running as root&quot;
 fi
 </code></pre>
 <p>For more information, see <a href="http://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D">this problem in the Bash Pitfall</a> list, or generally <a href="http://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and Conditionals</a> in the WoolEdge BashGuide</p>

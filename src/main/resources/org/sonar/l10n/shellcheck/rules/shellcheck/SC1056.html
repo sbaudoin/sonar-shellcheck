@@ -1,1 +1,12 @@
-<p>Expected a &#x27;}&#x27;. If you have one, try a ; or \n in front of it.</p>
+<p>Expected a '}'. If you have one, try a ; or \n in front of it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/bash
+bar() { echo &quot;hello world&quot; }
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/bash
+bar() { echo &quot;hello world&quot;;}
+</code></pre>
+<h2>Rationale</h2>
+<p><code>}</code> is only recognized as the end of a command group when it's a separate token.</p>
+<p>If it's not a separate token, like in the problematic example, it will be considered a literal character, as if writing <code>echo "foo}"</code> with quotes, and therefore usually cause a syntax error.</p>

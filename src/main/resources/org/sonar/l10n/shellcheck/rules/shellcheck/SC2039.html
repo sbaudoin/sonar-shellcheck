@@ -1,5 +1,6 @@
-<p>In POSIX sh, <em>something</em> is undefined.
-You have declared that your script works with <code>/bin/sh</code>, but you are using features that have undefined behavior according to the POSIX specification.</p>
+<p>In POSIX sh, <em>something</em> is undefined.</p>
+<p><em>Note: This warning has been retired in favor of individual SC3xxx warnings for each individual issue.</em></p>
+<p>You have declared that your script works with <code>/bin/sh</code>, but you are using features that have undefined behavior according to the POSIX specification.</p>
 <p>It may currently work for you, but it can or will fail on other OS, the same OS with different configurations, from different contexts (like initramfs/chroot), or in different versions of the same OS, including future updates to your current system.</p>
 <p>Either declare that your script requires a specific shell like <code>#!/bin/bash</code> or <code>#!/bin/dash</code>, or rewrite the script in a portable way.</p>
 <p>For help with rewrites, the Ubuntu wiki has <a href="https://wiki.ubuntu.com/DashAsBinSh">a list of portability issues</a> that broke people's <code>#!/bin/sh</code> scripts when Ubuntu switched from Bash to Dash. See also <a href="http://mywiki.wooledge.org/Bashism">Bashism</a> on wooledge's wiki. ShellCheck may not warn about all these issues.</p>
@@ -50,10 +51,10 @@ while [ $((test)) -ne 0 ]; do foo; : $((next)); done
 </code></pre>
 <p>POSIX:</p>
 <p>The POSIX standard does not allow for exponents.  However, you can replicate them completely built-in using a POSIX compatible function.  As an example, the <code>pow</code> function from <a href="http://unix.stackexchange.com/a/7925">here</a>.</p>
-<pre><code class="lang-sh">pow () {
-    set &quot;$1&quot; &quot;$2&quot; 1
+<pre><code class="lang-sh">pow() {
+    set -- &quot;$1&quot; &quot;$2&quot; 1
     while [ &quot;$2&quot; -gt 0 ]; do
-      set &quot;$1&quot; $(($2-1)) $(($1*$3))
+      set -- &quot;$1&quot; $(($2-1)) $(($1*$3))
     done
     # %d = signed decimal, %u = unsigned decimal
     # Either should overflow to 0
@@ -122,7 +123,7 @@ printf &#39;%s&#39; &quot;$g&quot; | grep aaa
 </code></pre>
 <p>POSIX:</p>
 <pre><code class="lang-sh">echo &quot;$TERM&quot; | sed -e &#39;s/-256.*$//g&#39;
-# Special case for this since we are matching the end:
+# Special case for this since we are matching the end (the start [#] also works):
 echo &quot;${TERM%-256*}&quot;
 </code></pre>
 <h2><code>printf %q</code></h2>
@@ -154,22 +155,19 @@ reuse_quote &quot;$@&quot;
 <pre><code>command &gt; file 2&gt;&amp;1 or command 2&gt;&amp;1 | othercommand
 </code></pre>
 <p>No Comments / Exceptions</p>
-<h2>Heredoc</h2>
-<p>Change:</p>
-<pre><code>sed 's/some_replacement//g' &lt;&lt;&lt; "${var}"
-</code></pre>
-<p>To:</p>
-<pre><code>printf '%s' "${var}" | sed 's/some_replacement//g'
-</code></pre>
-<p>No Comments / Exceptions</p>
 <h2>Prefixing signal names with <code>SIG</code></h2>
 <p>Instead of e.g.:</p>
 <pre><code class="lang-sh">trap my_handler SIGTERM
 </code></pre>
 <p>use:</p>
 <pre><code class="lang-sh">trap my_handler TERM
-# or (`trap -l` for a list of signal numbers):
+# or (`trap -l` for a list of signal numbers; not every one is portable!)
 trap my_handler 15
 </code></pre>
 <p>Exception</p>
 <p>Depends on what your expected POSIX shell providers would use.</p>
+<p>Some features have POSIX proposals:</p>
+<ul>
+<li><code>local</code>: <a href="https://www.austingroupbugs.net/bug_view_page.php?bug_id=767">https://www.austingroupbugs.net/bug_view_page.php?bug_id=767</a></li>
+<li><code>$'c-style-escape'</code>: see above</li>
+</ul>

@@ -1,0 +1,21 @@
+<p>This redirection overrides piped input. To use both, merge or pass filenames.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">gzcat yesterday.log.gz | grep &quot;$USER&quot; &lt; today.log
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Specify non-piped inputs as filenames
+gzcat yesterday.log.gz | grep &quot;$USER&quot; - today.log
+
+# Or merge multiple inputs into a single stream
+{ gzcat yesterday.log.gz; cat today.log; } | grep &quot;$USER&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>A process only has a single standard input stream. Pipes and input redirections both overwrite it, so you can't use both at the same time. If you try, the redirection takes precedence and the input pipe is closed.</p>
+<p>Many commands support specifying multiple filenames, where one can be stdin (canonically by specifying <code>-</code> as a filename, or alternatively by using <code>/dev/stdin</code>).  In these cases, you can rewrite the command to use one piped input, and as many extra files (or process substitutions) as you want.</p>
+<p>For commands that only process a single input stream (like <code>tr</code>), you can also concatenate multiple commands or files into a single stream using a <code>{ command group; }</code> as in the example.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

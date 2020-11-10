@@ -1,7 +1,10 @@
-<p>Add shebang to the top of your script:</p>
+<p>Add a shebang line to the top of your script:</p>
 <pre><code class="lang-bash">#!/bin/bash
 </code></pre>
-<p>Alternatively, if that is not possible / desirable, you can use the <code>--shell</code> switch:</p>
-<pre><code class="lang-bash">shellcheck --shell=bash without-shebang.sh
+<p>Or, for scripts that will not be executed (<em>e.g.</em>, <code>~/.bashrc</code>), use a directive:</p>
+<pre><code class="lang-bash"># shellcheck shell=bash
 </code></pre>
-<p>See <code>shellcheck --help</code> for a list of supported flavors.</p>
+<p>If neither of those options are possible or desirable, you can invoke ShellCheck with the <code>--shell</code> switch:</p>
+<pre><code class="lang-bash">shellcheck --shell=sh without-shebang.sh
+</code></pre>
+<p>See <code>shellcheck --help</code> for a list of supported flavors (sh, bash, dash, ksh).</p>

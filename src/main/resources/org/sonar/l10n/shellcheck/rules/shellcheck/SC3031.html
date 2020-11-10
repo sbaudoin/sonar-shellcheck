@@ -1,0 +1,25 @@
+<p>In POSIX sh, redirecting from/to globs is undefined.</p>
+<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+date &gt; /tmp/log*.txt
+</code></pre>
+<h2>Correct code</h2>
+<p>To redirect from/to the only match of a glob, expand the glob first:</p>
+<pre><code class="lang-sh">#!/bin/sh
+set -- /tmp/log*.txt
+# PS: This is a good place to verify that there was exactly one match
+date &gt; &quot;$1&quot;
+</code></pre>
+<p>Alternatively, use a loop to redirect from/to all if that was the intention.</p>
+<h2>Rationale</h2>
+<p>Shells differ in whether (and how) they do pathname expansion on names in redirections. Avoid the issue by expanding the glob yourself.</p>
+<h2>Exceptions</h2>
+<p>If you only intend to target shells that supports this feature, you can change
+the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
+<p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
+warnings.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,17 @@
+<p>In POSIX sh, using lower/mixed case for signal names is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">trap &#39;handle_sigint&#39; int
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">trap &#39;handle_sigint&#39; INT
+</code></pre>
+<h2>Rationale</h2>
+<p>POSIX requires that signal names <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_28">be given in uppercase</a>:</p>
+<blockquote><p>The condition can be EXIT, 0 (equivalent to EXIT), or a signal specified using a symbolic name, without the SIG prefix, as listed in the tables of signal names in the &lt;signal.h&gt; header defined in XBD Headers; for example, HUP, INT, QUIT, TERM. Implementations may permit names with the SIG prefix or ignore case in signal names as an extension.</p>
+</blockquote>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>
