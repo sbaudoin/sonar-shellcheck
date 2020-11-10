@@ -9,14 +9,17 @@ Description
 This script uses a Docker container to download and generates the HTML and JSON files required to
 configure the ShellCheck rules in SonarQube:
 
-* `get_checks.sh/cmd`: main script. It runs a Docker container to execute `build_checks.sh`. The
-  `src/resources/org/sonar/l10n/shellcheck/rules/shellcheck` directory is mounted as a volume so
-  that the files are directly generated in the project source tree.
+* `get_checks.sh/cmd`: main script. It does not take parameters, just run it as is. It runs a Docker container
+  to execute `build_checks.sh`. The `src/resources/org/sonar/l10n/shellcheck/rules/shellcheck` directory
+  is mounted as a volume so that the files are directly generated in the project source tree.
 * `build_checks.sh`: clones the source code and Wiki to extract the rule levels and calls `build_checks.py`
 * `build_checks.py`: main program that generates the HTML and JSON files for the rules
 * `build_checks.yml`: configuration file for `build_checks.py`
 
 The script will output some information if some errors or inconsistencies are found. Eg.:
+* "INFO: configured description ignored": a description for the above rule was eventually found so the
+  description in `build_checks.yml` was ignored, so just remove the description from `build_checks.yml`.
+* "Ignoring  SCxxxx.md ...": `build_checks.yml` tells that this rule must be ignored, so...
 * "SCxxxx is missing desc files": this rule exists in the source code but has no description
   in the Wiki or `build_checks.yml`. In such a case you must inspect the source code to build
   a proper description in `build_checks.yml` or decide to ignore the error.
@@ -25,7 +28,9 @@ The script will output some information if some errors or inconsistencies are fo
   what to do: the rule might not have been properly identified in the source code or just delete
   the rule files.
 
-The script is very useful but some manual fixing will certainly be required.
+If you change `build_checks.yml`, it is strongly advised to execute again `get_checks.sh` (or `get_checks.cmd`
+if you are under Windows). The script is very useful but some manual fixing will certainly be required, so wait
+for the automated stuff to work as expected before doing the final, manual fixing.
 
 Configuration
 -------------
