@@ -20,7 +20,7 @@
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <powermock.version>1.7.1</powermock.version>
-        <jacoco.version>0.8.1</jacoco.version>
+        <jacoco.version>0.8.6</jacoco.version>
         <sonar.exclusions>**/lexer/BashLexerBase.java</sonar.exclusions>
     </properties>
 
@@ -207,7 +207,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <links>
-                        <link>http://java.sun.com/javase/8/docs/api/</link>
+                        <link>https://docs.oracle.com/javase/8/docs/api/</link>
                     </links>
                 </configuration>
                 <executions>
@@ -294,19 +294,14 @@
                         <version>${jacoco.version}</version>
                         <executions>
                             <execution>
-                                <id>default-instrument</id>
+                                <id>prepare-agent</id>
                                 <goals>
-                                    <goal>instrument</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>default-restore-instrumented-classes</id>
-                                <goals>
-                                    <goal>restore-instrumented-classes</goal>
+                                    <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
                             <execution>
                                 <id>default-report</id>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
