@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+apk add -q git
 pip install mistune PyYAML
 
 cd /tmp
