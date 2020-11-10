@@ -65,8 +65,9 @@ public class ShellHighlightingTest {
     @Test
     public void test0LengthToken() throws Exception {
         ShellHighlighting sh = new ShellHighlighting("");
+        Token token = new Token(TokenType.HEREDOC_LINE, 14, 0, 2, 5);
         try {
-            Whitebox.invokeMethod(sh, "addHighlighting", new Token(TokenType.HEREDOC_LINE, 14, 0, 2, 5), null);
+            Whitebox.invokeMethod(sh, "addHighlighting", token, null);
             fail("Expected exception not thrown");
         } catch (IllegalArgumentException e) {
             assertEquals("Cannot highlight an empty token", e.getMessage());

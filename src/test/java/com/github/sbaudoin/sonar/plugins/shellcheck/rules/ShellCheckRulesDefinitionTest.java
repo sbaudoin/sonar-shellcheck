@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class ShellCheckRulesDefinitionTest extends TestCase {
     public void testDefine() {
         ShellCheckRulesDefinition rulesDefinition = new ShellCheckRulesDefinition();
@@ -40,7 +42,7 @@ public class ShellCheckRulesDefinitionTest extends TestCase {
 
         for (Rule rule : repository.rules()) {
             for (RulesDefinition.Param param : rule.params()) {
-                assertFalse("Description for " + param.key() + " should not be empty", "".equals(param.description()));
+                assertNotEquals("Description for " + param.key() + " should not be empty", "", param.description());
             }
         }
     }

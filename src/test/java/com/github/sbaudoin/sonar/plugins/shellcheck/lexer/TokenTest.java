@@ -17,6 +17,8 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.lexer;
 
 import junit.framework.TestCase;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class TokenTest extends TestCase {
     public void test() {
         Token token1 = new Token(TokenType.SHEBANG, 4, 12, 2, 2);
@@ -25,10 +27,10 @@ public class TokenTest extends TestCase {
         Token token4 = new Token(TokenType.SHEBANG, 2, 3, 5, 3);
         Token token5 = new Token(TokenType.LINE_FEED, 2, 3, 5, 3);
 
-        assertFalse(token1.equals(""));
-        assertTrue(token1.equals(token2));
-        assertFalse(token1.equals(token4));
-        assertFalse(token4.equals(token5));
+        assertNotEquals("", token1);
+        assertEquals(token2, token1);
+        assertNotEquals(token4, token1);
+        assertNotEquals(token5, token4);
 
         assertEquals(Integer.hashCode(4), token1.hashCode());
 

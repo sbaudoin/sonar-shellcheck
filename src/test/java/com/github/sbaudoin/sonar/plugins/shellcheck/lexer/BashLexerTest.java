@@ -1550,7 +1550,7 @@ public class BashLexerTest {
 
         int i = 1;
         while (lexer.next() != null) {
-            Assert.assertFalse("Error token found at position " + i, lexer.getToken().type == BAD_CHARACTER);
+            Assert.assertNotSame("Error token found at position " + i, BAD_CHARACTER, lexer.getToken().type);
 
             i++;
         }

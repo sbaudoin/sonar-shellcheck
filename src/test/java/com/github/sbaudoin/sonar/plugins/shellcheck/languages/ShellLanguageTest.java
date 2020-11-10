@@ -47,10 +47,10 @@ public class ShellLanguageTest {
 
     @Test
     public void testEquals() {
-        Assert.assertFalse(shell.equals("foo"));
-        Assert.assertTrue(shell.equals(shell));
-        Assert.assertTrue(shell.equals(new ShellLanguage(settings.asConfig())));
-        Assert.assertTrue(shell.equals(new FakeLanguage()));
+        Assert.assertNotEquals("foo", shell);
+        Assert.assertEquals(shell, shell);
+        Assert.assertEquals(new ShellLanguage(settings.asConfig()), shell);
+        Assert.assertEquals(new FakeLanguage(), shell);
     }
 
     @Test

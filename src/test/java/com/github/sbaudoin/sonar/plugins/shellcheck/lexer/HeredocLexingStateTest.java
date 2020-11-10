@@ -110,13 +110,13 @@ public class HeredocLexingStateTest {
         Object hmi4 = innerClass.getDeclaredConstructors()[0].newInstance("\"a\"", Boolean.FALSE);
         Object hmi5 = innerClass.getDeclaredConstructors()[0].newInstance("\"c\"", Boolean.FALSE);
 
-        Assert.assertTrue(hmi1.equals(hmi1));
-        Assert.assertFalse(hmi1.equals(null));
-        Assert.assertFalse(hmi1.equals(""));
-        Assert.assertTrue(hmi1.equals(hmi2));
-        Assert.assertFalse(hmi1.equals(hmi3));
-        Assert.assertFalse(hmi1.equals(hmi4));
-        Assert.assertFalse(hmi4.equals(hmi5));
+        Assert.assertEquals(hmi1, hmi1);
+        Assert.assertNotEquals(null, hmi1);
+        Assert.assertNotEquals("", hmi1);
+        Assert.assertEquals(hmi2, hmi1);
+        Assert.assertNotEquals(hmi3, hmi1);
+        Assert.assertNotEquals(hmi4, hmi1);
+        Assert.assertNotEquals(hmi5, hmi4);
     }
 
     @Test
