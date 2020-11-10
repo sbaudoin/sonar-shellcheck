@@ -186,7 +186,6 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
-                    <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=excludes=*,destfile=target/jacoco.exec</argLine>
                 </configuration>
             </plugin>
             <plugin>
