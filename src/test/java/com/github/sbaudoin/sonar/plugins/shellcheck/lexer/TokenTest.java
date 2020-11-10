@@ -27,7 +27,7 @@ public class TokenTest extends TestCase {
         Token token4 = new Token(TokenType.SHEBANG, 2, 3, 5, 3);
         Token token5 = new Token(TokenType.LINE_FEED, 2, 3, 5, 3);
 
-        assertNotEquals("", token1);
+        assertFalse("".equals(token1));
         assertEquals(token2, token1);
         assertNotEquals(token4, token1);
         assertNotEquals(token5, token4);

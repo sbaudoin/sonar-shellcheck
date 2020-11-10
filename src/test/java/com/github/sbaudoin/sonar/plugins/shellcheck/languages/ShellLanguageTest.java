@@ -50,7 +50,7 @@ public class ShellLanguageTest {
         Assert.assertNotEquals("foo", shell);
         Assert.assertEquals(shell, shell);
         Assert.assertEquals(new ShellLanguage(settings.asConfig()), shell);
-        Assert.assertEquals(new FakeLanguage(), shell);
+        Assert.assertTrue(new FakeLanguage().equals(shell));
     }
 
     @Test
