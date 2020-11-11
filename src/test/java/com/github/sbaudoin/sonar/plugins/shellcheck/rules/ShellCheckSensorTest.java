@@ -309,7 +309,7 @@ public class ShellCheckSensorTest {
         Collection<Issue> issues = context.allIssues();
         assertEquals(0, issues.size());
         assertEquals(1, logTester.logs(LoggerLevel.INFO).size());
-        assertEquals("Plugin disabled by configuration for this project, skipping.", logTester.logs(LoggerLevel.INFO).get(0));
+        assertEquals("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.", logTester.logs(LoggerLevel.INFO).get(0));
     }
 
 

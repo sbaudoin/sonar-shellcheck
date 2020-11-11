@@ -92,9 +92,8 @@ public class ShellCheckSensor implements Sensor {
 
         // Skip if requested for the project
         Optional<Boolean> skip = context.config().getBoolean(ShellCheckSettings.SKIP_KEY);
-        if (skip.isPresent() && skip.get()) {
-            LOGGER.info("Plugin disabled by configuration for this project, skipping.");
-            return;
+        if (skip.orElse(false)) {
+            LOGGER.info("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.");
         }
 
         // Skip analysis if no rules enabled from this plugin
@@ -106,40 +105,45 @@ public class ShellCheckSensor implements Sensor {
         for (InputFile inputFile : fileSystem.inputFiles(mainFilesPredicate)) {
             LOGGER.debug("Analyzing file: " + inputFile.filename());
 
-            // Build shellcheck command
-            List<String> command = new ArrayList<>();
-            command.addAll(Arrays.asList(getShellCheckPath(context), "-x", "-f", "json"));
-            command.add(new File(inputFile.uri()).getAbsolutePath());
-
             // Execute shellcheck and get a parsable output
             List<String> output = new ArrayList<>();
             List<String> error = new ArrayList<>();
-            try {
-                executeCommand(command, output, error);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
-            } catch (IOException e) {
-                return;
-            }
-            if (!error.isEmpty()) {
-                LOGGER.warn("Errors happened during analysis:{}{}",
-                        System.getProperty("line.separator"),
-                        String.join(System.getProperty("line.separator"), error)
-                );
+            if (!skip.orElse(false)) {
+                // Build shellcheck command
+                List<String> command = new ArrayList<>();
+                command.addAll(Arrays.asList(getShellCheckPath(context), "-x", "-f", "json"));
+                command.add(new File(inputFile.uri()).getAbsolutePath());
+
+                try {
+                    executeCommand(command, output, error);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                } catch (IOException e) {
+                    return;
+                }
+                if (!error.isEmpty()) {
+                    LOGGER.warn("Errors happened during analysis:{}{}",
+                            System.getProperty("line.separator"),
+                            String.join(System.getProperty("line.separator"), error)
+                    );
+                }
+
+                LOGGER.debug("Output from shellcheck:");
+                output.forEach(LOGGER::debug);
             }
 
             // Only one output line expected
-            LOGGER.debug("Output from shellcheck:");
-            output.forEach(LOGGER::debug);
             if (output.size() == 1) {
                 // Save all found issues
                 saveIssues(inputFile, output.get(0), context);
                 computeLinesMeasures(context, inputFile);
-                saveSyntaxHighlighting(context, inputFile);
             } else if (output.size() > 1) {
                 throw new UnexpectedCommandOutputException("Cannot scan shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
             }
+
+            // Highlight code
+            saveSyntaxHighlighting(context, inputFile);
         }
     }
 
