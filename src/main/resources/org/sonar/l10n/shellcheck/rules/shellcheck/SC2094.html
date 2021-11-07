@@ -9,6 +9,7 @@
 <p>Each step in a pipeline runs in parallel.</p>
 <p>In this case, <code>grep foo file.txt</code> will immediately try to read <code>file.txt</code> while <code>sed .. &gt; file.txt</code> will immediately try to truncate it.</p>
 <p>This is a race condition, and results in the file being partially or (far more likely) entirely truncated.</p>
+<p>Note that this can also be a problem when you write to a file and read from it later in the pipe. The second command (which reads the file) may not see all the output of the first. An exception in this case is a non-greedy file reader like <code>less</code>, for example <code>python foo.py 2&gt; errfile.txt | less - errfile.txt</code> will successfully allow you to see stdout and stderr separately in less.</p>
 <h2>Exceptions</h2>
 <p>You can ignore this error if:</p>
 <ul>

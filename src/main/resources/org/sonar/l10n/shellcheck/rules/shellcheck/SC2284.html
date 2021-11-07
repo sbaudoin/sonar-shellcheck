@@ -1,0 +1,24 @@
+<p>Use [ x = y ] to compare values (or quote '==' if literal).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if $var == value
+then
+  echo &quot;Match&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;$var&quot; = value ]
+then
+  echo &quot;Match&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an unquoted <code>==</code> after a word.</p>
+<p>This was most likely supposed to be a comparison, so use square brackets as in the correct code.</p>
+<h2>Exceptions</h2>
+<p>If the <code>==</code> was supposed to be literal, you can quote it to make ShellCheck ignore it:</p>
+<pre><code>grep '===' file.js
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

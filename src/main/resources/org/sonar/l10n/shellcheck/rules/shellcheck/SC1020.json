@@ -1,5 +1,5 @@
 {
-  "title": "You need a space before the if single then ']' else ']]'",
+  "title": "You need a space before the ']' or ']]'",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

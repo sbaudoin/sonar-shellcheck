@@ -1,0 +1,22 @@
+<p>Quote repeated spaces to avoid them collapsing into one.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo Hello        World
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Hello        World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found multiple unquoted spaces between words passed to <code>echo</code>. Due to the way arguments are interpreted and passed in the shell, these will collapse into a single space:</p>
+<pre><code>$ echo Hello        World
+Hello World
+</code></pre>
+<p>If you want to output multiple spaces, such as when creating a notice or banner, make sure the spaces are quoted, e.g. by adding (or extending) double quotes to include them:</p>
+<pre><code>$ echo "Hello        World"
+Hello        World
+</code></pre>
+<h2>Exceptions</h2>
+<p>If you're aware of this behavior and didn't want multiple spaces to show up in the output, you can either remove the unnecessary spaces or [[ignore]] this issue.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

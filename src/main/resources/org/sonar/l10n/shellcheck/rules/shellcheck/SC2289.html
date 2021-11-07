@@ -1,0 +1,21 @@
+<p>This is interpreted as a command name containing a linefeed. Double check syntax.</p>
+<p>(or tab)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">&#39;&#39;&#39;
+This script greets the planet
+&#39;&#39;&#39;
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># This script greets the planet
+echo &quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name containing an especially unusual character like a tab or linefeed. This is most likely due to a syntax issue.</p>
+<p>In the example, this was due to a Python style documentation string, which a shell will merely interpreted as a multi-line command name sandwiched between two empty strings.</p>
+<h2>Exceptions</h2>
+<p>If you have a command name that <em>does</em> contain a tab or linefeed you can ignore this message, but... wow.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

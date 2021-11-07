@@ -1,4 +1,4 @@
-<p>Avoid outdated x-prefix in comparisons as it no longer serves a purpose.</p>
+<p>Avoid x-prefix in comparisons as it no longer serves a purpose.</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">[ &quot;x$pass&quot; = &quot;xswordfish&quot; ]
 
@@ -14,18 +14,19 @@ test &quot;$var&quot; = &quot;&quot;
 <p>POSIX ensures <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">this is not necessary</a>, and all modern shells now follow suite.</p>
 <h2>Examples</h2>
 <p>Bash 1.14 from 1992 incorrectly fails this test. This was fixed for Bash 2.0 in 1996:</p>
-<pre><code>var='!'
-[ "$var" = "!" ]
+<pre><code class="lang-sh">var=&#39;!&#39;
+[ &quot;$var&quot; = &quot;!&quot; ]
 </code></pre>
 <p>Dash 0.5.4 from 2007 incorrectly passes this test. This was fixed for Dash 0.5.5 in 2008:</p>
-<pre><code>x='(' y=')'
-[ "$x" = "$y" ]
+<pre><code class="lang-sh">x=&#39;(&#39; y=&#39;)&#39;
+[ &quot;$x&quot; = &quot;$y&quot; ]
 </code></pre>
 <p>Zsh (while not supported by ShellCheck) fixed the same problem in 2015.</p>
 <h2>Exceptions</h2>
-<p>This warning is optional, and not enabled by default.</p>
-<p>If you are targeting especially old shells, you should not enable this warning.</p>
+<p>If you are targeting especially old shells, you can ignore this warning (or use a different letter).</p>
 <h2>Related resources</h2>
 <ul>
+<li><a href="https://www.vidarholen.net/contents/blog/?p=1035">What exactly was the point of <code>[ "x$var" = "xval" ]</code></a>?</li>
 <li><a href="https://mywiki.wooledge.org/BashPitfalls#A.5B_.24foo_.3D_.22bar.22_.5D">Wooledge Bash Pitfall #4</a></li>
+<li><a href="http://www.oilshell.org/blog/2017/08/31.html">Problems With the test Builtin: What Does -a Mean?</a></li>
 </ul>

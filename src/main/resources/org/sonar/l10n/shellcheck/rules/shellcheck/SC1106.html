@@ -1,1 +1,23 @@
-<p>In arithmetic contexts, use &lt;, &gt;, &lt;=, &gt;=, ==, != instead of -lt, -gt, -le, -ge, -eq, -ne</p>
+<p>In arithmetic contexts, use <code>&lt;</code> instead of <code>-lt</code></p>
+<p>Similarly, <code>&gt;</code> instead of <code>-gt</code>, <code>&lt;=</code> instead of <code>-le</code>, <code>&gt;=</code> instead of <code>-ge</code>, <code>==</code> instead of <code>-eq</code>, <code>!=</code> instead of <code>-ne</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if (( 2 -lt 3 ))
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if (( 2 &lt; 3 ))
+then
+  echo &quot;True&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>The comparators <code>-lt</code>, <code>-ge</code>, <code>-eq</code> and friends are flags for the <code>test</code> command aka <code>[</code>. You are instead using it in an arithmetic context, such as <code>(( .. ))</code> or <code>$(( .. ))</code>, where you should be using <code>&lt;</code>, <code>&gt;=</code>, <code>==</code> etc instead.</p>
+<p>In arithmetic contexts, <code>-lt</code> is simply interpreted as "subtract the value of <code>$lt</code>", which is clearly not the intention.</p>
+<h2>Exceptions</h2>
+<p>If you do want to subtract <code>$lt</code> you can add a space to make this clear to ShellCheck: <code>echo $((3 - lt))</code></p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,42 @@
+<p>For indirection, use arrays, <code>declare "var$n=value"</code>, or (for sh) read/eval</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">n=1
+var$n=&quot;hello&quot;
+</code></pre>
+<h2>Correct code</h2>
+<p>For integer indexing in ksh/bash, consider using an indexed array:</p>
+<pre><code class="lang-sh">n=1
+var[n]=&quot;hello&quot;
+echo &quot;${var[n]}&quot;
+</code></pre>
+<p>For string indexing in ksh/bash, use an associative array:</p>
+<pre><code class="lang-sh">typeset -A var
+n=&quot;greeting&quot;
+var[$n]=&quot;hello&quot;
+echo &quot;${var[$n]}&quot;
+</code></pre>
+<p>If you actually need a variable with the constructed name in bash, use <code>declare</code>:</p>
+<pre><code class="lang-sh">n=&quot;Foo&quot;
+declare &quot;var$n=42&quot;
+echo &quot;$varFoo&quot;
+</code></pre>
+<p>For <code>sh</code>, with single line contents, consider <code>read</code>:</p>
+<pre><code class="lang-sh">n=&quot;Foo&quot;
+read -r &quot;var$n&quot; &lt;&lt; EOF
+hello
+EOF
+echo &quot;$varFoo&quot;
+</code></pre>
+<p>or with careful escaping, <code>eval</code>:</p>
+<pre><code class="lang-sh">n=Foo
+eval &quot;var$n=&#39;hello&#39;&quot;
+echo &quot;$varFoo&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p><code>var$n=value</code> is not a valid way of assigning to a dynamically created variable name in any shell. Please use one of the other methods to assign to names via expanded strings. <a href="https://mywiki.wooledge.org/BashFAQ/006">Wooledge BashFaq #6</a> has significantly more information on the subject.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/006">Wooledge BashFaq #6</a>: How can I use variable variables (indirect variables, pointers, references) or associative arrays?</li>
+</ul>

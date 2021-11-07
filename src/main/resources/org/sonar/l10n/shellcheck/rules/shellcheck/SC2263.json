@@ -1,5 +1,5 @@
 {
-  "title": "See companion warning [[SC2262]]",
+  "title": "Since they're in the same parsing unit, this command will not refer to the previously mentioned alias.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,0 +1,17 @@
+<p>Double quotes must be outside ${}: ${"invalid"} vs "${valid}".</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo ${&quot;USER&quot;}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;${USER}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parameter expansion containing what appears to be a quoted variable name.</p>
+<p>While the parameter expansion itself must be quoted, as in <code>"${valid}"</code>, the quotes may not appear inside the <code>{}</code> as in <code>${"invalid"}</code>.</p>
+<p>Also note that translated strings like <code>$"Hello"</code> may not use curly braces.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

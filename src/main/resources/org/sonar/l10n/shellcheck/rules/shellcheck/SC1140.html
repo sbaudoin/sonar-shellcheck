@@ -1,0 +1,16 @@
+<p>Unexpected parameters after condition. Missing &amp;&amp;/||, or bad expression?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$1&quot; ] input=&quot;$1&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$1&quot; ] &amp;&amp; input=&quot;$1&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found characters (other than redirections) after the <code>]</code> or <code>]]</code> in a test expression. This is not valid.</p>
+<p>This sometimes happens when there was an additional expression or command, but joining <code>||</code> or <code>&amp;&amp;</code> is missing. Alternatively, it could happen due to typos (like <code>[[ $1 ]]]</code> with an extra <code>]</code>), or generally from malformed test expressions.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

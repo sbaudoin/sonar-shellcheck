@@ -1,0 +1,24 @@
+<p>Unexpected tokens after compound command. Bad redirection or missing ;/&amp;&amp;/||/|?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">while echo &quot;$2&quot;; do true; done \
+  head -n &quot;$1&quot;
+
+while sleep 1; do date; done &gt; my file
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">while echo &quot;$2&quot;; do true; done \
+  | head -n &quot;$1&quot;
+
+while sleep 1; do date; done &gt; &quot;my file&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found unexpected trailing characters after a compound command.</p>
+<p>The only things allowed after compound commands are redirections, shell keywords, and the various command separators (<code>;</code>, <code>&amp;</code>, <code>|</code>, <code>&amp;&amp;</code>, <code>||</code>).</p>
+<p>In the first example, a <code>|</code> was missing, causing <code>head</code> to appear as an unexpected trailing word, instead of being piped to. In the second example, a lack of quoting caused <code>file</code> to appear as an unexpected trailing word, instead of being part of the redirection.</p>
+<p>Examine your statement and correct the problem.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

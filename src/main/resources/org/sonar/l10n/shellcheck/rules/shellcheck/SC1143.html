@@ -1,0 +1,35 @@
+<p>This backslash is part of a comment and does not continue the line.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">sed \
+  -e &quot;s/HOST/$HOSTNAME/g&quot;   \
+# -e &quot;s/USER/$USER/g&quot;       \
+  -e &quot;s/ARCH/$(uname -m)/g&quot; \
+  &quot;$buildfile&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">sed \
+  -e &quot;s/HOST/$HOSTNAME/g&quot;   \
+  -e &quot;s/ARCH/$(uname -m)/g&quot; \
+  &quot;$buildfile&quot;
+
+# This comment is moved out:
+# -e &quot;s/USER/$USER/g&quot;       \
+</code></pre>
+<p>or using backticked, inlined comments:</p>
+<pre><code class="lang-sh">sed \
+  -e &quot;s/HOST/$HOSTNAME/g&quot;   \
+`# -e &quot;s/USER/$USER/g&quot;`     \
+  -e &quot;s/ARCH/$(uname -m)/g&quot; \
+  &quot;$buildfile&quot;
+</code></pre>
+<p>(ShellCheck recognizes this idiom and does not suggest quotes or <code>$()</code>, neither of which would have worked)</p>
+<h2>Rationale</h2>
+<p>ShellCheck found a line continuation followed by a commented line that appears to try to do the same.</p>
+<p>Backslash line continuations are not respected in comments, and the line instead simply terminates. This is a problem when commenting out one line in a multi-line command like the example.</p>
+<p>Instead, either move the line away from its statement, or use an <code>`# inline comment`</code> in an unquoted backtick command substitution.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

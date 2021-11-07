@@ -1,12 +1,19 @@
 <p>Brace expansions and globs are literal in assignments. Quote it or use an array.</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">foo={1..9}
-echo $foo
+echo &quot;$foo&quot;
+</code></pre>
+<pre><code class="lang-sh">foo=&quot;/some/path/*&quot;
+echo &quot;$foo&quot;
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">foo=( {1..9} )
 echo &quot;${foo[@]}&quot;
 </code></pre>
+<pre><code class="lang-sh">foo=(/some/path/*)
+echo &quot;${foo[@]}&quot;
+</code></pre>
+<p>Note that either of these will trigger SC3030 ("In POSIX sh, array references are undefined") if you are using <code>sh</code> and not e.g. <code>bash</code>.</p>
 <h2>Rationale</h2>
 <p><code>echo *.png {1..9}</code> expands to all png files and numbers from 1 to 9, but <code>var=*.png</code> or <code>var={1..9}</code> will just assign the literal strings <code>'*.png'</code> and <code>'{1..9}'</code>.</p>
 <p>To make the variable contain all png files or 1 through 9, use an array as demonstrated.</p>

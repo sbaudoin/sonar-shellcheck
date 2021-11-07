@@ -1,5 +1,5 @@
 {
-  "title": "Quote this to prevent word splitting",
+  "title": "Quote this to prevent word splitting.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

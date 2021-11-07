@@ -1,5 +1,5 @@
 {
-  "title": "Avoid outdated x-prefix in comparisons as it no longer serves a purpose.",
+  "title": "Avoid x-prefix in comparisons as it no longer serves a purpose.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

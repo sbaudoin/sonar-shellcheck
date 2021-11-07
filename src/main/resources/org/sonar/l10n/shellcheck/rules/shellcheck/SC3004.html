@@ -1,1 +1,24 @@
-<p>$&quot;..&quot; is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, $".." is undefined</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">printf $&quot;Hello, %s\n&quot; &quot;$USER&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Check if gettext exists
+if ! type gettext &gt; /dev/null 2&gt;&amp;1
+then
+  # If not, create a dummy function that returns the input verbatim
+  gettext() { printf &#39;%s&#39; &quot;$1&quot;; }
+fi
+
+# Use gettext to get a translated version of the string
+printf &quot;$(gettext &#39;Hello, %s\n&#39;)&quot; &quot;$USER&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Bash allows using <code>$"..."</code> to easily get a translated string according to the current locale. This is powered by the gettext infrastructure.</p>
+<p>Neither <code>$".."</code> nor the gettext infrastructure or the <code>gettext</code> command is POSIX. A script targeting <code>sh</code> may choose to invoke <code>gettext</code> if the system has it (such as GNU or Solaris), or use the translated string verbatim if it doesn't (such as macOS or FreeBSD).</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -16,3 +16,7 @@
 <p>Using multiple <code>[ .. ]</code> expressions with shell AND/OR operators <code>&amp;&amp;</code> and <code>||</code> is well defined and therefore preferred (but note that they have equal precedence, while <code>-a</code>/<code>-o</code> is unspecified but usually implemented as <code>-a</code> having higher precedence).</p>
 <h2>Exceptions</h2>
 <p>If the shell variant being used is ksh derived (such as the bash shell) it will have the shell builtin command <code>[[ ... ]]</code>. This has the operators <code>&amp;&amp;</code>, <code>||</code>, <code>(</code>, <code>)</code>, <code>!</code> which safely avoid the ambiguity by noting which arguments were quoted and requiring the operators to be unquoted (except by the <code>[[ ... ]]</code> construct itself).</p>
+<h2>See also</h2>
+<ul>
+<li><a href="http://www.oilshell.org/blog/2017/08/31.html">Problems With the test Builtin: What Does -a Mean?</a></li>
+</ul>

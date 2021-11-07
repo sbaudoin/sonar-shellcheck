@@ -1,5 +1,5 @@
 {
-  "title": "case modification is not supported in dash and undefined in POSIX sh.",
+  "title": "Case modification is not supported in dash and undefined in POSIX sh.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

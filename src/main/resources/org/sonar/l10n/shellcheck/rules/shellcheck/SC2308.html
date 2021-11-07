@@ -1,0 +1,73 @@
+<p><code>expr length</code> has unspecified results. Prefer <code>${#var}</code>.</p>
+<p>or <code>'expr match' has unspecified results. Prefer 'expr str : regex'.</code><br>
+or <code>'expr substr' has unspecified results. Prefer 'cut' or ${var#???}.</code><br>
+or <code>'expr index' has unspecified results. Prefer x=${var%%[chars]*}; $((${#x}+1)).</code></p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Find length of string
+length=$(expr length &quot;$var&quot;)
+
+# Match string against regex
+expr match &quot;$input&quot; &quot;[0-9]*&quot;
+
+# Find character index in string
+pos=$(expr index &quot;$input&quot; &quot;:&quot;)
+
+# Get substring by index
+col2=$(expr substr &quot;foo    bar  baz&quot; 8 5)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Find length of string
+length=${#var}
+
+# Match string against regex
+expr &quot;$input&quot; : &quot;[0-9]*&quot;
+
+# Find character index in string
+pos=${input%%:*} pos=$((${#pos}+1))
+
+# Get substring by index (bash)
+str=&quot;foo    bar  baz&quot;
+col2=&quot;${str:7:5}&quot;
+
+# Get substring by index (POSIX)
+col2=&quot;$(printf &#39;foo    bar  baz\n&#39; | cut -c 8-12)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using a <code>expr</code> with <code>length</code>, <code>match</code>, <code>index</code>, or <code>substr</code>. These forms did not make it into POSIX, and fail on platforms like MacOS and FreeBSD. Consider replacing them with portable equivalents:</p>
+<h3><code>length</code></h3>
+<p>can be trivially replaced with <code>${#var}</code></p>
+<h3><code>match</code></h3>
+<p>can be trivially replaced with the POSIX form <code>expr str : regex</code></p>
+<h3><code>index</code></h3>
+<p>if you only need a numerical index as part of trying to extract a piece of the string, consider replacing it with parameter expansion:</p>
+<pre><code>str="mykey=myvalue"
+key="${str%%=*}"    # Remove everything after first =, no index required
+value="${str#*=}"   # Remove everything before first =, no index required
+</code></pre>
+<p>otherwise, you can find the index of the first <code>=</code> using parameter expansion and string length:</p>
+<pre><code>str="mykey=myvalue"
+x=${str%%=*}     # Assign x="mystr"
+index=$((${#x}+1))   # Add 1 to length of x
+</code></pre>
+<h3><code>substr</code></h3>
+<p>Extract a substring via character index is generally fragile. For example, in this example, any minor changes to the format, including just the version increasing from 8.9 to 8.10, will cause the following snippet to fail:</p>
+<pre><code>str="VIM - Vi IMproved 8.2 (2019 Dec 12, compiled Feb 15 2021 12:29:39)"
+version=$(expr substr "$str" 19 3)
+</code></pre>
+<p>Instead, consider a different approach:</p>
+<pre><code>x="${str%% (*}"     # Delete ` (` and everything after, giving "VIM - Vi IMproved 8.2"
+version="${x##* }"  # Delete everything before last space, giving "8.2"
+
+# Get the fifth word separated by spaces
+IFS=" " read -r _ _ _ _ version _ &lt;&lt; EOF
+$str
+EOF
+</code></pre>
+<p>If you still want to use character index, this is trivially done in Bash/Ksh with <code>${var:offset:length}</code> (0-based).</p>
+<p>In POSIX, you can generally use <code>cut</code>, though be careful if the value can contain multiple lines.</p>
+<h2>Exceptions</h2>
+<p>If you know your script will only run on platforms where these forms are supported, like GNU or BusyBox, you can [[ignore]] this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

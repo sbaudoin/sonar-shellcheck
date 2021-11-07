@@ -17,12 +17,12 @@ find . -name '*.ppm' -exec pnmtopng {} &gt; {}.png \;
 } &gt; {}.png 
 </code></pre>
 <p>To perform a redirection per action, rewrite it with e.g. <code>-exec sh -c '...' _ {} \;</code></p>
-<p>If the redirection is something like <code>&gt; /dev/null</code> where you don't mind it applying to the whole <code>find</code> and not individual results, move the redirection to the end of command:</p>
+<h2>Exceptions</h2>
+<p>If the redirection is something like <code>&gt; /dev/null</code> where you don't mind it applying to the whole <code>find</code> and not individual results, you can move the redirection to the end of command to make it clear to ShellCheck (and humans) that it's not meant per command:</p>
 <pre><code>find . -exec foo {} &gt; /dev/null \;     # Ambiguous syntax. Is it per -exec or not?
 find . -exec foo {} \;  &gt; /dev/null    # Identical command with clear intent.
 </code></pre>
-<h2>Exceptions</h2>
-<p>None</p>
+<p>There is no difference in behavior between the two.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

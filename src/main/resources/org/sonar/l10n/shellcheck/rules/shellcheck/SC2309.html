@@ -1,0 +1,24 @@
+<p>-eq treats this as a variable. Use = to compare as string (or expand explicitly with $var)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">read -p &quot;Continue? [y/n] &quot; var
+[ &quot;$var&quot; -eq &quot;n&quot; ​] &amp;&amp; exit 1
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#read -p &quot;Continue? [y/n] &quot; var
+[ &quot;$var&quot; = &quot;n&quot; ​] &amp;&amp; exit 1
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a string used as an argument to a numerical operator like <code>-eq</code>, <code>-ne</code>, <code>-lt</code>, <code>-ge</code>. Such strings will be treated as arithmetic expressions, meaning <code>n</code> will refer to a variable <code>$n</code>, and <code>24/12</code> will be evaluated into <code>2</code>.</p>
+<p>In the problematic example, the intention was instead to compare <code>"n"</code> as a string, so it should use the equivalent string operator instead, in this case <code>=</code>.</p>
+<h2>Exceptions</h2>
+<p>It is perfectly valid to use variables as operands. ShellCheck will not flag any value that is an unquoted variable name assigned in the script:</p>
+<pre><code>a=42; [[ "a" -eq 0 ]]  # Flagged due to quotes
+      [[ b -eq 0 ]]    # Flagged due to not being assigned
+c=42; [[ c -eq 0 ]]    # Not flagged
+</code></pre>
+<p>However, ShellCheck does not know whether you intended <code>foo/bar</code> to be division or a file path.</p>
+<p>If you intended to divide <code>$foo</code> and <code>$bar</code>, you can either make it explicit with <code>[[ $((foo/bar)) -ge 0 ]]</code>, or simply [[ignore]] the warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc</li>
+</ul>

@@ -1,4 +1,5 @@
 <p>Use semicolon or linefeed before 'done' (or quote to make it literal).</p>
+<p>(or <code>do</code> <code>then</code>, <code>fi</code>, <code>esac</code>)</p>
 <h2>Problematic code</h2>
 <pre><code>for f in *; do echo "$f" done
 </code></pre>
@@ -12,7 +13,7 @@
 <pre><code>echo "$f is done"
 </code></pre>
 <h2>Rationale</h2>
-<p><code>done</code> only works as a keyword when it's the first token of the command. If added after a command, it will just be the literal word "done".</p>
-<p>This is also true for other keywords like <code>then</code>.</p>
+<p>ShellCheck found a keyword like <code>done</code>, <code>then</code>, <code>fi</code>, <code>esac</code>, etc used as the argument of a command. This means that the shell will interpret it as a literal string rather than a shell keyword. To be interpreted as a keyword, it must be the first word in the line (i.e. after <code>;</code>, <code>&amp;</code> or a linefeed).</p>
+<p>In the example, <code>echo "$f" done</code> is the same as <code>echo "$f" "done"</code>, and the <code>done</code> does not terminate the loop. This is fixed by terminating the <code>echo</code> command with a <code>;</code> so that the <code>done</code> is the first word in the next line.</p>
 <h2>Exceptions</h2>
 <p>If you're intentionally using <code>done</code> as a literal, you can quote it to make this clear to shellcheck (and also human readers), e.g. instead of <code>echo Task is done</code>, use <code>echo "Task is done"</code>. This makes no difference to the shell, but it will silence this warning.</p>

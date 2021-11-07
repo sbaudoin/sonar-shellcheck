@@ -1,0 +1,14 @@
+{
+  "title": "Use BASH_ARGV0 to assign to $0 in bash (or use [ ] to compare).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

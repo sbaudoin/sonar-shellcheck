@@ -1,1 +1,35 @@
-<p>&#x27;let&#x27;, &#x27;caller&#x27;, &#x27;builtin&#x27;, &#x27;complete&#x27;, &#x27;compgen&#x27;, &#x27;declare&#x27;, &#x27;dirs&#x27;, &#x27;disown&#x27;, &#x27;enable&#x27;, &#x27;mapfile&#x27;, &#x27;readarray&#x27;, &#x27;pushd&#x27;, &#x27;popd&#x27;, &#x27;shopt&#x27;, &#x27;suspend&#x27;, &#x27;typeset&#x27; are not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, <code>declare</code> is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+declare var=&quot;value&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">#!/bin/sh
+declare -r readonly
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">#!/bin/sh
+declare ...
+</code></pre>
+<h2>Correct code</h2>
+<p>If assigning a simple variable outside of a function, skip <code>declare</code> all together:</p>
+<pre><code class="lang-sh">var=&quot;value&quot;
+</code></pre>
+<p>If declaring a variable read-only:</p>
+<pre><code>var=value
+readonly var
+</code></pre>
+<p>If you are unable to find a suitable replacement, consider switching to a shell that supports <code>declare</code>:</p>
+<pre><code class="lang-sh">#!/bin/bash
+declare ...
+</code></pre>
+<p>Indexed arrays, associative arrays, local variables, namerefs, and integer variables are not supported in POSIX sh. Either write around them, or switch to a shell that supports them.</p>
+<h2>Rationale</h2>
+<p>The <code>declare</code> command is non-standard, and most of its functionality is not available across shells.</p>
+<p>Either find a POSIX replacement, or switch to a shell that is guaranteed to support them.</p>
+<h2>Exceptions</h2>
+<p>If your <code>declare</code> command is guarded by a check of the shell version, such as inspecting <code>$BASH_VERSION</code>, you can ignore this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

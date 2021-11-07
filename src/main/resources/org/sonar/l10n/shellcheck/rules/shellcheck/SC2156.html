@@ -3,10 +3,10 @@
 <pre><code class="lang-sh">find . -name &#39;*.mp3&#39; -exec sh -c &#39;i=&quot;{}&quot;; sox &quot;$i&quot; &quot;${i%.mp3}.wav&quot;&#39; \;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find . -name &#39;*.mp3&#39; -exec sh -c &#39;i=&quot;$1&quot;; sox &quot;$i&quot; &quot;${i%.mp3}.wav&quot;&#39; _ {} \;
+<pre><code class="lang-sh">find . -name &#39;*.mp3&#39; -exec sh -c &#39;i=&quot;$1&quot;; sox &quot;$i&quot; &quot;${i%.mp3}.wav&quot;&#39; shell {} \;
 </code></pre>
 <h2>Rationale</h2>
 <p>In the problematic example, the filename is passed by injecting it into a shell string. Any shell metacharacters in the filename will be interpreted as part of the script, and not as part of the filename. This can break the script and allow arbitrary code execution exploits.</p>
-<p>In the correct example, the filename is passed as a parameter. It will be safely treated as literal text. The <code>_</code> is a dummy string that becomes <code>$0</code> in the script.</p>
+<p>In the correct example, the filename is passed as a parameter. It will be safely treated as literal text. Note that when using the shell command with <code>-c</code>, the first parameter to the shell command (in the example "shell") becomes <code>$0</code> in the shell command's environment, where it is used e.g. in shell error messages (you can set it to an arbitrary value, but it makes sense to set it to the shell's name). You should not use the first parameter to the shell command as a data processing parameter because you cannot, for example, access <code>$0</code> via <code>$*</code> in the shell command (because <code>$*</code> starts with <code>$1</code>), and as previously mentioned, <code>$0</code> is used in the shell command's error messages, which would be confusing.</p>
 <h2>Exceptions</h2>
 <p>None.</p>

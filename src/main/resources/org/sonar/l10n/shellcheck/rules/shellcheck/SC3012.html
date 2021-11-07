@@ -1,1 +1,30 @@
-<p>lexicographical operators &lt;, &gt;, \&lt;, \&gt;, &lt;=, &gt;=, \&lt;=, \&gt;= are undefined in POSIX sh.</p>
+<p>In POSIX sh, lexicographical <code>\&lt;</code> is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+x=&quot;aardvark&quot;
+y=&quot;zebra&quot;
+if [ $x \&lt; $y ]
+then
+  echo &quot;$x comes before $y in the dictionary&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<p>First, make sure you wanted a lexicographical comparison (aka dictionary order), and not a numerical comparison.</p>
+<p>Then to compare as string, you can use <code>expr</code> and make sure that the strings are not interpreted numerically by adding some non-numerical data to them. Here, an apostrophe is prepended:</p>
+<pre><code>#!/bin/sh
+x="aardvark"
+y="zebra"
+if expr "'$x" \&lt; "'$y"   &gt; /dev/null 
+then
+  echo "$x comes before $y in the dictionary"
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>The <code>test</code> binary operators <code>&gt;</code>, <code>\&gt;</code>, <code>&lt;</code>, and <code>\&lt;</code> are not part of POSIX and not guaranteed to be supported in scripts targeting <code>sh</code>.</p>
+<p>The <code>expr</code> functionality is specified by POSIX.</p>
+<h2>Exceptions</h2>
+<p>If you know your <code>sh</code> will be e.g. <code>dash</code>, consider explicitly using <code>#!/bin/dash</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>POSIX: <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html#tag_20_128">test</a>, <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/expr.html">expr</a></li>
+</ul>

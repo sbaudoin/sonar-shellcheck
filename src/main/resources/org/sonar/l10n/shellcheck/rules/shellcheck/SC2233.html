@@ -1,4 +1,4 @@
-<p>Remove superfluous <code>(..)</code> around condition.</p>
+<p>Remove superfluous <code>(..)</code> around condition to avoid subshell overhead.</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">if ([ &quot;$x&quot; -gt 0 ])
 then true; fi
@@ -22,7 +22,8 @@ sys     0m0.001s
 </code></pre>
 <p>Just delete the surrounding <code>(..)</code> since they serve no purpose and only slows the script down.</p>
 <h2>Exceptions</h2>
-<p>None.</p>
+<p>This issue only affects performance, not correctness, so it can be safely [[ignore]]d.</p>
+<p>If you are considering doing it to stylistically match C-like languages, please note that this is not conventional and that you'd probably recommend someone use <code>if (1 == 2)</code> over <code>if (system("[ 1 = 2 ]"))</code> in C no matter which language they're used to.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

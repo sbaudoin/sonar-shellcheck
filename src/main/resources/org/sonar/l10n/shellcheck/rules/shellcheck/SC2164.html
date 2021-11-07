@@ -25,6 +25,7 @@ func(){
 <ul>
 <li><code>cd foo || exit</code> as suggested to abort immediately, reusing exit code from failed <code>cd</code> command</li>
 <li><code>cd foo || { echo "Failure"; exit 1; }</code> abort with custom message</li>
+<li><code>cd foo || ! echo "Failure"</code> omitting "abort with custom message"</li>
 <li><code>if cd foo; then echo "Ok"; else echo "Fail"; fi</code> for custom handling</li>
 <li><code>&lt;(cd foo &amp;&amp; cmd)</code> as an alternative to <code>&lt;(cd foo || exit; cmd)</code> in <code>&lt;(..)</code>, <code>$(..)</code> or <code>( )</code></li>
 </ul>

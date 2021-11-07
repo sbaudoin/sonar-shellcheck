@@ -1,5 +1,5 @@
 {
-  "title": "Add a shebang line to the top of your script:",
+  "title": "Tips depend on target shell and yours is unknown. Add a shebang.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

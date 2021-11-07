@@ -1,5 +1,5 @@
 {
-  "title": "standalone ((..)) is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, standalone ((..)) is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,0 +1,16 @@
+<p>Command name contains ==. For comparison, use [ "$var" = value ].</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">$a/$b==foo/bar
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">[ &quot;$a/$b&quot; = &quot;foo/bar&quot; ]
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name that contains a <code>==</code>. Most likely, this was intended as a kind of comparison.</p>
+<p>To compare two values, use <code>[ value1 = value2 ]</code>. Both the brackets and the spaces around the <code>=</code> are relevant.</p>
+<h2>Exceptions</h2>
+<p>None, though you can quote the <code>==</code> to suppress the warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

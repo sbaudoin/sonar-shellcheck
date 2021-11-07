@@ -164,6 +164,16 @@ reuse_quote &quot;$@&quot;
 # or (`trap -l` for a list of signal numbers; not every one is portable!)
 trap my_handler 15
 </code></pre>
+<h2>disown</h2>
+<p>Bash:</p>
+<pre><code class="lang-Bash">&lt;command&gt;
+disown %&lt;command&gt;
+</code></pre>
+<p>POSIX:</p>
+<pre><code class="lang-sh">nohup &lt;command&gt;
+</code></pre>
+<p>Note that while <code>nohup</code> can be used to achieve the same result, their semantics is different.
+Also note that <code>nohup</code> will, by default, redirect input and output.</p>
 <p>Exception</p>
 <p>Depends on what your expected POSIX shell providers would use.</p>
 <p>Some features have POSIX proposals:</p>

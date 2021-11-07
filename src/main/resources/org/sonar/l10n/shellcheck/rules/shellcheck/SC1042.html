@@ -1,4 +1,15 @@
-<pre><code>Found 'eof' further down, but not on a separate line.
-Close matches include '-eof' (!= 'eof').
+<p>Close matches include '-eof' (!= 'eof').</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-bash">#!/bin/bash
+cat &lt;&lt;-eof
+Hello World
+-eof
 </code></pre>
-<p>See companion error [[SC1041]].</p>
+<h2>Correct code</h2>
+<pre><code class="lang-bash">#!/bin/bash
+cat &lt;&lt;-eof
+Hello World
+eof
+</code></pre>
+<p>Rationale:
+See companion error [[SC1041]]. This error occurs at the same time it.</p>

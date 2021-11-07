@@ -1,30 +1,37 @@
 <p>Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.</p>
-<h2>Danger!</h2>
-<blockquote><p>Changing this parameter can be dangerous. Its behavior is influenced by the value of <code>IFS</code>. In certain situations (like feeding strings into commands) this can result in unexpected results from a seemingly aesthetic-only change.
-<a href="https://wiki.bash-hackers.org/syntax/shellvars#special_parameters_and_shell_variables">[More info]</a></p>
-</blockquote>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">var=$@
+<pre><code class="lang-sh"># Want to store multiple elements in var
+var=$@
 for i in $var; do ..; done
 </code></pre>
 <p>or</p>
 <pre><code class="lang-sh">set -- Hello World
+# Want to concatenate multiple elements into a single string
 msg=$@
 echo &quot;You said $msg&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">var=( &quot;$@&quot; )
+<pre><code class="lang-sh"># Bash: use an array variable
+var=( &quot;$@&quot; )
 for i in &quot;${var[@]}&quot;; do ..; done
+
+# POSIX sh: without array support, one possible workaround
+# is to store elements concatenated with a delimiter (here linefeed/newline)
+var=$(printf &#39;%s\n&#39; &quot;$@&quot;)
+printf &#39;%s\n&#39; &quot;$var&quot; | while IFS=&#39;&#39; read -r line; do ..; done
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">set -- Hello World
+<pre><code class="lang-sh">#!/bin/sh
+set -- Hello World
+# Explicitly concatenates all the array elements into a single string
 msg=$*
 echo &quot;You said $msg&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Arrays and <code>$@</code> can contain multiple elements. Simple variables contain only one. When assigning multiple elements to one element, the default behavior depends on the shell (bash concatenates with spaces, zsh concatenates with first char of <code>IFS</code>).</p>
 <p>Since doing this usually indicates a bug, ShellCheck warns and asks you to be explicit about what you want.</p>
-<p>If you want to assign N elements as N elements, use an array, e.g. <code>myArray=( "$@" )</code>.</p>
+<p>If you want to assign N elements as N elements in Bash or Ksh, use an array, e.g. <code>myArray=( "$@" )</code>.</p>
+<p>Dash and POSIX sh do not support arrays. In this case, either concatenate the values with some delimiter that you can split on later (the example uses linefeeds and splits them back up with a <code>while read</code> loop), or keep the values as positional parameters without putting them in an intermediate variable.</p>
 <p>If you want to assign N elements as 1 element by concatenating them, use <code>*</code> instead of <code>@</code>, e.g. <code>myVar=${myArray[*]}</code> (this separates elements with the first character of <code>IFS</code>, usually space).</p>
 <p>The same is true for <code>${@: -1}</code>, which results in 0 or 1 elements: <code>var=${*: -1}</code> assigns the last element or an empty string.</p>
 <h2>Exceptions</h2>
@@ -35,4 +42,5 @@ echo &quot;You said $msg&quot;
 <p>What was meant is:</p>
 <pre><code>filelist=("${filelist[@]}" "$filename")
 </code></pre>
-<p>Note: this syntax is compatible with older shells, in later shells (bash 3.1+ and zsh 4.2+) you can do: <code>filelist+=("$filename")</code></p>
+<p>Note: This syntax is compatible with older shells;
+in later shells (bash 3.1+ and zsh 4.2+), you can do <code>filelist+=("$filename")</code>.</p>

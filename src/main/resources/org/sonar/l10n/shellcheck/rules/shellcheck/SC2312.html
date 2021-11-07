@@ -1,0 +1,24 @@
+<p>Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).</p>
+<p>This is an optional suggestion enabled with <code>shellcheck -o check-extra-masked-returns</code> or <code>enable=check-extra-masked-returns</code> in a <code># shellcheck</code> directive or <code>.shellcheckrc</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">set -e
+cd &quot;$(get_chroot_dir)/etc&quot;
+tar xf &quot;$config&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">set -e
+dir=&quot;$(get_chroot_dir)&quot;
+cd &quot;$dir/etc&quot;
+tar xf &quot;$config&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>In the problematic example, the exit code for <code>get_chroot_dir</code> is ignored because it is used in a command substitution in the argument of another command.</p>
+<p>If the command shows <code>error: Can't determine chroot</code> and exits with failure without outputting a directory, then the command being run will be <code>cd "/etc"</code> and the script will proceed to overwrite the host system's configuration.</p>
+<p>By assigning it to a variable first, the exit code of the command will propagate into the exit code of the assignment, so that it can be checked explicitly with <code>if</code> or implicitly with <code>set -e</code>.</p>
+<h2>Exceptions</h2>
+<p>If you don't care about the command's exit status, or already handle it through a side channel like <code>&lt;(cmd; echo $? &gt; status)</code>, then you can either [[ignore]] the suggestion with a directive, or use <code>|| true</code>  (or <code>|| :</code>) to suppress it.</p>
+<p>Note that this suggestion is optional, and only shows up when explicitly enabled in the script, on the command line, or in a <code>.shellcheckrc</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -19,6 +19,7 @@ cat *.@(dev|prod|test).conf  # Works in bash with `shopt -s extglob`
 </code></pre>
 <h2>Exceptions</h2>
 <p>There is currently a bug in which a range expression whose contents is a variable gets parsed verbatim, e.g. <code>[$foo]</code>. In this case, either ignore the warning or make the square brackets part of the variable contents instead.</p>
+<p>v0.7.2 and below would unintentionally show this warning for subscripts in arrays in <code>[[ -v array[xx] ]]</code> and other dereferencing  operators. In these versions, you can either [[ignore]] the message or quote the word (as in <code>[[ -v 'array[xx]' ]]</code>)</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

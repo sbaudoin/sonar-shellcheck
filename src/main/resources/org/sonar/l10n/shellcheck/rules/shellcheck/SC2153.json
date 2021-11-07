@@ -1,5 +1,5 @@
 {
-  "title": "Possible Misspelling: MYVARIABLE may not be assigned, but MY_VARIABLE is.",
+  "title": "Possible Misspelling: MYVARIABLE may not be assigned. Did you mean MY_VARIABLE?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Info"
 }

@@ -1,1 +1,31 @@
-<p>$&#x27;..&#x27; is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, $'..' is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+IFS=$&#39; \t\n&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+# Note: \n can not be last, or it will be stripped by $()
+IFS=$(printf &#39; \n\t&#39;)
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">#!/bin/sh
+# Trailing linefeed added literally
+IFS=&quot;$(printf &#39; \t&#39;)
+&quot;
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">#!/bin/bash
+# Bash supports this
+IFS=$&#39; \t\n&#39;
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using the interpolated string Bashism <code>$'..'</code> in a script that declares itself as POSIX sh (e.g. via <code>#!/bin/sh</code>).</p>
+<p>To ensure the script runs correctly on other systems, either switch to Bash, or rewrite it in a POSIX compatible way.</p>
+<p>This can generally done via <code>printf</code> as in the example. Be careful about strings with trailing linefeeds, as a <code>$(command substitution)</code> will strip them.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>StackOverflow: <a href="https://stackoverflow.com/questions/15179446/why-does-my-bash-code-fail-when-i-run-it-with-sh">Why does my bash code fail when I run it with sh?</a></li>
+</ul>

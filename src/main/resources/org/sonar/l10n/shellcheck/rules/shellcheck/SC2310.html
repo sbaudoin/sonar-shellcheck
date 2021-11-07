@@ -1,0 +1,43 @@
+<p>This function is invoked in an 'if' condition so set -e will be disabled. Invoke separately if failures should cause the script to exit.</p>
+<p>(This warning is optional and must be explicitly enabled)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+#shellcheck enable=check-set-e-suppressed
+
+set -e
+
+backup() {
+  cp *.txt /backup
+  rm *.txt            # Runs even if copy fails!
+}
+
+if backup
+then
+    echo &quot;Backup successful&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+#shellcheck enable=check-set-e-suppressed
+
+set -e
+
+backup() {
+  cp *.txt /backup
+  rm *.txt
+}
+
+backup
+echo &quot;Backup successful&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a function used as a condition in a script where <code>set -e</code> is enabled. This means that the function will run without <code>set -e</code>, and will power through any errors.</p>
+<p>This applies to <code>if</code>, <code>while</code>, and <code>until</code> statements, commands negated with <code>!</code>, as well as the left-hand side of <code>||</code> and <code>&amp;&amp;</code>. It does not matter how deeply the command is nested in such a structure.</p>
+<p>In the problematic example, the intent was that an error like <code>cp: error writing '/backup/important.txt': No space left on device</code> would cause the script to abort. Instead, since the function is invoked in an <code>if</code> statement, the script will proceed to delete all the files even though it failed to back them up.</p>
+<p>The fix is to call it outside of an <code>if</code> statement. There is no point in checking whether the command succeeded, since the script would abort if it didn't. You may also want to consider replacing <code>set -e</code> with explicit <code>|| exit</code> after every relevant command to avoid such surprises.</p>
+<h2>Exceptions</h2>
+<p>If you don't care that the function runs without <code>set -e</code>, you can disable this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>BashFaq #105: <a href="https://mywiki.wooledge.org/BashFAQ/105">Why doesn't set -e (or set -o errexit, or trap ERR) do what I expected?</a></li>
+</ul>

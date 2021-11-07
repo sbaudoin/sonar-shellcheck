@@ -1,0 +1,14 @@
+{
+  "title": "${$x} is invalid. For expansion, use ${x}. For indirection, use arrays, ${!x} or (for sh) eval.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

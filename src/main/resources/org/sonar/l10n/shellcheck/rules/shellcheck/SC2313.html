@@ -1,0 +1,17 @@
+<p>Quote array indices to avoid them expanding as globs.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">read -r foo[index]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">read -r &quot;foo[index]&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an array element passed to read, where the <code>[]</code> was not quoted. This means the array index <code>[index]</code> will be treated as a glob range, and the word may be replaced or trigger <code>failglob</code>.</p>
+<p>In the problematic example, having a directory named <code>food</code> will cause the command to become <code>read -r food</code> instead, since <code>food</code> matches the glob <code>foo[index]</code>. The result is assigning a value to the wrong variable.</p>
+<p>Quote or escape the pattern as shown to ensure it always reads into the array <code>foo</code> at index <code>index</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

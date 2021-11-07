@@ -1,0 +1,14 @@
+{
+  "title": "Use 'done &lt; &lt;(cmd)' to redirect from process substitution (currently missing one '&lt;').",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

@@ -1,1 +1,16 @@
-<p>exponentials are not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, exponentials are undefined.</p>
+<h2>Problematic code</h2>
+<p>ShellCheck noticed you're using <code>**</code>-notation with two asterisks to obtain an exponent's value. Some examples:</p>
+<pre><code class="lang-sh">#!/bin/sh
+echo $((2 ** 3)) # Using `**` for an exponent is undefined in POSIX sh.
+</code></pre>
+<h2>Correct code</h2>
+<p>Other possibilities exist:</p>
+<pre><code class="lang-sh">#!/bin/sh
+echo $((2 * 2 * 2))   # equivalent to `bash`&#39;s `echo $((2 ** 3))`
+echo &#39;2 ^ 3&#39; | bc     # piping the formula to `bc` to parse the output https://stackoverflow.com/a/13111995
+printf &#39;2 ^ 3\n&#39; | bc # piping using `printf` (newline `\n` is mandatory)
+</code></pre>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX!</li>
+</ul>

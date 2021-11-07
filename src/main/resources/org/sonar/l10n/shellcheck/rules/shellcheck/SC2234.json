@@ -1,5 +1,5 @@
 {
-  "title": "Remove superfluous (..) around test command.",
+  "title": "Remove superfluous (..) around test command to avoid subshell overhead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

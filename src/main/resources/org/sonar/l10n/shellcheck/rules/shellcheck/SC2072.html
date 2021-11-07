@@ -4,7 +4,7 @@
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">[[ 200 -lt 314 ]]                   # Use fixed point math
-[[ $(echo &quot;2 &amp;lt; 3.14&quot; | bc) == 1 ]]  # Use bc
+[[ $(echo &quot;2 &lt; 3.14&quot; | bc) == 1 ]]  # Use bc
 </code></pre>
 <h2>Rationale</h2>
 <p>Bash and Posix sh does not support decimals in numbers. Decimals should either be avoided, or compared using a tool that does support them.</p>

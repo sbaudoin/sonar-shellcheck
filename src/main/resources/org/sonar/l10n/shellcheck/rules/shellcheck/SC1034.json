@@ -1,5 +1,5 @@
 {
-  "title": "See similar error [[SC1033]]",
+  "title": "Test expression was opened with double [ but closed with single ]]. Make sure they match.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

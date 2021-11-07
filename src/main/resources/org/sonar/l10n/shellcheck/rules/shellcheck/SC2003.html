@@ -7,8 +7,18 @@ l=$(expr length &quot;$var&quot;)
 <pre><code class="lang-sh">i=$((1+2))
 l=${#var}
 </code></pre>
+<p><strong>WARNING:</strong> constants with a leading 0 are interpreted as octal numbers by bash, but not by expr. Then you should specify the base when a leading zero may occur:</p>
+<pre><code class="lang-sh">$ x=08
+$ echo $(expr 1 + $x)
+9
+$ echo $((1 + $x))
+-bash: 1 + 08: value too great for base (error token is &quot;08&quot;)
+$ echo $((1 + 10#$x))
+9
+</code></pre>
+<p>See <a href="https://github.com/koalaman/shellcheck/issues/1910#issuecomment-610439789">issue #1910</a></p>
 <h2>Rationale</h2>
-<p><a href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/expr.html">To quote POSIX:</a></p>
+<p><a href="https://pubs.opengroup.org/onlinepubs/009695399/utilities/expr.html#tag_04_50_17">To quote POSIX:</a></p>
 <blockquote><p>The expr utility has a rather difficult syntax [...] In many cases, the arithmetic and string features provided as part of the shell command language are easier to use than their equivalents in expr. Newly written scripts should avoid expr in favor of the new features within the shell.</p>
 </blockquote>
 <h2>Exceptions</h2>

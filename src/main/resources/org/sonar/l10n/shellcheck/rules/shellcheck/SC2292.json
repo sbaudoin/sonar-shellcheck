@@ -1,0 +1,14 @@
+{
+  "title": "Prefer [[ ]] over [ ] for tests in Bash\/Ksh.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

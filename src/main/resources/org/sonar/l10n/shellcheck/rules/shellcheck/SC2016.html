@@ -1,19 +1,30 @@
 <h1>Expressions don't expand in single quotes, use double quotes for that.</h1>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">name=World
-echo &#39;Hello $name&#39;
+echo &#39;Hello $name&#39;   # Outputs Hello $name
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">name=World
-echo &quot;Hello $name&quot;
+echo &quot;Hello $name&quot;   # Outputs Hello World
 </code></pre>
 <h2>Rationale</h2>
-<p>Single quotes prevent expansion of everything, including variables and command substitution.</p>
-<p>If you want to use the values of variables and such, use double quotes instead.</p>
-<p>Note that if you have other items that needs single quoting, you can use both in a single word:</p>
-<pre><code class="lang-sh">echo &#39;$1 USD is &#39;&quot;$rate GBP&quot;
+<p>ShellCheck found an expansion like <code>$var</code>, <code>$(cmd)</code>, or <code>`cmd`</code> in single quotes.</p>
+<p>Single quotes express all such expansions. If you want the expression to expand, use double quotes instead.</p>
+<p>If switching to double quotes would require excessive escaping of other metacharacters, note that you can mix and match quotes in the same shell word:</p>
+<pre><code class="lang-sh">dialog --msgbox &quot;Filename $file may not contain any of: &quot;&#39;`&amp;;&quot;\#%$&#39; 10 70
 </code></pre>
 <h2>Exceptions</h2>
-<p>If you want <code>$stuff</code> to be a literal dollar sign followed by the characters "stuff", you can [[ignore]] this message.</p>
-<p>ShellCheck tries to be smart about it, and won't warn when this is used with awk, perl and similar, but there are some inherent ambiguities like <code>'I have $1 in my wallet'</code>, which could be "one dollar" or "whatever's in the first parameter".</p>
-<p>In the particular case of <code>sed</code>, ShellCheck uses additional heuristics to try to separate cases like <code>'s/$foo/bar/'</code> (failing to replace the variable <code>$foo</code>) with from the false positives like <code>'$d'</code> (delete last line). If you're still triggering these, consider being more generous with your spaces: use <code>$ { s/foo/bar; }</code> instead of <code>${s/foo/bar/;}</code></p>
+<p>If you know that you want the expression literally without expansion, you can [[ignore]] this message:</p>
+<pre><code># We want this to output $PATH without expansion
+# shellcheck disable=SC2016
+echo 'PATH=$PATH:/usr/local/bin' &gt;&gt; ~/.bashrc
+</code></pre>
+<p>ShellCheck also does not warn about escaped expansions in double quotes:</p>
+<pre><code>echo "PATH=\$PATH:/usr/local/bin" &gt;&gt; ~/.bashrc
+</code></pre>
+<p>This suggestion is primarily meant to help newbies who assume single and double quotes are basically the same, like in Python and JavaScript. It's not at all meant to discourage experienced users from using single quotes in general. If you are well aware of the difference, please do not hesitate to permanently disable this suggestion with <code>disable=SC2016</code> in your <code>.shellcheckrc</code>.</p>
+<p>ShellCheck tries to increase the signal-to-noise ratio of this warning by ignoring certain well known commands that frequently expect literal dollar signs, such as <code>sh</code> and <code>perl</code>. However, there's a long tail of less common commands and flags that also frequently expect <code>$</code>s, and it's not in ShellCheck's scope to try to keep track of them all. When you come across such a command, please [[ignore]] the suggestion, either permanently or for that one instance.</p>
+<h2>Related resources</h2>
+<ul>
+<li>StackOverflow: <a href="https://stackoverflow.com/questions/21192420/how-do-i-use-variables-in-single-quoted-strings">How do I use variables in single quoted strings?</a></li>
+</ul>

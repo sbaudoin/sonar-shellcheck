@@ -11,7 +11,7 @@ printf &#39;Foo:\tBar&#39;
 <h2>Rationale</h2>
 <p><code>echo</code> has historically behaved differently on different systems. Use <code>printf</code> instead to ensure compatibility between shells.</p>
 <h2>Exceptions</h2>
-<p>If you only intend to target shells that supports this feature, you can change
+<p>If you only intend to target systems that supports this feature, you can change
 the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
 <p>You can use <code># shellcheck disable=SC3000-SC4000</code> to ignore all such compatibility
 warnings.</p>

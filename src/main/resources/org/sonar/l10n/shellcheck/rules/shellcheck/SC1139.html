@@ -1,0 +1,24 @@
+<p>Use || instead of '-o' between test commands.</p>
+<p>And variations, like "Use <code>&amp;&amp;</code> instead of <code>and</code>".</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ &quot;$1&quot; = &quot;-v&quot; ] -o [ -n &quot;$VERBOSE&quot; ]
+then
+  echo &quot;Verbose log&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ &quot;$1&quot; = &quot;-v&quot; ] || [ -n &quot;$VERBOSE&quot; ]
+then
+  echo &quot;Verbose log&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a <code>[ .. ]</code> or <code>[[ .. ]]</code> test expression followed by <code>-o</code>/<code>-a</code> (or by Python-style <code>or</code>/<code>and</code>).</p>
+<p><code>-o</code> and <code>-a</code> work <em>inside</em> <code>[ .. ]</code>, but they do not work <em>between</em> them. The Python operators <code>or</code> and <code>and</code> are never recognized in Bash.</p>
+<p>To join two separate test expressions, instead use <code>||</code> for "logical OR", or <code>&amp;&amp;</code> for "logical AND".</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

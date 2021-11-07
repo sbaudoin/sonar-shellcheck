@@ -25,14 +25,19 @@ echo &quot;This $variable is quoted $(and now this &quot;$variable&quot; is too)
 <h2>Exceptions</h2>
 <p>Sometimes you want to split on spaces, like when building a command line:</p>
 <pre><code class="lang-sh">options=&quot;-j 5 -B&quot;
+[[ $debug == &quot;yes&quot; ]] &amp;&amp; options=&quot;$options -d&quot;
 make $options file
 </code></pre>
 <p>Just quoting this doesn't work. Instead, you should have used an array (bash, ksh, zsh):</p>
-<pre><code class="lang-bash">options=(-j 5 -B) # ksh: set -A options -- -j 5 -B
+<pre><code class="lang-bash">options=(-j 5 -B) # ksh88: set -A options -- -j 5 -B
+[[ $debug == &quot;yes&quot; ]] &amp;&amp; options=(&quot;${options[@]}&quot; -d)
 make &quot;${options[@]}&quot; file
 </code></pre>
 <p>or a function (POSIX):</p>
-<pre><code class="lang-sh">make_with_flags() { make -j 5 -B &quot;$@&quot;; }
+<pre><code class="lang-sh">make_with_flags() {
+  [ &quot;$debug&quot; = &quot;yes&quot; ] &amp;&amp; set -- -d &quot;$@&quot;
+  make -j 5 -B &quot;$@&quot;
+}
 make_with_flags file
 </code></pre>
 <p>To split on spaces but not perform glob expansion, Posix has a <code>set -f</code> to disable globbing.  You can disable word splitting by setting <code>IFS=''</code>.</p>
@@ -54,10 +59,3 @@ bash ${debug:+&quot;-x&quot;} script
 </code></pre>
 <hr>
 <p>As always, this warning can be [[ignored|ignore]] on a case-by-case basis.</p>
-<p>This is especially relevant when BASH may not be available for the array work around.
-For example, use in eval or in command options where script has total control of the variables...</p>
-<pre><code class="lang-sh">FLAGS=&quot;-av -e &#39;ssh -x&#39; --delete --delete-excluded&quot;
-...
-# shellcheck disable=SC2086
-eval rsync $FLAGS ~/dir remote_host:dir
-</code></pre>

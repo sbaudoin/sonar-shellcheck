@@ -1,0 +1,21 @@
+<p><code>*</code> must be escaped to multiply: <code>\*</code>. Modern <code>$((x * y))</code> avoids this issue.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">result=$(expr 2 * 3)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># Modern, efficient, POSIX standard approach
+result=$(( 2 * 3 ))
+
+# Older, slower approach
+result=$(expr 2 \* 3)
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an <code>expr</code> command whose operator is an unescaped asterisk <code>*</code>.</p>
+<p>When using <code>expr</code>, each argument is expanded the same way as for any other command. This means that <code>expr 2 * 3</code> will turn into <code>expr 2 Desktop Documents Downloads Music Pictures 3</code> depending on the files in the current directory, causing an error like <code>expr: syntax error: unexpected argument ‘Desktop’</code></p>
+<p>The best way to avoid this is to avoid <code>expr</code> and instead use <code>$((..))</code> instead. If you for any reason prefer the 200x slower, heavyweight process of forking a new process, you can escape the <code>*</code>. Both ways are demonstrated in the correct example.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

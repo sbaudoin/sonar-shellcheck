@@ -29,3 +29,10 @@ echo &quot;hello $target&quot;
 <h2>Exceptions</h2>
 <p>ShellCheck intentionally does not attempt to figure out runtime or dynamic assignments like with <code>source "$(date +%F).sh"</code> or <code>eval var=value</code>. See [[SC2034]] for an extended discussion of why this is the case.</p>
 <p>If you know for a fact that the variable is set, you can use <code>${var:?}</code> to fail if the variable is unset (or empty), initialize it to a default value if uninitialized with <code>: "${var:=}"</code>, or explicitly initialize/declare it with <code>var=""</code> or <code>declare var</code>. You can also disable the message with a [[directive]].</p>
+<hr>
+<p>Read more:</p>
+<p>POSIX - Parameter expansion:</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/16753536/2309247">https://stackoverflow.com/a/16753536/2309247</a></li>
+<li><a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02">http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02</a></li>
+</ul>

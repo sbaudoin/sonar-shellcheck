@@ -1,1 +1,23 @@
-<p>Did you forget the ;; after the previous case item?</p>
+<p>Did you forget the <code>;;</code> after the previous case item?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-bash">while getoptions f option
+do
+  case &quot;${options}&quot;
+  in
+  f) FTR=&quot;${ARG}&quot;
+    \?) exit
+  esac
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-bash">while getoptions f option
+do
+  case &quot;${options}&quot;
+  in
+  f) FTR=&quot;${ARG}&quot;
+    \?) exit;;
+  esac
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>Syntax <code>case</code> needs <code>;;</code> after the previous case item. If not, syntax error will cause.</p>

@@ -1,0 +1,43 @@
+<p>Bash implicitly disabled set -e for this function invocation because it's inside a command substitution. Add set -e; before it or enable inherit_errexit.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/bash
+
+#shellcheck enable=check-set-e-suppressed
+set -e
+
+deploy() {
+    make -j &quot;$(nproc)&quot; foo test
+    cp ./foo /var/www/example.com/cgi-bin
+    ./foo --version 2&gt;&amp;1
+}
+
+version=$(deploy)
+echo &quot;Successfully deployed $version&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/bash
+
+#shellcheck enable=check-set-e-suppressed
+set -e
+shopt -s inherit_errexit
+
+deploy() {
+    make -j &quot;$(nproc)&quot; foo test
+    cp ./foo /var/www/example.com/cgi-bin
+    ./foo --version 2&gt;&amp;1
+}
+
+version=$(deploy)
+echo &quot;Successfully deployed $version&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a Bash function invoked in a command substitution with <code>set -e</code> enabled.</p>
+<p>Unlike other shells, Bash disables <code>set -e</code> in command substitution by default. This means that the function will not exit on error.</p>
+<p>In the problematic code, the hope was that the function (and therefore the script) would fail if the build and test suite failed. Instead, the deployment continues even if the tests fail.</p>
+<p>This can be fixed by either using <code>version=$(set -e; deploy)</code> or by enabling <code>inherit_errexit</code> as in the correct example.</p>
+<h2>Exceptions</h2>
+<p>If you don't care that the function runs without <code>set -e</code>, you can [[ignore]] this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

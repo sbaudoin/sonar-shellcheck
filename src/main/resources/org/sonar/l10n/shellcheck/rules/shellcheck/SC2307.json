@@ -1,0 +1,14 @@
+{
+  "title": "'expr' expects 3+ arguments but sees 1. Make sure each operator\/operand is a separate argument, and escape &lt;&gt;&amp;|.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

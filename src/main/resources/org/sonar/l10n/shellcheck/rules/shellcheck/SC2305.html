@@ -1,0 +1,17 @@
+<p>Quote regex argument to expr to avoid it expanding as a glob.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">expr &quot;$input&quot; : [0-9]*
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">expr &quot;$input&quot; : &quot;[0-9]*&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an <code>expr</code> command using <code>:</code> to match a regex, but the regex is not quoted and therefore being treated as a glob.</p>
+<p>This means that if the problematic code is ever executed in a directory containing a file matching <code>[0-9]*</code>, such as <code>2021-reports</code> or <code>12 Angry Men [1957].mkv</code>, it will be replaced be replaced and cause the command to error or incorrectly match.</p>
+<p>The regex should be quoted to avoid this, like in the correct example.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

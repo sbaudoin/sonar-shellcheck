@@ -7,7 +7,7 @@
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">function checksum() {
-  type md5 &amp;&amp; md5sum() { md5sum &quot;$@&quot;; }
+  type md5 &amp;&amp; md5sum() { md5 &quot;$@&quot;; }
   md5sum &quot;$@&quot;  # Now this would call `md5` when applicable
 }
 </code></pre>

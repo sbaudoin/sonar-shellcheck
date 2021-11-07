@@ -1,15 +1,15 @@
-<h1>Quote this to prevent word splitting</h1>
+<h1>Quote this to prevent word splitting.</h1>
 <h2>Problematic code</h2>
-<pre><code>ls -l $(getfilename)
+<pre><code class="lang-sh">ls -l $(getfilename)
 </code></pre>
 <h2>Correct code</h2>
-<pre><code># getfilename outputs 1 file
-ls -l "$(getfilename)"
+<pre><code class="lang-sh"># getfilename outputs 1 file
+ls -l &quot;$(getfilename)&quot;
 
 # getfilename outputs multiple files, linefeed separated
-getfilename | while IFS='' read -r line
+getfilename | while IFS=&#39;&#39; read -r line
 do
-  ls -l "$line"
+    ls -l &quot;$line&quot;
 done
 </code></pre>
 <h2>Rationale</h2>
@@ -18,14 +18,14 @@ done
 <p>If the command substitution outputs multiple pieces of data, use a loop instead.</p>
 <h2>Exceptions</h2>
 <p>In rare cases you actually want word splitting, such as in</p>
-<pre><code># shellcheck disable=SC2046
+<pre><code class="lang-sh"># shellcheck disable=SC2046
 gcc $(pkg-config --libs openssl) client.c
 </code></pre>
 <p>This is because <code>pkg-config</code> outputs <code>-lssl -lcrypto</code>, which you want to break up by spaces into <code>-lssl</code> and <code>-lcrypto</code>.</p>
 <p>A bash alternative in these cases is to use <code>read -a</code> for words or <code>mapfile</code> for lines. ksh can also use <code>read -a</code>, or a <code>while read</code> loop for lines. In this case, since <code>pkg-config</code> outputs words, you could use:</p>
-<pre><code># Read words into an array in bash and ksh
+<pre><code class="lang-sh"># Read words into an array in bash and ksh
 read -ra args &lt; &lt;(pkg-config --libs openssl)
 
 # expand args
-gcc "${args[@]}" client.c
+gcc &quot;${args[@]}&quot; client.c
 </code></pre>

@@ -24,4 +24,24 @@ done
 <p>You have a <code>while getopts</code> loop where the corresponding <code>case</code> statement fails to handle one of the flags.</p>
 <p>Either add a case to handle the flag, or remove it from the <code>getopts</code> option string.</p>
 <h2>Exceptions</h2>
-<p>None.</p>
+<p>ShellCheck may not correctly recognize less canonical uses of <code>while getopts ..; do case ..;</code>, such as when modifying the variable before using it:</p>
+<pre><code>while getopts "rf-:" OPT; do
+  if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
+    OPT="${OPTARG%%=*}"       # extract long option name
+    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
+    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
+  fi
+
+  case "$OPT" in
+    r) ... ;;
+    f) ... ;;
+    my-long-option) ... ;;
+  esac
+done
+</code></pre>
+<p>In such cases you can do one of:</p>
+<ul>
+<li>[[Ignore]] the warning.</li>
+<li>Use the external tool <code>getopt</code> (no "s") which supports long options natively.</li>
+<li>Rewrite to not modify the variable first, in this case by instead doing it in a <code>-)</code> branch.</li>
+</ul>

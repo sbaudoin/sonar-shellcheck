@@ -1,0 +1,25 @@
+<p>This is interpreted as a command name containing '='. Bad assignment or comparison?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">&quot;$var&quot;=42
+if &quot;$var&quot;=42
+then
+  true
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=42
+if [ &quot;$var&quot; = 42 ]
+then
+  true
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name containing an unquoted equals sign <code>=</code>. This was likely intended as either a comparison or an assignment.</p>
+<p>To compare two values, use e.g. <code>[ "$var" = "42" ]</code></p>
+<p>To assign a value, use e.g. <code>var="42"</code></p>
+<h2>Exceptions</h2>
+<p>None, though you can quote the <code>=</code> to make ShellCheck ignore it: <code>"$var=42"</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

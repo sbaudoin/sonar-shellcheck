@@ -1,0 +1,16 @@
+<p>This is interpreted as a command name ending with '/'. Double check syntax.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">df/
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">df /
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name that ends with <code>/</code>. Since directories are not valid commands, this is always wrong.</p>
+<p>The most common reason is bad quoting or escaping, such as in the example where a space was missing between a command and its argument.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

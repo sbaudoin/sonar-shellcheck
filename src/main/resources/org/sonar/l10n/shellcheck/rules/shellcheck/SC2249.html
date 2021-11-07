@@ -33,7 +33,7 @@ success
 <pre><code>case "$(uname)" in
   CYGWIN*) cygwin=1;;
   MINGW*) mingw=1;;
-  *) # No special workarounds identified
+  *) ;; # No special workarounds identified
 esac
 </code></pre>
 <p>If you believe that it's impossible for the expression to have any other value, it's considered good practice to add the equivalent of an <code>assert(0)</code> to fail fast if this assumption should turn out to be incorrect in the current or future versions:</p>

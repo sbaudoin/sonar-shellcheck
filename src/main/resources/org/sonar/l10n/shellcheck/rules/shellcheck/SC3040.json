@@ -1,5 +1,5 @@
 {
-  "title": "set option not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, set option pipefail is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

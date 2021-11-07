@@ -1,0 +1,35 @@
+<p>To assign positional parameters, use 'set -- first second ..' (or use [ ] to compare).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">if [ -z &quot;$1&quot; ]
+then
+  $1=&quot;help&quot;
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">if $1=&quot;help&quot;
+then
+  echo &quot;Usage: $0 filename&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">if [ -z &quot;$1&quot; ]
+then
+  set -- &quot;help&quot;
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">if [ $1 = &quot;help&quot; ]
+then
+  echo &quot;Usage: $0 filename&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>You have a command on the form <code>$2=value</code>.</p>
+<p>If the goal is to assign a new value to the positional parameters, use the <code>set</code> builtin: <code>set -- one two ..</code> will cause <code>$1</code> to be "one" and <code>$2</code> to be "two".</p>
+<p>If you instead want to compare the value, use <code>[ ]</code> and add spaces: <code>[ "$1" = "foo" ]</code></p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

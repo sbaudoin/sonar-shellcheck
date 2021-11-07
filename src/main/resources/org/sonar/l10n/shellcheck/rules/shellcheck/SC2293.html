@@ -1,0 +1,17 @@
+<p>When eval'ing @Q-quoted words, use * rather than @ as the index.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">eval &quot;$MYCOMMAND ${@@Q}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">eval &quot;$MYCOMMAND ${*@Q}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck noticed that you are calling <code>eval</code> and including an escaped array. However, the array is passed as multiple arguments and relies on being implicitly joined together to form a single shell string, which <code>eval</code> can then evaluate.</p>
+<p>Instead, prefer building your shell string with explicit string concatenation by using <code>*</code> instead of <code>@</code> for the index, such as <code>${*@Q}</code> or <code>${array[*]@Q}</code>.</p>
+<p>This suggestion is equivalent to [[SC2124]], but for <code>eval</code> arguments rather than string variables.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

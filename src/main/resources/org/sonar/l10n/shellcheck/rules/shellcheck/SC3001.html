@@ -26,6 +26,13 @@ done &lt; &quot;$tmp&quot;
 rm &quot;$tmp&quot;
 </code></pre>
 <p>If streaming is important, the temporary file can be a named pipe, and the producer or consumer can be run as a background job.</p>
+<p>If the reading command accepts input from standard input, the process substitution can be replaced with a regular pipe:</p>
+<pre><code class="lang-sh">#!/bin/sh
+program | while IFS= read -r n
+do
+  sum=$((sum+n))
+done
+</code></pre>
 <h2>Rationale</h2>
 <p>Process substitution is a ksh and bash extension. It does not work in sh or dash scripts.</p>
 <h2>Exceptions</h2>

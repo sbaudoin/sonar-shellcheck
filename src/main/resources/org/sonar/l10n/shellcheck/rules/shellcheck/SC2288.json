@@ -1,0 +1,14 @@
+{
+  "title": "This is interpreted as a command name ending with apostrophe. Double check syntax.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

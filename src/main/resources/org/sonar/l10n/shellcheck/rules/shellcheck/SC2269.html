@@ -1,0 +1,17 @@
+<p>This variable is assigned to itself, so the assignment does nothing.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=&quot;$var&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh"># If the goal is to do nothing
+true
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a variable that is assigned to itself, e.g. <code>x=$x</code>. This obviously has no effect.</p>
+<p>Double check what the assignment was supposed to do.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

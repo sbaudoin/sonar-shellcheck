@@ -1,0 +1,17 @@
+<p>Command name starts with =. Bad line break?</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">my_variable
+  =value
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">myvariable=value
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name starting with a <code>=</code>. This was likely not meant as a new command, but instead a continuation from a previous line.</p>
+<p>Make sure the <code>=</code> is used correctly.</p>
+<h2>Exceptions</h2>
+<p>None, though you can quote the value to make ShellCheck ignore it, e.g. <code>"=foo"</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -9,12 +9,13 @@ export foo
 <h3>Rationale:</h3>
 <p>In the original code, the return value of <code>mycmd</code> is ignored, and <code>export</code> will instead always return true. This may prevent conditionals, <code>set -e</code> and traps from working correctly.</p>
 <p>When first marked for export and assigned separately, the return value of the assignment will be that of <code>mycmd</code>. This avoids the problem.</p>
+<p>Note that ShellCheck does not warn about masking of local read-only variables, such as <code>local -r foo=$(cmd)</code>, even though this also masks the return value. This is because the alternative <code>local foo; foo=$(cmd); local -r foo</code> is repetitive and cumbersome. To see warnings for this and many other additional cases of suppressed exit codes, enable <code>check-extra-masked-returns</code>.</p>
 <h3>Exceptions:</h3>
-<p>If you intend to ignore the return value of an assignment, you can either ignore this warning or use</p>
+<p>If you intend to ignore the return value of an assignment, you can either [[ignore]] this warning or use</p>
 <pre><code class="lang-sh">foo=$(mycmd) || true
 export foo
 </code></pre>
-<p>Shellcheck does not warn about <code>export foo=bar</code> because <code>bar</code> is a literal and not a command substitution with an independent return value. It also does not warn about <code>local -r foo=$(cmd)</code>, where declaration and assignment must be in the same command.</p>
+<p>Shellcheck does not warn about <code>export foo=bar</code> because <code>bar</code> is a literal and not a command substitution with an independent return value.</p>
 <h2>Problematic code in the case of <code>local</code></h2>
 <pre><code class="lang-sh">local foo=&quot;$(mycmd)&quot;
 </code></pre>

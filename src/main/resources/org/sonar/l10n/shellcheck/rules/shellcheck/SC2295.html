@@ -1,0 +1,31 @@
+<p>Expansions inside ${..} need to be quoted separately, otherwise they will match as a pattern.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">relative_path() {
+  printf &#39;%s\n&#39; &quot;${2#$1}&quot;
+}
+
+# Results in &quot;/tmp/King_Kong_[1933]/extras/trailer.mkv&quot; because the prefix fails to match
+relative_path &quot;/tmp/King_Kong_[1933]/&quot; &quot;/tmp/King_Kong_[1933]/extras/trailer.mkv&quot;
+
+# Results in &quot;cover.jpg&quot; even though the prefix is different
+relative_path &quot;/tmp/King_Kong_[1933]/&quot; &quot;/tmp/King_Kong_3/cover.jpg&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">relative_path() {
+  printf &#39;%s\n&#39; &quot;${2#&quot;$1&quot;}&quot;
+}
+# Results in &quot;extras/trailer.mkv&quot; as expected
+relative_path &quot;/tmp/King_Kong_[1933]/&quot; &quot;/tmp/King_Kong_[1933]/extras/trailer.mkv&quot;
+
+# Results in &quot;/tmp/King_Kong_3/cover.jpg&quot; as expected
+relative_path &quot;/tmp/King_Kong_[1933]/&quot; &quot;/tmp/King_Kong_3/cover.jpg&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>When using expansions in a parameter expansion prefix/suffix expression, the expansion needs to be quoted separately or it will match as a pattern. The quotes around the outer parameter expansion does not protect against this.</p>
+<p>This means that any variable that contains e.g. brackets, asterisks or question marks may not match as expected. In the example, <code>[1933]</code> was interpreted as a pattern character range and would therefore match <code>/tmp/King_Kong_3/</code> but not <code>/tmp/King_Kong_[1933]/</code> as was the intention.</p>
+<h2>Exceptions</h2>
+<p>If you wanted to treat the string as a pattern, such as <code>suffix=".*"; file="${var%$suffix}";</code> then you can [[ignore]] this suggestion.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

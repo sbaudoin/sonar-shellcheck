@@ -1,0 +1,17 @@
+<p>Parameter expansion starts with unexpected quotes. Double check syntax.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo ${&quot;Hello World&quot;}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo $&quot;Hello World&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parameter expansion <code>${...}</code> that contains an unexpected syntax element, such as single or double quotes.</p>
+<p>In the example, this was due to wrapping a translated string <code>$".."</code> with curly braces, which is not valid.</p>
+<p>It is unclear what the intention is with invalid expansions like <code>${'foo'}</code>, <code>${$"foo"}</code>, so please look up how to do what you were trying to do.</p>
+<h2>Exceptions</h2>
+<p>If this warning triggers for working code, please <a href="https://github.com/koalaman/shellcheck/issues/new">submit a bug</a>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

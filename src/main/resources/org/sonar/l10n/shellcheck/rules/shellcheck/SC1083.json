@@ -1,5 +1,5 @@
 {
-  "title": "This {\/} is literal. Check expression (missing ;\/\\n?) or quote it.",
+  "title": "This {\/} is literal. Check if ; is missing or quote the expression.",
   "type": "BUG",
   "status": "ready",
   "remediation": {

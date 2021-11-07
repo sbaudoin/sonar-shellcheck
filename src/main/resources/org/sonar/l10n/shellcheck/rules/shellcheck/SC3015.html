@@ -1,1 +1,17 @@
-<p>=~ regex matching is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, =~ regex matching is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">[ &quot;$var&quot; =~ .*foo[0-9]* ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">expr &quot;$var&quot; : &quot;.*foo[0-9]*&quot; &gt; /dev/null
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using <code>=~</code> in a script declared to be compatible with POSIX sh or Dash.</p>
+<p><code>=~</code> is not a POSIX operator and is unlikely to outside <code>[[ ]]</code> in Bash and Ksh.</p>
+<p>Use <code>expr</code>'s <code>:</code> operator instead.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,5 +1,5 @@
 {
-  "title": "See similar array warning [[SC3054]].",
+  "title": "In POSIX sh, array key expansion is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

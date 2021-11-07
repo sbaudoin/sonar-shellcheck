@@ -1,5 +1,5 @@
 {
-  "title": "Remove superfluous (..) around condition.",
+  "title": "Remove superfluous (..) around condition to avoid subshell overhead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

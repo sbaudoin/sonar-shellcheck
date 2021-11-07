@@ -1,5 +1,5 @@
 {
-  "title": "In arithmetic contexts, use <, >, <=, >=, ==, != instead of -lt, -gt, -le, -ge, -eq, -ne",
+  "title": "In arithmetic contexts, use &lt; instead of -lt",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,22 +1,31 @@
-<p>Numerical -eq does not dereference in [..]. Expand or use string operator.</p>
+<p>Invalid number for -eq. Use = to compare as string (or use $var to expand as a variable).</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">read -r n
 if [ n -lt 0 ]
 then
    echo &quot;bad input&quot;
 fi
+
+if [ &quot;$USER&quot; -eq root ]
+then
+  echo &quot;You are root&quot;
+fi
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">read -r n
-if [ &quot;$n&quot; -lt 0 ]
+if [ &quot;$n&quot; -lt 0 ]        # Numerical comparison
 then
    echo &quot;bad input&quot;
 fi
+
+if [ &quot;$USER&quot; = root ]    # String comparison
+then
+  echo &quot;You are root&quot;
+fi
 </code></pre>
 <h2>Rationale</h2>
-<p>You are comparing a string value with a numerical operator, such as <code>-eq</code>, <code>-ne</code>, <code>-lt</code> or <code>-gt</code>.</p>
-<p>In <code>[[ .. ]]</code>, this would automatically dereference the string, looking to see if there are variables by that name.</p>
-<p>In <code>[ .. ]</code>, which you are using, the string is just treated as an invalid number.</p>
-<p>If you want to compare numbers, expand yourself (e.g. use <code>$var</code> instead of <code>var</code>). If you are trying to compare strings and not numbers, use <code>=</code>, <code>!=</code> <code>\&lt;</code> or <code>\&gt;</code> instead.</p>
+<p>You are comparing a string value with a numerical operator, such as <code>-eq</code>, <code>-ne</code>, <code>-lt</code> or <code>-gt</code>. These only work for numbers.</p>
+<p>If you want to compare the value as a string, switch to the equivalent string operator: <code>=</code>, <code>!=</code> <code>\&lt;</code> or <code>\&gt;</code>.</p>
+<p>If you want to compare it as a number, such as <code>n=42; while [ n -gt 1024/8 ]; ..</code>, then keep the operator and expand the operands yourself with <code>$var</code> or <code>$((expr))</code>: <code>while [ "$n" -gt $((1024/8)) ]</code></p>
 <h2>Exceptions</h2>
 <p>None.</p>

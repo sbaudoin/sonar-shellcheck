@@ -1,0 +1,37 @@
+<p>In bats, ! does not cause a test failure</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/usr/bin/env bats
+
+@test &quot;test&quot; {
+    # ... code
+    ! test_file_exists
+    # ... more code
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/usr/bin/env bats
+
+@test &quot;test&quot; {
+    # ... code
+    run ! test_file_exists
+    # ... more code
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>Bats uses <code>set -e</code> and <code>trap ERR</code> to catch test failures as early as possible.
+Although the return code of a <code>!</code> negated command is inverted, they will never trigger <code>errexit</code>, due to a bash design decision (see <a href="#related-resources">Related Resources</a>).
+This means that tests which use <code>!</code> can never fail.</p>
+<p>Starting with bats 1.5.0 you can use <code>!</code> inside <code>run</code>.
+If you are still using an older bats version, you can rewrite <code>! &lt;command&gt;</code> to <code>&lt;command&gt; &amp;&amp; exit 1</code>.</p>
+<h2>Exceptions</h2>
+<p>The return code of the last command in the test will be the exit code of the test function.
+This means that you can use <code>! &lt;command&gt;</code> on the last line of the test and it will still fail appropriately.
+However, you are encouraged to still use <code>run !</code> in this case for consistency.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="SC2251.md">SC2251: This ! is not on a condition and skips errexit</a></li>
+<li><a href="https://stackoverflow.com/a/39582012/760746">Stackoverflow: Why do I need parenthesis In bash <code>set -e</code> and negated return code</a></li>
+<li><a href="https://linux.die.net/man/1/bash">bash manpage</a> (look at <code>trap [-lp] [[arg] sigspec ...]</code>):  <blockquote><p>The ERR trap is not executed [...] if the command's return value is being inverted via !</p>
+</blockquote>
+</li>
+</ul>

@@ -1,4 +1,4 @@
-<p>Possible Misspelling: MYVARIABLE may not be assigned, but MY_VARIABLE is.</p>
+<p>Possible Misspelling: MYVARIABLE may not be assigned. Did you mean MY_VARIABLE?</p>
 <h2>Problematic code</h2>
 <pre><code class="lang-sh">MY_VARIABLE=&quot;hello world&quot;
 echo &quot;$MYVARIABLE&quot;
@@ -8,7 +8,7 @@ echo &quot;$MYVARIABLE&quot;
 echo &quot;$MY_VARIABLE&quot;
 </code></pre>
 <h2>Rationale</h2>
-<p>ShellCheck has noticed that you reference a variable that is not assigned in the script, which has a name remarkably similar to one that is explicitly assigned. You should verify that the variable name is spelled correctly.</p>
-<p>Note: This error only triggers for environment variables (all uppercase variables), and only when they have names similar to something assigned in the script. If the variable is script-local, it should by convention have a lowercase name, and will in that case be caught by [SC2154] whether or not it resembles another name.</p>
+<p>ShellCheck has noticed that you reference a variable that is not assigned in the script, but which has a name similar to another known variable. You should verify that the variable name is spelled correctly.</p>
+<p>Note: This error only triggers for environment variables (all uppercase variables), and only when they have names similar to another known variable in the script. If the variable is script-local, it should by convention have a lowercase name, and will in that case be caught by [SC2154] whether or not it resembles another name.</p>
 <h2>Exceptions</h2>
 <p>If you've double checked and ensured that you did not intend to reference the specified variable, you can disable this message with a [[directive]]. The message will also not appear for guarded references like <code>${ENVVAR:-default}</code> or <code>${ENVVAR:?Unset error message here}</code>.</p>

@@ -1,0 +1,18 @@
+<p>Parameter expansion can't be applied to command substitutions. Use temporary variables.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Building ${$(git rev-parse --show-toplevel)##*/}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">tmp=$(git rev-parse --show-toplevel)
+echo &quot;Building ${tmp##*/}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parameter expansion that begins with a command substitution, such as <code>$(..)</code> or <code>`..`</code>. This is not valid. Parameter expansion only works on variables (normal or special).</p>
+<p>In the example, the user hoped to apply the construct <code>${var##*/}</code>, stripping the path, to the current git root directory as output by <code>git rev-parse --show-toplevel</code>. Since parameter expansion only works on variable, the command substitution must be assigned to a variable first like in the correct example.</p>
+<p>If the goal was instead to dynamically generate a variable name to expand, see [[SC2082]].</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

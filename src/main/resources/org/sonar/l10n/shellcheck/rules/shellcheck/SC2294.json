@@ -1,0 +1,14 @@
+{
+  "title": "eval negates the benefit of arrays. Drop eval to preserve whitespace\/symbols (or eval as string).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

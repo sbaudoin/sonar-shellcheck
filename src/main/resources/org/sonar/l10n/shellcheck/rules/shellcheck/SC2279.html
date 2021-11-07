@@ -1,0 +1,16 @@
+<p>$0 can't be assigned in Dash. This becomes a command name.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/dash
+$0=myname
+</code></pre>
+<h2>Correct code</h2>
+<p><code>$0</code> can not be changed in Dash.</p>
+<h2>Rationale</h2>
+<p>You appear to be trying to assign a new value to <code>$0</code> in Dash.</p>
+<p>Dash does not support this. Write around it, or switch to Bash.</p>
+<h2>Exceptions</h2>
+<p>If you instead wanted to compare the value of <code>$0</code>, use a comparison like <code>[ "$0" = "myname" ]</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,0 +1,31 @@
+<p>'expr' expects 3+ arguments but sees 1. Make sure each operator/operand is a separate argument, and escape &lt;&gt;&amp;|.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># | not escaped
+expr 1 | 2
+# &gt; not escaped
+expr &quot;$foo&quot; &gt;= &quot;$bar&quot;
+
+# Missing spaces around +
+expr 1+2
+# Unexpected quoting around an expression
+expr &quot;1 + 2&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">expr 16 \| 7
+expr &quot;$foo&quot; \&gt;= &quot;$bar&quot;
+expr 1 + 2
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an <code>expr</code> command with 1 or 2 arguments. <code>expr</code> normally expects 3 or more.</p>
+<p>Generally, this happens for one of two reasons:</p>
+<ul>
+<li>You are using an operator like <code>|</code>, <code>&amp;</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, which needs to be escaped to avoid the shell interpreting it as a pipe, backgrounded command, or redirection.</li>
+<li>You don't have spaces around operators and operands (or have bad quotes) which causes them not to be separate arguments.</li>
+</ul>
+<p>Make sure each operator or operand to <code>expr</code> is a separate argument, and that anything containing shell metacharacters is escaped. The correct code shows examples of each.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

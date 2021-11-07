@@ -1,0 +1,14 @@
+{
+  "title": "Double quotes must be outside ${}: ${'invalid'} vs '${valid}'.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

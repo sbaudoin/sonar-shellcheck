@@ -9,7 +9,7 @@
 source somefile
 </code></pre>
 <p>In case you do not have access to the file:</p>
-<pre><code class="lang-sh"># shellcheck disable=SC1091
+<pre><code class="lang-sh"># shellcheck source=/dev/null
 source somefile
 </code></pre>
 <h2>Rationale</h2>
@@ -17,4 +17,5 @@ source somefile
 <p>This could be because you did not include it on the command line, did not use <code>shellcheck -x</code> to allow following other files, don't have permissions or a variety of other problems.</p>
 <p>Feel free to ignore the error with a [[directive]].</p>
 <h2>Exceptions</h2>
+<p>ShellCheck is unable to follow dynamic paths, such as <code>source "$somedir/file"</code>. For these cases, see [[SC1090: Can't follow non-constant source. Use a directive to specify location|SC1090]] instead. You may be seeing SC1091 because ShellCheck tried to be helpful and strip a leading dynamic path element as described on that page.</p>
 <p>If you're fine with it, ignore the message with a [[directive]].</p>

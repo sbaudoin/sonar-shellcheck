@@ -1,5 +1,5 @@
 {
-  "title": "See similar warning [[SC3020]]",
+  "title": "In POSIX sh, &gt;&amp; is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

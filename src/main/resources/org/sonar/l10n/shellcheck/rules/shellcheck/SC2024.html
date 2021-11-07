@@ -1,14 +1,36 @@
 <p><code>sudo</code> doesn't affect redirects. Use <code>..| sudo tee file</code></p>
+<p>or "Use <code>..| sudo tee -a file</code>" instead of <code>&gt;&gt;</code> to append.</p>
+<p>or "Use <code>sudo cat file | ..</code>" instead of <code>&lt;</code> to read.</p>
 <h2>Problematic code</h2>
-<pre><code>sudo echo 'export FOO=bar' &gt;&gt; /etc/profile
+<pre><code># Write to a file
+sudo echo 3 &gt; /proc/sys/vm/drop_caches
+
+# Append to a file
+sudo echo 'export FOO=bar' &gt;&gt; /etc/profile
+
+# Read from a file
+sudo wc -l &lt; /etc/shadow
 </code></pre>
 <h2>Correct code</h2>
-<pre><code>echo 'export FOO=bar' | sudo tee -a /etc/profile &gt; /dev/null
+<pre><code># Write to a file
+echo 3 | sudo tee /proc/sys/vm/drop_caches &gt; /dev/null
+
+# Append to a file
+echo 'export FOO=bar' | sudo tee -a /etc/profile &gt; /dev/null
+
+# Read from a file
+sudo cat /etc/shadow | wc -l
 </code></pre>
 <h2>Rationale</h2>
-<p>Redirections are performed by the current shell before <code>sudo</code> is started. This means that it will use the current shell's user and permissions to open and write to the file.</p>
-<p><code>tee</code> is a simple command that opens and writes to files without help from the shell, which means that it will use the permissions that <code>sudo</code> grants it.</p>
-<p>There is nothing special about <code>tee</code>. It's just the simplest command that can both truncate and append to files without help from the shell. Here are equivalent alternatives:</p>
+<p>Redirections are performed by the current shell before <code>sudo</code> is started. This means that it will use the current shell's user and permissions to open and read from or write to the file.</p>
+<ul>
+<li>To <em>read</em> from a file that requires additional privileges, you can replace <code>sudo command &lt; file</code> with <code>sudo cat file | command</code>. </li>
+<li>To <em>write</em> to a file that requires additional privileges, you can replace <code>sudo command &gt; file</code> with <code>command | sudo tee file &gt; /dev/null</code></li>
+<li>To <em>append</em> to a file, use the above with <code>tee -a</code>. </li>
+<li>If the file does <em>not</em> require special privileges but the command <em>does</em>, then you are already doing the right thing: please [[ignore]] the message. </li>
+</ul>
+<p>The substitutions work by having a command open the file for reading or writing, instead of relying on the current shell. Since the command is run with elevated privileges, it will have access to files that the current user does not.</p>
+<p>Note: there is nothing special about <code>tee</code>. It's just the simplest command that can both truncate and append to files without help from the shell. Here are equivalent alternatives:</p>
 <p>Truncating:</p>
 <pre><code>echo 'data' | sudo dd of=file
 echo 'data' | sudo sed 'w file'
@@ -18,4 +40,4 @@ echo 'data' | sudo sed 'w file'
 echo 'data' | sudo sh -c 'cat &gt;&gt; file'
 </code></pre>
 <h2>Exceptions</h2>
-<p>If you want to run a command as root but redirect as the normal user, you can ignore this message.</p>
+<p>If you want to run a command as root but redirect as the normal user, you can [[ignore]] this message.</p>

@@ -1,0 +1,20 @@
+<p>This empty string is interpreted as a command name. Double check syntax (or use 'true' as a no-op).</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">jq 
+   &#39;&#39;
+   file.json
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">jq \
+  &#39;&#39; \
+  file.json
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an empty string used as a command name. This is never valid.</p>
+<p>If the command is intended to do nothing, use <code>true</code> aka <code>:</code> instead. Otherwise, determine why an empty string ended up as a command name and fix it accordingly. In the example, each line was interpreted as a separate command due to missing line continuations.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -39,3 +39,5 @@ IFS=&quot; &quot; read -r -A array &lt;&lt;&lt; &quot;$(mycommand)&quot;
 <p>This prevents the shell from doing unwanted splitting and glob expansion, and therefore avoiding problems with output containing spaces or special characters.</p>
 <h2>Exceptions</h2>
 <p>If you have already taken care (through setting IFS and <code>set -f</code>) to have word splitting work the way you intend, you can ignore this warning.</p>
+<p>Another exception is the wish for error handling: <code>array=( $(mycommand) ) || die-with-error</code> works the way it looks while a similar <code>mapfile</code> construct like <code>mapfile -t array &lt; &lt;(mycommand)</code> <strong>doesn't fail</strong> and you will have to write more code for error handling.
+```</p>

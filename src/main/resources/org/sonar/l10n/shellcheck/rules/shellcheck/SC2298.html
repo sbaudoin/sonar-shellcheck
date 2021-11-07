@@ -1,0 +1,30 @@
+<p><code>${$x}</code> is invalid. For expansion, use ${x}. For indirection, use arrays, ${!x} or (for sh) eval.</p>
+<p>(or <code>${${x}}</code> is invalid)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh"># Expecting $RETRIES or 3 if unset
+retries=${$RETRIES:-3}
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">mypath=&quot;/tmp/foo.txt&quot;
+var=mypath
+result=${$var##*/}  # Expecting ${mypath##*/}, i.e. &#39;foo.txt&#39;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">retries=${RETRIES:-3}
+</code></pre>
+<p>or</p>
+<pre><code class="lang-sh">mypath=&quot;/tmp/foo.txt&quot;
+var=mypath
+result=${!var}
+result=${result##*/}
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parameter expansion <code>${..}</code> where the first element was a second parameter expansion, either <code>${$x..}</code> or <code>${${x}..}</code>. This is not valid.</p>
+<p>In the first example, the extra <code>$</code> was unintentional and should simply be deleted.</p>
+<p>In the second example, <code>${$var##*/}</code> was used in the hopes that it would expand to <code>${myvar##*/}</code> and subsequently strip the path. This is not possible, and <code>var</code> must instead be expanded indirectly in a separate step, before the path can be stripped as usual. More information and other approaches can be found in the description of [[SC2082]].</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

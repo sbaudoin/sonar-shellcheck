@@ -1,0 +1,21 @@
+<p>Remove spaces around = to assign.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">export LC_ALL = &quot;POSIX&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">export LC_ALL=&quot;POSIX&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Parameters to <code>export</code>, <code>declare</code>, <code>local</code>, <code>typeset</code> and <code>readonly</code> may not have spaces around the <code>=</code> or <code>+=</code> operator. This is the same as for regular variable assignments:</p>
+<pre><code>export var = value   # Invalid: spaces around =
+export var =value    # Invalid: space before =
+export var= value    # Invalid: space after =
+export var=value     # Valid
+</code></pre>
+<p>This is because each individual argument to these commands is interpreted as a string in the format <code>name=value</code>. By adding spaces, you are instead passing the three strings <code>var</code>, <code>=</code>, <code>value</code>, none of which follow this format.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

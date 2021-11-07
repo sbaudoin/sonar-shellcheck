@@ -5,7 +5,7 @@
 </code></pre>
 <h2>Correct code</h2>
 <pre><code class="lang-sh">set -e
-! false &amp;&amp; exit 1
+false &amp;&amp; exit 1
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has found a command inverted with <code>!</code> that may have no effect. In particular, it does not appear as a condition in an <code>if</code> statement or <code>while</code> loop, or as the final command in a script or function.</p>

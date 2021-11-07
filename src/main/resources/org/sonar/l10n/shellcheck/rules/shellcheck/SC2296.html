@@ -1,0 +1,18 @@
+<p>Parameter expansions can't start with {. Double check syntax.</p>
+<p>(or any other character)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">echo &quot;Hello ${{name}&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">echo &quot;Hello ${name}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a parameter expansion <code>${something}</code> that starts with an invalid character. In the example, this was caused by accidentally duplicating the <code>{</code> in <code>${{name}</code>.</p>
+<p>Double check the syntax of what you're trying to do.</p>
+<h2>Exceptions</h2>
+<p>Some Zsh specific parameter expansions like <code>${(q)value}</code> trigger this warning, but ShellCheck does not support Zsh.</p>
+<p>If this warning triggers in code that works on Bash, Ksh, Dash or Sh, please <a href="https://github.com/koalaman/shellcheck/issues/new">submit a bug</a>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

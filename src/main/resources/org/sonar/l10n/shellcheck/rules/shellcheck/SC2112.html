@@ -1,1 +1,22 @@
-<h1>'function' keyword is non-standard. Delete it.</h1>
+<p>'function' keyword is non-standard. Delete it.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+function hello() {
+  echo &quot;Hello World&quot;
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">#!/bin/sh
+hello() {
+  echo &quot;Hello World&quot;
+}
+</code></pre>
+<h2>Rationale</h2>
+<p><code>function</code> is a non-standard keyword that can be used to declare functions in Bash and Ksh.</p>
+<p>In POSIX <code>sh</code> and <code>dash</code>, a function is instead declared without the <code>function</code> keyword as in the correct example.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

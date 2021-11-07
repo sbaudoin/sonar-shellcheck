@@ -1,0 +1,21 @@
+<p>This is interpreted as a command name ending with apostrophe. Double check syntax.</p>
+<p>(also applies to multiple other characters like <code>.,([{&lt;&gt;}])#"'</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">var=$(&quot;wget &#39;http://www.shellcheck.net/&#39;&quot;)
+echo Usage: $0 {start|stop|restart}
+array=val1, val2, val3
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">var=&quot;$(wget &#39;http://www.shellcheck.net/&#39;)&quot;
+echo &quot;Usage: $0 {start|stop|restart}&quot;
+array=(val1 val2 val3)
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a command name ending with a symbol, such as a comma, parenthesis, quote, or similar. This is almost always due to a syntax issue in the script.</p>
+<p>In the examples, bad quoting and invalid array syntax caused the shell to try to run commands ending in apostrophe, curly brace, and comma, respectively.</p>
+<h2>Exceptions</h2>
+<p>If you have a command that <em>does</em> end in a symbol, you can ignore this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

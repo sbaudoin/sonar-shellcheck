@@ -1,1 +1,15 @@
-<p>standalone ((..)) is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, standalone ((..)) is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">variable=1
+if ((variable)); then
+  echo variable is not zero
+fi
+</code></pre>
+<h2>Correct code</h2>
+<p><a href="https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html#index-select"><code>bash</code> supports standalone <code>((..))</code></a> natively.</p>
+<p>For POSIX compliance, use</p>
+<pre><code class="lang-sh">variable=1
+if [ &quot;${variable}&quot; -ne 0 ]; then
+  echo variable is not zero
+fi
+</code></pre>

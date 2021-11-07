@@ -19,5 +19,6 @@
 <li>Trying similarly to compare command output, as in <code>grep -c foo file &gt; 100</code> instead of <code>[ "$(grep -c foo file)" -gt 100 ]</code></li>
 <li>Malformed FD operations, such as writing <code>1&gt;2</code> instead of <code>1&gt;&amp;2</code>.</li>
 </ol>
+<p>If you do want to create a file named <code>4</code>, you can quote it to silence shellcheck and make it more clear to humans that it's not supposed to be taken numerically.</p>
 <h2>Exceptions</h2>
-<p>None. If you do want to create a file named <code>4</code>, you can quote it to silence shellcheck and make it more clear to humans that it's not supposed to be taken numerically.</p>
+<p>If you use the <code>&amp;&gt;</code> form of redirection, as in <code>foo &gt; /dev/null 2&amp;&gt;1</code>, it will trigger this warning. You can safely ignore this warning if that is what triggered it, or change your redirection operator to the semantically preferable <code>&gt;&amp;</code>.</p>

@@ -1,5 +1,5 @@
 {
-  "title": "'time' is undefined for compound commands, time sh -c instead.",
+  "title": "'time' is undefined for compound commands, use time sh -c instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

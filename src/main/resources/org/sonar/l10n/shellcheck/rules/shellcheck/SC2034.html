@@ -1,25 +1,25 @@
 <h1>foo appears unused. Verify it or export it.</h1>
-<h2>Problematic code</h2>
+<p>Problematic code:</p>
 <pre><code class="lang-sh">foo=42
 echo &quot;$FOO&quot;
 </code></pre>
-<h2>Correct code</h2>
+<p>Correct code:</p>
 <pre><code class="lang-sh">foo=42
 echo &quot;$foo&quot;
 </code></pre>
-<h2>Rationale</h2>
+<p>Rationale:</p>
 <p>Variables not used for anything are often associated with bugs, so ShellCheck warns about them.</p>
 <p>Also note that something like <code>local let foo=42</code> does not make a <code>let</code> statement local -- it instead declares an additional local variable named <code>let</code>.</p>
-<h2>Exceptions</h2>
+<p>Exceptions</p>
 <p>This warning may be falsely emitted when a variable is only referenced indirectly, and for variables that are intentionally unused.</p>
-<h3>Indirection</h3>
+<h2>Indirection</h2>
 <p>It's ShellCheck's intended behavior to emit this warning for any variable that is only referenced though indirection:</p>
-<pre><code># foo generates a warning, even though it has five indirect references
-foo=42     
+<pre><code class="lang-sh"># foo generates a warning, even though it has five indirect references
+foo=42
 name=foo
-echo "${!name} $((name))"
-export "$name"; eval "echo $name"
-declare -n name; echo "$name"
+echo &quot;${!name} $((name))&quot;
+export &quot;$name&quot;; eval &quot;echo $name&quot;
+declare -n name; echo &quot;$name&quot;
 </code></pre>
 <p>This is an intentional design decision and not a bug. If you have variables that will not have direct references, consider using an associative array in bash, or just [[Ignore]] the warning.</p>
 <p>Tracking indirect references is a common problem for compilers and static analysis tool, and it is known to be unsolvable in the most general case. There are two ways to handle unresolved indirections (which in a realistic program will essentially be all of them):</p>
@@ -33,8 +33,15 @@ declare -n name; echo "$name"
 <pre><code class="lang-sh">read _ last _ zip _ _ &lt;&lt;&lt; &quot;$str&quot;
 echo &quot;$last, $zip&quot;
 </code></pre>
-<p>or if you prefer to keep the names, use a directive to disable the warning:</p>
-<pre><code class="lang-sh"># shellcheck disable=SC2034  # Unused variables left for readability
-read first last email zip lat lng &lt;&lt;&lt; &quot;$str&quot;
-echo &quot;$last, $zip&quot;
+<p>Or optionally as a prefix for dummy variables (ShellCheck &gt;0.7.2).</p>
+<p>```sh ​
+read _first last _email zip _lat _lng &lt;&lt;&lt; "$str"
+echo "$last, $zip"</p>
+<pre><code>
+For versions &lt;= 0.7.2, the message can optionally be [[ignore]]d with a directive:
+
+```sh
+# shellcheck disable=SC2034  # Unused variables left for readability
+read first last email zip lat lng &lt;&lt;&lt; "$str"
+echo "$last, $zip"
 </code></pre>

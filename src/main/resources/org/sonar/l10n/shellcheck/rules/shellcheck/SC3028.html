@@ -11,6 +11,9 @@ echo &quot;$(hostname) $(id -u) $(awk &#39;BEGIN { srand(); print int(rand()*327
 </code></pre>
 <h2>Rationale</h2>
 <p>The variable you are attempting to use is a special variable in bash or ksh. To get the same information from <code>dash</code> or POSIX <code>sh</code>, use an external command instead.</p>
+<p>For <code>PIPESTATUS</code>, the pipeline can be instrumented to record the exit value of each command:</p>
+<pre><code class="lang-sh">{ cmd0; echo $? &gt; status0; } | { cmd1; echo $? &gt; status1; } | cmd2
+</code></pre>
 <h2>Exceptions</h2>
 <p>If you only intend to target shells that supports this feature, you can change
 the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>

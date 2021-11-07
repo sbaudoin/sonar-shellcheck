@@ -1,0 +1,20 @@
+<p>Parameter expansions can't be nested. Use temporary variables.</p>
+<h2>Problematic code</h2>
+<pre><code class="lang-sh">path=&quot;/path/to/MyFile.mp3&quot;
+echo &quot;Playing ${${path##*/}%.*}&quot;    # Expect: Playing MyFile
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="lang-sh">path=&quot;/path/to/MyFile.mp3&quot;
+tmp=${path##*/}
+echo &quot;Playing ${tmp%.*}&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found what appears to be a nested parameter expansion. In the example, it was hoping to combine <code>${var##*/}</code> to strip the directory and <code>${var%.*}</code> to strip the extension.</p>
+<p>Parameter expansions can't be nested. Use temporary variables instead, so that each parameter expansion only does a single operation.</p>
+<p>Alternatively, if the goal is to dynamically generate and expand a variable name, see [[SC2082]].</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>
