@@ -70,24 +70,24 @@ rules:
   | Parameter      | Description                                                     |
   |----------------|-----------------------------------------------------------------|
   | `type`         | The SonarQube rule type. Known types:                           |
-  |                | `BUG`, `CODE_SMELL`, `VULNERABILITY`                            |
+  |                | `BUG`, `CODE_SMELL`, `VULNERABILITY`.                           |
   | `constantCost` | the remediation cost in minutes. Examples: `2min`, `60mn`.      |
-  | `tags_always`  | List of tags that will always be assigned to rules              |
+  | `tags_always`  | List of tags that will always be assigned to rules.             |
   | `tags`         | Default list of tags. Overridable: if defined for a rule, this  |
   |                | list is replaced contrary to the `tag_always` list that is      |
   |                | always assigned.                                                |
   | `severity`     | Mapping between the ShellCheck and SonarQube severity levels.   |
   |                | The keys are  the ShellCheck levels; the values are the         | 
-  |                | SonarQube levels                                                |
+  |                | SonarQube levels.                                               |
 
 * Rule parameters: they are optional
 
   | Parameter      | Description                                                     |
   |----------------|-----------------------------------------------------------------|
   | `ignored`      | Boolean. Set to `True` to ignore this rule.                     |
-  | `description`  | The (short) rule description if not found in the Wiki           |
-  | `type`         | The SonarQube rule type. Known types: see above                 |
-  | `html`         | HTML body of the help page of the rule                          |
+  | `description`  | The (short) rule description if not found in the Wiki.          |
+  | `type`         | The SonarQube rule type. Known types: see above.                |
+  | `html`         | HTML body of the help page of the rule.                         |
   | `constantCost` | the remediation cost in minutes. Examples: `2min`, `60mn`.      |
-  | `tags`         | the tags for the rule                                           |
-  | `severity`     | The SonarQube severity level for the rule                       |
+  | `tags`         | the tags for the rule.                                          |
+  | `severity`     | The ShellCheck severity level for the rule.                     |
