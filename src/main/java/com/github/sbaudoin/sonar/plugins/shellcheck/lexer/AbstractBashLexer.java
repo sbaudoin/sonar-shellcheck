@@ -84,7 +84,7 @@ public abstract class AbstractBashLexer {
     protected abstract Token yylex() throws IOException;
 
     /**
-     * Returns the character at position <tt>pos</tt> from the
+     * Returns the character at position {@code pos} from the
      * matched text.
      * It is equivalent to {@code yytext().charAt(pos)}, but faster.
      *

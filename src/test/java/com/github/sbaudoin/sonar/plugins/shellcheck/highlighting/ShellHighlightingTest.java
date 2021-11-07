@@ -22,11 +22,10 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.TokenType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
@@ -39,6 +38,7 @@ import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ShellHighlighting.class)
+@PowerMockIgnore("jdk.internal.reflect.*")
 public class ShellHighlightingTest {
     @Rule
     public LogTester logTester = new LogTester();

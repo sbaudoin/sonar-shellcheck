@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.Plugin;
@@ -37,6 +38,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ShellCheckPlugin.class})
+@PowerMockIgnore("jdk.internal.reflect.*")
 public class ShellCheckPluginTest {
     @Rule
     public final EnvironmentVariables environmentVariables = new EnvironmentVariables();
