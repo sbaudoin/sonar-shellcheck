@@ -96,13 +96,16 @@ public class ShellCheckSensor implements Sensor {
             LOGGER.info("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.");
         }
 
-        // Skip analysis if no rules enabled from this plugin
-        if (context.activeRules().findByRepository(CheckRepository.REPOSITORY_KEY).isEmpty()) {
-            LOGGER.info("No active rules found for this plugin, skipping.");
-            return;
-        }
-
         for (InputFile inputFile : fileSystem.inputFiles(mainFilesPredicate)) {
+            // Highlight code
+            saveSyntaxHighlighting(context, inputFile);
+
+            // Skip analysis if no rules enabled from this plugin
+            if (context.activeRules().findByRepository(CheckRepository.REPOSITORY_KEY).isEmpty()) {
+                LOGGER.info("No active rules found for this plugin, skipping analysis of {}.", inputFile.filename());
+                continue;
+            }
+
             LOGGER.debug("Analyzing file: " + inputFile.filename());
 
             // Execute shellcheck and get a parsable output
@@ -141,9 +144,6 @@ public class ShellCheckSensor implements Sensor {
             } else if (output.size() > 1) {
                 throw new UnexpectedCommandOutputException("Cannot scan shellcheck output: " + output.size() + " lines returned by shellcheck whereas only one is expected");
             }
-
-            // Highlight code
-            saveSyntaxHighlighting(context, inputFile);
         }
     }
 
