@@ -38,10 +38,12 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Predicate;
 
 import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.issueExists;
@@ -95,6 +97,29 @@ public class ShellCheckSensorTest {
 
         assertEquals("ShellCheck Sensor", descriptor.sensorName);
         assertEquals(ShellLanguage.KEY, descriptor.languageKey);
+    }
+
+    @Test
+    public void testshellCheckVersion() throws IOException {
+        // Have to set an invalid path because Travis' build container embeds ShellCheck
+        context.settings().appendProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "invalid-command");
+        sensor.execute(context);
+        assertEquals(1, logTester.logs(LoggerLevel.WARN).size());
+        assertEquals("Cannot get ShellCheck version", logTester.logs(LoggerLevel.WARN).get(0));
+
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            context.settings().setProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "src\\test\\resources\\scripts\\shellcheck-version.cmd");
+        } else {
+            context.settings().setProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "src/test/resources/scripts/shellcheck-version.sh");
+            setShellRights("src/test/resources/scripts/shellcheck-version.sh");
+        }
+
+        List<String> l = logTester.logs(LoggerLevel.INFO);
+        sensor.execute(context);
+        assertEquals(3, logTester.logs(LoggerLevel.INFO).size());
+        assertEquals("ShellCheck version:", logTester.logs(LoggerLevel.INFO).get(0));
+        assertEquals("ShellCheck - shell script analysis tool", logTester.logs(LoggerLevel.INFO).get(1));
+        assertEquals("version: my-version", logTester.logs(LoggerLevel.INFO).get(2));
     }
 
     @Test
@@ -166,6 +191,21 @@ public class ShellCheckSensorTest {
 
         ShellCheckSensor theSensor = spy(sensor);
         doThrow(new IOException("Boom!")).when(theSensor).executeCommand(any(), any(), any());
+
+        theSensor.execute(context);
+        Collection<Issue> issues = context.allIssues();
+        assertEquals(0, issues.size());
+    }
+
+    @Test
+    public void testExecuteWithInterruptedException() throws IOException, InterruptedException {
+        InputFile script1 = Utils.getInputFile("test1.sh");
+        InputFile script2 = Utils.getInputFile("test2.sh");
+        InputFile script3 = Utils.getInputFile("test3.sh");
+        context.fileSystem().add(script1).add(script2).add(script3);
+
+        ShellCheckSensor theSensor = spy(sensor);
+        doThrow(new InterruptedException("Boom!")).when(theSensor).executeCommand(any(), any(), any());
 
         theSensor.execute(context);
         Collection<Issue> issues = context.allIssues();

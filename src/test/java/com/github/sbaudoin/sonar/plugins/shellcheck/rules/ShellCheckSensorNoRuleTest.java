@@ -16,6 +16,7 @@
 package com.github.sbaudoin.sonar.plugins.shellcheck.rules;
 
 import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
+import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -46,6 +47,8 @@ public class ShellCheckSensorNoRuleTest {
     @Test
     public void testNoActiveRule() throws IOException {
         SensorContextTester context = Utils.getSensorContext();
+        // Have to set an invalid path because Travis' build container embeds ShellCheck
+        context.settings().appendProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "invalid-command");
 
         DefaultFileSystem fs = Utils.getFileSystem();
         fs.setWorkDir(temporaryFolder.newFolder("temp").toPath());

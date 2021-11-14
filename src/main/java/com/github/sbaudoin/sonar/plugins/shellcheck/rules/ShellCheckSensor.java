@@ -94,6 +94,8 @@ public class ShellCheckSensor implements Sensor {
         Optional<Boolean> skip = context.config().getBoolean(ShellCheckSettings.SKIP_KEY);
         if (skip.orElse(false)) {
             LOGGER.info("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.");
+        } else {
+            logShellCheckVersion(context);
         }
 
         for (InputFile inputFile : fileSystem.inputFiles(mainFilesPredicate)) {
@@ -275,6 +277,22 @@ public class ShellCheckSensor implements Sensor {
         return (context.activeRules().find(key) != null)?key:null;
     }
 
+
+    private void logShellCheckVersion(SensorContext context) {
+        List<String> output = new ArrayList<>();
+        List<String> error = new ArrayList<>();
+
+        try {
+            executeCommand(Arrays.asList(getShellCheckPath(context), "--version"), output, error);
+            LOGGER.info("ShellCheck version:");
+            output.forEach(LOGGER::info);
+        } catch (IOException e) {
+            LOGGER.warn("Cannot get ShellCheck version");
+        } catch (InterruptedException e) {
+            LOGGER.warn("Cannot get ShellCheck version");
+            Thread.currentThread().interrupt();
+        }
+    }
 
     /**
      * Calculates and feeds line measures (comments, actual number of code lines)
