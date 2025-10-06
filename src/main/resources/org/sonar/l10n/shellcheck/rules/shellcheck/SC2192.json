@@ -1,5 +1,5 @@
 {
-  "title": "This array element has no value. Remove spaces after = or use '' for empty string.",
+  "title": "This array element has no value. Remove spaces after = or use &quot;&quot; for empty string.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

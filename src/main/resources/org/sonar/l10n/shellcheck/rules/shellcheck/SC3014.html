@@ -1,14 +1,14 @@
 <p>In POSIX sh, <code>==</code> in place of <code>=</code> is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 if [ $1 == &quot;-n&quot; ]
 then
   dry_run=1
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 if [ $1 = &quot;-n&quot; ]
 then
   dry_run=1
@@ -24,5 +24,9 @@ the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
 warnings.</p>
 <h2>Related resources</h2>
 <ul>
-<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+<li>Greg's Wiki<ul>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#pf20">Bash Pitfall #20: <code>[ bar == &quot;$foo&quot; ]</code></a></li>
+<li><a href="https://mywiki.wooledge.org/Bashism#Conditionals">Bashism - Conditionals</a></li>
+</ul>
+</li>
 </ul>

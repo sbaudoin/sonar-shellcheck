@@ -1,9 +1,9 @@
 <p>Unknown binary operator.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ &quot;$var&quot; -leq 42 ]
+<pre><code class="language-sh">[ &quot;$var&quot; -leq 42 ]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ &quot;$var&quot; -le 42 ]
+<pre><code class="language-sh">[ &quot;$var&quot; -le 42 ]
 </code></pre>
 <h2>Rationale</h2>
 <p>You are using an unknown binary operator in a <code>test</code> expression. Choose one that exists.</p>
@@ -29,8 +29,7 @@
 
 Arithmetic binary operators return true if ARG1 is equal, not-equal,
 less-than, less-than-or-equal, greater-than, or greater-than-or-equal
-than ARG2.
-</code></pre>
+than ARG2.</code></pre>
 <h2>Exceptions</h2>
 <p>None. If you've tested and verified that the operator works but the latest version of ShellCheck says it's unknown, please <a href="https://github.com/koalaman/shellcheck/issues">submit a bug report</a>.</p>
 <h2>Related resources</h2>

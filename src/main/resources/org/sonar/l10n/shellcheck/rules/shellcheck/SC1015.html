@@ -1,0 +1,16 @@
+<p>This is a Unicode double quote. Delete and retype it.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">echo “hello world”
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">echo &quot;hello world&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Blog software and word processors frequently replaces ASCII quotes <code>&quot;&quot;</code> with fancy Unicode quotes, <code>“”</code>. To Bash, Unicode quotes are considered regular literals and not quotes at all.</p>
+<p>Simply delete them and retype them in your editor.</p>
+<h2>Status</h2>
+<p>This error was retired after 0.4.5. In this version and earlier, ShellCheck parsed slanted quotes as a valid double quote. This meant that the warning could not simply be ignored. It has since been replaced by [[SC1110]] (outside quotes) and [[SC1111]] (inside double-quotes).</p>
+<h2>Exceptions</h2>
+<p>If you really want literal Unicode double quotes, you can put them in single-quotes (or Unicode single-quotes in double-quotes) to make ShellCheck ignore them, e.g.,</p>
+<pre><code class="language-sh">printf 'Warning: “wakeonlan” is not installed.\n'
+</code></pre>

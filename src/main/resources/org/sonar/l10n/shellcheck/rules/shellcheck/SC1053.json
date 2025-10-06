@@ -1,5 +1,5 @@
 {
-  "title": "Semicolons directly after 'else' are not allowed. Just remove it.",
+  "title": "Semicolons directly after else are not allowed. Just remove it.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

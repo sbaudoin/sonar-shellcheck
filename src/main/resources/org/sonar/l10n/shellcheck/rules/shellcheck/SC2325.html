@@ -1,0 +1,21 @@
+<p>Multiple ! in front of pipelines are a bash/ksh extension. Use only 0 or 1.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+! ! true
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+true
+</code></pre>
+<h2>Rationale</h2>
+<p>POSIX (and Dash) does not allow multiple <code>!</code> pipeline negations in a row. It's also logically unnecessary.</p>
+<p>Use either zero or one <code>!</code>.</p>
+<h2>Exceptions</h2>
+<p>Scripts whose shebang declares it will run with Ksh and Bash will not trigger this warning.</p>
+<p>If you really want to negate multiple times on POSIX or Dash, e.g. to normalize exit codes to 0 or 1, use <code>cmd || false</code> or a command group:</p>
+<pre><code class="language-sh">! { ! true; } 
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

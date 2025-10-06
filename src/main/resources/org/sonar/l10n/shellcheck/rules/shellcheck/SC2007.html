@@ -1,10 +1,10 @@
-<h1>Use $((..)) instead of deprecated $[..]</h1>
+<p>Use <code>$((..))</code> instead of deprecated <code>$[..]</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">n=1
+<pre><code class="language-sh">n=1
 n=$[n+1]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">n=1
+<pre><code class="language-sh">n=1
 n=$((n+1))
 </code></pre>
 <h2>Rationale</h2>
@@ -13,5 +13,5 @@ n=$((n+1))
 <p>None.</p>
 <h2>See also</h2>
 <ul>
-<li><a href="http://unix.stackexchange.com/questions/209833/what-does-a-dollar-sign-followed-by-a-square-bracket-mean-in-bash">http://unix.stackexchange.com/questions/209833/what-does-a-dollar-sign-followed-by-a-square-bracket-mean-in-bash</a></li>
+<li>http://unix.stackexchange.com/questions/209833/what-does-a-dollar-sign-followed-by-a-square-bracket-mean-in-bash</li>
 </ul>

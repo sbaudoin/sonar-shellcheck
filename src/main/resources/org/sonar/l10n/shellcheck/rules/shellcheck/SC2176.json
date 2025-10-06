@@ -1,5 +1,5 @@
 {
-  "title": "'time' is undefined for pipelines. time single stage or bash -c instead.",
+  "title": "time is undefined for pipelines. time single stage or bash -c instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

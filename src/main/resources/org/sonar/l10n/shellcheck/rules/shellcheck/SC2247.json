@@ -1,5 +1,5 @@
 {
-  "title": "Flip leading $ and ' if this should be a quoted substitution.",
+  "title": "Flip leading $ and &quot; if this should be a quoted substitution.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

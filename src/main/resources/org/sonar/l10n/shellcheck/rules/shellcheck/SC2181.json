@@ -1,5 +1,5 @@
 {
-  "title": "Check exit code directly with e.g. 'if mycmd;', not indirectly with $?.",
+  "title": "Check exit code directly with e.g. if mycmd;, not indirectly with $?.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

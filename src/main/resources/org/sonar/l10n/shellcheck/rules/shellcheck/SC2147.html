@@ -1,9 +1,9 @@
 <p>Literal tilde in PATH works poorly across programs.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">PATH=&quot;$PATH:~/bin&quot;
+<pre><code class="language-sh">PATH=&quot;$PATH:~/bin&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">PATH=&quot;$PATH:$HOME/bin&quot;
+<pre><code class="language-sh">PATH=&quot;$PATH:$HOME/bin&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Having literal <code>~</code> in PATH is a bad idea. Bash handles it, but nothing else does.</p>

@@ -1,0 +1,15 @@
+<p>Array indices are already arithmetic contexts. Prefer removing the <code>$((</code> and <code>))</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">values[$((i+1))]=1
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">values[i+1]=1
+</code></pre>
+<h2>Rationale</h2>
+<p>In indexed arrays (but not associative ones), the array index is already an arithmetic context. There is no point or value in wrapping it in an additional, explicit <code>$((..))</code>.</p>
+<h2>Exceptions</h2>
+<p>If ShellCheck has failed to realize that your array is associative, or if you for stylistic reasons prefer the redundancy, you can ignore this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

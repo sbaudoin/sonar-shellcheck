@@ -1,5 +1,5 @@
 {
-  "title": "Did you forget to close this double quoted string?",
+  "title": "Did you forget to close this double-quoted string?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

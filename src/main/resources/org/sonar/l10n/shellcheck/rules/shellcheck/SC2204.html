@@ -1,14 +1,14 @@
-<p>(..) is a subshell. Did you mean [ .. ], a test expression?</p>
+<p><code>(..)</code> is a subshell. Did you mean <code>[ .. ]</code>, a test expression?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if ( -d mydir )
+<pre><code class="language-sh">if ( -d mydir )
 then
-  echo &quot;It&#39;s a directory&quot;
+  echo &quot;It's a directory&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ -d mydir ]
+<pre><code class="language-sh">if [ -d mydir ]
 then
-  echo &quot;It&#39;s a directory&quot;
+  echo &quot;It's a directory&quot;
 fi
 </code></pre>
 <h2>Rationale</h2>

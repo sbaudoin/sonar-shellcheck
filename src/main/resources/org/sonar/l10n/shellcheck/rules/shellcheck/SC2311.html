@@ -1,6 +1,6 @@
 <p>Bash implicitly disabled set -e for this function invocation because it's inside a command substitution. Add set -e; before it or enable inherit_errexit.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 
 #shellcheck enable=check-set-e-suppressed
 set -e
@@ -15,7 +15,7 @@ version=$(deploy)
 echo &quot;Successfully deployed $version&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 
 #shellcheck enable=check-set-e-suppressed
 set -e

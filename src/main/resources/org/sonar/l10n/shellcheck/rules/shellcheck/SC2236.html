@@ -1,11 +1,11 @@
 <p>Use <code>-n</code> instead of <code>! -z</code>.</p>
-<p>(or "Use <code>-z</code> instead of <code>! -n</code>")</p>
+<p>(or &quot;Use <code>-z</code> instead of <code>! -n</code>&quot;)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ ! -n &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
+<pre><code class="language-sh">if [ ! -n &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
 if [ ! -z &quot;$STY&quot; ];       then echo &quot;You are already running screen&quot;; fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ -z &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
+<pre><code class="language-sh">if [ -z &quot;$JAVA_HOME&quot; ]; then echo &quot;JAVA_HOME not specified&quot;; fi
 if [ -n &quot;$STY&quot; ];       then echo &quot;You are already running screen&quot;; fi
 </code></pre>
 <h2>Rationale</h2>
@@ -16,12 +16,12 @@ if [ -n &quot;$STY&quot; ];       then echo &quot;You are already running screen
 
 # Identical tests to verify that a value is empty
 [ ! -n foo ] # Not is non-empty
-[ -z foo ]   # Is empty
-</code></pre>
+[ -z foo ]   # Is empty</code></pre>
 <h2>Exceptions</h2>
 <p>This is a stylistic issue that does not affect correctness. If you prefer the original expression, you can [[Ignore]] it with a directive or flag.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
 <li><a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html#Bash-Conditional-Expressions">Bash reference manual for -z and -n</a>.</li>
+<li>Note: Be careful with quoting variables (which you should always do anyway): <code>[ ! -z $var ]</code> might work, but <code>[ -n $var]</code> will not. <code>[ -n &quot;$var&quot; ]</code> will do what you expect.</li>
 </ul>

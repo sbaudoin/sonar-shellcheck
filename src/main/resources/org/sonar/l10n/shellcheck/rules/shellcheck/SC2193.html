@@ -1,12 +1,12 @@
 <p>The arguments to this comparison can never be equal. Make sure your syntax is correct.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ $var+1 == 5 ]              # Unevaluated math
+<pre><code class="language-sh">[ $var+1 == 5 ]              # Unevaluated math
 [ &quot;{$var}&quot; == &quot;value&quot; ]      # Swapped around $ and {
 [ &quot;$(cmd1) | cmd2&quot; == &quot;42&quot; ] # Ended with ) too soon
 [[ &quot;$var &quot; == *.png ]]       # Trailing space
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ $((var+1)) == 5 ]          # Evaluated math
+<pre><code class="language-sh">[ $((var+1)) == 5 ]          # Evaluated math
 [ &quot;${var}&quot; == &quot;value&quot; ]      # Correct variable expansion
 [ &quot;$(cmd1 | cmd2)&quot; == &quot;42&quot; ] # Correct command substitution
 [[ &quot;$var&quot; == *.png ]]        # No trailing space

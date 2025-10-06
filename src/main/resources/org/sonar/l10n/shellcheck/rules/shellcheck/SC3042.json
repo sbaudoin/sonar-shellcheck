@@ -1,5 +1,5 @@
 {
-  "title": "double-dashed set flags are not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, set flag --default is undefined",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

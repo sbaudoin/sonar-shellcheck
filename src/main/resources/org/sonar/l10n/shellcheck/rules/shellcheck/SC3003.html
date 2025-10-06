@@ -1,26 +1,26 @@
-<p>In POSIX sh, $'..' is undefined.</p>
+<p>In POSIX sh, <code>$'..'</code> is undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
-IFS=$&#39; \t\n&#39;
+<pre><code class="language-sh">#!/bin/sh
+IFS=$' \t\n'
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 # Note: \n can not be last, or it will be stripped by $()
-IFS=$(printf &#39; \n\t&#39;)
+IFS=$(printf ' \n\t')
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 # Trailing linefeed added literally
-IFS=&quot;$(printf &#39; \t&#39;)
+IFS=&quot;$(printf ' \t')
 &quot;
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 # Bash supports this
-IFS=$&#39; \t\n&#39;
+IFS=$' \t\n'
 </code></pre>
 <h2>Rationale</h2>
-<p>You are using the interpolated string Bashism <code>$'..'</code> in a script that declares itself as POSIX sh (e.g. via <code>#!/bin/sh</code>).</p>
+<p>ANSI-C quoting, <code>$'..'</code>, is a <code>bash</code> extension, which is not supported by POSIX <code>sh</code>.</p>
 <p>To ensure the script runs correctly on other systems, either switch to Bash, or rewrite it in a POSIX compatible way.</p>
 <p>This can generally done via <code>printf</code> as in the example. Be careful about strings with trailing linefeeds, as a <code>$(command substitution)</code> will strip them.</p>
 <h2>Exceptions</h2>

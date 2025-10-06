@@ -1,1 +1,25 @@
-<p>unary -v (in place of [ -n &quot;${var+x}&quot; ]) is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, unary <code>-v</code> (in place of <code>[ -n &quot;${var+x}&quot; ]</code>) is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+if [ -v STY ]
+then
+  echo &quot;STY is set, you are using screen&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<p>Either switch to bash or ksh, or use:</p>
+<pre><code class="language-sh">#!/bin/sh
+if [ -n &quot;${STY+x}&quot; ]
+then
+  echo &quot;STY is set, you are using screen&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Bash.</p>
+<p>In this case, <code>[ -v variable ]</code>, which checks if a variable is set, is <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">not specified by POSIX</a>.  It can be replaced with the portable <code>[ -n &quot;${variable+x}&quot; ]</code>, which uses the &quot;alternative value if set&quot; <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02">parameter expansion</a> syntax to accomplish the same thing.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

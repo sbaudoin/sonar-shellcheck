@@ -1,2 +1,27 @@
-<p>In POSIX sh, <code>&gt;&amp;</code> is undefined.
-See similar warning [[SC3020]]</p>
+<p>In POSIX sh, <code>&gt;&amp; filename</code> (as opposed to <code>&gt;&amp; fd</code>) is undefined.</p>
+<p>Note: ShellCheck 0.8.0 and below would trigger this warning on the perfectly POSIX compatible construct <code>&gt;&amp; fd</code>. If you are using <code>&gt;&amp;</code> to copy an integer file descriptor, please ignore this warning.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh"># Writing to a filename
+mycommand &gt;&amp; log.txt
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">mycommand &gt; log.txt 2&gt;&amp;1
+</code></pre>
+<p>The following construct is also fine, as it uses an integer file descriptor instead of a filename:</p>
+<pre><code class="language-sh">fd=3
+mycommand &gt;&amp; $fd
+</code></pre>
+<h2>Rationale</h2>
+<p>There are two forms of the <code>&gt;&amp;</code> file descriptor operator:</p>
+<ul>
+<li><code>&gt;&amp; integer</code> such as <code>&gt;&amp; 3</code> is a POSIX compatible synonym for <code>1&gt;&amp;3</code></li>
+<li><code>&gt;&amp; filename</code> such as <code>&gt;&amp; log.txt</code> is a Bash specific synonym for <code>&gt; log.txt 2&gt;&amp;1</code></li>
+</ul>
+<p>If (and only if) you are using the latter form, write it out as shown in the correct example to ensure portability.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck 0.8.0 and below incorrectly emits this warning for constructs like <code>&gt;&amp; $var</code>, even though this would be POSIX compatible when <code>$var</code> is an integer. In such cases, please ignore this warning.</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://github.com/koalaman/shellcheck/issues/2520">Shellcheck issue #2520</a></li>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,6 +1,6 @@
 <p>This function is only defined later. Move the definition up.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 myfunction
 
 myfunction() {
@@ -8,7 +8,7 @@ myfunction() {
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 myfunction() {
   echo &quot;Hello World&quot;
 }
@@ -16,12 +16,12 @@ myfunction
 </code></pre>
 <h2>Rationale</h2>
 <p>You are calling a function that you are defining later in the file. The function definition must come first.</p>
-<p>Function definitions are much like variable assignments, and define a name at the point the definition is "executed". This is why they must happen before their first use.</p>
+<p>Function definitions are much like variable assignments, and define a name at the point the definition is &quot;executed&quot;. This is why they must happen before their first use.</p>
 <p>This is especially apparent when defining functions conditionally:</p>
-<pre><code>case "$(uname -s)" in
-  Linux) hi() { echo "Hello from Linux"; } ;;
-  Darwin) hi() { echo "Hello from macOS"; } ;;
-  *) hi() { echo "Hello from something else"; } ;;
+<pre><code>case &quot;$(uname -s)&quot; in
+  Linux) hi() { echo &quot;Hello from Linux&quot;; } ;;
+  Darwin) hi() { echo &quot;Hello from macOS&quot;; } ;;
+  *) hi() { echo &quot;Hello from something else&quot;; } ;;
 esac
 
 hi

@@ -1,6 +1,6 @@
 <p>'expr' expects 3+ arguments but sees 1. Make sure each operator/operand is a separate argument, and escape &lt;&gt;&amp;|.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># | not escaped
+<pre><code class="language-sh"># | not escaped
 expr 1 | 2
 # &gt; not escaped
 expr &quot;$foo&quot; &gt;= &quot;$bar&quot;
@@ -11,7 +11,7 @@ expr 1+2
 expr &quot;1 + 2&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">expr 16 \| 7
+<pre><code class="language-sh">expr 16 \| 7
 expr &quot;$foo&quot; \&gt;= &quot;$bar&quot;
 expr 1 + 2
 </code></pre>

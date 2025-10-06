@@ -1,5 +1,5 @@
 {
-  "title": "Prefer escape over ending quote to make $ literal. Instead of 'It costs $'5, use 'It costs \\$5'",
+  "title": "Prefer escape over ending quote to make $ literal. Instead of &quot;It costs $&quot;5, use &quot;It costs \\$5&quot;",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

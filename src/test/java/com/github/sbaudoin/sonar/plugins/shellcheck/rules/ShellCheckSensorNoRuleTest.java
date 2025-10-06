@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,21 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.slf4j.event.Level;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTester;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShellCheckSensorNoRuleTest {
     @Rule
@@ -65,10 +65,10 @@ public class ShellCheckSensorNoRuleTest {
         ShellCheckSensor sensor = new ShellCheckSensor(fs, fileLinesContextFactory);
 
         sensor.execute(context);
-        assertEquals(3, logTester.logs(LoggerLevel.INFO).size());
-        assertTrue(logTester.logs(LoggerLevel.INFO).get(0).startsWith("No active rules found for this plugin, skipping analysis of test"));
-        assertTrue(logTester.logs(LoggerLevel.INFO).get(1).startsWith("No active rules found for this plugin, skipping analysis of test"));
-        assertTrue(logTester.logs(LoggerLevel.INFO).get(2).startsWith("No active rules found for this plugin, skipping analysis of test"));
+        assertEquals(3, logTester.logs(Level.INFO).size());
+        assertTrue(logTester.logs(Level.INFO).get(0).startsWith("No active rules found for this plugin, skipping analysis of test"));
+        assertTrue(logTester.logs(Level.INFO).get(1).startsWith("No active rules found for this plugin, skipping analysis of test"));
+        assertTrue(logTester.logs(Level.INFO).get(2).startsWith("No active rules found for this plugin, skipping analysis of test"));
         assertEquals(0, context.allIssues().size());
     }
 }

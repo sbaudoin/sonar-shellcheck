@@ -1,5 +1,5 @@
 {
-  "title": "is for string comparisons. Use -gt instead.",
+  "title": "&gt; is for string comparisons. Use -gt instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

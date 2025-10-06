@@ -1,1 +1,12 @@
-<p>The shell may override &#x27;time&#x27; as seen in man time(1). Use &#x27;command time ..&#x27; for that one.</p>
+<p>The shell may override <code>time</code> as seen in man time(1). Use <code>command time ..</code> for that one.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">time -some some
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">command time -some some
+</code></pre>
+<h2>Rationale</h2>
+<p><code>time</code> is a built-in command.
+If you would like to use <code>time</code> from <code>$PATH</code>, you need to use <code>command</code> to execute it as a regular command.</p>
+<h2>Exceptions</h2>
+<p>None</p>

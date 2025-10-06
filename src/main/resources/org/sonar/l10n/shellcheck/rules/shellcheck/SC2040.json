@@ -1,5 +1,5 @@
 {
-  "title": "!\/bin\/sh was specified, so __ is not supported, even when sh is actually bash.",
+  "title": "#!\/bin\/sh was specified, so ____ is not supported, even when sh is actually bash.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

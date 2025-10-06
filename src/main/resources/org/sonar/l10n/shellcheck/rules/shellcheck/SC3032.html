@@ -1,1 +1,20 @@
-<p>coproc is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, coproc is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+coproc nc shellcheck.net 80
+</code></pre>
+<h2>Correct code</h2>
+<p>Either switch to Bash:</p>
+<pre><code class="language-sh">#!/usr/bin/env bash
+coproc nc shellcheck.net 80
+</code></pre>
+<p>or try to write your script in a POSIX compatible way using named pipes.</p>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Bash.</p>
+<p>There is no simple substitution for a coproc, though many use cases can be rewritten via redirection to named pipes (<code>mkfifo</code>).</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

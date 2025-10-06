@@ -1,6 +1,6 @@
 <p>This function unconditionally re-invokes itself. Missing <code>command</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">ls() {
+<pre><code class="language-sh">ls() {
   ls --color=always &quot;$@&quot;
 }
 
@@ -10,7 +10,7 @@ cd() {
 </code></pre>
 <h2>Correct code</h2>
 <p>Note that <code>command</code> is the literal name of a shell builtin. You should not replace it:</p>
-<pre><code class="lang-sh">ls() {
+<pre><code class="language-sh">ls() {
   command ls --color=always &quot;$@&quot;
 }
 
@@ -25,8 +25,7 @@ cd() {
 <h2>Exceptions</h2>
 <p>ShellCheck does not intend to warn about infinite recursion or fork bombs in general. This warning is purely meant for unintentional bugs in well meaning wrapper functions.</p>
 <p>If ShellCheck is triggering on an intentionally malicious fork bomb, either [[ignore]] the issue, or simply add a leading command or condition:</p>
-<pre><code>:() { true &amp;&amp; :|: &amp; }
-</code></pre>
+<pre><code>:() { true &amp;&amp; :|: &amp; }</code></pre>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

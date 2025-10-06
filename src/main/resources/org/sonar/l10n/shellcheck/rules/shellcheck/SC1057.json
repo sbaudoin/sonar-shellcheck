@@ -1,5 +1,5 @@
 {
-  "title": "Did you forget the 'do' for this loop?",
+  "title": "Did you forget the do for this loop?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

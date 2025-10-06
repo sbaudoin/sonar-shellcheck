@@ -1,5 +1,5 @@
 {
-  "title": "This loops over values. To loop over keys, use '${!array[@]}'.",
+  "title": "This loops over values. To loop over keys, use &quot;${!array[@]}&quot;.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

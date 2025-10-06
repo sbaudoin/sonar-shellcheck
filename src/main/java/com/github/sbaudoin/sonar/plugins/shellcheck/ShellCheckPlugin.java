@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck;
 
+import java.util.Optional;
+
+import org.sonar.api.Plugin;
+
 import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
 import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellQualityProfile;
 import com.github.sbaudoin.sonar.plugins.shellcheck.rules.ShellCheckRulesDefinition;
 import com.github.sbaudoin.sonar.plugins.shellcheck.rules.ShellCheckSensor;
 import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
-import org.sonar.api.Plugin;
-
-import java.security.AccessControlException;
-import java.util.Optional;
 
 public class ShellCheckPlugin implements Plugin {
     public static final String ADD_SHELL_LANGUAGE_ENV_VAR = "SHELLCHECK_LANGUAGE_ADD";
@@ -33,16 +33,9 @@ public class ShellCheckPlugin implements Plugin {
     @Override
     public void define(Context context) {
         Optional<Boolean> addLanguage = Optional.empty();
-        try {
-            if (System.getenv().get(ADD_SHELL_LANGUAGE_ENV_VAR) != null) {
-                addLanguage = Optional.of(Boolean.parseBoolean(System.getenv().get(ADD_SHELL_LANGUAGE_ENV_VAR)));
-            }
-        } catch (AccessControlException exc) {
-            // Do nothing on purpose: in SQ 8.0, we do not have access to system env variables
-            // and we deal with that with a new SQ configuration property read below
-        }
-        // If no env variable found, read from SQ conf
-        if (!addLanguage.isPresent()) {
+        if (System.getenv().get(ADD_SHELL_LANGUAGE_ENV_VAR) != null) {
+            addLanguage = Optional.of(Boolean.parseBoolean(System.getenv().get(ADD_SHELL_LANGUAGE_ENV_VAR)));
+        } else {
             addLanguage = context.getBootConfiguration().getBoolean(ADD_SHELL_LANGUAGE_CONF_PROP);
         }
         // Install language unless instructed otherwise

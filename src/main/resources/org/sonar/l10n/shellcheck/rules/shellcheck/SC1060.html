@@ -1,1 +1,19 @@
-<p>Can&#x27;t have empty do clauses (use &#x27;true&#x27; as a no-op).</p>
+<p>Can't have empty do clauses (use <code>true</code> as a no-op)</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">for i in 1 2 3; do
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">for i in 1 2 3; do
+  true
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>An empty <code>do ... done</code> block is not valid.
+Use <code>true</code> or <code>:</code> if you need no command at all.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

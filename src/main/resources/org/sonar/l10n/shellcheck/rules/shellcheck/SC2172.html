@@ -1,9 +1,9 @@
-<p>Trapping signals by number is not well defined. Prefer signal names.</p>
+<p>Trapping signals by number is not well-defined. Prefer signal names.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">trap myfunc 28
+<pre><code class="language-sh">trap myfunc 28
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">trap myfunc WINCH
+<pre><code class="language-sh">trap myfunc WINCH
 </code></pre>
 <h2>Rationale</h2>
 <p>Signal numbers can vary between platforms. Prefer signal names, which are fixed.</p>

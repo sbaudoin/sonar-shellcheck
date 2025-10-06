@@ -1,5 +1,5 @@
 {
-  "title": "'Expected 'fi' matching previously mentioned 'if'.",
+  "title": "Expected fi matching previously mentioned if.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

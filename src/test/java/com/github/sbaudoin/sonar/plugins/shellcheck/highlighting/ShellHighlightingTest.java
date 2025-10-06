@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,28 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.highlighting;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
+import org.slf4j.event.Level;
+import org.sonar.api.batch.sensor.highlighting.TypeOfText;
+import org.sonar.api.testfixtures.log.LogTester;
+
 import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.BashLexer;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.Token;
 import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.TokenType;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-import org.sonar.api.batch.sensor.highlighting.TypeOfText;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
 
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.*;
-
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(ShellHighlighting.class)
-@PowerMockIgnore("jdk.internal.reflect.*")
 public class ShellHighlightingTest {
     @Rule
     public LogTester logTester = new LogTester();
@@ -55,22 +53,31 @@ public class ShellHighlightingTest {
         ShellHighlighting sh = new ShellHighlighting(Utils.getInputFile("test1.sh").contents());
         assertEquals(5, sh.getHighlightingData().size());
 
-        whenNew(BashLexer.class).withAnyArguments().thenThrow(new IOException("Boom!"));
-        logTester.clear();
-        new ShellHighlighting("foo");
-        assertTrue(logTester.logs(LoggerLevel.WARN).size() > 0);
-        assertEquals("Could not scan Shell script and highlight code", logTester.logs(LoggerLevel.WARN).get(0));
+        try (MockedConstruction<BashLexer> mockBashLexer = Mockito.mockConstruction(BashLexer.class,
+                (mock, context) -> {
+                    when(mock.scan()).thenThrow(new IOException("Boom!"));
+                })) {
+            logTester.clear();
+            new ShellHighlighting("foo");
+            assertTrue(logTester.logs(Level.WARN).size() > 0);
+            assertEquals("Could not scan Shell script and highlight code", logTester.logs(Level.WARN).get(0));
+
+        }
     }
 
     @Test
     public void test0LengthToken() throws Exception {
-        ShellHighlighting sh = new ShellHighlighting("");
-        Token token = new Token(TokenType.HEREDOC_LINE, 14, 0, 2, 5);
-        try {
-            Whitebox.invokeMethod(sh, "addHighlighting", token, null);
-            fail("Expected exception not thrown");
-        } catch (IllegalArgumentException e) {
-            assertEquals("Cannot highlight an empty token", e.getMessage());
+        Token badToken = new Token(TokenType.HEREDOC_LINE, 14, 0, 2, 5);
+        try (MockedConstruction<BashLexer> mockBashLexer = Mockito.mockConstruction(BashLexer.class,
+                (mock, context) -> {
+                    when(mock.scan()).thenReturn(Arrays.asList(badToken));
+                })) {
+            try {
+                new ShellHighlighting("");
+                fail("Expected exception not thrown");
+            } catch (IllegalArgumentException e) {
+                assertEquals("Cannot highlight an empty token", e.getMessage());
+            }
         }
     }
 
@@ -101,13 +108,15 @@ public class ShellHighlightingTest {
         assertHighlightingData(sh.getHighlightingData().get(9), 8, 7, 8, 11, TypeOfText.CONSTANT);
         assertHighlightingData(sh.getHighlightingData().get(10), 8, 11, 8, 12, TypeOfText.STRING);
 
-        // WORD + HEREDOC_MARKER_TAG + HEREDOC_MARKER_START + HEREDOC_CONTENT + HEREDOC_MARKER_END
+        // WORD + HEREDOC_MARKER_TAG + HEREDOC_MARKER_START + HEREDOC_CONTENT +
+        // HEREDOC_MARKER_END
         assertHighlightingData(sh.getHighlightingData().get(11), 10, 6, 10, 8, TypeOfText.STRUCTURED_COMMENT);
         assertHighlightingData(sh.getHighlightingData().get(12), 10, 9, 10, 12, TypeOfText.STRUCTURED_COMMENT);
         assertHighlightingData(sh.getHighlightingData().get(13), 11, 1, 13, 1, TypeOfText.STRUCTURED_COMMENT);
         assertHighlightingData(sh.getHighlightingData().get(14), 13, 1, 13, 4, TypeOfText.STRUCTURED_COMMENT);
 
-        // IF_KEYWORD + EXPR_CONDITIONAL + VARIABLE + COND_OP + WORD + EXPR_CONDITIONAL_END
+        // IF_KEYWORD + EXPR_CONDITIONAL + VARIABLE + COND_OP + WORD +
+        // EXPR_CONDITIONAL_END
         assertHighlightingData(sh.getHighlightingData().get(15), 15, 1, 15, 3, TypeOfText.KEYWORD);
         assertHighlightingData(sh.getHighlightingData().get(16), 15, 6, 15, 8, TypeOfText.CONSTANT);
         assertHighlightingData(sh.getHighlightingData().get(17), 15, 9, 15, 12, TypeOfText.KEYWORD_LIGHT);
@@ -140,7 +149,7 @@ public class ShellHighlightingTest {
             ShellHighlighting sh = new ShellHighlighting(script);
             List<HighlightingData> data = sh.getHighlightingData();
             assertEquals(4, data.size());
-            assertHighlightingData(data.get(0), 1, 1, (i < 2)?2:3, 1, TypeOfText.COMMENT);
+            assertHighlightingData(data.get(0), 1, 1, (i < 2) ? 2 : 3, 1, TypeOfText.COMMENT);
             assertHighlightingData(data.get(1), 3, 6, 3, 7, TypeOfText.STRING);
             assertHighlightingData(data.get(2), 3, 7, 3, 19, TypeOfText.STRING);
             assertHighlightingData(data.get(3), 3, 19, 3, 20, TypeOfText.STRING);
@@ -148,8 +157,7 @@ public class ShellHighlightingTest {
 
         ShellHighlighting sh = new ShellHighlighting("#!/bin/bash\n" +
                 "\n" +
-                "echo \"Hello\rworld!\"\n"
-        );
+                "echo \"Hello\rworld!\"\n");
         List<HighlightingData> data = sh.getHighlightingData();
         assertEquals(4, data.size());
         assertHighlightingData(data.get(0), 1, 1, 2, 1, TypeOfText.COMMENT);
@@ -158,8 +166,8 @@ public class ShellHighlightingTest {
         assertHighlightingData(data.get(3), 4, 7, 4, 8, TypeOfText.STRING);
     }
 
-
-    private void assertHighlightingData(HighlightingData hd, int startLine, int startColumnIndex, int endLine, int endColumnIndex, TypeOfText typeOfText) {
+    private void assertHighlightingData(HighlightingData hd, int startLine, int startColumnIndex, int endLine,
+            int endColumnIndex, TypeOfText typeOfText) {
         assertEquals(startLine, hd.getStartLine());
         assertEquals(startColumnIndex, hd.getStartColumnIndex());
         assertEquals(endLine, hd.getEndLine());

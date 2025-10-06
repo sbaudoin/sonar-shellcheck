@@ -1,4 +1,38 @@
-ARG JDK_VERSION=8
-FROM openjdk:${JDK_VERSION}
-COPY it /usr/src/myapp/it
+ARG SCANNER_VERSION=latest
+FROM sonarsource/sonar-scanner-cli:${SCANNER_VERSION} AS builder
+
+FROM eclipse-temurin:21-jre-alpine
+
+ARG SONAR_SCANNER_HOME=/opt/sonar-scanner
+ENV HOME=/tmp \
+    SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME} \
+    XDG_CONFIG_HOME=/tmp \
+    SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar \
+    PATH=${SONAR_SCANNER_HOME}/bin:${PATH} \
+    SRC_PATH=/usr/src \
+    SCANNER_WORKDIR_PATH=/tmp/.scannerwork \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /usr/src/myapp/it
+
+USER root
+# Copy Scanner installation from builder image
+COPY --from=builder /opt/sonar-scanner /opt/sonar-scanner
+
+
+RUN apk update --no-cache && \
+    apk add --update --no-cache -q curl gcc jq libffi-dev musl-dev openssl-dev python3 py3-requests shellcheck
+
+RUN set -eux && \
+    addgroup --gid 1000 scanner-cli && \
+    adduser --uid 1000 --ingroup scanner-cli --disabled-password --no-create-home --gecos "" scanner-cli && \
+    chown -R scanner-cli:scanner-cli "${SONAR_SCANNER_HOME}" "${SRC_PATH}" && \
+    mkdir -p "${SRC_PATH}" "${SONAR_USER_HOME}" "${SONAR_USER_HOME}/cache" "${SCANNER_WORKDIR_PATH}" && \
+    chown -R scanner-cli:scanner-cli "${SONAR_SCANNER_HOME}" "${SRC_PATH}" "${SCANNER_WORKDIR_PATH}" && \
+    chmod -R 555 "${SONAR_SCANNER_HOME}" && \
+    chmod -R 754 "${SRC_PATH}" "${SONAR_USER_HOME}" "${SCANNER_WORKDIR_PATH}"
+
+USER scanner-cli
+COPY it /usr/src/myapp/it

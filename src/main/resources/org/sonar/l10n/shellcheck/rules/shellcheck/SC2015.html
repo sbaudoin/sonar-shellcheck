@@ -1,9 +1,9 @@
-<h1>Note that A &amp;&amp; B || C is not if-then-else. C may run when A is true.</h1>
+<h1>Note that <code>A &amp;&amp; B || C</code> is not if-then-else. C may run when A is true.</h1>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ $dryrun ]] &amp;&amp; echo &quot;Would delete file&quot; || rm file
+<pre><code class="language-sh">[[ $dryrun ]] &amp;&amp; echo &quot;Would delete file&quot; || rm file
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [[ $dryrun ]]
+<pre><code class="language-sh">if [[ $dryrun ]]
 then
   echo &quot;Would delete file&quot;
 else
@@ -18,7 +18,7 @@ fi
 <p>If an <code>if</code> clause is used instead, this problem is avoided.</p>
 <h2>Boring detail</h2>
 <p>We can think of the example above as</p>
-<pre><code class="lang-sh">((([[ $dryrun ]]) &amp;&amp; echo &quot;Would delete file&quot;) || rm file)
+<pre><code class="language-sh">((([[ $dryrun ]]) &amp;&amp; echo &quot;Would delete file&quot;) || rm file)
 </code></pre>
 <p>expressing the left-associativity of the <code>&amp;&amp;</code> <code>||</code> operators.</p>
 <p>Whenever a command (strictly, a pipeline) succeeds or fails, the execution proceeds following the next <code>&amp;&amp;</code> (for success) or <code>||</code> (for failure). (More strictly, the parentheses should be replaced with <code>{ command; }</code> to avoid making a subshell, but that's ugly and boring.)</p>

@@ -1,14 +1,14 @@
-<p>Double quotes must be outside ${}: ${"invalid"} vs "${valid}".</p>
+<p>Double quotes must be outside <code>${}</code>: <code>${&quot;invalid&quot;}</code> vs <code>&quot;${valid}&quot;</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo ${&quot;USER&quot;}
+<pre><code class="language-sh">echo ${&quot;USER&quot;}
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;${USER}&quot;
+<pre><code class="language-sh">echo &quot;${USER}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a parameter expansion containing what appears to be a quoted variable name.</p>
-<p>While the parameter expansion itself must be quoted, as in <code>"${valid}"</code>, the quotes may not appear inside the <code>{}</code> as in <code>${"invalid"}</code>.</p>
-<p>Also note that translated strings like <code>$"Hello"</code> may not use curly braces.</p>
+<p>While the parameter expansion itself must be quoted, as in <code>&quot;${valid}&quot;</code>, the quotes may not appear inside the <code>{}</code> as in <code>${&quot;invalid&quot;}</code>.</p>
+<p>Also note that translated strings like <code>$&quot;Hello&quot;</code> may not use curly braces.</p>
 <h2>Exceptions</h2>
 <p>None</p>
 <h2>Related resources</h2>

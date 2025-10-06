@@ -1,9 +1,9 @@
-<p>Decimals are not supported. Either use integers only, or use bc or awk to compare.</p>
+<p>Decimals are not supported. Either use integers only, or use <code>bc</code> or <code>awk</code> to compare.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ 2 -lt 3.14 ]]
+<pre><code class="language-sh">[[ 2 -lt 3.14 ]]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ 200 -lt 314 ]]                   # Use fixed point math
+<pre><code class="language-sh">[[ 200 -lt 314 ]]                   # Use fixed point math
 [[ $(echo &quot;2 &lt; 3.14&quot; | bc) == 1 ]]  # Use bc
 </code></pre>
 <h2>Rationale</h2>

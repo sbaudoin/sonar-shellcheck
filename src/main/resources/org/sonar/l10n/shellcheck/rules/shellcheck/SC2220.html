@@ -1,6 +1,6 @@
 <p>Invalid flags are not handled. Add a <code>*)</code> case.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 while getopts &quot;vr&quot; f
 do
   case &quot;$f&quot; in
@@ -10,7 +10,7 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 while getopts &quot;vr&quot; f
 do
   case &quot;$f&quot; in

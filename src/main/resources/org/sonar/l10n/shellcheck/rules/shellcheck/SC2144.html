@@ -1,12 +1,12 @@
-<p>-e doesn't work with globs. Use a for loop.</p>
+<p><code>-e</code> doesn't work with globs. Use a <code>for</code> loop.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ -e dir/*.mp3 ]
+<pre><code class="language-sh">if [ -e dir/*.mp3 ]
 then
   echo &quot;There are mp3 files.&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">for file in dir/*.mp3
+<pre><code class="language-sh">for file in dir/*.mp3
 do
   if [ -e &quot;$file&quot; ]
   then
@@ -20,7 +20,7 @@ done
 <p><code>[[ -e file* ]]</code> doesn't work at all.</p>
 <p>Instead, use a for loop to expand the glob and check each result individually.</p>
 <p>If you are looking for the existence of a directory, do:</p>
-<pre><code class="lang-sh">for f in /path/to/your/files*; do
+<pre><code class="language-sh">for f in /path/to/your/files*; do
 
     ## Check if the glob gets expanded to existing files.
     ## If not, f here will be exactly the pattern above
@@ -32,7 +32,17 @@ done
 done
 </code></pre>
 <h2>Exceptions</h2>
-<p>If filename expansion (globbing) is disabled (<code>set -f</code>), then the <code>[</code> statement works as expected.</p>
+<p>If you are sure there will only ever be exactly 0 or 1 matches -- and <code>nullglob</code> is not enabled -- then the test happens to work.</p>
+<p>You may still want to consider making this assumption explicit and failing fast if it's ever violated:</p>
+<pre><code>files=( dir/file* )
+[ &quot;${#files[@]}&quot; -ge 2 ] &amp;&amp; exit 1
+if [ -e &quot;${files[0]}&quot; ]
+then 
+  echo &quot;The file exists&quot;
+else
+  echo &quot;No such file&quot;
+fi
+</code></pre>
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://mywiki.wooledge.org/BashFAQ/004">BashFaq: How can I check whether a directory is empty or not? How do I check for any *.mpg files, or count how many there are?</a></li>

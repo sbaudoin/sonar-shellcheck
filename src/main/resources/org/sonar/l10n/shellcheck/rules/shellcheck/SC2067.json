@@ -1,5 +1,5 @@
 {
-  "title": "Missing ';' or + terminating -exec. You can't use |\/||\/&amp;&amp;, and ';' has to be a separate, quoted argument.",
+  "title": "Missing ; or + terminating -exec. You can't use |\/||\/&amp;&amp;, and ; has to be a separate, quoted argument.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

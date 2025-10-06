@@ -1,13 +1,20 @@
 <p>In POSIX sh, string indexing is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 echo &quot;Your initial is ${USER:0:1}&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>Either switch to a shell that does support string indexing via parameter expansion, like <code>bash</code> or <code>ksh</code>, or rewrite with <code>cut</code>:</p>
-<pre><code class="lang-sh">#!/bin/sh
-echo &quot;Your initial is $(printf &#39;%s&#39; &quot;$USER&quot; | cut -c 1)&quot;
+<pre><code class="language-sh">#!/bin/sh
+echo &quot;Your initial is $(printf '%s' &quot;$USER&quot; | cut -c 1)&quot;
+</code></pre>
+<p>To find the last argument passed to a shell script without using bash’s <code>${@:$#}</code>- or <code>${@: -1}</code>-style string indexing, use the following, which even “<a href="https://stackoverflow.com/q/1853946#comment104235724_1853993">works in the unix v7 bourne shell from 1979</a>”:</p>
+<pre><code class="language-sh">#!/bin/sh
+for argument in &quot;$@&quot;; do
+  : # `:`, also called as `true`, is a no-op here
+done
+printf '%s\n' &quot;${argument-}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>String indexing is a bash and ksh extension, and does not work in <code>dash</code> or POSIX <code>sh</code>.</p>

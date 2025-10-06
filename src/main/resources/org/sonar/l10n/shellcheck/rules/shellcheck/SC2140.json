@@ -1,5 +1,5 @@
 {
-  "title": "Word is on the form 'A'B'C' (B indicated). Did you mean 'ABC' or 'A\\'B\\'C'?",
+  "title": "Word is of the form &quot;A&quot;B&quot;C&quot; (B indicated). Did you mean &quot;ABC&quot; or &quot;A\\&quot;B\\&quot;C&quot;?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

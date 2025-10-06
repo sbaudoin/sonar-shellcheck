@@ -1,12 +1,12 @@
 <p>In POSIX sh, exec flags are undefined.</p>
-<p>(or "In dash, ... are not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... are not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 exec -ca ls busybox
 </code></pre>
 <h2>Correct code</h2>
 <p>Switch to a shell that does support the <code>exec</code> flags you are using, like <code>bash</code>:</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 exec -ca ls busybox
 </code></pre>
 <p>In POSIX, you can use <code>env</code> to start a command with a clean environment, but there is no way to generally specifying the zeroth argument.</p>

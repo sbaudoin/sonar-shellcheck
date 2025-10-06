@@ -1,1 +1,17 @@
-<p>Ksh does not support |&amp;. Use 2&gt;&amp;1 |.</p>
+<p>Ksh does not support <code>|&amp;</code>. Use <code>2&gt;&amp;1 |</code></p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/usr/bin/ksh
+make |&amp; tee ~/log
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/usr/bin/ksh
+make 2&gt;&amp;1 | tee ~/log
+</code></pre>
+<h2>Rationale</h2>
+<p>You are using the Bash specific shorthand <code>|&amp;</code>, but your script is running with Ksh. Rewrite it to its full, POSIX-compatible form as shown in the example.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

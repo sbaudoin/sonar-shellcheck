@@ -1,18 +1,18 @@
-<p>When using &lt;&lt;-, you can only indent with tabs.</p>
+<p>When using <code>&lt;&lt;-</code>, you can only indent with tabs.</p>
 <h2>Problematic code</h2>
 <p>Any code using <code>&lt;&lt;-</code> that is indented with spaces. <code>cat -T script</code> shows</p>
-<pre><code class="lang-sh">    cat &lt;&lt;- foo
+<pre><code class="language-sh">    cat &lt;&lt;- foo
         Hello world
     foo
 </code></pre>
 <h2>Correct code</h2>
 <p>Code using <code>&lt;&lt;-</code> must be indented with tabs. <code>cat -T script</code> shows</p>
-<pre><code class="lang-sh">^Icat &lt;&lt;- foo
+<pre><code class="language-sh">^Icat &lt;&lt;- foo
 ^I^IHello world
 ^Ifoo
 </code></pre>
 <p>Or simply don't indent the end token:</p>
-<pre><code class="lang-sh">    cat &lt;&lt;- foo
+<pre><code class="language-sh">    cat &lt;&lt;- foo
       Hello World
 foo
 </code></pre>

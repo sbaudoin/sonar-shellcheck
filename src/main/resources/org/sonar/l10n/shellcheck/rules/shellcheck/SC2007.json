@@ -1,5 +1,5 @@
 {
-  "title": "Use $((..)) instead of deprecated $[..]",
+  "title": "Use $((..)) instead of deprecated $[..].",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

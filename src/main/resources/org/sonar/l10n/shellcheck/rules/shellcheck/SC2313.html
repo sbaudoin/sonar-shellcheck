@@ -1,9 +1,9 @@
 <p>Quote array indices to avoid them expanding as globs.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">read -r foo[index]
+<pre><code class="language-sh">read -r foo[index]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">read -r &quot;foo[index]&quot;
+<pre><code class="language-sh">read -r &quot;foo[index]&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found an array element passed to read, where the <code>[]</code> was not quoted. This means the array index <code>[index]</code> will be treated as a glob range, and the word may be replaced or trigger <code>failglob</code>.</p>

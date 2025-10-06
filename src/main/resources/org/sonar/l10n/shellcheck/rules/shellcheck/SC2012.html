@@ -1,20 +1,19 @@
 <p>Use <code>find</code> instead of <code>ls</code> to better handle non-alphanumeric filenames.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">ls -l | grep &quot; $USER &quot; | grep &#39;\.txt$&#39;
+<pre><code class="language-sh">ls -l | grep &quot; $USER &quot; | grep '\.txt$'
 </code></pre>
-<pre><code class="lang-sh">NUMGZ=&quot;$(ls -l *.gz | wc -l)&quot;
+<pre><code class="language-sh">NUMGZ=&quot;$(ls -l *.gz | wc -l)&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find . -maxdepth 1 -name &#39;*.txt&#39; -user &quot;$USER&quot;  # Using the names of the files
+<pre><code class="language-sh">find ./*.txt -user &quot;$USER&quot;  # Using the names of the files
 </code></pre>
-<pre><code class="lang-sh">gz_files=(*.gz)
+<pre><code class="language-sh">gz_files=(*.gz)
 numgz=${#gz_files[@]} # Sometimes, you just need a count
-`
 </code></pre>
 <h2>Rationale</h2>
-<p><code>ls</code> is only intended for human consumption: it has a loose, non-standard format and may "clean up" filenames to make output easier to read.</p>
+<p><code>ls</code> is only intended for human consumption: it has a loose, non-standard format and may &quot;clean up&quot; filenames to make output easier to read.</p>
 <p>Here's an example:</p>
-<pre><code class="lang-sh">$ ls -l
+<pre><code class="language-sh">$ ls -l
 total 0
 -rw-r----- 1 me me 0 Feb  5 20:11 foo?bar
 -rw-r----- 1 me me 0 Feb  5  2011 foo?bar
@@ -23,6 +22,7 @@ total 0
 <p>It shows three seemingly identical filenames, and did you spot the time format change? How it formats and what it redacts can differ between locale settings, <code>ls</code> version, and whether output is a tty.</p>
 <h2>Tips for replacing <code>ls</code> with <code>find</code></h2>
 <h3>Just the filenames, ma'am</h3>
+<p>(Note that <code>-maxdepth</code> is not POSIX, but can be simulated by having the expression call <code>-prune</code> on all directories it finds, e.g. <code>find ./* -prune -print</code>)</p>
 <p><code>ls</code> can usually be replaced by <code>find</code> if it's just the filenames, or a count of them, that you're after. Note that if you are using <code>ls</code> to get at the contents of a directory, a straight substitution of <code>find</code> may not yield the same results as <code>ls</code>. Here is an example:</p>
 <pre><code>$ ls -c1 .snapshot
 rnapdev1-svm_4_05am_6every4hours.2019-04-01_1605
@@ -56,8 +56,8 @@ snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
 .snapshot/snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
 </code></pre>
 <p><strong>Note:</strong> If the directory argument to <code>find</code> is a fully expressed path (<code>/home/somedir/.snapshot</code>), then you should use <code>basename</code> on the <code>-name</code> filter:</p>
-<pre><code>$ theDir="$HOME/.snapshot"
-$ find "$theDir" -maxdepth 1 ! -name "$(basename $theDir)"
+<pre><code>$ theDir=&quot;$HOME/.snapshot&quot;
+$ find &quot;$theDir&quot; -maxdepth 1 ! -name &quot;$(basename $theDir)&quot;
 /home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0005
 /home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0405
 /home/matt/.snapshot/rnapdev1-svm_4_05am_6every4hours.2019-04-02_0805
@@ -67,6 +67,6 @@ $ find "$theDir" -maxdepth 1 ! -name "$(basename $theDir)"
 /home/matt/.snapshot/snapmirror.1501b4aa-3f82-11e8-9c31-00a098cef13d_2147868328.2019-04-01_190000
 </code></pre>
 <h3>All the other info</h3>
-<p>If trying to parse out any other fields, first see whether <code>stat</code> (GNU, OS X, FreeBSD) or <code>find -printf</code> (GNU) can give you the data you want directly. When trying to determine file size, try: <code>wc -c</code>. This is more portable as <code>wc</code> is a mandatory unix command, unlike <code>stat</code> and <code>find -printf</code>. It may be slower as unoptimized <code>wc -c</code> may read the entire file rather than just checking its properties. On some systems, <code>wc -c</code> adds whitespace to the file size which can be trimmed by double expansion: <code>$(( $(wc -c &lt; "filename") ))</code></p>
+<p>If trying to parse out any other fields, first see whether <code>stat</code> (GNU, OS X, FreeBSD) or <code>find -printf</code> (GNU) can give you the data you want directly. When trying to determine file size, try: <code>wc -c</code>. This is more portable as <code>wc</code> is a mandatory unix command, unlike <code>stat</code> and <code>find -printf</code>. It may be slower as unoptimized <code>wc -c</code> may read the entire file rather than just checking its properties. On some systems, <code>wc -c</code> adds whitespace to the file size which can be trimmed by double expansion: <code>$(( $(wc -c &lt; &quot;filename&quot;) )) </code></p>
 <h2>Exceptions</h2>
-<p>If the information is intended for the user and not for processing (<code>ls -l ~/dir | nl; echo "Ok to delete these files?"</code>) you can ignore this error with a [[directive]].</p>
+<p>If the information is intended for the user and not for processing (<code>ls -l ~/dir | nl; echo &quot;Ok to delete these files?&quot;</code>) you can ignore this error with a [[directive]].</p>

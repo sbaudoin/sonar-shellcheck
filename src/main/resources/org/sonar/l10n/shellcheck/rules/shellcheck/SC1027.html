@@ -1,1 +1,15 @@
 <p>Expected another argument for this operator.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">[ $a -ne ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">[ $a -ne $b ]
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>test</code> operator without an operand. This could be a copy-paste fail, bad linebreak, or trying to use <code>&lt;&gt;</code> instead of <code>!=</code> or <code>-ne</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

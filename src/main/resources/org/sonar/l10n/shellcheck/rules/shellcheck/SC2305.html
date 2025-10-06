@@ -1,9 +1,9 @@
 <p>Quote regex argument to expr to avoid it expanding as a glob.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">expr &quot;$input&quot; : [0-9]*
+<pre><code class="language-sh">expr &quot;$input&quot; : [0-9]*
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">expr &quot;$input&quot; : &quot;[0-9]*&quot;
+<pre><code class="language-sh">expr &quot;$input&quot; : &quot;[0-9]*&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found an <code>expr</code> command using <code>:</code> to match a regex, but the regex is not quoted and therefore being treated as a glob.</p>

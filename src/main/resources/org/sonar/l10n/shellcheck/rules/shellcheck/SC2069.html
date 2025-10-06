@@ -1,19 +1,18 @@
-<p>To redirect stdout+stderr, 2&gt;&amp;1 must be last (or use '{ cmd &gt; file; } 2&gt;&amp;1' to clarify).</p>
+<p>To redirect stdout+stderr, <code>2&gt;&amp;1</code> must be last (or use <code>{ cmd &gt; file; } 2&gt;&amp;1</code> to clarify).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">firefox 2&gt;&amp;1 &gt; /dev/null
+<pre><code class="language-sh">firefox 2&gt;&amp;1 &gt; /dev/null
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">firefox &gt; /dev/null 2&gt;&amp;1
+<pre><code class="language-sh">firefox &gt; /dev/null 2&gt;&amp;1
 </code></pre>
 <h2>Rationale</h2>
 <p>When it comes to redirection, order matters.</p>
-<p>The problematic code means "Point stderr to where stdout is currently pointing (the terminal). Then point stdout to /dev/null".</p>
-<p>The correct code means "Point stdout to /dev/null. Then point stderr to where stdout is currently pointing (/dev/null)".</p>
+<p>The problematic code means &quot;Point stderr to where stdout is currently pointing (the terminal). Then point stdout to /dev/null&quot;.</p>
+<p>The correct code means &quot;Point stdout to /dev/null. Then point stderr to where stdout is currently pointing (/dev/null)&quot;.</p>
 <p>In other words, the problematic code hides stdout and shows stderr. The correct code hides both stderr and stdout, which is usually the intention.</p>
 <h2>Exceptions</h2>
 <p>If you actually do want to redirect stdout to a file, and then turn stderr into the new stdout, you can make this more explicit with braces:</p>
-<pre><code>{ firefox &gt; /dev/null; } 2&gt;&amp;1
-</code></pre>
+<pre><code>{ firefox &gt; /dev/null; } 2&gt;&amp;1</code></pre>
 <p>Also note that this warning does not trigger when output is piped or captured.</p>
 <h2>Related resources</h2>
 <ul>

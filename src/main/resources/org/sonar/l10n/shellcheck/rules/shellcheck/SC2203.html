@@ -1,9 +1,10 @@
-<p>Globs are ignored in <code>[[ ]]</code> except right of =/!=. Use a loop.</p>
+<p>Globs are ignored in <code>[[ ]]</code> except right of <code>=</code>/<code>!=</code>. Use a loop.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ current.log -nt backup/*.log ]] &amp;&amp; echo &quot;This is the latest file&quot;
+<pre><code class="language-sh">[[ current.log -nt backup/*.log ]] &amp;&amp; echo &quot;This is the latest file&quot;
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">newerThanAll=true
+<pre><code class="language-sh">newerThanAll=true
 for log in backup/*.log
 do
   [[ current.log -nt &quot;$log&quot; ]] || newerThanAll=false

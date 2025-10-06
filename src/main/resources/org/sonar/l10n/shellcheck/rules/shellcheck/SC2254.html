@@ -1,12 +1,12 @@
 <p>Quote expansions in case patterns to match literally rather than as a glob.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">case $input in
+<pre><code class="language-sh">case $input in
   -       ) echo &quot;Reading from stdin...&quot; ;;
   $output ) echo &quot;Input should be different from output&quot; ;;
 esac
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">case $input in
+<pre><code class="language-sh">case $input in
   -         ) echo &quot;Reading from stdin...&quot; ;;
   &quot;$output&quot; ) echo &quot;Input should be different from output&quot; ;;
 esac

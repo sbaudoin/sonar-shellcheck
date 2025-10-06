@@ -1,11 +1,11 @@
 <p>The dot command does not support arguments in sh/dash. Set them as variables.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 . include/myscript example.com 80
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
-host=example.com port=80 . include/myscript
+<pre><code class="language-sh">#!/bin/sh
+host=example.com port=80 . include/myscript 
 </code></pre>
 <h2>Rationale</h2>
 <p>In Bash and Ksh, you can use <code>. myscript arg1 arg2..</code> to set <code>$1</code> and <code>$2</code> in the sourced script.</p>

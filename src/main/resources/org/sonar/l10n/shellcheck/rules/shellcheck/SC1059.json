@@ -1,5 +1,5 @@
 {
-  "title": "No semicolons directly after 'do'.",
+  "title": "Semicolon is not allowed directly after do. You can just delete it.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

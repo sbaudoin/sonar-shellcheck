@@ -1,5 +1,5 @@
 {
-  "title": "The shell may override 'time' as seen in man time(1). Use 'command time ..' for that one.",
+  "title": "The shell may override time as seen in man time(1). Use command time .. for that one.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

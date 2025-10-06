@@ -1,6 +1,6 @@
-<p>This redirection doesn't have a command. Move to its command (or use 'true' as no-op).</p>
+<p>This redirection doesn't have a command. Move to its command (or use <code>true</code> as no-op).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">{ 
+<pre><code class="language-sh">{ 
   echo &quot;Report for $(date +%F)&quot;
   uptime
   df -h
@@ -8,7 +8,7 @@
   &gt; report.txt
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">{ 
+<pre><code class="language-sh">{ 
   echo &quot;Report for $(date +%F)&quot;
   uptime
   df -h

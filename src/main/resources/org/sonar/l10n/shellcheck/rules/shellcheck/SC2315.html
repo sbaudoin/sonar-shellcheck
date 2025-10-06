@@ -1,6 +1,6 @@
-<p>In bats, ! does not cause a test failure. Fold the <code>!</code> into the conditional!</p>
+<p>In bats, <code>!</code> does not cause a test failure. Fold the <code>!</code> into the conditional!</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/usr/bin/env bats
+<pre><code class="language-sh">#!/usr/bin/env bats
 
 @test &quot;test&quot; {
     # ... code
@@ -9,7 +9,7 @@
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/usr/bin/env bats
+<pre><code class="language-sh">#!/usr/bin/env bats
 
 @test &quot;test&quot; {
     # ... code
@@ -30,7 +30,8 @@ However, you are encouraged to still transform the code in this case for consist
 <li><a href="SC2314">SC2314: In bats, ! does not cause a test failure (for non-conditionals)</a></li>
 <li><a href="SC2251.md">SC2251: This ! is not on a condition and skips errexit</a></li>
 <li><a href="https://stackoverflow.com/a/39582012/760746">Stackoverflow: Why do I need parenthesis In bash <code>set -e</code> and negated return code</a></li>
-<li><a href="https://linux.die.net/man/1/bash">bash manpage</a> (look at <code>trap [-lp] [[arg] sigspec ...]</code>):  <blockquote><p>The ERR trap is not executed [...] if the command's return value is being inverted via !</p>
+<li><a href="https://linux.die.net/man/1/bash">bash manpage</a> (look at <code>trap [-lp] [[arg] sigspec ...]</code>):<blockquote>
+<p>The ERR trap is not executed [...] if the command's return value is being inverted via !</p>
 </blockquote>
 </li>
 </ul>

@@ -1,0 +1,57 @@
+<p>Command appears to be unreachable. Check usage (or ignore if invoked indirectly).</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">usage() {
+  echo &gt;&amp;2 &quot;Usage: $0 -i input&quot;
+  exit 1
+}     
+if [ &quot;$1&quot; = &quot;--help&quot; ]
+then
+  usage
+  exit 0   # Unreachable
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">usage() {
+  echo &gt;&amp;2 &quot;Usage: $0 -i input&quot;
+}     
+if [ &quot;$1&quot; = &quot;--help&quot; ]
+then
+  usage
+  exit 0
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>The problematic code wanted to exit with success if the user explicitly asked for <code>--help</code>. However, since the <code>usage</code> function already had an <code>exit 1</code>, this statement could never run.</p>
+<p>One possible solution is to change <code>usage()</code> to only echo, and let callers be responsible for exiting.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck may incorrectly believe that code is unreachable if it's invoked by variable name or in a trap. In such a case, please [[Ignore]] the message.</p>
+<p>Note in particular that since unreachable commands may come in clusters, it's useful to use ShellCheck's filewide or functionwide ignore directives. A <code>disable</code> directive before a function ignores the entire function:</p>
+<pre><code>#!/bin/bash
+...
+# shellcheck disable=SC2317  # Don't warn about unreachable commands in this function
+start() {
+  echo Starting
+  /etc/init.d/foo start
+}
+&quot;$1&quot;
+exit 0
+</code></pre>
+<p>A disable directive after the shebang, before any commands, will ignore the entire file:</p>
+<pre><code>#!/bin/bash
+# Test script #1
+# shellcheck disable=SC2317  # Don't warn about unreachable commands in this file
+
+echo &quot;Temporarily disabled&quot;
+exit 0
+
+run-test1
+run-test2
+run-test3
+</code></pre>
+<p>Defined functions are assumed to be reachable when the script ends (not exits) since another file may source and invoke them.</p>
+<h2>More Problematic Code</h2>
+<p>You have defined two functions in the same file you are sourcing whose names are the same but defined differently within their bodies.  Then shellcheck will state that every line of the body of the earlier seen function definition will be unreachable which is how bash would operate when sourcing the file. It <strong>unclear</strong> what shellcheck would output if the earlier definition appeared in a difference file that was seen first. Apparently doing a quick test. It does <strong>NOT</strong> notice.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

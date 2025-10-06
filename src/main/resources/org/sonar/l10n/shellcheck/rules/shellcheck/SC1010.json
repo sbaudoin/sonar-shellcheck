@@ -1,5 +1,5 @@
 {
-  "title": "Use semicolon or linefeed before 'done' (or quote to make it literal).",
+  "title": "Use semicolon or linefeed before done (or quote to make it literal).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

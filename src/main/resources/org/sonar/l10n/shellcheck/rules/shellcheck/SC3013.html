@@ -1,6 +1,6 @@
 <p>In POSIX sh, <code>-nt</code> is undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 if [ Foo.java -nt Foo.class ]
 then
   javac Foo.java
@@ -8,21 +8,21 @@ fi
 </code></pre>
 <h2>Correct code</h2>
 <p>The easiest fix is to switch to a shell that <em>does</em> support <code>-nt</code>, like bash:</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 if [ Foo.java -nt Foo.class ]
 then
   javac Foo.java
 fi
 </code></pre>
 <p>Otherwise, <code>find</code> can be used:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 if [ -n &quot;$(find Foo.java -newer Foo.class)&quot; ]
 then
   javac Foo.java
 fi
 </code></pre>
 <h2>Rationale</h2>
-<p><code>test -nt</code> is an extension in ksh, bash and dash, but it is not covered by POSIX.</p>
+<p><code>test -nt</code> is an extension in ksh, bash and dash, but it is <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">not specified by POSIX</a>.</p>
 <h2>Exceptions</h2>
 <p>If you only intend to target shells that supports this feature, you can change
 the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
@@ -30,5 +30,9 @@ the shebang to a shell that guarantees support, or [[ignore]] this warning.</p>
 warnings.</p>
 <h2>Related resources</h2>
 <ul>
-<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+<li>Greg's Wiki<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/003">BashFAQ #3: How can I sort or compare files based on some metadata attribute (newest / oldest modification time, size, etc)?</a></li>
+<li><a href="https://mywiki.wooledge.org/Bashism#Conditionals">Bashism - Conditionals</a></li>
+</ul>
+</li>
 </ul>

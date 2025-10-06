@@ -1,9 +1,9 @@
-<p>Unexpected parameters after condition. Missing &amp;&amp;/||, or bad expression?</p>
+<p>Unexpected parameters after condition. Missing <code>&amp;&amp;</code>/<code>||</code>, or bad expression?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ &quot;$1&quot; ] input=&quot;$1&quot;
+<pre><code class="language-sh">[ &quot;$1&quot; ] input=&quot;$1&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ &quot;$1&quot; ] &amp;&amp; input=&quot;$1&quot;
+<pre><code class="language-sh">[ &quot;$1&quot; ] &amp;&amp; input=&quot;$1&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found characters (other than redirections) after the <code>]</code> or <code>]]</code> in a test expression. This is not valid.</p>

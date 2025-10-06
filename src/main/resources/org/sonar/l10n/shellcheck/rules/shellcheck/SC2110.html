@@ -1,9 +1,9 @@
-<p>In [[..]], use || instead of -o.</p>
+<p>In <code>[[..]]</code>, use <code>||</code> instead of <code>-o</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ &quot;$1&quot; = &quot;-v&quot; -o &quot;$1&quot; = &quot;-help&quot; ]]
+<pre><code class="language-sh">[[ &quot;$1&quot; = &quot;-v&quot; -o &quot;$1&quot; = &quot;-help&quot; ]]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ &quot;$1&quot; = &quot;-v&quot; || &quot;$1&quot; = &quot;-help&quot; ]]
+<pre><code class="language-sh">[[ &quot;$1&quot; = &quot;-v&quot; || &quot;$1&quot; = &quot;-help&quot; ]]
 </code></pre>
 <h2>Rationale</h2>
 <p><code>-o</code> for logical OR is not supported in a <code>[[ .. ]]</code> expression. Use <code>||</code> instead.</p>

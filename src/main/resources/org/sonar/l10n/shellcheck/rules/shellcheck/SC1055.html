@@ -1,1 +1,21 @@
-<p>You need at least one command here. Use &#x27;true;&#x27; as a no-op.</p>
+<p>You need at least one command here. Use <code>true;</code> as a no-op.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">submitbug() {
+  # TODO: Implement me
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">submitbug() {
+  # TODO: Implement me
+  true
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an empty code block. This could be an empty function as shown, a loop with an empty body, or similar.</p>
+<p>Sh/bash does not allow empty code blocks. Insert at least one command. If you don't want the block to do anything, <code>true</code> (aka <code>:</code>) is a good no-op.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/39307615/why-cannot-i-define-an-empty-function-in-shell">StackOverflow: Why cannot I define an empty function in shell?</a></li>
+</ul>

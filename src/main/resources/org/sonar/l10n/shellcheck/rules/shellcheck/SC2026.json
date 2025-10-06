@@ -1,5 +1,5 @@
 {
-  "title": "This word is outside of quotes. Did you intend to 'nest '''single quotes''' instead'?",
+  "title": "This word is outside of quotes. Did you intend to 'nest '&quot;'single quotes'&quot;' instead?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

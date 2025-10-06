@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,8 @@
 package com.github.sbaudoin.sonar.plugins.shellcheck.languages;
 
 import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.resources.AbstractLanguage;
 

@@ -1,9 +1,9 @@
 <p>Declare and assign separately to avoid masking return values.</p>
 <h2>Problematic code in the case of <code>export</code></h2>
-<pre><code class="lang-sh">export foo=&quot;$(mycmd)&quot;
+<pre><code class="language-sh">export foo=&quot;$(mycmd)&quot;
 </code></pre>
 <h3>Correct code:</h3>
-<pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
+<pre><code class="language-sh">foo=&quot;$(mycmd)&quot;
 export foo
 </code></pre>
 <h3>Rationale:</h3>
@@ -12,40 +12,39 @@ export foo
 <p>Note that ShellCheck does not warn about masking of local read-only variables, such as <code>local -r foo=$(cmd)</code>, even though this also masks the return value. This is because the alternative <code>local foo; foo=$(cmd); local -r foo</code> is repetitive and cumbersome. To see warnings for this and many other additional cases of suppressed exit codes, enable <code>check-extra-masked-returns</code>.</p>
 <h3>Exceptions:</h3>
 <p>If you intend to ignore the return value of an assignment, you can either [[ignore]] this warning or use</p>
-<pre><code class="lang-sh">foo=$(mycmd) || true
+<pre><code class="language-sh">foo=$(mycmd) || true
 export foo
 </code></pre>
 <p>Shellcheck does not warn about <code>export foo=bar</code> because <code>bar</code> is a literal and not a command substitution with an independent return value.</p>
 <h2>Problematic code in the case of <code>local</code></h2>
-<pre><code class="lang-sh">local foo=&quot;$(mycmd)&quot;
+<pre><code class="language-sh">local foo=&quot;$(mycmd)&quot;
 </code></pre>
 <h3>Correct code:</h3>
-<pre><code class="lang-sh">local foo
+<pre><code class="language-sh">local foo
 foo=$(mycmd)
 </code></pre>
 <h3>Rationale</h3>
 <p>The exit status of the command is overridden by the exit status of the creation of the local variable. For example:</p>
-<pre><code class="lang-bash">$ f() { local foo=$(false) || echo foo; }; f
-$ f() { local foo; foo=$(false) || echo foo; }; f
-foo
+<pre><code class="language-bash">$ f() { local foo=$(false) &amp;&amp; echo &quot;error was hidden&quot;; }; f
+error was hidden
+$ f() { local foo; foo=$(false) &amp;&amp; echo &quot;error was hidden&quot;; }; f
 </code></pre>
 <h2>Problematic code in the case of <code>readonly</code></h2>
-<pre><code class="lang-sh">readonly foo=&quot;$(mycmd)&quot;
+<pre><code class="language-sh">readonly foo=&quot;$(mycmd)&quot;
 </code></pre>
 <h3>Correct code:</h3>
-<pre><code class="lang-sh">foo=&quot;$(mycmd)&quot;
+<pre><code class="language-sh">foo=&quot;$(mycmd)&quot;
 readonly foo
 </code></pre>
 <p>Word splitting and quoting issue with dash, maybe others</p>
 <p>A serious quoting problem with dash is another reason to declare and assign separately. Dash is the <a href="https://wiki.ubuntu.com/DashAsBinSh">default, <code>/bin/sh</code> shell on Ubuntu</a>. More specifically, dash version 0.5.8-2.10 and others cannot run these two examples:</p>
-<pre><code class="lang-sh">f(){ local e=$1; }
+<pre><code class="language-sh">f(){ local e=$1; }
 f &quot;1 2&quot;
 
-export g=$(printf &#39;%s&#39; &quot;foo 2&quot;)
+export g=$(printf '%s' &quot;foo 2&quot;)
 </code></pre>
 <p>While this runs fine in other shells, <a href="http://mywiki.wooledge.org/BashPitfalls#local_var.3D.24.28cmd.29">dash doesn't treat any of these as assignments</a> and fails both like this:</p>
 <pre><code>local: 2: bad variable name
 export: 2: bad variable name
 </code></pre>
 <p>The direct workaround to this bug is to quote the right-hand-side of the assignment. Separating declaraction and assignment also makes this runs fine in any shell.</p>
-<p>(A rule to catch this problem is in the works at <a href="https://github.com/koalaman/shellcheck/issues/1556">#1556</a>).</p>

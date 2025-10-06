@@ -1,5 +1,5 @@
 {
-  "title": "Expected a '}'. If you have one, try a ; or \\n in front of it.",
+  "title": "Expected a }. If you have one, try a ; or \\n in front of it.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

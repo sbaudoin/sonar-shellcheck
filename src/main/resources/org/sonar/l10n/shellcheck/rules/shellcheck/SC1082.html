@@ -1,9 +1,9 @@
-<p>This file has a UTF-8 BOM. Remove it with: LC_CTYPE=C sed '1s/^...//' &lt; yourscript .</p>
+<p>This file has a UTF-8 BOM. Remove it with: <code>LC_CTYPE=C sed '1s/^...//' &lt; yourscript</code>.</p>
 <h2>Problematic code</h2>
 <p>This is an encoding error that can't be seen in the script itself, but <code>cat -v</code> will show three bytes of garbage at the start of the file:</p>
 <pre><code>$ cat -v file
 M-oM-;M-?#!/bin/bash
-echo "hello world"
+echo &quot;hello world&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>The code is correct when this garbage does not appear.</p>

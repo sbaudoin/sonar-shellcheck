@@ -1,1 +1,19 @@
-<p>Found end token `EOF&#x27; further down, but with wrong casing.</p>
+<p>Found EOF further down, but with wrong casing.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">cat &lt;&lt; EOF
+Hello World
+Eof
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">cat &lt;&lt; EOF
+Hello World
+EOF
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a here document (<code>&lt;&lt;</code>) where the end token is missing. However, the end token appears with different case further down. If this was meant to be the end of the here document, make sure the case matches.</p>
+<h2>Exceptions</h2>
+<p>None. This error is only emitted when the here document is incomplete.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,10 +1,10 @@
 <h1>foo appears unused. Verify it or export it.</h1>
 <p>Problematic code:</p>
-<pre><code class="lang-sh">foo=42
+<pre><code class="language-sh">foo=42
 echo &quot;$FOO&quot;
 </code></pre>
 <p>Correct code:</p>
-<pre><code class="lang-sh">foo=42
+<pre><code class="language-sh">foo=42
 echo &quot;$foo&quot;
 </code></pre>
 <p>Rationale:</p>
@@ -14,7 +14,7 @@ echo &quot;$foo&quot;
 <p>This warning may be falsely emitted when a variable is only referenced indirectly, and for variables that are intentionally unused.</p>
 <h2>Indirection</h2>
 <p>It's ShellCheck's intended behavior to emit this warning for any variable that is only referenced though indirection:</p>
-<pre><code class="lang-sh"># foo generates a warning, even though it has five indirect references
+<pre><code class="language-sh"># foo generates a warning, even though it has five indirect references
 foo=42
 name=foo
 echo &quot;${!name} $((name))&quot;
@@ -30,18 +30,15 @@ declare -n name; echo &quot;$name&quot;
 <p>Compilers are forced to do the former, but static analysis tools generally do the latter. This includes <code>pylint</code>, <code>jshint</code> and <code>shellcheck</code> itself. This is a design decision meant to make the tools more helpful at the expense of some noise. For consistency and to avoid giving the impression that it should work more generally, ShellCheck does not attempt to resolve even trivial indirections.</p>
 <h3>Intentionally unused variables</h3>
 <p>For throwaway variables, consider using <code>_</code> as a dummy:</p>
-<pre><code class="lang-sh">read _ last _ zip _ _ &lt;&lt;&lt; &quot;$str&quot;
+<pre><code class="language-sh">read _ last _ zip _ _ &lt;&lt;&lt; &quot;$str&quot;
 echo &quot;$last, $zip&quot;
 </code></pre>
 <p>Or optionally as a prefix for dummy variables (ShellCheck &gt;0.7.2).</p>
-<p>```sh ​
-read _first last _email zip _lat _lng &lt;&lt;&lt; "$str"
-echo "$last, $zip"</p>
-<pre><code>
-For versions &lt;= 0.7.2, the message can optionally be [[ignore]]d with a directive:
-
-```sh
-# shellcheck disable=SC2034  # Unused variables left for readability
-read first last email zip lat lng &lt;&lt;&lt; "$str"
-echo "$last, $zip"
+<pre><code class="language-sh">read _first last _email zip _lat _lng &lt;&lt;&lt; &quot;$str&quot;
+echo &quot;$last, $zip&quot;
+</code></pre>
+<p>For versions &lt;= 0.7.2, the message can optionally be [[ignore]]d with a directive:</p>
+<pre><code class="language-sh"># shellcheck disable=SC2034  # Unused variables left for readability
+read first last email zip lat lng &lt;&lt;&lt; &quot;$str&quot;
+echo &quot;$last, $zip&quot;
 </code></pre>

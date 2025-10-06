@@ -1,5 +1,5 @@
 {
-  "title": "Did you forget the 'then' for this 'if'?",
+  "title": "Did you forget the then for this if?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

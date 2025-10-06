@@ -1,12 +1,12 @@
-<p>Piping to 'rm', a command that doesn't read stdin. Wrong command or missing xargs?</p>
+<p>Piping to <code>rm</code>, a command that doesn't read stdin. Wrong command or missing <code>xargs</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">ls | echo                      # Want to print result
+<pre><code class="language-sh">ls | echo                      # Want to print result
 cat files | rm                 # Want to delete items from a file
-find . -type f | cp dir        # Want to process &#39;find&#39; output
+find . -type f | cp dir        # Want to process 'find' output
 rm file | true                 # Want to ignore errors
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">ls
+<pre><code class="language-sh">ls
 cat files | while IFS= read -r file; do rm -- &quot;$file&quot;; done
 find . -type f -exec cp {} dir \;
 rm file || true

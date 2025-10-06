@@ -1,5 +1,5 @@
 {
-  "title": "'local' is only valid in functions.",
+  "title": "local is only valid in functions.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

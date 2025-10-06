@@ -1,9 +1,9 @@
-<p>This redirection overrides the output pipe. Use 'tee' to output to both.</p>
+<p>This redirection overrides the output pipe. Use <code>tee</code> to output to both.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">env &gt; environment.txt | grep &#39;^ANDROID&#39;
+<pre><code class="language-sh">env &gt; environment.txt | grep '^ANDROID'
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">env | tee environment.txt | grep &#39;^ANDROID&#39;
+<pre><code class="language-sh">env | tee environment.txt | grep '^ANDROID'
 </code></pre>
 <h2>Rationale</h2>
 <p>A process only has a single standard output stream. Pipes and output redirections both overwrite it, so you can't use both at the same time. If you try, the redirection takes precedence and the output pipe is closed.</p>

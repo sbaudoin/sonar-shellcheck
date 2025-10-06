@@ -1,9 +1,10 @@
-<p>-eq is for integer comparisons. Use = instead.</p>
+<p><code>-eq</code> is for integer comparisons. Use <code>=</code> instead.</p>
+<p><em>Note: This warning seems replace by SC2170 or SC2309. Removed in <a href="https://github.com/koalaman/shellcheck/commit/b9cb040128f0f90ad43efbdae7ae2a8d36941cfe">V0.4.2 - 2016-01-10</a></em></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ $foo -eq &quot;Y&quot; ]]
+<pre><code class="language-sh">[[ $foo -eq &quot;Y&quot; ]]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ $foo = &quot;Y&quot; ]]
+<pre><code class="language-sh">[[ $foo = &quot;Y&quot; ]]
 </code></pre>
 <h2>Rationale</h2>
 <p>Shells have two sets of comparison operators: for integers (<code>-eq</code>, <code>-gt</code>, ...) and strings (<code>=</code>, <code>&gt;</code>, ...). ShellCheck has noticed that you're using an integer comparison with string data.</p>

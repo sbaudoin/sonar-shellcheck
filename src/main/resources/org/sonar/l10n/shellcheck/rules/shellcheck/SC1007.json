@@ -1,5 +1,5 @@
 {
-  "title": "Remove space after = if trying to assign a value (or for empty string, use var='' ... ).",
+  "title": "Remove space after = if trying to assign a value (or for empty string, use var=&quot;&quot; ... ).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

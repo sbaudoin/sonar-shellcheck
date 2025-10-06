@@ -1,1 +1,21 @@
-<p>Missing second &#x27;(&#x27; or &#x27;)&#x27; to start arithmetic or terminate the condition of the &#x27;for ((;;))&#x27; loop</p>
+<p>Missing second <code>(</code> to start arithmetic for ((;;)) loop</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">for (i=0; i&lt;10; i++))
+do
+  echo $i
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">for ((i=0; i&lt;10; i++))
+do
+  echo $i
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an arithmetic <code>for ((;;))</code> expression where either the <code>((</code> or the <code>))</code> did not come as a pair. Make sure to use <code>(( ))</code> and not <code>( )</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

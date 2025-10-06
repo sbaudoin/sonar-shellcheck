@@ -1,7 +1,7 @@
 <p>In POSIX sh, process substitution is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 while IFS= read -r n
 do
   sum=$((sum+n))
@@ -9,14 +9,14 @@ done &lt; &lt;(program)
 </code></pre>
 <h2>Correct code</h2>
 <p>The easiest fix is to switch to a shell that does support process substitution, by changing the shebang to <code>#!/bin/bash</code> or <code>ksh</code>.</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 while IFS= read -r n
 do
   sum=$((sum+n))
 done &lt; &lt;(program)
 </code></pre>
 <p>Alternatively, process substitution can often be replaced with temporary files:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 tmp=&quot;$(mktemp)&quot;
 program &gt; &quot;$tmp&quot;
 while IFS= read -r n
@@ -27,7 +27,7 @@ rm &quot;$tmp&quot;
 </code></pre>
 <p>If streaming is important, the temporary file can be a named pipe, and the producer or consumer can be run as a background job.</p>
 <p>If the reading command accepts input from standard input, the process substitution can be replaced with a regular pipe:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 program | while IFS= read -r n
 do
   sum=$((sum+n))

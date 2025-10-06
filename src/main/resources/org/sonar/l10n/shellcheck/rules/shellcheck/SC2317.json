@@ -1,0 +1,14 @@
+{
+  "title": "Command appears to be unreachable. Check usage (or ignore if invoked indirectly).",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

@@ -1,5 +1,5 @@
 {
-  "title": "Found end token `EOF' further down, but with wrong casing.",
+  "title": "Found EOF further down, but with wrong casing.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

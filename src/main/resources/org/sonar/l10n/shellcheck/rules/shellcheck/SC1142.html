@@ -1,17 +1,17 @@
-<p>Use 'done &lt; &lt;(cmd)' to redirect from process substitution (currently missing one '&lt;').</p>
+<p>Use <code>done &lt; &lt;(cmd)</code> to redirect from process substitution (currently missing one <code>&lt;</code>).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">sum=0
+<pre><code class="language-sh">sum=0
 while IFS=&quot;&quot; read -r n
 do
   (( sum += n ))
-done &lt;(file)
+done &lt;(file) 
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">sum=0
+<pre><code class="language-sh">sum=0
 while IFS=&quot;&quot; read -r n
 do
   (( sum += n ))
-done &lt; &lt;(file)
+done &lt; &lt;(file) 
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a <code>done</code> keyword followed by a process substitution, e.g. <code>done &lt;(cmd)</code>.</p>

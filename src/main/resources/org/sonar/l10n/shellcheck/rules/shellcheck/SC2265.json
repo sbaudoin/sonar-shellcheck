@@ -1,5 +1,5 @@
 {
-  "title": "Use && for logical AND. Single & will background and return true.",
+  "title": "Use &amp;&amp; for logical AND. Single &amp; will background and return true.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Blocker"
 }

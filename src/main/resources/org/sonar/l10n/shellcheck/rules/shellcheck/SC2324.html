@@ -1,0 +1,28 @@
+<p>var+=1 will append, not increment. Use (( var += 1 )), declare -i var, or quote number to silence.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">var=2 n=3
+var+=$n
+</code></pre>
+<h2>Correct code</h2>
+<p>In bash/ksh, use an <code>(( arithmetic context ))</code></p>
+<pre><code class="language-sh">(( var += n ))
+</code></pre>
+<p>or declare the variable as an integer type:</p>
+<pre><code class="language-sh">declare -i var=2
+n=4
+var+=$n
+</code></pre>
+<p>For POSIX sh, use an <code>$((arithmetic expansion))</code>:</p>
+<pre><code class="language-sh">var=$((var+n))
+</code></pre>
+<h2>Rationale</h2>
+<p>The problematic code attempts to add 2 and 3 to get 5.</p>
+<p>Instead, <code>+=</code> on a string variable will concatenate, so the result is 23.</p>
+<h2>Exceptions</h2>
+<p>If you <em>do</em> want to concatenate a number, for example to append trailing zeroes, you can silence the warning by quoting the number:</p>
+<pre><code class="language-sh">var+=&quot;000&quot;
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

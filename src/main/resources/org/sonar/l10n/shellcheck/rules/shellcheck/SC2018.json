@@ -1,5 +1,5 @@
 {
-  "title": "Use '[:lower:]' to support accents and foreign alphabets.",
+  "title": "Use [:lower:] to support accents and foreign alphabets.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

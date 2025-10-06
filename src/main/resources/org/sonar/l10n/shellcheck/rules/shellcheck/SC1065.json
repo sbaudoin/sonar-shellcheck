@@ -1,5 +1,5 @@
 {
-  "title": "Trying to declare parameters? Don't. Use () and refer to params as $1, $2..",
+  "title": "Trying to declare parameters? Don't. Use () and refer to params as $1, $2, \u2026",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

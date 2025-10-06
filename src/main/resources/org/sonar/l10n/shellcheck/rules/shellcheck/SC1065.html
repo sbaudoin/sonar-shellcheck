@@ -1,12 +1,12 @@
-<p>Trying to declare parameters? Don't. Use () and refer to params as $1, $2..</p>
+<p>Trying to declare parameters? Don't. Use <code>()</code> and refer to params as <code>$1</code>, <code>$2</code>, …</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">foo(input) {
+<pre><code class="language-sh">foo(input) {
   echo &quot;$input&quot;
 }
 foo(&quot;hello world&quot;);
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">foo() {
+<pre><code class="language-sh">foo() {
   echo &quot;$1&quot;
 }
 foo &quot;hello world&quot;

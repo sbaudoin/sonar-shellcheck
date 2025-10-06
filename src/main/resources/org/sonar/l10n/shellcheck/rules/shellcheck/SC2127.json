@@ -1,5 +1,5 @@
 {
-  "title": "To use ${ ..; } command expansion or cases with ;;& or ;;&, specify #!\/usr\/bin\/env bash or ksh",
+  "title": "To use ${ ..; }, specify #!\/usr\/bin\/env ksh.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,26 +1,26 @@
 <p>In POSIX sh, <code>declare</code> is undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 declare var=&quot;value&quot;
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 declare -r readonly
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 declare ...
 </code></pre>
 <h2>Correct code</h2>
 <p>If assigning a simple variable outside of a function, skip <code>declare</code> all together:</p>
-<pre><code class="lang-sh">var=&quot;value&quot;
+<pre><code class="language-sh">var=&quot;value&quot;
 </code></pre>
 <p>If declaring a variable read-only:</p>
 <pre><code>var=value
 readonly var
 </code></pre>
 <p>If you are unable to find a suitable replacement, consider switching to a shell that supports <code>declare</code>:</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 declare ...
 </code></pre>
 <p>Indexed arrays, associative arrays, local variables, namerefs, and integer variables are not supported in POSIX sh. Either write around them, or switch to a shell that supports them.</p>

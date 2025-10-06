@@ -1,5 +1,5 @@
 {
-  "title": "It's not 'foo &amp;; bar', just 'foo &amp; bar'.",
+  "title": "It's not foo &amp;; bar, just foo &amp; bar.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

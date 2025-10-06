@@ -1,5 +1,5 @@
 {
-  "title": "Can't have empty do clauses (use 'true' as a no-op).",
+  "title": "Can't have empty do clauses (use true as a no-op)",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

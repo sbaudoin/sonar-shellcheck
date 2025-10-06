@@ -1,9 +1,9 @@
-<p>'time' is undefined for compound commands, use time sh -c instead.</p>
+<p><code>time</code> is undefined for compound commands, use <code>time sh -c</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">time for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done
+<pre><code class="language-sh">time for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">time sh -c &#39;for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done&#39;
+<pre><code class="language-sh">time sh -c 'for i in *.bmp; do convert &quot;$i&quot; &quot;$i.png&quot;; done'
 </code></pre>
 <h2>Rationale</h2>
 <p><code>time</code> is only defined for Simple Commands <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/time.html">by POSIX</a>. Timing loops, command groups and similar is not.</p>

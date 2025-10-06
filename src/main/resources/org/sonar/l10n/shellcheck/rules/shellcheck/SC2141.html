@@ -1,16 +1,16 @@
-<p>Did you mean IFS=$'\t' ?</p>
+<p>Did you mean <code>IFS=$'\t'</code> ?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">IFS=&quot;\t&quot;
+<pre><code class="language-sh">IFS=&quot;\t&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">IFS=$&#39;\t&#39;
+<pre><code class="language-sh">IFS=$'\t'
 </code></pre>
 <p>or POSIX:</p>
-<pre><code class="lang-sh">IFS=&quot;$(printf &#39;\t&#39;)&quot;
+<pre><code class="language-sh">IFS=&quot;$(printf '\t')&quot;
 </code></pre>
 <h2>Rationale</h2>
-<p><code>IFS="\t"</code> splits on backslash and the letter "t". <code>IFS=$'\t'</code> splits on tab.</p>
+<p><code>IFS=&quot;\t&quot;</code> splits on backslash and the letter &quot;t&quot;. <code>IFS=$'\t'</code> splits on tab.</p>
 <h2>Exceptions</h2>
-<p>It's extremely rare to want to split on the letter "n" or "t", rather than linefeed or tab.</p>
+<p>It's extremely rare to want to split on the letter &quot;n&quot; or &quot;t&quot;, rather than linefeed or tab.</p>
 <h2>Related resources</h2>
-<p>See <a href="https://github.com/koalaman/shellcheck/wiki/SC1012">https://github.com/koalaman/shellcheck/wiki/SC1012</a></p>
+<p>See https://github.com/koalaman/shellcheck/wiki/SC1012</p>

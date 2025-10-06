@@ -1,1 +1,23 @@
-<p>arithmetic for loops are not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, arithmetic for loops are undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">for ((i=0; i&lt;10; i++))
+do 
+  echo &quot;$i&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">i=0
+while [ &quot;$i&quot; -lt 10 ]
+do 
+  echo &quot;$i&quot;
+  i=$((i+1))
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>C-style arithmetic for loops are a Ksh/Bash feature that's not supported by POSIX sh or dash. Use a <code>while</code> loop with separate initialization and incrementing instead.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

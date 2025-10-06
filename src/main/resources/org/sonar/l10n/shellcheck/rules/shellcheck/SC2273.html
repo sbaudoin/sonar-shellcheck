@@ -1,13 +1,13 @@
-<p>Sequence of ===s found. Merge conflict or intended as a commented border?</p>
+<p>Sequence of <code>===</code>s found. Merge conflict or intended as a commented border?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">=======
+<pre><code class="language-sh">=======
 </code></pre>
 <h2>Correct code</h2>
 <p>Either resolve the merge conflict, or use <code># =======</code> for a border</p>
 <h2>Rationale</h2>
 <p>ShellCheck found a series of <code>=======</code>s. If this was supposed to be a border or separator, use a comment.</p>
 <p>However, it could also be left behind from a source control merge conflict:</p>
-<pre><code class="lang-sh">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<pre><code class="language-sh">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 echo &quot;Goodbye World&quot;
 =======
 echo &quot;Hello World!&quot;

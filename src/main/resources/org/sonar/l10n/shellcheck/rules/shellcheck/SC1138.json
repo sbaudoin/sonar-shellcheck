@@ -1,5 +1,5 @@
 {
-  "title": "Remove spaces in arithmetic for loop.",
+  "title": "Remove spaces between (( in arithmetic for loop.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

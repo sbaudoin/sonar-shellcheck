@@ -1,10 +1,10 @@
-<p>If grouping expressions inside [[..]], use ( .. ).</p>
+<p>If grouping expressions inside <code>[[..]]</code>, use <code>( .. )</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ [ a || b ] &amp;&amp; c ]]
+<pre><code class="language-sh">[[ [ a || b ] &amp;&amp; c ]]
 [ [ a -o b ] -a c ]]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ ( a || b ) &amp;&amp; c ]]
+<pre><code class="language-sh">[[ ( a || b ) &amp;&amp; c ]]
 [ \( a -o b \) -a c ]]  # or  { [ a ] || [ b ]; } &amp;&amp; [ c ]
 </code></pre>
 <h2>Rationale</h2>

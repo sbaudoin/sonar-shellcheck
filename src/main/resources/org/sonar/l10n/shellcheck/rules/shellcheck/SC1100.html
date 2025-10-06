@@ -1,9 +1,9 @@
-<p>This is a unicode dash. Delete and retype as ASCII minus.</p>
+<p>This is a Unicode dash. Delete and retype as ASCII minus.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ 3 –gt 2 ]] # Uses unicode en-dash character
+<pre><code class="language-sh">[[ 3 –gt 2 ]] # Uses unicode en-dash character
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ 3 -gt 2 ]] # Uses regular ASCII hyphen-minus character
+<pre><code class="language-sh">[[ 3 -gt 2 ]] # Uses regular ASCII hyphen-minus character
 </code></pre>
 <h2>Rationale</h2>
 <p>A character that looks similar to <code>-</code> has made its way into your code. This is usually due to copy-pasting from blogs and other websites that formatted code as text, replacing the ASCII hyphen-minus with a Unicode dash character.</p>

@@ -1,5 +1,5 @@
 {
-  "title": "Piping to 'rm', a command that doesn't read stdin. Wrong command or missing xargs?",
+  "title": "Piping to rm, a command that doesn't read stdin. Wrong command or missing xargs?",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,5 +1,5 @@
 {
-  "title": "Make sure all escape sequences are enclosed in \\[..\\] to prevent line wrapping issues",
+  "title": "Make sure all escape sequences are enclosed in \\[..\\] to prevent line wrapping issues.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,28 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.measures;
 
-import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.FileLinesContext;
-import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.utils.Version;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.when;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.slf4j.event.Level;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.FileLinesContext;
+import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.testfixtures.log.LogTester;
+
+import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
 
 public class LineCounterTest {
     private FileLinesContextFactory fileLinesContextFactory;
@@ -59,45 +57,25 @@ public class LineCounterTest {
         SensorContextTester context = Utils.getSensorContext();
         String filePath = "test4.sh";
         LineCounter.analyse(context, fileLinesContextFactory, Utils.getInputFile(filePath));
-        assertEquals(new Integer(13), context.measure(getComponentKey(filePath), CoreMetrics.NCLOC).value());
-        assertEquals(new Integer(2), context.measure(getComponentKey(filePath), CoreMetrics.COMMENT_LINES).value());
+        // Check the number 4 line in script containing code. be careful +1 is smowhere
+        assertEquals(Integer.valueOf(1), ((MyFileLinesContext)fileLinesContext).getIntValue(CoreMetrics.NCLOC_DATA_KEY, 5));
+        // Check the number 4 line in script containing comment. be careful +1 is smowhere
+        assertEquals(Integer.valueOf(0), ((MyFileLinesContext)fileLinesContext).getIntValue(CoreMetrics.NCLOC_DATA_KEY, 1));
+        assertEquals(Integer.valueOf(13), context.measure(getComponentKey(filePath), CoreMetrics.NCLOC).value());
+        assertEquals(Integer.valueOf(2), context.measure(getComponentKey(filePath), CoreMetrics.COMMENT_LINES).value());
     }
 
     @Test
     public void testIOException() throws IOException {
         SensorContextTester context = Utils.getSensorContext();
         InputFile inputFile = Utils.getInputFile("test1.sh");
-        InputFile spy = spy(inputFile);
+        InputFile spy = Mockito.spy(inputFile);
         when(spy.contents()).thenThrow(new IOException("Cannot read file"));
 
         LineCounter.analyse(context, fileLinesContextFactory, spy);
-        assertEquals(1, logTester.logs(LoggerLevel.WARN).size());
-        assertEquals("Unable to count lines for file " + inputFile.filename() + ", ignoring measures", logTester.logs(LoggerLevel.WARN).get(0));
+        assertEquals(1, logTester.logs(Level.WARN).size());
+        assertEquals("Unable to count lines for file " + inputFile.filename() + ", ignoring measures", logTester.logs(Level.WARN).get(0));
     }
-
-    @Test
-    public void testAnalyseWithOldVersion() throws IOException {
-        SensorContextTester context = Utils.getSensorContext();
-        String filePath = "test4.sh";
-        InputFile inputFile = Utils.getInputFile(filePath);
-
-        // Version taken from the Maven dependency
-        LineCounter.analyse(context, fileLinesContextFactory, Utils.getInputFile(filePath));
-        assertEquals(new Integer(1), fileLinesContext.getIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, 2));
-    }
-
-    @Test
-    public void testAnalyseWithNewVersion() throws IOException {
-        SensorContextTester context = Utils.getSensorContext();
-        context.setRuntime(SonarRuntimeImpl.forSonarQube(Version.create(7, 5), context.runtime().getSonarQubeSide()));
-        String filePath = "test4.sh";
-        InputFile inputFile = Utils.getInputFile(filePath);
-
-        // With version 7.5, the COMMENT_LINES_DATA metrics should not be set
-        LineCounter.analyse(context, fileLinesContextFactory, Utils.getInputFile(filePath));
-        assertEquals(new Integer(-1), fileLinesContext.getIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, 2));
-    }
-
 
     private String getComponentKey(String filePath) {
         return Utils.MODULE_KEY + ":src/test/resources/" + filePath;
@@ -119,7 +97,6 @@ public class LineCounterTest {
             }
         }
 
-        @Override
         public Integer getIntValue(String metricKey, int line) {
             if (intValues.containsKey(metricKey)) {
                 return intValues.get(metricKey).getOrDefault(line, -1);
@@ -131,11 +108,6 @@ public class LineCounterTest {
         @Override
         public void setStringValue(String metricKey, int line, String value) {
 
-        }
-
-        @Override
-        public String getStringValue(String metricKey, int line) {
-            return null;
         }
 
         @Override

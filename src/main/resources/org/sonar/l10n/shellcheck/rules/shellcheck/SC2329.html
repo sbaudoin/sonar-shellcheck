@@ -1,0 +1,25 @@
+<p>This function is never invoked. Check usage (or ignored if invoked indirectly).</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+f() {
+  echo &quot;Hello World&quot;
+}
+exit
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+f() {
+  echo &quot;Hello World&quot;
+}
+f
+exit
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a function that goes out of scope before it's ever invoked. Verify that the function is called. It could be misspelled, or its invocation could also be unreachable (as in <code>f() { ..; }; exit; f</code>).</p>
+<p>Note that if the example script did not end in <code>exit</code>, this warning would not be emitted. This is because the function could be invoked by another script that <code>source</code>s it.</p>
+<h2>Exceptions</h2>
+<p>ShellCheck is currently bad at figuring out functions that are invoked via <code>trap</code>. In such cases, please [[ignore]] the message with a directive.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

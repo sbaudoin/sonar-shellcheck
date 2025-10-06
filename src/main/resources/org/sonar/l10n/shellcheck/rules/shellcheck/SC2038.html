@@ -1,9 +1,9 @@
-<p>Use -print0/-0 or find -exec + to allow for non-alphanumeric filenames.</p>
+<p>Use <code>-print0</code>/<code>-0</code> or <code>find -exec +</code> to allow for non-alphanumeric filenames.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">find . -type f | xargs md5sum
+<pre><code class="language-sh">find . -type f | xargs md5sum
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find . -type f -print0 | xargs -0 md5sum
+<pre><code class="language-sh">find . -type f -print0 | xargs -0 md5sum
 find . -type f -exec md5sum {} +
 </code></pre>
 <h2>Rationale</h2>

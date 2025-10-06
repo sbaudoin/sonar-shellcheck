@@ -1,1 +1,31 @@
-<p>You need a line feed or semicolon before the &#x27;do&#x27;.</p>
+<p>You need a line feed or semicolon before the <code>do</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">for file in * do
+  echo &quot;$file&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">for file in *; do
+  echo &quot;$file&quot;
+done
+
+# or 
+
+for file in *
+do
+  echo &quot;$file&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>do</code> on the same line as a loop, but <code>do</code> only starts a loop block at the start of a line/statement. Make the <code>do</code> the start of a new line/statement by inserting a linefeed or semicolon in front of it.</p>
+<h2>Exceptions</h2>
+<p>If you wanted to treat <code>do</code> as a literal string, you can quote it to make this clear to ShellCheck and humans:</p>
+<pre><code>for f in &quot;for&quot; &quot;do&quot; &quot;done&quot;
+do
+  echo &quot;Shell keywords include: $f&quot;
+done
+</code></pre>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

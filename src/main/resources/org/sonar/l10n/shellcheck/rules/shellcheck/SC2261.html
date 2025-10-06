@@ -1,10 +1,10 @@
-<p>Multiple redirections compete for stdout. Use cat, tee, or pass filenames instead.</p>
+<p>Multiple redirections compete for stdout. Use <code>cat</code>, <code>tee</code>, or pass filenames instead.</p>
 <p>(or <code>stdin</code>, or <code>stderr</code>, or <code>FD 3</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">grep foo &lt; input1 &lt; input2 &gt; output1 &gt; output2 &gt; output3
+<pre><code class="language-sh">grep foo &lt; input1 &lt; input2 &gt; output1 &gt; output2 &gt; output3
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Merge inputs into a single stream, write outputs individually
+<pre><code class="language-sh"># Merge inputs into a single stream, write outputs individually
 cat input1 input2 | grep foo | tee output1 output2 &gt; output3
 
 # Pass inputs as filenames, write outputs individually

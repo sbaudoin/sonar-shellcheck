@@ -1,9 +1,9 @@
 <p>This <code>&amp;</code> terminates the command. Escape it or add space after <code>&amp;</code> to silence.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">curl https://www.google.com/search?q=cats&amp;tbm=isch
+<pre><code class="language-sh">curl https://www.google.com/search?q=cats&amp;tbm=isch
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">curl &quot;https://www.google.com/search?q=cats&amp;tbm=isch&quot;
+<pre><code class="language-sh">curl &quot;https://www.google.com/search?q=cats&amp;tbm=isch&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>An unescaped and unquoted <code>&amp;</code> terminates the command, but here it's used in the middle of what would otherwise be a shell word. This most commonly happens when copying a URL with query string parameters without escaping the <code>&amp;</code>.</p>

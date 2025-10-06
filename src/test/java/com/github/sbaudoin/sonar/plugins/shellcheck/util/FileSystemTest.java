@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.util;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.slf4j.event.Level;
+import org.sonar.api.testfixtures.log.LogTester;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -54,26 +54,27 @@ public class FileSystemTest {
 
         // Test with an invalid URI
         fs = new FileSystem(Paths.get("src").toUri());
-        assertEquals(1, logTester.logs(LoggerLevel.WARN).size());
-        assertTrue(logTester.logs(LoggerLevel.WARN).get(0).startsWith("Using default FS because of an error: "));
+        assertEquals(1, logTester.logs(Level.WARN).size());
+        assertTrue(logTester.logs(Level.WARN).get(0).startsWith("Using default FS because of an error: "));
         assertTrue((Boolean)defaultFS.get(fs));
         assertEquals(FileSystems.getDefault(), fsField.get(fs));
 
         logTester.clear();
         FileSystem fs2 = new FileSystem(new URI("file:///"));
-        assertEquals(1, logTester.logs(LoggerLevel.WARN).size());
-        assertTrue(logTester.logs(LoggerLevel.WARN).get(0).startsWith("FS already exists for URI: "));
+        assertEquals(1, logTester.logs(Level.WARN).size());
+        assertTrue(logTester.logs(Level.WARN).get(0).startsWith("FS already exists for URI: "));
         assertEquals(fsField.get(fs), fsField.get(fs2));
     }
 
     @Test
     public void testReadDirectory() throws URISyntaxException, IOException {
-        FileSystem fs = new FileSystem(new URI("file:///"));
-        Path root = Paths.get("src", "test", "resources", "org", "sonar", "l10n", "shellcheck", "rules", "shellcheck");
-        List<Path> content = fs.readDirectory(root.toUri()).collect(Collectors.toList());
-        assertEquals(3, content.size());
-        assertTrue(content.contains(root.resolve("rule1.html").toAbsolutePath()));
-        assertTrue(content.contains(root.resolve("rule1.json").toAbsolutePath()));
-        assertTrue(content.contains(root.resolve("rule2.json").toAbsolutePath()));
+        try (FileSystem fs = new FileSystem(new URI("file:///"))) {
+            Path root = Paths.get("src", "test", "resources", "org", "sonar", "l10n", "shellcheck", "rules", "shellcheck");
+            List<Path> content = fs.readDirectory(root.toUri()).collect(Collectors.toList());
+            assertEquals(3, content.size());
+            assertTrue(content.contains(root.resolve("rule1.html").toAbsolutePath()));
+            assertTrue(content.contains(root.resolve("rule1.json").toAbsolutePath()));
+            assertTrue(content.contains(root.resolve("rule2.json").toAbsolutePath()));
+        }
     }
 }

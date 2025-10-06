@@ -1,5 +1,5 @@
 {
-  "title": "This ! is not on a condition and skips errexit. Use &amp;&amp; exit 1 instead, or make sure $? is checked.",
+  "title": "This ! is not on a condition and skips errexit. Add || exit 1 or make sure $? is checked.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

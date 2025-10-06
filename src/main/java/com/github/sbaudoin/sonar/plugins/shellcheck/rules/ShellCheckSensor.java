@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.InputFile;
@@ -35,8 +37,6 @@ import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 
 import java.io.*;
 import java.util.*;
@@ -45,7 +45,7 @@ import java.util.*;
  * SonarQube sensor class responsible for analyzing Shell scripts with ShellCheck
  */
 public class ShellCheckSensor implements Sensor {
-    private static final Logger LOGGER = Loggers.get(ShellCheckSensor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShellCheckSensor.class);
 
     /**
      * The underlying file system that will give access to the files to be analyzed

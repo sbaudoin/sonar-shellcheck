@@ -1,9 +1,13 @@
 <p>Use single quotes, otherwise this expands now rather than when signalled.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">trap &quot;echo \&quot;Finished on $(date)\&quot;&quot; EXIT
+<pre><code class="language-sh">trap &quot;echo \&quot;Finished on $(date)\&quot;&quot; EXIT
+trap &quot;rm -fr '$testdir1' '$testdir2'&quot; $TRAP_SIGNALS
+trap &quot;rm $tmp&quot; $TRAP_SIGNALS
+trap &quot;${remove_aar_temp}&quot; SIGKILL SIGTERM SIGQUIT EXIT
+trap &quot;$(shopt -p extglob)&quot; RETURN
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">trap &#39;echo &quot;Finished on $(date)&quot;&#39; EXIT
+<pre><code class="language-sh">trap 'echo &quot;Finished on $(date)&quot;' EXIT
 </code></pre>
 <h2>Rationale</h2>
 <p>With double quotes, all parameter and command expansions will expand when the trap is defined rather than when it's executed.</p>

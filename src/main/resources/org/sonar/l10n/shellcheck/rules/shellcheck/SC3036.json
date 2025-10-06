@@ -1,5 +1,5 @@
 {
-  "title": "echo flags besides -n are not supported in dash and undefined in POSIX sh.",
+  "title": "In Dash, echo flags besides -n are not supported.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

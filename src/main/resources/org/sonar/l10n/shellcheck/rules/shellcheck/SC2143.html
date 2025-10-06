@@ -1,12 +1,12 @@
-<p>Use grep -q instead of comparing output with [ -n .. ].</p>
+<p>Use <code>grep -q</code> instead of comparing output with <code>[ -n .. ]</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ &quot;$(find . | grep &#39;IMG[0-9]&#39;)&quot; ]
+<pre><code class="language-sh">if [ -n &quot;$(find . | grep 'IMG[0-9]')&quot; ]
 then
   echo &quot;Images found&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if find . | grep -q &#39;IMG[0-9]&#39;
+<pre><code class="language-sh">if find . | grep -q 'IMG[0-9]'
 then
   echo &quot;Images found&quot;
 fi

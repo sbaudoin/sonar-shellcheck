@@ -1,5 +1,5 @@
 {
-  "title": "SC2094 Make sure not to read and write the same file in the same pipeline.",
+  "title": "Make sure not to read and write the same file in the same pipeline.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

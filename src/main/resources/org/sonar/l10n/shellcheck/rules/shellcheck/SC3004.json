@@ -1,5 +1,5 @@
 {
-  "title": "In POSIX sh, $'..' is undefined",
+  "title": "In POSIX sh, $&quot;..&quot; is undefined",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

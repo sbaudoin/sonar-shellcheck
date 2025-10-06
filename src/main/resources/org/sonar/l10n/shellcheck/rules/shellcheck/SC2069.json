@@ -1,5 +1,5 @@
 {
-  "title": "To redirect stdout+stderr, 2&gt;&amp;1 must be last (or use '{ cmd &gt; file; } 2&gt;&amp;1' to clarify).",
+  "title": "To redirect stdout+stderr, 2&gt;&amp;1 must be last (or use { cmd &gt; file; } 2&gt;&amp;1 to clarify).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

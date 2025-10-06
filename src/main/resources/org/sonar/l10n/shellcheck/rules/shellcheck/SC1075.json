@@ -1,5 +1,5 @@
 {
-  "title": "Use 'elif' instead of 'else if'.",
+  "title": "Use elif instead of else if.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

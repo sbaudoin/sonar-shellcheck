@@ -1,9 +1,9 @@
-<p>This mv has no destination. Check the arguments.</p>
+<p>This <code>mv</code> has no destination. Check the arguments.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">mv &quot;$file $dir&quot;
+<pre><code class="language-sh">mv &quot;$file $dir&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">mv &quot;$file&quot; &quot;$dir&quot;
+<pre><code class="language-sh">mv &quot;$file&quot; &quot;$dir&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found an <code>mv</code> command with a single parameter. This may be because the source and destination was accidentally merged into a single argument, or because the line was broken in an invalid way.</p>

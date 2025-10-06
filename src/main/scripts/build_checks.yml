@@ -15,127 +15,74 @@ default:
     warning: Major
 
 rules:
+  SC1000:
+    ignored: False  # See Wiki: rule retired v0.3.3
   SC1004:
-    severity: info
+    severity: info # See Wiki: rule retired v0.7.2
   SC1013:
-    description: "Bash requires ; or \\n here, after redirecting nested compound commands."
+    ignored: True  # Not in the Wiki
   SC1015:
-    ignored: True  # See Wiki: rule retired
+    ignored: False  # See Wiki: rule retired v0.4.5
   SC1016:
-    ignored: True  # See Wiki: rule retired
+    ignored: False  # See Wiki: rule retired v0.4.5
   SC1021:
-    description: "You need a space before the \\)"
-  SC1027:
-    description: "Expected another argument for this operator."
-  SC1043:
-    description: "Found end token `EOF' further down, but with wrong casing."
-  SC1055:
-    description: "You need at least one command here. Use 'true;' as a no-op."
-  SC1057:
-    description: "Did you forget the 'do' for this loop?"
-  SC1059:
-    description: "No semicolons directly after 'do'."
-  SC1060:
-    description: "Can't have empty do clauses (use 'true' as a no-op)."
-  SC1063:
-    description: "You need a line feed or semicolon before the 'do'."
+    description: "You need a space before the \\)" # Not in the Wiki
   SC1067:
-    severity: error
+    severity: error # See Wiki: rule retired v0.7.2
   SC1068:
-    severity: error
-  SC1076:
-    description: "Trying to do math? Use e.g. [ $((i/2+7)) -ge 18 ] or [[ $((i/2+7)) -ge 18 ]]."
-  SC1080:
-    description: "You need \\ before line feeds to break lines in [ ]."
+    severity: error # See Wiki: rule retired v0.7.2
   SC1083:
     type: BUG
   SC1085:
-    description: "Did you forget to move the ;; after extending this case item?"
-  SC1092:
-    description: "Stopping at 100 'source' frames :O"
+    description: "Did you forget to move the ;; after extending this case item?" # Not in the Wiki
   SC1093:
-    description: "This file appears to be recursively sourced. Ignoring."
-  SC1103:
-    description: "This shell type is unknown. Use e.g. sh or bash."
+    description: "This file appears to be recursively sourced. Ignoring." # Not in the Wiki
   SC1117:
-    ignored: True  # See Wiki: rule retired
-  SC1134:
-    description: "Parse error: failed to process file."
-  SC1137:
-    description: "Missing second '(' or ')' to start arithmetic or terminate the condition of the 'for ((;;))' loop"
-  SC1138:
-    description: "Remove spaces in arithmetic for loop."
-  SC2023:
-    description: "The shell may override 'time' as seen in man time(1). Use 'command time ..' for that one."
+    ignored: False  # See Wiki: rule retired v0.6.0
+  SC1136:
+    ignored: False  # See Wiki: rule retired v0.7.2
+  SC1146:
+    description: "Unknown extended-analysis value. Expected true/false."  # Not in the Wiki
+  SC2008:
+    ignored: False  # See Wiki: rule retired v0.4.7
   SC2034:
     type: BUG
-  SC2042:
-    description: "Use spaces, not commas, to separate loop elements."
+  SC2039:
+    ignored: False  # See Wiki: rule retired v0.7.2
+  SC2040:
+    ignored: False  # See Wiki: rule retired v0.4.2
   SC2043:
     type: BUG
-  SC2075:
-    description: "Escaping \\< and \\> is required in [..], but invalid in [[..]]"
-  SC2083:
-    description: "Don't add spaces after the slash in './file'."
-  SC2111:
-    description: "ksh does not allow 'function' keyword and '()' at the same time."
-  SC2118:
-    description: "Ksh does not support |&. Use 2>&1 |."
   SC2124:
     type: BUG
-  SC2127:
-    description: "To use ${ ..; } command expansion or cases with ;;& or ;;&, specify #!/usr/bin/env bash or ksh"
-    html: |
-      <p>To use cases with <code>;&</code>, specify <code>#!/usr/bin/env bash</code> or <code>#!/usr/bin/env ksh</code>.</p>
-      <p>To use cases with <code>;;&</code>, specify <code>#!/usr/bin/env bash</code>.</p>
-      <p>To use <code>${ ..; }</code> command expansion, specify <code>#!/usr/bin/env ksh</code>.</p>
+  SC2130:
+    ignored: False  # See Wiki: rule retired v0.4.2
+  SC2149:
+    ignored: False  # See Wiki: rule retired v0.5.0
+  SC2169:
+    ignored: False  # See Wiki: rule retired v0.7.2
   SC2188:
     type: BUG
   SC2193:
     type: BUG
   SC2215:
     type: BUG
-  SC2258:
-    description: "The trailing comma is part of the value, not a separator. Delete or quote it."
-  SC2265:
-    description: "Use && for logical AND. Single & will background and return true."
-  SC2266:
-    description: "Use || for logical OR. Single | will pipe."
-  SC3005:
-    description: "arithmetic for loops are not supported in dash and undefined in POSIX sh."
-  SC3007:
-    description: "$[..] in place of $((..)) is not supported in dash and undefined in POSIX sh."
-  SC3008:
-    description: "select loops are not supported in dash and undefined in POSIX sh."
-  SC3009:
-    description: "brace expansion is not supported in dash and undefined in POSIX sh."
-  SC3011:
-    description: "here-strings are not supported in dash and undefined in POSIX sh."
-  SC3016:
-    description: "unary -v (in place of [ -n \"${var+x}\" ]) is not supported in dash and undefined in POSIX sh."
-  SC3029:
-    description: "|& in place of 2>&1 | is not supported in dash and undefined in POSIX sh."
-  SC3030:
-    description: "arrays are not supported in dash and undefined in POSIX sh."
-  SC3032:
-    description: "coproc is not supported in dash and undefined in POSIX sh."
-  SC3033:
-    description: "naming functions outside [a-zA-Z_][a-zA-Z0-9_]* is not supported in dash and undefined in POSIX sh."
-  SC3036:
-    description: "echo flags besides -n are not supported in dash and undefined in POSIX sh."
-  SC3041:
-    description: "only set flags -a, -b, -C, -e, -f, -h, -m, -n, -u, -v, -x, -o are supported in dash or defined in POSIX sh."
-  SC3042:
-    description: "double-dashed set flags are not supported in dash and undefined in POSIX sh."
-  SC3051:
-    description: "'source' in place of '.' is not supported in dash and undefined in POSIX sh."
-  SC3052:
-    description: "arithmetic base conversion is not supported in dash and undefined in POSIX sh."
+  SC2240:
+    severity: warning  # Not detected by grep
+  SC3053:
+    severity: warning  # Not detected by grep
+  SC3054:
+    severity: warning  # Not detected by grep
+  SC3055:
+    severity: warning  # Not detected by grep
+  SC3056:
+    severity: warning  # Not detected by grep
+  SC3057:
+    severity: warning  # Not detected by grep
   SC3058:
-    description: "string operations on $@/$* are not supported in dash and undefined in POSIX sh."
-  SC1144:
-    description: "external-sources can only be enabled in .shellcheckrc, not in individual files."
-  SC1145:
-    description: "Unknown external-sources value. Expected true/false."
-  SC2306:
-    description: "Escape glob characters in arguments to expr to avoid pathname expansion."
+    description: "In POSIX sh, string operations on $@/$* are not supported" # Not in the Wiki
+  SC3059:
+    severity: warning  # Not detected by grep
+  SC3061:
+    description: "read without a variable is" # Not in the Wiki
+

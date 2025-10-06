@@ -1,9 +1,9 @@
-<h1>Make sure all escape sequences are enclosed in <code>\[..\]</code> to prevent line wrapping issues</h1>
+<p>Make sure all escape sequences are enclosed in <code>\[..\]</code> to prevent line wrapping issues.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">PS1=&#39;\e[36m\$ \e(B\e[m&#39;
+<pre><code class="language-sh">PS1='\e[36m\$ \e(B\e[m'
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">PS1=&#39;\[\e[36m\]\$ \[\e(B\e[m\]&#39;
+<pre><code class="language-sh">PS1='\[\e[36m\]\$ \[\e(B\e[m\]'
 </code></pre>
 <h2>Rationale</h2>
 <p>Bash is unable to determine exactly which parts of your prompt are text and which are terminal codes. You have to help it by wrapping invisible control codes in <code>\[..\]</code> (and ensuring that visible characters are not wrapped in <code>\[..\]</code>).</p>

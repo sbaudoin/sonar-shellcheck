@@ -1,12 +1,13 @@
 <p>This is interpreted as a command name ending with apostrophe. Double check syntax.</p>
-<p>(also applies to multiple other characters like <code>.,([{&lt;&gt;}])#"'</code>)</p>
+<p>(also applies to multiple other characters like <code>.,([{&lt;&gt;}])#&quot;'</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">var=$(&quot;wget &#39;http://www.shellcheck.net/&#39;&quot;)
+<pre><code class="language-sh">var=$(&quot;wget 'http://www.shellcheck.net/'&quot;)
 echo Usage: $0 {start|stop|restart}
 array=val1, val2, val3
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">var=&quot;$(wget &#39;http://www.shellcheck.net/&#39;)&quot;
+<pre><code class="language-sh">var=&quot;$(wget 'http://www.shellcheck.net/')&quot;
 echo &quot;Usage: $0 {start|stop|restart}&quot;
 array=(val1 val2 val3)
 </code></pre>

@@ -1,9 +1,9 @@
-<p>Command name starts with ===. Intended as a commented border?</p>
+<p>Command name starts with <code>===</code>. Intended as a commented border?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">===================== MAIN SECTION =======================
+<pre><code class="language-sh">===================== MAIN SECTION =======================
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># ===================== MAIN SECTION =======================
+<pre><code class="language-sh"># ===================== MAIN SECTION =======================
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a command that starts with a series of <code>===</code>s. This may have been intended as a border, but is missing the <code>#</code> to turn it into a harmless comment.</p>

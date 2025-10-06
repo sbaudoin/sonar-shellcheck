@@ -1,5 +1,5 @@
 {
-  "title": "SC2116 Useless echo? Instead of 'cmd $(echo foo)', just use 'cmd foo'.",
+  "title": "Useless echo? Instead of cmd $(echo foo), just use cmd foo.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

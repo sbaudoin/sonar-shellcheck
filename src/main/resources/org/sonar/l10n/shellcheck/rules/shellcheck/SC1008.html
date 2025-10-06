@@ -1,10 +1,10 @@
 <p>This shebang was unrecognized. ShellCheck only supports sh/bash/dash/ksh. Add a 'shell' directive to specify.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/mywrapper
+<pre><code class="language-sh">#!/bin/mywrapper
 echo &quot;Hello World&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/mywrapper
+<pre><code class="language-sh">#!/bin/mywrapper
 # shellcheck shell=bash
 echo &quot;Hello World&quot;
 </code></pre>
@@ -14,7 +14,11 @@ echo &quot;Hello World&quot;
 <p>If this is a script in some other language, like <code>#!/bin/sed</code> for a <code>sed</code> script, then sorry -- ShellCheck does not support <code>sed</code>, <code>awk</code>, <code>expect</code> scripts. It only supports Bourne style shell scripts.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
-<h2>Related resources</h2>
+<h2>Related Resources</h2>
+<p>https://www.gnu.org/software/bash/manual/html_node/Shell-Scripts.html
+https://mywiki.wooledge.org/BashProgramming?highlight=%28shebang%29#Shebang
+https://www.gnu.org/software/gawk/manual/html_node/Executable-Scripts.html
+https://mywiki.wooledge.org/BashPitfalls#On_UTF-8_and_Byte-Order_Marks_.28BOM.29</p>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
 </ul>

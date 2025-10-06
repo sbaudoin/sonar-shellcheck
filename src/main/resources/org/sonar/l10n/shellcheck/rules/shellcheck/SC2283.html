@@ -1,6 +1,6 @@
-<p>Use [ ] to compare values, or remove spaces around = to assign (or quote '=' if literal).</p>
+<p>Use <code>[ ]</code> to compare values, or remove spaces around <code>=</code> to assign (or quote <code>'='</code> if literal).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># Assignment
+<pre><code class="language-sh"># Assignment
 var = value
 
 # Comparison
@@ -10,7 +10,7 @@ then
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Assignment
+<pre><code class="language-sh"># Assignment
 var=value
 
 # Comparison
@@ -21,12 +21,11 @@ fi
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found an unquoted <code>=</code> after a word.</p>
-<p>If this was supposed to be a comparison, use square brackets: <code>[ "$var" = value ]</code></p>
+<p>If this was supposed to be a comparison, use square brackets: <code>[ &quot;$var&quot; = value ]</code></p>
 <p>If this was supposed to be an assignment, remove spaces around <code>=</code>: <code>var=value</code></p>
 <h2>Exceptions</h2>
 <p>If the <code>=</code> was meant literally, quote it:</p>
-<pre><code>grep '=true' file.cfg
-</code></pre>
+<pre><code>grep '=true' file.cfg</code></pre>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

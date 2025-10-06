@@ -1,15 +1,15 @@
 <p>This <code>{</code>/<code>}</code> is literal. Check if <code>;</code> is missing or quote the expression.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">rmf() { rm -f &quot;$@&quot; }
+<pre><code class="language-sh">rmf() { rm -f &quot;$@&quot; }
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">eval echo \${foo}
+<pre><code class="language-sh">eval echo \${foo}
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">rmf() { rm -f &quot;$@&quot;; }
+<pre><code class="language-sh">rmf() { rm -f &quot;$@&quot;; }
 </code></pre>
 <p>and</p>
-<pre><code class="lang-sh">eval &quot;echo \${foo}&quot;
+<pre><code class="language-sh">eval &quot;echo \${foo}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Curly brackets are normally used as syntax in parameter expansion, command grouping and brace expansion.</p>

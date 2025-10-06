@@ -1,15 +1,12 @@
-<p>Don't use ls | grep. Use a glob or a for loop with a condition to allow non-alphanumeric filenames.</p>
+<p>Don't use <code>ls | grep</code>. Use a glob or a for loop with a condition to allow non-alphanumeric filenames.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">ls /directory | grep mystring
+<pre><code class="language-sh">ls /directory | grep mystring
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">rm $(ls | grep -v &#39;\.c$&#39;)
+<pre><code class="language-sh">rm $(ls | grep -v '\.c$')
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">ls /directory/*mystring*
-</code></pre>
-<p>or</p>
-<pre><code class="lang-sh"># BASH
+<pre><code class="language-sh"># BASH
 shopt -s extglob
 rm -- !(*.c)
 
@@ -26,7 +23,7 @@ done
 <p><a href="https://mywiki.wooledge.org/ParsingLs">Parsing ls</a> is generally a bad idea because the output is fragile and human readable. To better handle non-alphanumeric filenames, use a glob. If you need more advanced matching than a glob can provide, use a <code>for</code> loop.</p>
 <h2>Exceptions</h2>
 <ul>
-<li><code>ls</code> has sorting options that are tricky to get right with other commands. If a specific order of files is needed, ls <em>\&lt;sort options&gt;</em> | grep might be the best alternative.</li>
+<li><code>ls</code> has sorting options that are tricky to get right with other commands. If a specific order of files is needed, ls <em>&lt;sort options&gt;</em> | grep might be the best alternative.</li>
 <li>network shares like AFS behave much faster using ls</li>
 </ul>
 <h2>Related resources</h2>

@@ -1,5 +1,5 @@
 {
-  "title": "Quote expansions in this for loop glob to prevent wordsplitting, e.g. '$dir'\/*.txt .",
+  "title": "Quote expansions in this for loop glob to prevent word splitting, e.g. &quot;${dir}&quot;\/*.txt.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

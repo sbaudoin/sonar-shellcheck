@@ -1,5 +1,5 @@
 {
-  "title": "Use '$@' (with quotes) to prevent whitespace problems.",
+  "title": "Use &quot;$@&quot; (with quotes) to prevent whitespace problems.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

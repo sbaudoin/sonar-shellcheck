@@ -1,14 +1,22 @@
-<p>In POSIX sh, set option pipefail is undefined.</p>
-<h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<p>In POSIX sh, set option <em>[name]</em> is undefined.</p>
+<p>The value <em>[name]</em> is something other than <code>allexport</code>, <code>errexit</code>, <code>ignoreeof</code>, <code>monitor</code>, <code>noclobber</code>, <code>noexec</code>, <code>noglob</code>, <code>nolog</code>, <code>notify</code> , <code>nounset</code>, <code>verbose</code>, <code>vi</code>, or <code>xtrace</code>.</p>
+<!-- https://github.com/koalaman/shellcheck/blob/3b6972fbf14d98dded7ebfc65af6b73724be4efa/src/ShellCheck/Checks/ShellSupport.hs#L334-L337 -->
+
+<h2>Rationale</h2>
+<p>In a script declared to run with <code>sh</code> or <code>dash</code>, ShellCheck found <code>set -o</code> used with an option that is not defined by POSIX. The option may not be supported by these shells.</p>
+<h2>Exceptions</h2>
+<p>If the script has already inspected the current shell and determined the option is available, you can [[ignore]] this message.</p>
+<h2><code>pipefail</code></h2>
+<h3>Problematic code:</h3>
+<pre><code class="language-sh">#!/bin/sh
 set -o pipefail
 if cmd1 | cmd2 | cmd3
 then
   echo &quot;Success&quot;
 fi
 </code></pre>
-<h2>Correct code</h2>
-<pre><code class="lang-sh">fail=&quot;$(mktemp)&quot;
+<h3>Correct code:</h3>
+<pre><code class="language-sh">fail=&quot;$(mktemp)&quot;
 if { cmd1 || echo &gt; &quot;$fail&quot;; } |
    { cmd2 || echo &gt; &quot;$fail&quot;; } |
      cmd3 &amp;&amp; [ ! -s &quot;$fail&quot; ]
@@ -17,15 +25,16 @@ then
 fi
 rm &quot;$fail&quot;
 </code></pre>
-<p>or switch to a shell that supports pipefail, such as Bash.</p>
-<h2>Rationale</h2>
-<p>ShellCheck found <code>set -o pipefail</code> in a script declare to run with <code>sh</code> or <code>dash</code>. This feature may not be supported on these shells.</p>
-<p>As an alternative, each stage in the pipeline such as <code>cmd1</code> can be rewritten as <code>{ cmd1 || echo &gt; file; }</code> which will behave as before but now also write the exit code into <code>file</code> if the command fails.</p>
+<p>Each stage in the pipeline such as <code>cmd1</code> can be rewritten as <code>{ cmd1 || echo &gt; file; }</code> which will behave as before but now also write the exit code into <code>file</code> if the command fails.</p>
 <p>If the file has been written to when the pipeline is done, it means one of the commands failed. This is demonstrated in the correct example.</p>
-<p>This can obviously be extended with e.g. <code>echo "cmd1=$?" &gt;&gt; file</code> if the particular exit codes for particular commands are desired.</p>
-<h2>Exceptions</h2>
-<p>If the script has already inspected the current shell and determined the option is available, you can [[ignore]] this message.</p>
+<p>This can obviously be extended with e.g. <code>echo &quot;cmd1=$?&quot; &gt;&gt; file</code> if the particular exit codes for particular commands are desired.</p>
+<p>If <code>pipefail</code> or other options are used only as a sanity check, another option is to try the setting in a subshell and only apply it in the main shell if successful. This will set the flag on platforms where <code>sh</code> is linked to <code>ash</code>, <code>busybox</code>, or <code>bash</code>, but do nothing if <code>sh</code> is <code>dash</code>.</p>
+<pre><code class="language-sh"># Set pipefail if it works in a subshell, disregard if unsupported
+# shellcheck disable=SC3040
+(set -o pipefail 2&gt; /dev/null) &amp;&amp; set -o pipefail
+</code></pre>
+<p>Alternatively, switch to a shell that supports <code>pipefail</code>, such as Bash.</p>
 <h2>Related resources</h2>
 <ul>
-<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+<li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#set">POSIX.1-2017 - Shell Command Language - <code>set</code></a></li>
 </ul>

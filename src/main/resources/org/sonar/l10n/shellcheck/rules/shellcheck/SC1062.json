@@ -1,5 +1,5 @@
 {
-  "title": "Expected 'done' matching previously mentioned 'do'.",
+  "title": "Expected done matching previously mentioned do.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

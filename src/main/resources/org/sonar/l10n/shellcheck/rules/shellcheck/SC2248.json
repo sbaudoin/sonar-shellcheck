@@ -1,5 +1,5 @@
 {
-  "title": "Warn about variable references without braces.",
+  "title": "Prefer double quoting even when variables don't contain special characters.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

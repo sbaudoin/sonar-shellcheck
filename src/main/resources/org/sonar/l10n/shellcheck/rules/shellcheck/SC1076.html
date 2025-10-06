@@ -1,1 +1,16 @@
-<p>Trying to do math? Use e.g. [ $((i/2+7)) -ge 18 ] or [[ $((i/2+7)) -ge 18 ]].</p>
+<p>Trying to do math? Use e.g. <code>[ $((i/2+7)) -ge 18 ]</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">[ i / 2 + 7 -ge 18 ]
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">[ $((i / 2 + 7)) -ge 18 ]
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a loose <code>+*/%</code> in a test statement. This usually happens when trying to do arithmetic in a condition, but without using the arithmetic expansion construct <code>$((expression))</code>.</p>
+<p>In C, <code>if (a+b == c)</code> is perfectly fine, but in sh this must be written to first expand the arithmetic operation like <code>if [ $((a+b)) = c ]</code>.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,1 +1,19 @@
-<p>&#x27;source&#x27; in place of &#x27;.&#x27; is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, <code>source</code> in place of <code>.</code> is undefined</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+source /usr/lib/myfile.sh
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+. /usr/lib/myfile.sh
+</code></pre>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Bash.</p>
+<p><code>source</code> is a Bash/Ksh specific, readable synonym for <code>.</code>.  In this case, you can for the most part easily replace <code>source</code> with <code>.</code></p>
+<p>Do note that <code>source myfile</code> in POSIX sh only searches <code>$PATH</code>, while Bash/Ksh will additionally search the current directory.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

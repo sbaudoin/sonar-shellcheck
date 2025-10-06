@@ -1,28 +1,59 @@
-<p><code>\t</code> is just literal <code>t</code> here. For tab, use <code>"$(printf '\t')"</code> instead.</p>
+<p><code>\t</code> is just literal <code>t</code> here. For tab, use <code>&quot;$(printf '\t')&quot;</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># Want tab
-var=foo\tbar
+<pre><code class="language-sh"># Want tab
+$ var=foo\tbar
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;footbar&gt;
+
+$ var=foo\\tbar
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;foo\tbar&gt;
+
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh"># Want linefeed
-var=foo\nbar
+<pre><code class="language-sh"># Want newline
+$ var=foo\nbar
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;foonbar&gt;
+
+$ var=foo\\nbar
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;foo\nbar&gt;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">var=&quot;foo$(printf &#39;\t&#39;)bar&quot;  # As suggested in warning
-var=&quot;$(printf &#39;foo\tbar&#39;)&quot;  # Equivalent alternative
+<pre><code class="language-sh">$ var=&quot;foo$(printf '\t')bar&quot;  # As suggested in warning
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;foo	bar&gt;
+
+$ var=&quot;$(printf 'foo\tbar')&quot;  # Equivalent alternative
+$ printf '&lt;%s&gt;\n' &quot;$var&quot;
+&lt;foo	bar&gt;
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh"># Literal, quoted linefeed
-line=&quot;foo
-bar&quot;
+<pre><code class="language-sh">$ # Literal, quoted newline
+$ line=&quot;foo
+&gt; bar&quot;
+$ printf '&lt;%s&gt;\n' &quot;$line&quot;
+&lt;foo
+bar&gt;
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">$ # Newline using ANSI-C quoting
+$ line=$'foo\nbar'
+$ printf '&lt;%s&gt;\n' &quot;$line&quot;
+&lt;foo
+bar&gt;
 </code></pre>
 <h2>Rationale</h2>
-<p>ShellCheck has found a <code>\t</code>, <code>\n</code> or <code>\r</code> in a context where they just become regular letter <code>t</code>, <code>n</code> or <code>r</code>. Most likely, it was intended as a tab, linefeed or carriage return.</p>
-<p>To generate such characters (plus other less common ones including <code>\a</code>, <code>\f</code> and octal escapes) , use <code>printf</code> as in the example. The exception is for linefeeds that would be stripped by command substitution; in these cases, use a literal quoted linefeed instead.</p>
+<p>ShellCheck has found a <code>\t</code>, <code>\n</code> or <code>\r</code> in a context where they just become regular letters <code>t</code>, <code>n</code> or <code>r</code>. Most likely, it was intended as a tab, newline or carriage return.</p>
+<p>To generate such characters (plus other less common ones including <code>\a</code>, <code>\f</code> and octal escapes) , use <code>printf</code> as in the example. The exception is for newliness that would be stripped by command substitution; in these cases, use a literal quoted newline instead.</p>
 <p>Other characters like <code>\z</code> generate a [[SC1001]] info message, as the intent is less certain.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
-<h2>Related resources</h2>
+<h2>Related Resources</h2>
+<p>https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html#index-printf
+https://pubs.opengroup.org/onlinepubs/9799919799/utilities/printf.html
+https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html</p>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
 </ul>

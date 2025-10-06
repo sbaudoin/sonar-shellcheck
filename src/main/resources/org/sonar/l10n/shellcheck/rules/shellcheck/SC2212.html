@@ -1,12 +1,12 @@
-<p>Use 'false' instead of empty [/[[ conditionals.</p>
+<p>Use <code>false</code> instead of empty <code>[</code>/<code>[[</code> conditionals.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ ]
+<pre><code class="language-sh">if [ ]
 then
   echo &quot;Temporarily disabled&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if false
+<pre><code class="language-sh">if false
 then
   echo &quot;Temporarily disabled&quot;
 fi

@@ -1,3 +1,13 @@
 <h1>Unexpected ..</h1>
 <p><em>Note: There is a <a href="../issues/1036">known bug</a> in the current version when <a href="../wiki/Directive">directives</a> appear within <code>then</code> clauses of <code>if</code> blocks that causes Shellcheck to report SC1072 on otherwise valid code. Avoid using directives within <code>then</code> clauses - instead place them at the top of the <code>if</code> block or another enclosing block. This is fixed on the <a href="https://www.shellcheck.net/">online version</a> and the next release.</em></p>
 <p>See <a href="https://github.com/koalaman/shellcheck/wiki/Parser-Error">Parser Error</a>.</p>
+<p>This error can also occur with an <a href="https://github.com/koalaman/shellcheck/wiki/Ignore/ceb874a8defc0df77b285e4fc54f897ed9dbb231#ignoring-all-errors-in-a-file-08">incomplete shellcheck directive</a> like <code># shellcheck disable</code> instead of <code># shellcheck disable=all</code></p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh"># shellcheck disable
+echo stuff that shellcheck up to at least v0.10.0 will not even see because of the incorrect directive above
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh"># shellcheck disable=all
+echo stuff that shellcheck will correctly ignore entirely
+</code></pre>
+<h2></h2>

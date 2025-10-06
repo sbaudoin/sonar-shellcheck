@@ -1,9 +1,9 @@
-<h1>SC2094 Make sure not to read and write the same file in the same pipeline.</h1>
+<p>Make sure not to read and write the same file in the same pipeline.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">grep foo file.txt | sed -e &#39;s/foo/bar/g&#39; &gt; file.txt
+<pre><code class="language-sh">grep foo file.txt | sed -e 's/foo/bar/g' &gt; file.txt
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">grep foo file.txt  | sed -e &#39;s/foo/bar/g&#39; &gt; tmpfile &amp;&amp; mv tmpfile file.txt
+<pre><code class="language-sh">grep foo file.txt  | sed -e 's/foo/bar/g' &gt; tmpfile &amp;&amp; mv tmpfile file.txt
 </code></pre>
 <h2>Rationale</h2>
 <p>Each step in a pipeline runs in parallel.</p>

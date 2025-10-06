@@ -1,13 +1,13 @@
-<p>-exec does not automatically invoke a shell. Use -exec sh -c .. for that.</p>
+<p><code>-exec</code> does not automatically invoke a shell. Use <code>-exec sh -c ..</code> for that.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">find . -type f -exec &#39;cat {} | wc -l&#39; \;
+<pre><code class="language-sh">find . -type f -exec 'cat {} | wc -l' \;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find . -type f -exec sh -c &#39;cat {} | wc -l&#39; \;         # Insecure
-find . -type f -exec sh -c &#39;cat &quot;$1&quot; | wc -l&#39; _ {} \;  # Secure
+<pre><code class="language-sh">find . -type f -exec sh -c 'cat {} | wc -l' \;         # Insecure
+find . -type f -exec sh -c 'cat &quot;$1&quot; | wc -l' _ {} \;  # Secure
 </code></pre>
 <p>Sometimes the command can also be rewritten to not require <code>find</code> to invoke a shell:</p>
-<pre><code class="lang-sh">find . -type f -exec wc -l {} \; | cut -d &#39; &#39; -f 1
+<pre><code class="language-sh">find . -type f -exec wc -l {} \; | cut -d ' ' -f 1
 </code></pre>
 <h2>Rationale</h2>
 <p>find <code>-exec</code> and <code>-execdir</code> uses <code>execve(2)</code> style semantics, meaning it expects an executable and zero or more arguments that should be passed to it.</p>

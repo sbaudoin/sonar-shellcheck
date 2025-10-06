@@ -1,18 +1,18 @@
 <p>In POSIX sh, indirect expansion is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 name=&quot;PATH&quot;
 echo &quot;${!name}&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>The easiest solution is to switch to a shell that does support indirect expansion, like <code>bash</code>:</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 name=&quot;PATH&quot;
 echo &quot;${!name}&quot;
 </code></pre>
 <p>Alternatively, carefully rewrite using <code>eval</code>:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 name=PATH
 eval &quot;echo \&quot;\$$name\&quot;&quot;
 </code></pre>

@@ -1,12 +1,12 @@
-<p>Shells are space sensitive. Use '&lt; &lt;(cmd)', not '&lt;&lt;(cmd)'.</p>
+<p>Shells are space sensitive. Use <code>&lt; &lt;(cmd)</code>, not <code>&lt;&lt;(cmd)</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">while IFS= read -r line
+<pre><code class="language-sh">while IFS= read -r line
 do
   printf &quot;%q\n&quot; &quot;$line&quot;
 done &lt;&lt;(curl -s http://example.com)
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">while IFS= read -r line
+<pre><code class="language-sh">while IFS= read -r line
 do
   printf &quot;%q\n&quot; &quot;$line&quot;
 done &lt;  &lt;(curl -s http://example.com)

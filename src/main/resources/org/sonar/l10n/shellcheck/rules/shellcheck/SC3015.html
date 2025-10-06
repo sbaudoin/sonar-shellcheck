@@ -1,17 +1,32 @@
-<p>In POSIX sh, =~ regex matching is undefined.</p>
+<p>In POSIX sh, <code>=~</code> regex matching is undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ &quot;$var&quot; =~ .*foo[0-9]* ]
+<pre><code class="language-sh">#!/bin/sh
+if [ &quot;$var&quot; =~ foo[0-9]+ ]; then
+  echo matched
+fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">expr &quot;$var&quot; : &quot;.*foo[0-9]*&quot; &gt; /dev/null
+<pre><code class="language-sh">#!/bin/sh
+# Use the x-hack to handle strings like '('.
+if expr &quot;X$var&quot; : 'X.*foo[0-9]\{1,\}' &gt;/dev/null; then
+  echo matched
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">#!/bin/sh
+case $var in
+  *foo[0-9]*)
+    echo matched
+    ;;
+esac
 </code></pre>
 <h2>Rationale</h2>
-<p>You are using <code>=~</code> in a script declared to be compatible with POSIX sh or Dash.</p>
-<p><code>=~</code> is not a POSIX operator and is unlikely to outside <code>[[ ]]</code> in Bash and Ksh.</p>
-<p>Use <code>expr</code>'s <code>:</code> operator instead.</p>
+<p>You are using <code>=~</code> in a script declared to be compatible with POSIX sh or Dash, but <code>=~</code> is <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">not specified by POSIX</a> and is unlikely to work outside <code>[[ ]]</code> in Bash and Ksh.</p>
+<p>Use <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/expr.html#tag_20_42_13_01"><code>expr</code>'s <code>:</code> operator</a> instead.  It may be necessary to revise the regular expression because POSIX <code>expr</code> uses <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_03">basic regular expressions</a> anchored to the beginning of the string, as opposed to the unanchored <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">extended regular expressions</a> used by <code>[[ str =~ re ]]</code> in Bash and Ksh.</p>
+<p>Alternately, use <code>case</code> if the matching can be done with <a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_13">shell patterns</a> instead of regular expressions.  This avoids the need for an external utility.</p>
 <h2>Exceptions</h2>
 <p>None</p>
 <h2>Related resources</h2>
 <ul>
-<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/041">Greg's Wiki - BashFAQ #41: How do I determine whether a variable contains a substring?</a></li>
 </ul>

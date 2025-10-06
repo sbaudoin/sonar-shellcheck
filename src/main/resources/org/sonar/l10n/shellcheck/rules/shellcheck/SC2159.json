@@ -1,5 +1,5 @@
 {
-  "title": "[ 0 ] is true. Use 'false' instead",
+  "title": "[ 0 ] is true. Use false instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

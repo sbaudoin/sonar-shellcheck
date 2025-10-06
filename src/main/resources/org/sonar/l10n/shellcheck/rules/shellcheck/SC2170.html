@@ -1,6 +1,6 @@
-<p>Invalid number for -eq. Use = to compare as string (or use $var to expand as a variable).</p>
+<p>Invalid number for <code>-eq</code>. Use <code>=</code> to compare as string (or use <code>$var</code> to expand as a variable).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">read -r n
+<pre><code class="language-sh">read -r n
 if [ n -lt 0 ]
 then
    echo &quot;bad input&quot;
@@ -12,7 +12,7 @@ then
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">read -r n
+<pre><code class="language-sh">read -r n
 if [ &quot;$n&quot; -lt 0 ]        # Numerical comparison
 then
    echo &quot;bad input&quot;
@@ -26,6 +26,6 @@ fi
 <h2>Rationale</h2>
 <p>You are comparing a string value with a numerical operator, such as <code>-eq</code>, <code>-ne</code>, <code>-lt</code> or <code>-gt</code>. These only work for numbers.</p>
 <p>If you want to compare the value as a string, switch to the equivalent string operator: <code>=</code>, <code>!=</code> <code>\&lt;</code> or <code>\&gt;</code>.</p>
-<p>If you want to compare it as a number, such as <code>n=42; while [ n -gt 1024/8 ]; ..</code>, then keep the operator and expand the operands yourself with <code>$var</code> or <code>$((expr))</code>: <code>while [ "$n" -gt $((1024/8)) ]</code></p>
+<p>If you want to compare it as a number, such as <code>n=42; while [ n -gt 1024/8 ]; ..</code>, then keep the operator and expand the operands yourself with <code>$var</code> or <code>$((expr))</code>: <code>while [ &quot;$n&quot; -gt $((1024/8)) ]</code></p>
 <h2>Exceptions</h2>
 <p>None.</p>

@@ -1,18 +1,18 @@
-<p>This is a unicode quote. Delete and retype it (or ignore/singlequote for literal).</p>
+<p>This is a Unicode quote. Delete and retype it (or ignore/singlequote for literal).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;hello world”
+<pre><code class="language-sh">echo &quot;hello world”
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;hello world&quot;
+<pre><code class="language-sh">echo &quot;hello world&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Some software, like OS X, Word and WordPress, may automatically replace your regular quotes with slanted Unicode quotes. The shell does not recognize these quotes and will not respect them.</p>
 <p>In this case, you have slanted double quotes in a double quoted string. Try deleting and retyping them, and/or disable “smart quotes” in your editor or OS.</p>
 <h2>Exceptions</h2>
 <p>If you want to use literal slanted double quotes for typographic reasons, you can put them in single quotes to make ShellCheck ignore them:</p>
-<pre><code class="lang-sh">printf &#39;Warning: “wakeonlan” is not installed.\n&#39;
+<pre><code class="language-sh">printf 'Warning: “wakeonlan” is not installed.\n'
 </code></pre>
 <p>Alternatively, use single slanted Unicode quotes like so:</p>
-<pre><code class="lang-sh">printf &quot;Warning: ‘wakeonlan’ is not installed.\n&quot;
+<pre><code class="language-sh">printf &quot;Warning: ‘wakeonlan’ is not installed.\n&quot;
 </code></pre>
 <p>You can also just [[ignore]] this warning.</p>

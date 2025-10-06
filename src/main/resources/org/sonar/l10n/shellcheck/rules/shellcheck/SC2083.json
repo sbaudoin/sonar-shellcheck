@@ -1,5 +1,5 @@
 {
-  "title": "Don't add spaces after the slash in '.\/file'.",
+  "title": "Don't add spaces after the slash in .\/file.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,0 +1,28 @@
+<p>This <code>$?</code> refers to echo/printf, not a previous command. Assign to variable to avoid it being overwritten.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">mycommand
+echo &quot;Command exited with $?&quot;
+if [ $? -ne 0 ]
+then
+  echo &quot;Failed&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">mycommand
+ret=$?
+echo &quot;Command exited with $ret&quot;
+if [ $ret -ne 0 ]
+then
+  echo &quot;Failed&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>$?</code> that always refers to <code>echo</code> or <code>printf</code>.</p>
+<p>This most commonly happens when trying to show <code>$?</code> before doing something with it, without realizing that any such action will also overwrite <code>$?</code>.</p>
+<p>In the problematic example, <code>echo &quot;Command exited with $?&quot;</code> was intended to show the exit code before acting on it, but the act of showing <code>$?</code> also overwrote it, so the condition is always false. The solution is to assign <code>$?</code> to a variable first, so that it can be used repeatedly.</p>
+<h2>Exceptions</h2>
+<p>If you intentionally refer to <code>echo</code> to get the result of a write, you can ignore this message. Alternatively, write it out as in <code>if echo $$ &gt; &quot;$pidfile&quot;; then status=0; else status=1; fi</code></p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

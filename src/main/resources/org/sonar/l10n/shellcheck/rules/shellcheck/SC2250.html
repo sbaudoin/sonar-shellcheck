@@ -1,12 +1,12 @@
-<h1>Prefer putting braces around variable references even when not strictly required.</h1>
-<p>This error is optional and not enabled by default.</p>
+<p>Prefer putting braces around variable references even when not strictly required.</p>
+<p>This is an [[optional]] suggestion. It must be explicitly enabled with a [[directive]] <code>enable=require-variable-braces</code> in a <code># shellcheck</code> comment or <code>.shellcheckrc</code></p>
 <p>Problematic code:</p>
-<pre><code class="lang-shell">partial_path=&#39;example&#39;
+<pre><code class="language-shell">partial_path='example'
 
 curl &quot;http://example.com/$partial_path_version/explain.html&quot;
 </code></pre>
 <p>Correct code:</p>
-<pre><code class="lang-shell">partial_path=&#39;example&#39;
+<pre><code class="language-shell">partial_path='example'
 
 curl &quot;http://example.com/${partial_path}_version/explain.html&quot;
 </code></pre>

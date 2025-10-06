@@ -1,5 +1,5 @@
 {
-  "title": "Ksh does not support |&. Use 2>&1 |.",
+  "title": "Ksh does not support |&amp;. Use 2&gt;&amp;1 |",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

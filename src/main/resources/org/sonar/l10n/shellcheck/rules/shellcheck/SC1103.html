@@ -1,1 +1,30 @@
-<p>This shell type is unknown. Use e.g. sh or bash.</p>
+<p>This shell type is unknown. Use e.g. <code>sh</code> or <code>bash</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh"># shellcheck shell=zsh
+export PAGER=less
+</code></pre>
+<h2>Correct code</h2>
+<p>Any supported shell on the shebang or the <code>-s</code> option</p>
+<pre><code class="language-sh"># shellcheck shell=sh
+export PAGER=less
+</code></pre>
+<h2>Rationale</h2>
+<p>Shellcheck only supports a specific range of shell dialects, there are many more applications providing shell like experiences and some of them look and feel like POSIX shell or bash but does not support the same commands.</p>
+<p>One notable unsupported shell type is zsh, see issue <a href="https://github.com/koalaman/shellcheck/issues/809">#809</a> about supporting zsh - some efforts have been done in the past.</p>
+<h2>Exceptions</h2>
+<p>The supported shell types are listed in the help context, at the moment these are</p>
+<ul>
+<li>sh</li>
+<li>bash</li>
+<li>dash</li>
+<li>ksh</li>
+</ul>
+<h2>Related resources</h2>
+<ul>
+<li>Similar rules<ul>
+<li>[[SC1008]] - unrecognized shebang</li>
+<li>[[SC1071]] - unsupported shebang</li>
+</ul>
+</li>
+<li>[[Documentation for shell directive|Directive#shell]]</li>
+</ul>

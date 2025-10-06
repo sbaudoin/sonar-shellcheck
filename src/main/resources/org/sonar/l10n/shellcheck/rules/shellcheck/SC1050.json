@@ -1,5 +1,5 @@
 {
-  "title": "Expected 'then'.",
+  "title": "Expected then.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

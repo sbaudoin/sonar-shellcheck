@@ -1,13 +1,13 @@
-<p>GNU xargs -i is deprecated in favor of -I{}</p>
+<p>GNU <code>xargs -i</code> is deprecated in favor of <code>-I{}</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># Implicit replacement string
+<pre><code class="language-sh"># Implicit replacement string
 xargs -i ls {}
 
 # Explicit replacement string
 xargs -imyfilename ls myfilename
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">xargs -I {} ls {}
+<pre><code class="language-sh">xargs -I {} ls {}
 
 xargs -I filename ls filename
 </code></pre>

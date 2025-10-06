@@ -1,8 +1,7 @@
 ---
-version: '2.2'
 services:
   sonarqube:
-    image: sonarqube:${SONARQUBE_VERSION:-6.6}
+    image: sonarqube:${SONARQUBE_VERSION:-community}
     ports:
       - "9000:9000"
     environment:
@@ -10,14 +9,14 @@ services:
     security_opt:
       - seccomp:unconfined
   auditor:
-    image: auditor:${SCANNER_VERSION}-jdk${JAVA_VERSION:-8}
+    image: auditor:${SCANNER_VERSION:-latest}
     build:
       context: ..
       dockerfile: it/Dockerfile-auditor
       args:
-        JDK_VERSION: ${JAVA_VERSION:-8}
+        SCANNER_VERSION: ${SCANNER_VERSION:-latest}
     links:
       - sonarqube
-    command: /bin/bash -e /usr/src/myapp/it/audit.sh
+    command: /bin/sh -e /usr/src/myapp/it/audit.sh
     environment:
-      SCANNER_VERSION:
+      SCANNER_VERSION: ${SCANNER_VERSION:-latest}

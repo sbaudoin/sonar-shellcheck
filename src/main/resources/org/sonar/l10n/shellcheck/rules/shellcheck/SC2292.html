@@ -1,10 +1,10 @@
-<p>Prefer [[ ]] over [ ] for tests in Bash/Ksh.</p>
+<p>Prefer <code>[[ ]]</code> over <code>[ ]</code> for tests in Bash/Ksh.</p>
 <p>This is an [[optional]] suggestion. It must be explicitly enabled with a [[directive]] <code>enable=require-double-brackets</code> in a <code># shellcheck</code> comment or <code>.shellcheckrc</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ -e /etc/issue ]
+<pre><code class="language-sh">[ -e /etc/issue ] 
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ -e /etc/issue ]]
+<pre><code class="language-sh">[[ -e /etc/issue ]]
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has been explicitly asked to warn about uses of <code>[ .. ]</code> in favor of the extended Bash/Ksh test <code>[[ .. ]]</code>.</p>
@@ -14,5 +14,5 @@
 <p>This suggestion does not trigger for Sh or Dash scripts, even when explicitly enabled, as these shells don't support <code>[[ .. ]]</code>.</p>
 <h2>Related resources</h2>
 <ul>
-<li>BashFAQ 031: [What is the difference between test, [ and [[ ?](<a href="https://mywiki.wooledge.org/BashFAQ/031">https://mywiki.wooledge.org/BashFAQ/031</a>)</li>
+<li>BashFAQ 031: <a href="https://mywiki.wooledge.org/BashFAQ/031">What is the difference between test, [ and [[ ?</a></li>
 </ul>

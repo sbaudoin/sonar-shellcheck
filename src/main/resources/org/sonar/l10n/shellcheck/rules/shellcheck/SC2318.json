@@ -1,0 +1,14 @@
+{
+  "title": "This assignment is used again in this declare, but won't have taken effect. Use two declares.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

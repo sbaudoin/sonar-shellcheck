@@ -1,5 +1,5 @@
 {
-  "title": "This is a unicode quote. Delete and retype it (or ignore\/doublequote for literal).",
+  "title": "This is a Unicode quote. Delete and retype it (or ignore\/doublequote for literal).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

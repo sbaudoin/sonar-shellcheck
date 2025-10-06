@@ -1,15 +1,15 @@
-<p>Found trailing ] outside test. Add missing [ or quote if intentional.</p>
+<p>Found trailing <code>]</code> outside test. Add missing <code>[</code> or quote if intentional.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if foo -eq bar ]; then true; fi
+<pre><code class="language-sh">if foo -eq bar ]; then true; fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">tr -d ]
+<pre><code class="language-sh">tr -d ]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ foo -eq bar ]; then true; fi
+<pre><code class="language-sh">if [ foo -eq bar ]; then true; fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">tr -d &#39;]&#39;
+<pre><code class="language-sh">tr -d ']'
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a non-test command that ends with <code>]</code> or <code>]]</code>.</p>

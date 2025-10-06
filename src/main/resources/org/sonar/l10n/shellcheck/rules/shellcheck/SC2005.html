@@ -1,22 +1,22 @@
 <h2>Useless <code>echo</code>? Instead of <code>echo $(cmd)</code>, just use <code>cmd</code></h2>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$(whoami)&quot;
+<pre><code class="language-sh">echo &quot;$(whoami)&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">whoami
+<pre><code class="language-sh">whoami
 </code></pre>
 <h2>Rationale</h2>
-<p>ShellCheck found the unnecessary construct <code>echo "$(somecommand here)"</code>.</p>
-<p>This is generally due to a misunderstanding about what <code>echo</code> does. It has no role in "showing on screen" or similar, but simply writes a string to standard output. This is also how all other programs output data.</p>
-<p><code>echo "$(somecommand)"</code> will capture the output <code>somecommand</code> writes to standard output and write it to standard output, where it was already going. At best this is a no-op, but it may have several other negative effects:</p>
+<p>ShellCheck found the unnecessary construct <code>echo &quot;$(somecommand here)&quot;</code>.</p>
+<p>This is generally due to a misunderstanding about what <code>echo</code> does. It has no role in &quot;showing on screen&quot; or similar, but simply writes a string to standard output. This is also how all other programs output data.</p>
+<p><code>echo &quot;$(somecommand)&quot;</code> will capture the output <code>somecommand</code> writes to standard output and write it to standard output, where it was already going. At best this is a no-op, but it may have several other negative effects:</p>
 <ul>
-<li>It disables parallel processing in pipelines, such as <code>echo "$(find . -name '*.iso')" | xargs sha1sum</code> which does not allow iterating files and checksumming at the same time. Similarly, users don't see incremental updates as programs run.</li>
+<li>It disables parallel processing in pipelines, such as <code>echo &quot;$(find . -name '*.iso')&quot; | xargs sha1sum</code> which does not allow iterating files and checksumming at the same time. Similarly, users don't see incremental updates as programs run.</li>
 <li>It introduces shell and echo related pitfalls like being unable to output the string <code>-n</code>, stripping NUL bytes and trailing linefeeds, and expanding escape sequences in some shells but not others.</li>
-<li>It suppresses the exit code of the command, so that <code>echo "$(grep '^user:' /etc/passwd)"</code> no longer returns with failure when the user is not found.</li>
-<li>It does not allow programs to tailor their output for terminals, such as <code>ls</code> vs <code>echo "$(ls)"</code> where the former outputs columns and colors according to user preferences, while the latter doesn't.</li>
+<li>It suppresses the exit code of the command, so that <code>echo &quot;$(grep '^user:' /etc/passwd)&quot;</code> no longer returns with failure when the user is not found.</li>
+<li>It does not allow programs to tailor their output for terminals, such as <code>ls</code> vs <code>echo &quot;$(ls)&quot;</code> where the former outputs columns and colors according to user preferences, while the latter doesn't.</li>
 <li>It uses unnecessary memory to buffer up the data before writing it where it was already going.</li>
 </ul>
-<p>To avoid all this, simply replace <code>echo "$(somecommand)"</code> with <code>somecommand</code> as in the example. It's shorter, faster, and more correct.</p>
+<p>To avoid all this, simply replace <code>echo &quot;$(somecommand)&quot;</code> with <code>somecommand</code> as in the example. It's shorter, faster, and more correct.</p>
 <h2>Exceptions</h2>
 <p>If you are relying on one of the otherwise detrimental effects for correctness, you can consider one of:</p>
 <pre><code># Suppress exit code without the other negative effects
@@ -29,6 +29,6 @@ cmd | cat
 cmd &gt; file.tmp
 cat file.tmp
 
-# Exactly like `echo "$(cmd)"`, but allows output like `-n` and works the same across shells
-printf '%s\n' "$(cmd)"
+# Exactly like `echo &quot;$(cmd)&quot;`, but allows output like `-n` and works the same across shells
+printf '%s\n' &quot;$(cmd)&quot;
 </code></pre>

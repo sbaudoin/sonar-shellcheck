@@ -1,18 +1,18 @@
 <p>Can only exit with status 0-255. Other data should be written to stdout/stderr.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">exit &quot;Bad filename&quot;
+<pre><code class="language-sh">exit &quot;Bad filename&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;Bad filename&quot; &gt;&amp;2
+<pre><code class="language-sh">echo &quot;Bad filename&quot; &gt;&amp;2
 exit 1
 </code></pre>
 <h2>Rationale</h2>
 <p><code>exit</code> can only be used to signal success or failure (0 = success, 1-255 = failure). It can not be used to return string data, and it can not be used to print error messages.</p>
 <p>String data should be written stdout, before an <code>exit 0</code> to exit with success.</p>
 <p>Errors should instead be written to stderr, with an <code>exit 1</code> (or higher) to exit with failure:</p>
-<pre><code>if [ ! -f "$1" ]
+<pre><code>if [ ! -f &quot;$1&quot; ]
 then
-   echo "$1 is not a regular file" &gt;&amp;2
+   echo &quot;$1 is not a regular file&quot; &gt;&amp;2
    exit 1
 fi
 </code></pre>

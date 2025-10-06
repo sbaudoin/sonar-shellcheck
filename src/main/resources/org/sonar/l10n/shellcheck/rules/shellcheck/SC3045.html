@@ -1,9 +1,9 @@
 <p>In POSIX sh, some-command-with-flag is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
 <p>ShellCheck has noticed you're using flags for commands that don't necessarily support them. Some examples:</p>
-<pre><code class="lang-sh">#!/bin/sh
-read -e     # Using libreadline
+<pre><code class="language-sh">#!/bin/sh
+read   -e   # Using libreadline
 export -f   # Exporting functions
 ulimit -v   # Setting vspace limits
 wait   -n   # Waiting for a single process

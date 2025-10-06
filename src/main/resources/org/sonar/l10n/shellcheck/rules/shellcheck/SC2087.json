@@ -1,5 +1,5 @@
 {
-  "title": "Quote 'EOF' to make here document expansions happen on the server side rather than on the client.",
+  "title": "Quote EOF to make here document expansions happen on the server side rather than on the client.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

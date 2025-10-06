@@ -1,1 +1,20 @@
-<p>Did you forget the &#x27;do&#x27; for this loop?</p>
+<p>Did you forget the <code>do</code> for this loop?</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">while read -r line
+  echo $line
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">while read -r line
+do
+  echo $line
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a loop that appears to be missing its <code>do</code> statement. Make sure the loop syntax is correct.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

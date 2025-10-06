@@ -1,12 +1,12 @@
-<p>This is a literal string. To run as a command, use $(..) instead of '..' .</p>
+<p>This is a literal string. To run as a command, use <code>$(..)</code> instead of <code>'..'</code> .</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">for i in &#39;seq 1 10&#39;
+<pre><code class="language-sh">for i in 'seq 1 10'
 do
   echo &quot;$i&quot;
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">for i in $(seq 1 10)
+<pre><code class="language-sh">for i in $(seq 1 10)
 do
   echo &quot;$i&quot;
 done

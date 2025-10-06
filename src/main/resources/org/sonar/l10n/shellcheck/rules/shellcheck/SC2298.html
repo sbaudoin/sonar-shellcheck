@@ -1,22 +1,23 @@
 <p><code>${$x}</code> is invalid. For expansion, use ${x}. For indirection, use arrays, ${!x} or (for sh) eval.</p>
 <p>(or <code>${${x}}</code> is invalid)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># Expecting $RETRIES or 3 if unset
+<pre><code class="language-sh"># Expecting $RETRIES or 3 if unset
 retries=${$RETRIES:-3}
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">mypath=&quot;/tmp/foo.txt&quot;
+<pre><code class="language-sh">mypath=&quot;/tmp/foo.txt&quot;
 var=mypath
-result=${$var##*/}  # Expecting ${mypath##*/}, i.e. &#39;foo.txt&#39;
+result=${$var##*/}  # Expecting ${mypath##*/}, i.e. 'foo.txt'
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">retries=${RETRIES:-3}
+<pre><code class="language-sh">retries=${RETRIES:-3}
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">mypath=&quot;/tmp/foo.txt&quot;
+<pre><code class="language-sh">mypath=&quot;/tmp/foo.txt&quot;
 var=mypath
 result=${!var}
 result=${result##*/}
+
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a parameter expansion <code>${..}</code> where the first element was a second parameter expansion, either <code>${$x..}</code> or <code>${${x}..}</code>. This is not valid.</p>

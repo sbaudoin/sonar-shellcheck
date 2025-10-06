@@ -1,12 +1,12 @@
-<p>Unexpected tokens after compound command. Bad redirection or missing ;/&amp;&amp;/||/|?</p>
+<p>Unexpected tokens after compound command. Bad redirection or missing <code>;</code>/<code>&amp;&amp;</code>/<code>||</code>/<code>|</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">while echo &quot;$2&quot;; do true; done \
+<pre><code class="language-sh">while echo &quot;$2&quot;; do true; done \
   head -n &quot;$1&quot;
 
 while sleep 1; do date; done &gt; my file
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">while echo &quot;$2&quot;; do true; done \
+<pre><code class="language-sh">while echo &quot;$2&quot;; do true; done \
   | head -n &quot;$1&quot;
 
 while sleep 1; do date; done &gt; &quot;my file&quot;

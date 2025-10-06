@@ -1,0 +1,20 @@
+<p>This assignment is used again in this <code>declare</code>, but won't have taken effect. Use two <code>declare</code>s.</p>
+<p>(or <code>local</code>, <code>typeset</code>, <code>readonly</code>, <code>export</code>)</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">declare -i first=$1 current=$first
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">declare -i first=$1
+declare -i current=$first
+</code></pre>
+<h2>Rationale</h2>
+<p>When assigning variables via a command, such as <code>declare</code>, <code>typeset</code>, <code>local</code> etc, the expansion of all arguments happen before all assignments. This means that you can't have a variable assigned and then referenced in the same command.</p>
+<p>In the example, if <code>$1</code> is 42, the arguments will first be expanded in the current environment into <code>-i first=42 current=</code>. They will then be passed to <code>declare</code> which will perform the assignments.</p>
+<p>To correctly set <code>current=$first</code> so that it uses the new value of <code>first</code>, use two separate commands as shown.</p>
+<p>Note that this only applies when assigning via commands, because arguments are always expanded before commands are invoked. If assigning without a command, as in <code>first=$1 current=$first</code>, it will work as expected.</p>
+<h2>Exceptions</h2>
+<p>If you want to reference the value as it existed before the command, e.g. if swapping variables with <code>declare x=$y y=$x</code>, you can ignore this message. However, consider rewriting it anyways for the benefit of any humans reading the code.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

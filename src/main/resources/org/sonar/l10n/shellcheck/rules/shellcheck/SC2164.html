@@ -1,18 +1,18 @@
-<p>Use cd ... || exit in case cd fails.</p>
+<p>Use <code>cd ... || exit</code> in case <code>cd</code> fails.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">cd generated_files
+<pre><code class="language-sh">cd generated_files
 rm -r *.c
 </code></pre>
-<pre><code class="lang-sh">func(){
+<pre><code class="language-sh">func(){
   cd foo
   do_something
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">cd generated_files || exit
+<pre><code class="language-sh">cd generated_files || exit
 rm -r *.c
 </code></pre>
-<pre><code class="lang-sh"># For functions, you may want to use return:
+<pre><code class="language-sh"># For functions, you may want to use return:
 func(){
   cd foo || return
   do_something
@@ -23,10 +23,10 @@ func(){
 <p>If/when it does, the script will keep going and do all its operations in the wrong directory. This can be messy, especially if the operations involve creating or deleting a lot of files.</p>
 <p>To avoid this, make sure you handle the cases when <code>cd</code> fails. Ways to do this include</p>
 <ul>
-<li><code>cd foo || exit</code> as suggested to abort immediately, reusing exit code from failed <code>cd</code> command</li>
-<li><code>cd foo || { echo "Failure"; exit 1; }</code> abort with custom message</li>
-<li><code>cd foo || ! echo "Failure"</code> omitting "abort with custom message"</li>
-<li><code>if cd foo; then echo "Ok"; else echo "Fail"; fi</code> for custom handling</li>
+<li><code>cd foo || exit</code> as suggested to abort immediately, using exit code from failed <code>cd</code> command</li>
+<li><code>cd foo || { echo &quot;Failure&quot;; exit 1; }</code> abort with custom message</li>
+<li><code>cd foo || ! echo &quot;Failure&quot;</code> omitting &quot;abort with custom message&quot;</li>
+<li><code>if cd foo; then echo &quot;Ok&quot;; else echo &quot;Fail&quot;; fi</code> for custom handling</li>
 <li><code>&lt;(cd foo &amp;&amp; cmd)</code> as an alternative to <code>&lt;(cd foo || exit; cmd)</code> in <code>&lt;(..)</code>, <code>$(..)</code> or <code>( )</code></li>
 </ul>
 <h2>Exceptions</h2>

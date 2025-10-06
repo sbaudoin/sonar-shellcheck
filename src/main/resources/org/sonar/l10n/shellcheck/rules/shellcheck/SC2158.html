@@ -1,12 +1,12 @@
-<p>[ false ] is true. Remove the brackets</p>
+<p><code>[ false ]</code> is true. Remove the brackets</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ false ]
+<pre><code class="language-sh">if [ false ]
 then
   echo &quot;triggers anyways&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if false
+<pre><code class="language-sh">if false
 then
   echo &quot;never triggers&quot;
 fi

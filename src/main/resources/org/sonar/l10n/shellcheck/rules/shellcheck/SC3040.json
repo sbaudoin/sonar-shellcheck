@@ -1,5 +1,5 @@
 {
-  "title": "In POSIX sh, set option pipefail is undefined.",
+  "title": "In POSIX sh, set option [name] is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

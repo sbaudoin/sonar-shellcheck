@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,26 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.rules;
 
-import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
-import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotEquals;
+
+import org.sonar.api.SonarRuntime;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
+import org.sonar.api.utils.Version;
 
-import static org.junit.Assert.assertNotEquals;
+import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
+import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
+import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
+
+import junit.framework.TestCase;
 
 public class ShellCheckRulesDefinitionTest extends TestCase {
     public void testDefine() {
-        ShellCheckRulesDefinition rulesDefinition = new ShellCheckRulesDefinition();
+        SensorContextTester sensorContext = Utils.getSensorContext();
+        SonarRuntime sonarRuntime = SonarRuntimeImpl.forSonarQube(Version.create(7, 5), sensorContext.runtime().getSonarQubeSide(), sensorContext.runtime().getEdition());
+        ShellCheckRulesDefinition rulesDefinition = new ShellCheckRulesDefinition(sonarRuntime);
         RulesDefinition.Context context = new RulesDefinition.Context();
         rulesDefinition.define(context);
         RulesDefinition.Repository repository = context.repository(CheckRepository.REPOSITORY_KEY);

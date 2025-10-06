@@ -1,10 +1,10 @@
 <p><code>(</code> is invalid here. Did you forget to escape it?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo (foo) bar
+<pre><code class="language-sh">echo (foo) bar
 </code></pre>
 <h2>Correct code</h2>
 <p>Depends on your intention:</p>
-<pre><code class="lang-sh">echo &quot;(foo) bar&quot;  # Literal parentheses
+<pre><code class="language-sh">echo &quot;(foo) bar&quot;  # Literal parentheses
 echo &quot;$(foo) bar&quot; # Command expansion
 echo &quot;foo bar&quot;    # Tried to use parentheses for grouping or function invocation
 </code></pre>
@@ -13,16 +13,16 @@ echo &quot;foo bar&quot;    # Tried to use parentheses for grouping or function 
 <p>Determine what you intended the parenthesis to do and rewrite accordingly. Common issues include:</p>
 <ul>
 <li>Wanting them to be literal, as in <code>echo (FAIL) Some tests failed</code>. In this case, it requires quoting.</li>
-<li>Wanting command expansion, as in <code>echo Today is (date)</code>. Add the missing <code>$</code>: <code>echo "Today is $(date)"</code></li>
+<li>Wanting command expansion, as in <code>echo Today is (date)</code>. Add the missing <code>$</code>: <code>echo &quot;Today is $(date)&quot;</code></li>
 <li>Adding parentheses because other languages need them in that context, such as <code>foo (bar, 42)</code> to call a function. This should be <code>foo bar 42</code>. Also, shells do not support tuples or passing arrays as single parameters.</li>
 </ul>
 <h2>Exceptions</h2>
 <p>Bash allows some parentheses as part of assignment-like tokens to certain commands, including <code>export</code> and <code>eval</code>. This is a workaround in Bash to allow commands that normally would not be valid:</p>
-<pre><code>eval foo=(bar)       # Valid command
+<pre><code class="language-sh">eval foo=(bar)       # Valid command
 echo foo=(bar)       # Invalid syntax
 f=foo; eval $f=(bar) # Also invalid
 </code></pre>
-<p>In these cases, please quote the command, such as `eval "foo=(bar)". This does not change the behavior, but stops relying on bash specific parsing quirks.</p>
+<p>In these cases, please quote the command, such as <code>eval &quot;foo=(bar)&quot;</code>. This does not change the behavior, but stops relying on Bash-specific parsing quirks.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>

@@ -1,1 +1,39 @@
-<p>arrays are not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, arrays are undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+x=( foo bar &quot;Hello World&quot; )
+for word in &quot;${x[@]}&quot;
+do
+  touch &quot;$word.dat&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<p>Consider switching to a shell that does support arrays, such as <code>bash</code> or <code>ksh</code>, by changing the shebang.</p>
+<p>Alternatively, if you only need a single array at a time, you may be able to rewrite to use the positional parameters:</p>
+<pre><code class="language-sh">set -- foo bar &quot;Hello World&quot;
+for word in &quot;$@&quot;
+do
+  touch &quot;$word.dat&quot;
+done
+</code></pre>
+<p>or strings with carefully chosen delimiters:</p>
+<pre><code class="language-sh">x='foo
+bar
+Hello World
+'
+
+printf '%s' &quot;$x&quot; |
+  while IFS='' read -r word
+  do
+    touch &quot;$word.dat&quot;
+  done
+</code></pre>
+<h2>Rationale</h2>
+<p>Arrays are specific to Bash and Ksh, but you are using them in a script declared to run with <code>sh</code> or <code>dash</code>. These shells do not support arrays at all. You should either switch to Bash/Ksh, or rewrite the script to not use arrays.</p>
+<p>There are no great replacements, especially not that can be mechanically applied, but using the positional parameters or a delimited string works in many cases, as shown in the examples.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

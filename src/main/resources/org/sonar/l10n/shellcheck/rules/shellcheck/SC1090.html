@@ -1,14 +1,14 @@
-<p>Can't follow non-constant source. Use a directive to specify location.</p>
+<p>Can't follow non-constant source. Use a directive to specify location</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">. &quot;${util_path}&quot;
+<pre><code class="language-sh">. &quot;${util_path}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># shellcheck source=src/util.sh
+<pre><code class="language-sh"># shellcheck source=src/util.sh
 . &quot;${util_path}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck is not able to include sourced files from paths that are determined at runtime. The file will not be read, potentially resulting in warnings about unassigned variables and similar.</p>
 <p>Use a [[Directive]] to point shellcheck to a fixed location it can read instead.</p>
-<p>ShellCheck v0.7.2+ will strip a single expansion followed by a slash, e.g. <code>${var}/util.sh</code> or <code>$(dirname "${BASH_SOURCE[0]}")/util.sh</code>, and treat them as <code>./util.sh</code>. This  allowing the use of <code>source-path</code> directives or <code>-P</code> flags to specify the a location.</p>
+<p>ShellCheck v0.7.2+ will strip a single expansion followed by a slash, e.g. <code>${var}/util.sh</code> or <code>$(dirname &quot;${BASH_SOURCE[0]}&quot;)/util.sh</code>, and treat them as <code>./util.sh</code>. This allows the use of <code>source-path</code> directives or <code>-P</code> flags to specify the location.</p>
 <h2>Exceptions</h2>
 <p>If you don't care that ShellCheck is unable to account for the file, specify <code># shellcheck source=/dev/null</code>.</p>

@@ -1,1 +1,20 @@
-<p>double-dashed set flags are not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, set flag <code>--default</code> is undefined</p>
+<p>(or any other option)</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/ksh
+set --default
+</code></pre>
+<h2>Correct code</h2>
+<p>Switch to a shell that supports these options, such as Ksh:</p>
+<pre><code class="language-sh">#!/bin/ksh
+set --default
+</code></pre>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Ksh.</p>
+<p>Most shell specific <code>set</code> flags are hard to emulate in POSIX, so use your best judgement as to whether you can make do without them, or if you should require a shell that supports them.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

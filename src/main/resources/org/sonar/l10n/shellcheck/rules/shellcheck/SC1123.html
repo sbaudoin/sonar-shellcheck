@@ -1,6 +1,6 @@
 <p>ShellCheck directives are only valid in front of complete compound commands, like <code>if</code>, not e.g. individual <code>elif</code> branches.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
+<pre><code class="language-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
 then
   echo &quot;Prod mode&quot;
 # shellcheck disable=2154
@@ -10,7 +10,7 @@ then
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Applies to entire `if...fi` command
+<pre><code class="language-sh"># Applies to entire `if...fi` command
 # shellcheck disable=2154
 if [ &quot;$prod&quot; = &quot;true&quot; ]
 then
@@ -21,7 +21,7 @@ then
 fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
+<pre><code class="language-sh">if [ &quot;$prod&quot; = &quot;true&quot; ]
 then
   echo &quot;Prod mode&quot;
 elif  # Applies only to this [ .. ] command

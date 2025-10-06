@@ -1,5 +1,5 @@
 {
-  "title": "ksh does not allow 'function' keyword and '()' at the same time.",
+  "title": "ksh does not allow function keyword and () at the same time.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,7 +1,7 @@
 <p>This function is invoked in an 'if' condition so set -e will be disabled. Invoke separately if failures should cause the script to exit.</p>
 <p>(This warning is optional and must be explicitly enabled)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 #shellcheck enable=check-set-e-suppressed
 
 set -e
@@ -17,7 +17,7 @@ then
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 #shellcheck enable=check-set-e-suppressed
 
 set -e

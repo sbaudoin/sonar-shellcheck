@@ -1,5 +1,5 @@
 {
-  "title": "'Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet).'",
+  "title": "Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

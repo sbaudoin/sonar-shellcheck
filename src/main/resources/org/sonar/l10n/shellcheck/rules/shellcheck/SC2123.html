@@ -1,15 +1,15 @@
-<p>PATH is the shell search path. Use another name.</p>
+<p><code>PATH</code> is the shell search path. Use another name.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">PATH=/my/dir
+<pre><code class="language-sh">PATH=/my/dir
 cat &quot;$PATH/myfile&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>Good practice: always use lowercase for unexported variables.</p>
-<pre><code class="lang-sh">path=/my/dir
+<pre><code class="language-sh">path=/my/dir
 cat &quot;$path/myfile&quot;
 </code></pre>
 <p>Bad practice: use another uppercase name.</p>
-<pre><code class="lang-sh">MYPATH=/my/dir
+<pre><code class="language-sh">MYPATH=/my/dir
 cat &quot;$MYPATH/myfile&quot;
 </code></pre>
 <h2>Rationale</h2>

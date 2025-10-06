@@ -1,5 +1,5 @@
 {
-  "title": "Ash scripts will be checked as Dash. Add '# shellcheck shell=dash' to silence.",
+  "title": "Ash scripts will be checked as Dash. Add # shellcheck shell=dash to silence.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,13 +1,13 @@
-<p>Did you forget the 'then' for this 'if'?</p>
+<p>Did you forget the <code>then</code> for this <code>if</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if true
+<pre><code class="language-sh">if true
   echo &quot;foo&quot;
 elif true
   echo &quot;bar&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if true
+<pre><code class="language-sh">if true
 then
   echo &quot;foo&quot;
 elif true

@@ -1,12 +1,12 @@
 <p>This empty string is interpreted as a command name. Double check syntax (or use 'true' as a no-op).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">jq 
-   &#39;&#39;
+<pre><code class="language-sh">jq 
+   ''
    file.json
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">jq \
-  &#39;&#39; \
+<pre><code class="language-sh">jq \
+  '' \
   file.json
 </code></pre>
 <h2>Rationale</h2>

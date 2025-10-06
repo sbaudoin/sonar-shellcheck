@@ -1,5 +1,5 @@
 {
-  "title": "Remove '$' or use '_=$((expr))' to avoid executing output.",
+  "title": "Remove $ or use _=$((expr)) to avoid executing output.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

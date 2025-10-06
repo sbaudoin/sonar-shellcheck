@@ -1,9 +1,9 @@
 <p><code>*</code> must be escaped to multiply: <code>\*</code>. Modern <code>$((x * y))</code> avoids this issue.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">result=$(expr 2 * 3)
+<pre><code class="language-sh">result=$(expr 2 * 3)
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Modern, efficient, POSIX standard approach
+<pre><code class="language-sh"># Modern, efficient, POSIX standard approach
 result=$(( 2 * 3 ))
 
 # Older, slower approach

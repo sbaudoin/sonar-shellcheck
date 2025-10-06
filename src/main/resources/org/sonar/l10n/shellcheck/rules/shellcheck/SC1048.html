@@ -1,12 +1,12 @@
-<p>Can't have empty then clauses (use 'true' as a no-op).</p>
+<p>Can't have empty then clauses (use <code>true</code> as a no-op).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ -e foo ]
+<pre><code class="language-sh">if [ -e foo ]
 then
   # TODO: handle this
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ -e foo ]
+<pre><code class="language-sh">if [ -e foo ]
 then
   # TODO: handle this
   true

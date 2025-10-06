@@ -1,12 +1,12 @@
 <p>Delete whitespace after the here-doc end token.</p>
 <h2>Problematic code</h2>
-<p>"▭" below indicates an otherwise invisible space:</p>
-<pre><code class="lang-sh">cat &lt;&lt; &quot;eof&quot;
+<p>&quot;▭&quot; below indicates an otherwise invisible space:</p>
+<pre><code class="language-sh">cat &lt;&lt; &quot;eof&quot;
 Hello
-eof▭
+eof▭   
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">cat &lt;&lt; &quot;eof&quot;
+<pre><code class="language-sh">cat &lt;&lt; &quot;eof&quot;
 Hello
 eof
 </code></pre>

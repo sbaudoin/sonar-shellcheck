@@ -1,11 +1,11 @@
 <p>In POSIX sh, <code>printf %q</code> is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">ssh host &quot;cat $(printf &quot;%q&quot; &quot;$remotefile&quot;)&quot;
+<pre><code class="language-sh">ssh host &quot;cat $(printf &quot;%q&quot; &quot;$remotefile&quot;)&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>There is not really a good, built-in way to escape a string for a remote shell in POSIX sh. However, you can replace each <code>'</code> in the input with <code>'\''</code> and then wrap the whole results in single quotes:</p>
-<pre><code class="lang-sh">escape() { printf &quot;&#39;%s&#39;\\n&quot; &quot;$(printf &#39;%s&#39; &quot;$1&quot; | sed -e &quot;s/&#39;/&#39;\\\\&#39;&#39;/g&quot;)&quot;; }
+<pre><code class="language-sh">escape() { printf &quot;'%s'\\n&quot; &quot;$(printf '%s' &quot;$1&quot; | sed -e &quot;s/'/'\\\\''/g&quot;)&quot;; }
 ssh host &quot;cat $(escape &quot;$remotefile&quot;)&quot;
 </code></pre>
 <p>Alternatively, switch to a shell that <em>does</em> support <code>printf %q</code> like <code>ksh</code> or <code>bash</code>.</p>

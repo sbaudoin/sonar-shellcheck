@@ -1,13 +1,13 @@
-<p>In POSIX sh, ++ is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>In POSIX sh, <code>++</code> is undefined.</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 i=1
 echo &quot;$((i++))&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>Write out the increment/decrement operation explicitly:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 i=1
 echo &quot;$i&quot;
 i=$((i+1))

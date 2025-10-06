@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,35 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.rules;
 
-import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
-import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
-import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
-import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
+import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.issueExists;
+import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.setShellRights;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.Predicate;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.slf4j.event.Level;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
+import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
@@ -35,29 +52,18 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTester;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Predicate;
-
-import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.issueExists;
-import static com.github.sbaudoin.sonar.plugins.shellcheck.Utils.setShellRights;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.powermock.api.mockito.PowerMockito.*;
-import static org.powermock.api.mockito.PowerMockito.doThrow;
+import com.github.sbaudoin.sonar.plugins.shellcheck.Utils;
+import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
+import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
+import com.github.sbaudoin.sonar.plugins.shellcheck.settings.ShellCheckSettings;
 
 public class ShellCheckSensorTest {
     private static final String RULE_ID1 = "SC2037";
     private static final String RULE_ID2 = "SC2086";
-    private final RuleKey ruleKey1 = RuleKey.of(CheckRepository.REPOSITORY_KEY, RULE_ID1);
-    private final RuleKey ruleKey2 = RuleKey.of(CheckRepository.REPOSITORY_KEY, RULE_ID2);
+    private final NewActiveRule ruleKey1 = new NewActiveRule.Builder().setRuleKey(RuleKey.of(CheckRepository.REPOSITORY_KEY, RULE_ID1)).build();
+    private final NewActiveRule ruleKey2 = new NewActiveRule.Builder().setRuleKey(RuleKey.of(CheckRepository.REPOSITORY_KEY, RULE_ID2)).build();
     private SensorContextTester context;
     private ShellCheckSensor sensor;
 
@@ -66,7 +72,7 @@ public class ShellCheckSensorTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Rule
-    public LogTester logTester = new LogTester();
+    public LogTester logTester = new LogTester().setLevel(Level.DEBUG);
 
     @Before
     public void init() throws Exception {
@@ -77,10 +83,8 @@ public class ShellCheckSensorTest {
         context.setFileSystem(fs);
 
         ActiveRules activeRules = new ActiveRulesBuilder()
-                .create(ruleKey1)
-                .activate()
-                .create(ruleKey2)
-                .activate()
+                .addRule(ruleKey1)
+                .addRule(ruleKey2)
                 .build();
         context.setActiveRules(activeRules);
 
@@ -104,8 +108,8 @@ public class ShellCheckSensorTest {
         // Have to set an invalid path because Travis' build container embeds ShellCheck
         context.settings().appendProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "invalid-command");
         sensor.execute(context);
-        assertEquals(1, logTester.logs(LoggerLevel.WARN).size());
-        assertEquals("Cannot get ShellCheck version", logTester.logs(LoggerLevel.WARN).get(0));
+        assertEquals(1, logTester.logs(Level.WARN).size());
+        assertEquals("Cannot get ShellCheck version", logTester.logs(Level.WARN).get(0));
 
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             context.settings().setProperty(ShellCheckSettings.SHELLCHECK_PATH_KEY, "src\\test\\resources\\scripts\\shellcheck-version.cmd");
@@ -114,12 +118,12 @@ public class ShellCheckSensorTest {
             setShellRights("src/test/resources/scripts/shellcheck-version.sh");
         }
 
-        List<String> l = logTester.logs(LoggerLevel.INFO);
+        logTester.logs(Level.INFO);
         sensor.execute(context);
-        assertEquals(3, logTester.logs(LoggerLevel.INFO).size());
-        assertEquals("ShellCheck version:", logTester.logs(LoggerLevel.INFO).get(0));
-        assertEquals("ShellCheck - shell script analysis tool", logTester.logs(LoggerLevel.INFO).get(1));
-        assertEquals("version: my-version", logTester.logs(LoggerLevel.INFO).get(2));
+        assertEquals(3, logTester.logs(Level.INFO).size());
+        assertEquals("ShellCheck version:", logTester.logs(Level.INFO).get(0));
+        assertEquals("ShellCheck - shell script analysis tool", logTester.logs(Level.INFO).get(1));
+        assertEquals("version: my-version", logTester.logs(Level.INFO).get(2));
     }
 
     @Test
@@ -156,8 +160,8 @@ public class ShellCheckSensorTest {
 
         sensor.execute(context);
 
-        assertEquals(3, logTester.logs(LoggerLevel.WARN).size());
-        logTester.logs(LoggerLevel.WARN).stream().forEach(log -> assertTrue(log.startsWith("Errors happened during analysis:")));
+        assertEquals(3, logTester.logs(Level.WARN).size());
+        logTester.logs(Level.WARN).stream().forEach(log -> assertTrue(log.startsWith("Errors happened during analysis:")));
     }
 
     @Test
@@ -228,9 +232,9 @@ public class ShellCheckSensorTest {
 
         Collection<Issue> issues = context.allIssues();
         assertEquals(3, issues.size());
-        assertTrue(issueExists(issues, ruleKey1, script1, 3, "To assign the output of a command, use var=\\$\\(cmd\\) \\."));
-        assertTrue(issueExists(issues, ruleKey2, script1, 5, "Double quote to prevent globbing and word splitting."));
-        assertTrue(issueExists(issues, ruleKey2, script1, 6, "Double quote to prevent globbing and word splitting."));
+        assertTrue(issueExists(issues, ruleKey1.ruleKey(), script1, 3, "To assign the output of a command, use var=\\$\\(cmd\\) \\."));
+        assertTrue(issueExists(issues, ruleKey2.ruleKey(), script1, 5, "Double quote to prevent globbing and word splitting."));
+        assertTrue(issueExists(issues, ruleKey2.ruleKey(), script1, 6, "Double quote to prevent globbing and word splitting."));
     }
 
     @Test
@@ -242,8 +246,8 @@ public class ShellCheckSensorTest {
 
     @Test
     public void testExecuteCommand() {
-        ArrayList<String> stdOut = new ArrayList();
-        ArrayList<String> stdErr = new ArrayList();
+        ArrayList<String> stdOut = new ArrayList<String>();
+        ArrayList<String> stdErr = new ArrayList<String>();
 
         try {
             sensor.executeCommand(Arrays.asList("invalid-command", "bar"), stdOut, stdErr);
@@ -290,9 +294,9 @@ public class ShellCheckSensorTest {
 
         Collection<Issue> issues = context.allIssues();
         assertEquals(3, issues.size());
-        assertTrue(issueExists(issues, ruleKey1, shellScript, 3, "To assign the output of a command, use var=\\$\\(cmd\\) \\."));
-        assertTrue(issueExists(issues, ruleKey2, shellScript, 5, "Double quote to prevent globbing and word splitting."));
-        assertTrue(issueExists(issues, ruleKey2, shellScript, 6, "Double quote to prevent globbing and word splitting."));
+        assertTrue(issueExists(issues, ruleKey1.ruleKey(), shellScript, 3, "To assign the output of a command, use var=\\$\\(cmd\\) \\."));
+        assertTrue(issueExists(issues, ruleKey2.ruleKey(), shellScript, 5, "Double quote to prevent globbing and word splitting."));
+        assertTrue(issueExists(issues, ruleKey2.ruleKey(), shellScript, 6, "Double quote to prevent globbing and word splitting."));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -310,14 +314,14 @@ public class ShellCheckSensorTest {
         // Try to save issue for an unknown rule
         logTester.clear();
         sensor.saveIssue(context, shellScript, 2, "foo", "An error here");
-        assertTrue(logTester.logs(LoggerLevel.DEBUG).contains("Rule foo ignored, not found in repository"));
+        assertTrue(logTester.logs(Level.DEBUG).contains("Rule foo ignored, not found in repository"));
 
         // Save issue for a known rule
         logTester.clear();
         sensor.saveIssue(context, shellScript, 2, RULE_ID1, "An error here");
         assertEquals(1, context.allIssues().size());
         Issue issue = (Issue)context.allIssues().toArray()[0];
-        assertEquals(ruleKey1, issue.ruleKey());
+        assertEquals(ruleKey1.ruleKey(), issue.ruleKey());
         IssueLocation location = issue.primaryLocation();
         assertEquals(shellScript.key(), location.inputComponent().key());
         assertEquals(2, location.textRange().start().line());
@@ -348,8 +352,8 @@ public class ShellCheckSensorTest {
 
         Collection<Issue> issues = context.allIssues();
         assertEquals(0, issues.size());
-        assertEquals(1, logTester.logs(LoggerLevel.INFO).size());
-        assertEquals("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.", logTester.logs(LoggerLevel.INFO).get(0));
+        assertEquals(1, logTester.logs(Level.INFO).size());
+        assertEquals("Plugin disabled by configuration for this project: the code will not be analyzed but will be highlighted.", logTester.logs(Level.INFO).get(0));
     }
 
 
@@ -390,22 +394,17 @@ public class ShellCheckSensorTest {
         }
 
         @Override
-        public SensorDescriptor requireProperty(String... propertyKey) {
-            return this;
-        }
-
-        @Override
-        public SensorDescriptor requireProperties(String... propertyKeys) {
-            return this;
-        }
-
-        @Override
         public SensorDescriptor global() {
             return this;
         }
 
         @Override
         public SensorDescriptor onlyWhenConfiguration(Predicate<Configuration> predicate) {
+            return this;
+        }
+
+        @Override
+        public SensorDescriptor processesFilesIndependently() {
             return this;
         }
     }

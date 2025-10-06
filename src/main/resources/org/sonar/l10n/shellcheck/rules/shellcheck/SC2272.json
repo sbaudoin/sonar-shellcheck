@@ -1,5 +1,5 @@
 {
-  "title": "Command name contains ==. For comparison, use [ '$var' = value ].",
+  "title": "Command name contains ==. For comparison, use [ &quot;$var&quot; = value ].",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

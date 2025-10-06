@@ -1,13 +1,13 @@
-<p>In [..] you have to escape \( \) or preferably combine [..] expressions.</p>
+<p>In <code>[..]</code> you have to escape <code>\( \)</code> or preferably combine <code>[..]</code> expressions.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ -e ~/.bashrc -a ( -x /bin/dash -o -x /bin/ash ) ]
+<pre><code class="language-sh">[ -e ~/.bashrc -a ( -x /bin/dash -o -x /bin/ash ) ]
 </code></pre>
 <h2>Correct code</h2>
 <p>In POSIX:</p>
-<pre><code class="lang-sh">[ -e ~/.bashrc ] &amp;&amp;  { [ -x /bin/dash ] || [ -x /bin/ash ]; }
+<pre><code class="language-sh">[ -e ~/.bashrc ] &amp;&amp;  { [ -x /bin/dash ] || [ -x /bin/ash ]; }
 </code></pre>
 <p>Obsolete XSI syntax:</p>
-<pre><code class="lang-sh">[ -e ~/.bashrc -a \( -x /bin/dash -o -x /bin/ash \) ]
+<pre><code class="language-sh">[ -e ~/.bashrc -a \( -x /bin/dash -o -x /bin/ash \) ]
 </code></pre>
 <h2>Rationale</h2>
 <p><code>[</code> is implemented as a regular command, so <code>(</code> is not special.</p>

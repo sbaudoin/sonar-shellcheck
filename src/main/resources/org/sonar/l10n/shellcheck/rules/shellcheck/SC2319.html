@@ -1,0 +1,34 @@
+<p>This <code>$?</code> refers to a condition, not a command. Assign to a variable to avoid it being overwritten.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">mycommand
+if [ $? -ne 0 ] &amp;&amp; [ $? -ne 14 ]
+then
+  echo &quot;Command failed&quot;
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">mycommand
+[ $? -gt 0 ] &amp;&amp; exit $?
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">mycommand
+ret=$?
+if [ $ret -ne 0 ] &amp;&amp; [ $ret -ne 14 ]
+then
+  echo &quot;Command failed&quot;
+fi
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">mycommand || exit $?
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>$?</code> that always refers to a condition like <code>[ .. ]</code>, <code>[[ .. ]]</code>, or <code>test</code>.</p>
+<p>This most commonly happens when trying to inspect <code>$?</code> before doing something with it, such as inspecting it again or exiting with it, without realizing that any such inspection will also overwrite <code>$?</code>.</p>
+<p>In the first problematic example, <code>[ $? -ne 14 ]</code> will never be true because it only runs after <code>[ $? -ne 0 ]</code> has modified $? to be 0. The solution is to assign <code>$?</code> from <code>mycommand</code> to a variable so that the variable can be inspected repeatedly.</p>
+<p>In the second problematic example, <code>exit $?</code> will always <code>exit 0</code>, because it only runs if <code>[ $? -gt 0 ]</code> returns success and sets <code>$?</code> to 0. The solution could again be to assign <code>$?</code> to a variable first, or (as shown) use <code>mycommand || exit $?</code> as there is no condition to overwrite <code>$?</code>.</p>
+<h2>Exceptions</h2>
+<p>None. Note that ShellCheck does not warn if the usage of <code>$?</code> after <code>[ .. ]</code> is unconditional, as in <code>[ -d dir ]; return $?</code>.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,29 +1,29 @@
 <p>This flag is used as a command name. Bad line break or missing <code>[ .. ]</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if -e .bashrc
+<pre><code class="language-sh">if -e .bashrc
 then
   echo &quot;.bashrc already exists&quot;
 fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">find . -name &#39;*.mkv&#39;
+<pre><code class="language-sh">find . -name '*.mkv'
        -exec mplayer {} \;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ -e .bashrc ]
+<pre><code class="language-sh">if [ -e .bashrc ]
 then
   echo &quot;.bashrc already exists&quot;
 fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">find . -name &#39;*.mkv&#39; \
+<pre><code class="language-sh">find . -name '*.mkv' \
        -exec mplayer {} \;
 </code></pre>
 <h2>Rationale</h2>
 <p>You are using a name that starts with a dash as a command name. This is almost always a bug.</p>
 <p>There are two typical ways in which this happens:</p>
 <ul>
-<li>Missing <code>[ .. ]</code> or <code>[[ .. ]]</code> around a test expression, like in the first example example. </li>
+<li>Missing <code>[ .. ]</code> or <code>[[ .. ]]</code> around a test expression, like in the first example example.</li>
 <li>An invalid line break that splits a command in two, like in the second example.</li>
 </ul>
 <h2>Exceptions</h2>

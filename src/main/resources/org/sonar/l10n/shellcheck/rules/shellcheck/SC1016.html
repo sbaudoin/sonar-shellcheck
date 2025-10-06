@@ -1,0 +1,15 @@
+<p>This is a Unicode single quote. Delete and retype it.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">echo ‘hello world’
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">echo 'hello world'
+</code></pre>
+<h2>Rationale</h2>
+<p>Some software, like macOS, Microsoft Word, and WordPress, may automatically replace your regular quotes with slanted Unicode quotes. Try deleting and retyping them, and/or disable “smart quotes” in your editor or OS.</p>
+<h2>Status</h2>
+<p>This error was retired after 0.4.5. In this version and earlier, ShellCheck parsed slanted quotes as a valid double-quote. This meant that the warning could not simply be ignored. It has since been replaced by [[SC1110]] (outside quotes) and [[SC1112]] (inside single-quotes).</p>
+<h2>Exceptions</h2>
+<p>If you want to use typographic single-quotes, you can put them in double-quotes (or typographic double-quotes in single-quotes) to make ShellCheck ignore them, e.g.,</p>
+<pre><code class="language-sh">printf &quot;Warning: ‘wakeonlan’ is not installed.\n&quot;
+</code></pre>

@@ -1,0 +1,14 @@
+{
+  "title": "a[(x)] is the same as a[x]. Prefer not wrapping in additional parentheses.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Info"
+}

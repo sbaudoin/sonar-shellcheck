@@ -1,10 +1,10 @@
-<p>Use array+=("item") to append items to an array.</p>
+<p>Use <code>array+=(&quot;item&quot;)</code> to append items to an array.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">var=(one two)
+<pre><code class="language-sh">var=(one two)
 var+=three
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">var=(one two)
+<pre><code class="language-sh">var=(one two)
 var+=( three )
 </code></pre>
 <h2>Rationale</h2>

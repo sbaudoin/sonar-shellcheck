@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +48,6 @@ public class HighlightingDataTest extends TestCase {
 
         @Override
         public NewHighlighting onFile(InputFile inputFile) {
-            return null;
-        }
-
-        @Override
-        public NewHighlighting highlight(int startOffset, int endOffset, TypeOfText typeOfText) {
             return null;
         }
 

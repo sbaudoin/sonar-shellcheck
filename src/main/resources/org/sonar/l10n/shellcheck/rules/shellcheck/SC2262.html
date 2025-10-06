@@ -1,12 +1,12 @@
 <p>This alias can't be defined and used in the same parsing unit. Use a function instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">function checksum() {
+<pre><code class="language-sh">function checksum() {
   type md5 &amp;&amp; alias md5sum=md5
   md5sum &quot;$@&quot;  # This calls `md5sum`, not `md5`
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">function checksum() {
+<pre><code class="language-sh">function checksum() {
   type md5 &amp;&amp; md5sum() { md5 &quot;$@&quot;; }
   md5sum &quot;$@&quot;  # Now this would call `md5` when applicable
 }
@@ -34,8 +34,7 @@ unit 2; unit 2;
   unit 4
 }; {
   unit 4
-}
-</code></pre>
+}</code></pre>
 <p>Any alias defined in a command in <code>unit 1</code> would not take effect until <code>unit 2</code> and beyond. Similarly, an alias defined in unit 2 will only take effect in unit 3 and 4.</p>
 <p>In the problematic example, the alias is defined and used in a function. Since a function definition is a single compound command, it's considered a single parsing unit. The alias would therefore not have an effect (this is true even if the function is invoked twice, because it's only parsed once).</p>
 <p>Does this sound confusing and counter-intuitive? It is. Save yourself the trouble and always use functions instead of aliases.</p>
@@ -49,8 +48,7 @@ then
   alias foo=bar
   # With either Option A or B, this SC2263 message is auto-suppressed
   foo
-fi
-</code></pre>
+fi</code></pre>
 <h2>Related resources</h2>
 <ul>
 <li>Unix&amp;Linux SE: <a href="https://unix.stackexchange.com/questions/502257/bash-aliases-do-not-expand-even-with-shopt-expand-aliases">bash aliases do not expand even with shopt expand_aliases</a></li>

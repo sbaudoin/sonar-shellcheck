@@ -1,5 +1,5 @@
 {
-  "title": "'function' keyword is non-standard. Delete it.",
+  "title": "function keyword is non-standard. Delete it.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

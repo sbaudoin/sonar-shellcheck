@@ -1,5 +1,5 @@
 {
-  "title": "To expand via indirection, use name='foo$n'; echo '${!name}'.",
+  "title": "To expand via indirection, use name=&quot;foo$n&quot;; echo &quot;${!name}&quot;.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

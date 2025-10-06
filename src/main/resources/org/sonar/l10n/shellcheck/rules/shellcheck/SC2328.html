@@ -1,0 +1,24 @@
+<p>This redirection takes output away from the command substitution.</p>
+<p>(and companion warning &quot;This command substitution will be empty because the command's output gets redirected away&quot; which points to the relevant command substitution)</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">var=$(tr -d ':' &lt; input.txt &gt; output.txt)
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh"># If the output should be captured INSTEAD OF being written to file
+var=$(tr -d ':' &lt; input.txt)
+
+# If the output should be captured IN ADDITION to being written to file
+var=$(tr -d ':' &lt; input.txt | tee output.txt)
+
+# If the output should NOT BE captured at all
+tr -d ':' &lt; input.txt &gt; output.txt
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck has found a command substitution (<code>$(..)</code>, <code>`..`</code>) that appears to never capture any output because the command's output is being redirected.</p>
+<p>Decide whether you want the output to be captured (by removing the redirection), to go into wherever it's redirected (by not running the command in a command substitution), or both (by using <code>tee</code> to copy the output to both file and stdout).</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

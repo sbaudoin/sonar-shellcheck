@@ -1,5 +1,5 @@
 {
-  "title": "coproc is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, coproc is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

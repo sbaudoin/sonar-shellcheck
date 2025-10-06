@@ -1,13 +1,13 @@
 <p>Tips depend on target shell and yours is unknown. Add a shebang.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$RANDOM&quot;   # Does this work?
+<pre><code class="language-sh">echo &quot;$RANDOM&quot;   # Does this work?
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 echo &quot;$RANDOM&quot;  # Unsupported in sh. Produces warning.
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 echo &quot;$RANDOM&quot;  # Supported in bash. No warnings.
 </code></pre>
 <h2>Rationale</h2>

@@ -1,5 +1,5 @@
 {
-  "title": "You need a space after the '{'.",
+  "title": "You need a space after the {.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

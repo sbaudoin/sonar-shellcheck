@@ -1,13 +1,13 @@
 <p>In POSIX sh, string replacement is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 echo &quot;${var//foo/bar}&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>Either switch the shebang to <code>bash</code> or <code>ksh</code>, or rewrite the expansion using a tool like <code>sed</code>:</p>
-<pre><code class="lang-sh">#!/bin/sh
-echo &quot;$var&quot; | sed &#39;s/foo/bar/g&#39;
+<pre><code class="language-sh">#!/bin/sh
+echo &quot;$var&quot; | sed 's/foo/bar/g'
 </code></pre>
 <h2>Rationale</h2>
 <p>String replacement in parameter expansion is a <code>bash</code> and <code>ksh</code> extension. <code>dash</code> and POSIX <code>sh</code> does not support it.</p>

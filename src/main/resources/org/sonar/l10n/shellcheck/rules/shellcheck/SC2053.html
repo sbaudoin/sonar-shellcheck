@@ -1,9 +1,9 @@
-<p>Quote the rhs of = in [[ ]] to prevent glob matching.</p>
+<p>Quote the rhs of <code>=</code> in <code>[[ ]]</code> to prevent glob matching.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[[ $a = $b ]]
+<pre><code class="language-sh">[[ $a = $b ]]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[[ $a = &quot;$b&quot; ]]
+<pre><code class="language-sh">[[ $a = &quot;$b&quot; ]]
 </code></pre>
 <h2>Rationale</h2>
 <p>When the right-hand side of <code>=</code>, <code>==</code> or <code>!=</code> is unquoted in <code>[[ .. ]]</code>, it will be treated like a glob.</p>

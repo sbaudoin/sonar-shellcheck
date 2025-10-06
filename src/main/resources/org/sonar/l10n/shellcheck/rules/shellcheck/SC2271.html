@@ -1,35 +1,35 @@
-<p>For indirection, use arrays, <code>declare "var$n=value"</code>, or (for sh) read/eval</p>
+<p>For indirection, use arrays, <code>declare &quot;var$n=value&quot;</code>, or (for sh) read/eval</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">n=1
+<pre><code class="language-sh">n=1
 var$n=&quot;hello&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>For integer indexing in ksh/bash, consider using an indexed array:</p>
-<pre><code class="lang-sh">n=1
+<pre><code class="language-sh">n=1
 var[n]=&quot;hello&quot;
 echo &quot;${var[n]}&quot;
 </code></pre>
 <p>For string indexing in ksh/bash, use an associative array:</p>
-<pre><code class="lang-sh">typeset -A var
+<pre><code class="language-sh">typeset -A var
 n=&quot;greeting&quot;
 var[$n]=&quot;hello&quot;
 echo &quot;${var[$n]}&quot;
 </code></pre>
 <p>If you actually need a variable with the constructed name in bash, use <code>declare</code>:</p>
-<pre><code class="lang-sh">n=&quot;Foo&quot;
+<pre><code class="language-sh">n=&quot;Foo&quot;
 declare &quot;var$n=42&quot;
 echo &quot;$varFoo&quot;
 </code></pre>
 <p>For <code>sh</code>, with single line contents, consider <code>read</code>:</p>
-<pre><code class="lang-sh">n=&quot;Foo&quot;
+<pre><code class="language-sh">n=&quot;Foo&quot;
 read -r &quot;var$n&quot; &lt;&lt; EOF
 hello
 EOF
 echo &quot;$varFoo&quot;
 </code></pre>
 <p>or with careful escaping, <code>eval</code>:</p>
-<pre><code class="lang-sh">n=Foo
-eval &quot;var$n=&#39;hello&#39;&quot;
+<pre><code class="language-sh">n=Foo
+eval &quot;var$n='hello'&quot;
 echo &quot;$varFoo&quot;
 </code></pre>
 <h2>Rationale</h2>

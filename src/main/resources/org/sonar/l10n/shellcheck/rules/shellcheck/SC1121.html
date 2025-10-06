@@ -1,12 +1,13 @@
-<p>Add ;/&amp; terminators (and other syntax) on the line with the &lt;&lt;, not here.</p>
+<p>Add <code>;</code>/<code>&amp;</code> terminators (and other syntax) on the line with the <code>&lt;&lt;</code>, not here.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">sudo bash -s &lt;&lt; &quot;END&quot;
+<pre><code class="language-sh">sudo bash -s &lt;&lt; &quot;END&quot;
   cmd1
   cmd2
 END &amp;
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">sudo bash -s &lt;&lt; &quot;END&quot; &amp;
+<pre><code class="language-sh">sudo bash -s &lt;&lt; &quot;END&quot; &amp;
   cmd1
   cmd2
 END
@@ -14,6 +15,6 @@ END
 <h2>Rationale</h2>
 <p>You are using <code>&amp;</code>, <code>;</code>, <code>&amp;&gt;</code> or similar after a here document. This is not allowed.</p>
 <p>This should instead be part of the line that initiated the here document, i.e. the one with the <code>&lt;&lt;</code>.</p>
-<p>If it helps, look at <code>&lt;&lt; "END"</code> as if it was <code>&lt; file</code>, and make sure the resulting command is valid. This is what the shell does. You can then append here document data after the command.</p>
+<p>If it helps, look at <code>&lt;&lt; &quot;END&quot;</code> as if it was <code>&lt; file</code>, and make sure the resulting command is valid. This is what the shell does. You can then append here document data after the command.</p>
 <h2>Exceptions</h2>
 <p>None.</p>

@@ -1,9 +1,9 @@
-<p>Increase precision by replacing a/b*c with a*c/b.</p>
+<p>Increase precision by replacing <code>a/b*c</code> with <code>a*c/b</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">percent=$((count/total*100))
+<pre><code class="language-sh">percent=$((count/total*100))
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">percent=$((count*100/total))
+<pre><code class="language-sh">percent=$((count*100/total))
 </code></pre>
 <h2>Rationale</h2>
 <p>If integer division is performed before multiplication, the intermediate result will be truncated causing a loss of precision.</p>

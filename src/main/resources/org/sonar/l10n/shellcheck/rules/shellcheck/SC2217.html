@@ -1,11 +1,11 @@
-<p>Redirecting to 'echo', a command that doesn't read stdin. Bad quoting or missing xargs?</p>
+<p>Redirecting to <code>echo</code>, a command that doesn't read stdin. Bad quoting or missing <code>xargs</code>?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &lt;&lt; eof
+<pre><code class="language-sh">echo &lt;&lt; eof
   Hello World
 eof
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">cat &lt;&lt; eof
+<pre><code class="language-sh">cat &lt;&lt; eof
   Hello World
 eof
 </code></pre>

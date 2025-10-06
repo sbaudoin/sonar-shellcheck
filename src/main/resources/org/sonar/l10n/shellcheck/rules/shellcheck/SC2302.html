@@ -1,41 +1,41 @@
-<p>This loops over values. To loop over keys, use "${!array[@]}".</p>
+<p>This loops over values. To loop over keys, use <code>&quot;${!array[@]}&quot;</code>.</p>
 <p>Plus companion warning [[SC2303]]: <code>i is an array value, not a key. Use directly or loop over keys instead.</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">array=(foo bar)
-for i in &quot;${array[@]}&quot;
+<pre><code class="language-sh">array=(foo bar)
+for v in &quot;${array[@]}&quot;
 do
-  echo &quot;Value is ${array[$i]}&quot;
+  echo &quot;Value is ${array[$v]}&quot;
 done
 </code></pre>
 <h2>Correct code</h2>
 <p>Either loop over values</p>
-<pre><code class="lang-sh">for i in &quot;${array[@]}&quot;
+<pre><code class="language-sh">for v in &quot;${array[@]}&quot;
 do
-  echo &quot;Value is $i&quot;
+  echo &quot;Value is $v&quot;
 done
 </code></pre>
 <p>or loop over keys:</p>
-<pre><code class="lang-sh">for i in &quot;${!array[@]}&quot;
+<pre><code class="language-sh">for k in &quot;${!array[@]}&quot;  # Note `!`
 do
-  echo &quot;Key is $i&quot;
-  echo &quot;Value is ${array[$i]}&quot;
+  echo &quot;Key is $k&quot;
+  echo &quot;Value is ${array[$k]}&quot;
 done
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a <code>for</code> loop over array <em>values</em>, where the variable is used as an array <em>key</em>.</p>
-<p>In the problematic example, the loop will print <code>Value is foo</code> twice. On the second iteration, <code>i=bar</code>, and <code>bar</code> is unset and considered zero, so <code>${array[$i]}</code> becomes <code>${array[bar]}</code> becomes <code>${array[0]}</code> becomes <code>foo</code>.</p>
-<p>If you don't care about the key, simply loop over array values and use <code>$i</code> to refer to the array value, like in the first correct example.</p>
-<p>If you do want the key, loop over array keys with <code>"${!array[@]}"</code>, use <code>$i</code> to refer to the array key, and <code>${array[$i]}</code> to refer to the array value.</p>
+<p>In the problematic example, the loop will print <code>Value is foo</code> twice. On the second iteration, <code>v=bar</code>, and <code>bar</code> is unset and considered zero, so <code>${array[$v]}</code> becomes <code>${array[bar]}</code> becomes <code>${array[0]}</code> becomes <code>foo</code>.</p>
+<p>If you don't care about the key, simply loop over array values and use <code>$v</code> to refer to the array value, like in the first correct example.</p>
+<p>If you do want the key, loop over array keys with <code>&quot;${!array[@]}&quot;</code>, use <code>$k</code> to refer to the array key, and <code>${array[$k]}</code> to refer to the array value.</p>
 <h2>Exceptions</h2>
 <p>If you do want to use values from the arrays as keys in the same array, you can [[ignore]] these messages with a directive:</p>
-<pre><code class="lang-sh">declare -A fatherOf=(
+<pre><code class="language-sh">declare -A fatherOf=(
   [&quot;Eric Bloodaxe&quot;]=&quot;Harald Fairhair&quot;
   [&quot;Harald Fairhair&quot;]=&quot;Halfdan the Black&quot;
   [&quot;Halfdan the Black&quot;]=&quot;Gudrød the Hunter&quot;
   [&quot;Gudrød the Hunter&quot;]=&quot;Halfdan the Mild&quot;
 )
 
-# shellcheck disable=SC2302,SC23203
+# shellcheck disable=SC2302,SC2303
 for i in &quot;${fatherOf[@]}&quot; 
 do
   echo &quot;${fatherOf[$i]:-(missing)} begat $i&quot;

@@ -1,9 +1,9 @@
 <p>This default assignment may cause DoS due to globbing. Quote it.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">: ${COLUMNS:=80}
+<pre><code class="language-sh">: ${COLUMNS:=80}
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">: &quot;${COLUMNS:=80}&quot;
+<pre><code class="language-sh">: &quot;${COLUMNS:=80}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>This statement is an idiomatic way of assigning a default value to an environment variable. However, even though it's passed to <code>:</code> which ignores arguments, it's better to quote it.</p>
@@ -11,7 +11,6 @@
 <p>The correct code uses double quotes to avoid glob expansion, and therefore does not have this problem.</p>
 <p>When quoting, make sure to update any inner quotes:</p>
 <pre><code>: ${var:='foo'}    # Assigns foo without quotes
-: "${var:='foo'}"  # Assigns 'foo' with quotes
-</code></pre>
+: &quot;${var:='foo'}&quot;  # Assigns 'foo' with quotes</code></pre>
 <h2>Exceptions</h2>
 <p>None, though this issue is largely theoretical.</p>

@@ -1,11 +1,11 @@
-<p>In POSIX sh, /dev/{tcp,udp} is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>In POSIX sh, <code>/dev/{tcp,udp}</code> is undefined.</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo foo &gt; /dev/tcp/myhost/1234
+<pre><code class="language-sh">echo foo &gt; /dev/tcp/myhost/1234
 </code></pre>
 <h2>Correct code</h2>
 <p>Rewrite using a tool like netcat (<code>nc</code>):</p>
-<pre><code class="lang-sh">echo foo | nc myhost 1234
+<pre><code class="language-sh">echo foo | nc myhost 1234
 </code></pre>
 <h2>Rationale</h2>
 <p><code>/dev/tcp/$host/$port</code> and <code>/dev/udp/$host/$port</code> are recognized in redirections by bash and ksh, and a socket connection is made instead of opening a file. They do not physically exist in <code>/dev</code>.</p>

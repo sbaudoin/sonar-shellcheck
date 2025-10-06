@@ -1,18 +1,19 @@
 <p>Instead of <code>let expr</code>, prefer <code>(( expr ))</code> .</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">let a++
+<pre><code class="language-sh">let a++
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">(( a++ )) || true
+<pre><code class="language-sh">(( a++ )) || true
 </code></pre>
-<blockquote><p>Note, <code>|| true</code> bits ignore error status code when incrementing from <code>0</code> to <code>1</code></p>
+<blockquote>
+<p>Note, <code>|| true</code> bits ignore error status code when incrementing from <code>0</code> to <code>1</code></p>
 </blockquote>
 <h2>Rationale</h2>
 <p>The <code>(( .. ))</code> arithmetic compound command evaluates expressions in the same way as <code>let</code>, except it's not subject to glob expansion and therefore requires no additional quoting or escaping.</p>
-<p>This warning only triggers in Bash/Ksh scripts. In Sh/Dash, neither <code>let</code> nor <code>(( .. ))</code> are defined, but can be simulated with <code>[ $(( expr )) -ne 0 ]</code> to retain exit code, or <code>: $(( expr ))</code> to ignore it.</p>
+<p>This warning only triggers in Bash/Ksh scripts. In Sh/Dash, neither <code>let</code> nor <code>(( .. ))</code> are defined, but can be simulated with <code>[ $(( expr )) -ne 0 ]</code> to retain exit code, or <code>: $(( expr ))</code> to ignore it. For portability, the <code>$(( expr ))</code> syntax is defined in POSIX standard.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
 <h2>More information</h2>
 <ul>
-<li>Bash Hacker's Wiki: <a href="http://wiki.bash-hackers.org/commands/builtin/let">The let builtin command</a></li>
+<li>Bash Hacker's Wiki: <a href="https://web.archive.org/web/20230224010517/http://wiki.bash-hackers.org/commands/builtin/let">The let builtin command</a></li>
 </ul>

@@ -1,13 +1,12 @@
-<blockquote><p>is for string comparisons. Use -gt instead.</p>
-</blockquote>
+<p><code>&gt;</code> is for string comparisons. Use <code>-gt</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [[ $var &gt; 10 ]]
+<pre><code class="language-sh">if [[ $var &gt; 10 ]]
 then
   echo &quot;Incorrectly triggers when var=5&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [[ $var -gt 10 ]]
+<pre><code class="language-sh">if [[ $var -gt 10 ]]
 then
   echo &quot;Correct numerical comparison&quot;
 fi

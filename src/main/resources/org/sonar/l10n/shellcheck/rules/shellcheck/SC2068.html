@@ -1,14 +1,14 @@
 <p>Double quote array expansions to avoid re-splitting elements.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">cp $@ ~/dir
+<pre><code class="language-sh">cp $@ ~/dir
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">cp &quot;$@&quot; ~/dir
+<pre><code class="language-sh">cp &quot;$@&quot; ~/dir
 </code></pre>
 <h2>Rationale</h2>
 <p>Double quotes around <code>$@</code> (and similarly, <code>${array[@]}</code>) prevents globbing and word splitting of individual elements, while still expanding to multiple separate arguments.</p>
 <p>Let's say you have four arguments: <code>baz</code>, <code>foo bar</code>, <code>*</code> and <code>/*/*/*/*</code></p>
-<p><code>"$@"</code> will expand into exactly that: <code>baz</code>, <code>foo bar</code>, <code>*</code> and <code>/*/*/*/*</code></p>
+<p><code>&quot;$@&quot;</code> will expand into exactly that: <code>baz</code>, <code>foo bar</code>, <code>*</code> and <code>/*/*/*/*</code></p>
 <p><code>$@</code> will expand into multiple other arguments: <code>baz</code>, <code>foo</code>, <code>bar</code>, <code>file.txt</code>, <code>otherfile.jpg</code>, and (eventually) a list of most files on the system</p>
 <p>Since the latter is rarely expected or desired, ShellCheck warns about it.</p>
 <h2>Exceptions</h2>

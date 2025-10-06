@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,23 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.highlighting;
 
-import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.BashLexer;
-import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.Token;
-import org.sonar.api.batch.sensor.highlighting.TypeOfText;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.sensor.highlighting.TypeOfText;
+
+import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.BashLexer;
+import com.github.sbaudoin.sonar.plugins.shellcheck.lexer.Token;
+
 /**
  * Class in charge of Shell code highlighting in SonarQube
  */
 public class ShellHighlighting {
-    private static final Logger LOGGER = Loggers.get(ShellHighlighting.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShellHighlighting.class);
 
     private List<HighlightingData> highlighting = new ArrayList<>();
     private String code;

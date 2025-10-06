@@ -1,15 +1,15 @@
-<p>Use BASH_ARGV0 to assign to $0 in bash (or use [ ] to compare).</p>
+<p>Use <code>BASH_ARGV0</code> to assign to <code>$0</code> in bash (or use <code>[ ]</code> to compare).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 $0=myscriptname
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 BASH_ARGV0=myscriptname
 </code></pre>
 <h2>Rationale</h2>
 <p>You appear to be trying to assign a new value to <code>$0</code> in a Bash script. To do this, instead assign to the special variable <code>BASH_ARGV0</code>.</p>
-<p>If you instead wanted to compare the value of <code>$0</code>, use a comparison like <code>[ "$0" = "myname" ]</code>.</p>
+<p>If you instead wanted to compare the value of <code>$0</code>, use a comparison like <code>[ &quot;$0&quot; = &quot;myname&quot; ]</code>.</p>
 <h2>Exceptions</h2>
 <p>None.</p>
 <h2>Related resources</h2>

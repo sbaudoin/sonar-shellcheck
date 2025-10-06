@@ -1,11 +1,11 @@
-<p>This word is constant. Did you forget the $ on a variable?</p>
+<p>This word is constant. Did you forget the <code>$</code> on a variable?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">case foo in
+<pre><code class="language-sh">case foo in
   bar) echo &quot;Match&quot;
 esac
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">case $foo in
+<pre><code class="language-sh">case $foo in
   bar) echo &quot;Match&quot;
 esac
 </code></pre>

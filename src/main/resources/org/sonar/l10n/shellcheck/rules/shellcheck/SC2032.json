@@ -1,5 +1,5 @@
 {
-  "title": "Use own script or sh -c '..' to run this from su.",
+  "title": "This function can't be invoked via su on line 42.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

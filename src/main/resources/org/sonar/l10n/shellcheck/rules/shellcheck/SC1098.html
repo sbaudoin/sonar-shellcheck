@@ -1,9 +1,9 @@
-<p>Quote/escape special characters when using eval, e.g. eval "a=(b)".</p>
+<p>Quote/escape special characters when using <code>eval</code>, e.g. <code>eval &quot;a=(b)&quot;</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">eval $var=(a b)
+<pre><code class="language-sh">eval $var=(a b)
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">eval &quot;$var=(a b)&quot;
+<pre><code class="language-sh">eval &quot;$var=(a b)&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Shells differ widely in how they handle unescaped parentheses in <code>eval</code> expressions.</p>

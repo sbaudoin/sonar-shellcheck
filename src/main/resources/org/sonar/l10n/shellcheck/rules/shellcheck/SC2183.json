@@ -1,5 +1,5 @@
 {
-  "title": "This format string has 2 variables, but is passed 1 arguments.",
+  "title": "This format string has 2 variables, but is passed 1 argument.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

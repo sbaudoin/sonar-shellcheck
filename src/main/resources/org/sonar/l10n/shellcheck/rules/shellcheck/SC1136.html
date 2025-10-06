@@ -1,11 +1,12 @@
-<p>Unexpected characters after terminating <code>]</code>. Missing semicolon/linefeed?</p>
+<p>Unexpected characters after terminating <code>]</code>. Missing semicolon/linefeed?
+<em>Note: Removed in <a href="https://github.com/koalaman/shellcheck/commit/8e332ce87978e6f6afdfabcc15b382983ea32550">V0.7.2 2021-04-20</a></em></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ -e &quot;foo.txt&quot; ]: then
+<pre><code class="language-sh">if [ -e &quot;foo.txt&quot; ]: then
   echo &quot;Exists&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ -e &quot;foo.txt&quot; ]; then
+<pre><code class="language-sh">if [ -e &quot;foo.txt&quot; ]; then
   echo &quot;Exists&quot;
 fi
 </code></pre>

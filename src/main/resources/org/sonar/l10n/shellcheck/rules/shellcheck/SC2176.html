@@ -1,13 +1,13 @@
-<p>'time' is undefined for pipelines. time single stage or bash -c instead.</p>
+<p><code>time</code> is undefined for pipelines. time single stage or <code>bash -c</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">time foo | bar
+<pre><code class="language-sh">time foo | bar
 </code></pre>
 <h2>Correct code</h2>
 <p>To time the most relevant stage:</p>
-<pre><code class="lang-sh">foo | { time bar; }
+<pre><code class="language-sh">foo | { time bar; }
 </code></pre>
 <p>To time everything in a pipeline:</p>
-<pre><code class="lang-sh">time bash -c &#39;foo | bar&#39;
+<pre><code class="language-sh">time bash -c 'foo | bar'
 </code></pre>
 <p>Note that you can not use <code>time sh -c</code> to time an entire pipeline, because POSIX does not guarantee that anything other than the last stage is waited upon by the shell.</p>
 <h2>Rationale</h2>

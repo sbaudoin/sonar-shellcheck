@@ -1,5 +1,5 @@
 {
-  "title": "unary -v (in place of [ -n \"${var+x}\" ]) is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, unary -v (in place of [ -n &quot;${var+x}&quot; ]) is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

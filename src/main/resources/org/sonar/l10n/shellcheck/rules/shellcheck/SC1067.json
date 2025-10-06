@@ -1,5 +1,5 @@
 {
-  "title": "For indirection, use arrays, declare 'var$n=value', or (for sh) read\/eval",
+  "title": "For indirection, use arrays, declare &quot;var$n=value&quot;, or (for sh) read\/eval",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

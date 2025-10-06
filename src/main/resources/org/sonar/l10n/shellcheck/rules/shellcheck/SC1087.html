@@ -1,9 +1,9 @@
-<p>"Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet)."</p>
+<p>Use braces when expanding arrays, e.g. <code>${array[idx]}</code> (or <code>${var}[..</code> to quiet).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$array[@]&quot;
+<pre><code class="language-sh">echo &quot;$array[@]&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;${array[@]}&quot;
+<pre><code class="language-sh">echo &quot;${array[@]}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>Some languages use the syntax <code>$array[index]</code> to access an index of an arrays, but a shell will interpret this as <code>$array</code> followed by the unrelated literal string (or glob) <code>[index]</code>.</p>

@@ -1,9 +1,10 @@
-<p>echo doesn't read from stdin, are you sure you should be piping to it?</p>
+<p><code>echo</code> doesn't read from stdin, are you sure you should be piping to it?
+<em>Note: Removed in <a href="https://github.com/koalaman/shellcheck/commit/5bd33dbf922a04f8b64c2ce3eb40ea6f214aef11">v0.4.7 - 2020-03-07</a></em></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">find . | echo
+<pre><code class="language-sh">find . | echo
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find .
+<pre><code class="language-sh">find .
 </code></pre>
 <h2>Rationale</h2>
 <p>You are piping command output to <code>echo</code>, but <code>echo</code> ignores all piped input.</p>

@@ -1,5 +1,5 @@
 {
-  "title": "Quote\/escape special characters when using eval, e.g. eval 'a=(b)'.",
+  "title": "Quote\/escape special characters when using eval, e.g. eval &quot;a=(b)&quot;.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

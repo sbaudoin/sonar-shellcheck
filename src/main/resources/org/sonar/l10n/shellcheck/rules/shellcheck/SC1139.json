@@ -1,5 +1,5 @@
 {
-  "title": "Use || instead of '-o' between test commands.",
+  "title": "Use || instead of -o between test commands.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

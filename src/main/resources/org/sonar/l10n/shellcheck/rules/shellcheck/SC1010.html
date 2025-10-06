@@ -1,19 +1,21 @@
-<p>Use semicolon or linefeed before 'done' (or quote to make it literal).</p>
+<p>Use semicolon or linefeed before <code>done</code> (or quote to make it literal).</p>
 <p>(or <code>do</code> <code>then</code>, <code>fi</code>, <code>esac</code>)</p>
 <h2>Problematic code</h2>
-<pre><code>for f in *; do echo "$f" done
+<pre><code class="language-sh">for f in *; do echo &quot;$f&quot; done
 </code></pre>
 <p>or</p>
-<pre><code>echo $f is done
+<pre><code class="language-sh">echo $f is done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code>for f in *; do echo "$f"; done
+<pre><code class="language-sh">for f in *; do echo &quot;$f&quot;; done
 </code></pre>
 <p>or</p>
-<pre><code>echo "$f is done"
+<pre><code class="language-sh">echo &quot;$f is done&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a keyword like <code>done</code>, <code>then</code>, <code>fi</code>, <code>esac</code>, etc used as the argument of a command. This means that the shell will interpret it as a literal string rather than a shell keyword. To be interpreted as a keyword, it must be the first word in the line (i.e. after <code>;</code>, <code>&amp;</code> or a linefeed).</p>
-<p>In the example, <code>echo "$f" done</code> is the same as <code>echo "$f" "done"</code>, and the <code>done</code> does not terminate the loop. This is fixed by terminating the <code>echo</code> command with a <code>;</code> so that the <code>done</code> is the first word in the next line.</p>
+<p>In the example, <code>echo &quot;$f&quot; done</code> is the same as <code>echo &quot;$f&quot; &quot;done&quot;</code>, and the <code>done</code> does not terminate the loop. This is fixed by terminating the <code>echo</code> command with a <code>;</code> so that the <code>done</code> is the first word in the next line.</p>
 <h2>Exceptions</h2>
-<p>If you're intentionally using <code>done</code> as a literal, you can quote it to make this clear to shellcheck (and also human readers), e.g. instead of <code>echo Task is done</code>, use <code>echo "Task is done"</code>. This makes no difference to the shell, but it will silence this warning.</p>
+<p>If you're intentionally using <code>done</code> as a literal, you can quote it to make this clear to ShellCheck (and also human readers), e.g. instead of <code>echo Task is done</code>, use <code>echo &quot;Task is done&quot;</code>. This makes no difference to the shell, but it will silence this warning.</p>
+<p>From POSIX-2018, section &quot;C.2.10 Shell Grammar,&quot; regarding the syntax, <code>if (false) then (echo x) else (echo y) fi</code>:
+https://pubs.opengroup.org/onlinepubs/9699919799/xrat/V4_xcu_chap02.html#tag_23_02_10</p>

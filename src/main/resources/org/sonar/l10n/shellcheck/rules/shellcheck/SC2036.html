@@ -1,9 +1,9 @@
-<p>If you wanted to assign the output of the pipeline, use a=$(b | c) .</p>
+<p>If you wanted to assign the output of the pipeline, use <code>a=$(b | c)</code> .</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">sum=find | wc -l
+<pre><code class="language-sh">sum=find | wc -l
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">sum=$(find | wc -l)
+<pre><code class="language-sh">sum=$(find | wc -l)
 </code></pre>
 <h2>Rationale</h2>
 <p>The intention in this code was that <code>sum</code> would in some way get the value of the command <code>find | wc -l</code>.</p>

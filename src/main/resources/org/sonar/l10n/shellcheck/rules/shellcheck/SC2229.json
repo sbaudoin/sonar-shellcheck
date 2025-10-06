@@ -1,5 +1,5 @@
 {
-  "title": "This does not read 'foo'. Remove $\/${} for that, or use ${var?} to quiet.",
+  "title": "This does not read foo. Remove $\/${} for that, or use ${var?} to quiet.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

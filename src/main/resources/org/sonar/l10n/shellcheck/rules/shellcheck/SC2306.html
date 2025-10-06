@@ -1,1 +1,20 @@
 <p>Escape glob characters in arguments to expr to avoid pathname expansion.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">f=$(expr &quot;$c&quot; * 9 / 5 + 32)
+</code></pre>
+<h2>Correct code</h2>
+<p>Prefer rewriting to a modern style (see [[SC2003]]):</p>
+<pre><code class="language-sh">f=$((c * 9 / 5 + 32))
+</code></pre>
+<p>If you do not wish to do so, at least escape the glob characters when passing them to <code>expr</code>:</p>
+<pre><code class="language-sh">f=$(expr &quot;$c&quot; \* 9 / 5 + 32)
+</code></pre>
+<h2>Rationale</h2>
+<p><code>expr</code> is a command so <code>expr 2 * 2</code> will consider <code>*</code> to mean &quot;all files in the current directory&quot;. This causes the expression to fail to evaluate unless you are in an empty directory with the <code>failglob</code> and <code>nullglob</code> options turned off.</p>
+<p>Prefer rewriting it using the modern, POSIX standard arithmetic expansion <code>$((..))</code>. If you do not wish to do so, you can escape any characters like <code>*</code> to avoid the shell performing pathname expansion on them.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

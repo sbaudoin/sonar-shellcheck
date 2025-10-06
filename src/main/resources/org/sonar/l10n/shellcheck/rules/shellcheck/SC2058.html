@@ -1,9 +1,9 @@
 <p>Unknown unary operator.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ -E 42 ]
+<pre><code class="language-sh">[ -E 42 ]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ -e 42 ]
+<pre><code class="language-sh">[ -e 42 ]
 </code></pre>
 <h2>Rationale</h2>
 <p>You are using an unknown unary operator in a <code>test</code> expression. Perhaps it's a typo?</p>
@@ -28,8 +28,7 @@
   -x FILE        True if the file is executable by you.
   -O FILE        True if the file is effectively owned by you.
   -G FILE        True if the file is effectively owned by your group.
-  -N FILE        True if the file has been modified since it was last read.
-</code></pre>
+  -N FILE        True if the file has been modified since it was last read.</code></pre>
 <h2>Exceptions</h2>
 <p>None. If you've tested and verified that the operator works but the latest version of ShellCheck says it's unknown, please <a href="https://github.com/koalaman/shellcheck/issues">submit a bug report</a>.</p>
 <h2>Related resources</h2>

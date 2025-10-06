@@ -1,14 +1,14 @@
-<h1>Note that unlike globs, o* here matches 'ooo' but not 'oscar'</h1>
+<p>Note that unlike globs, <code>o*</code> here matches <code>ooo</code> but not <code>oscar</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">grep &#39;foo*&#39;
+<pre><code class="language-sh">grep 'foo*'
 </code></pre>
 <p>when wanting to match <code>food</code> and <code>foosball</code>, but not <code>mofo</code> or <code>keyfob</code>.</p>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">grep &#39;^foo&#39;
+<pre><code class="language-sh">grep '^foo'
 </code></pre>
 <h2>Rationale</h2>
-<p>As a glob, <code>foo*</code> means "Any string starting with foo", e.g. <code>food</code> and <code>foosball</code>.</p>
-<p>As a regular expression, "foo*" means "f followed by 1 or more o's, anywhere", e.g. "mofo" or "keyfob".</p>
+<p>As a glob, <code>foo*</code> means &quot;Any string starting with foo&quot;, e.g. <code>food</code> and <code>foosball</code>.</p>
+<p>As a regular expression, &quot;foo*&quot; means &quot;f followed by 1 or more o's, anywhere&quot;, e.g. &quot;mofo&quot; or &quot;keyfob&quot;.</p>
 <p>This construct is way more common as a glob than as a regex, so ShellCheck notifies you about it.</p>
 <h2>Exceptions</h2>
 <p>If you're aware of the above, you can ignore this message. If you'd like shellcheck to be quiet, use a [[directive]] or <code>'fo[o]*'</code>.</p>

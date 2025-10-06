@@ -1,6 +1,6 @@
 <p>This case is not specified by getopts.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">while getopts &quot;vr&quot; n
+<pre><code class="language-sh">while getopts &quot;vr&quot; n
 do
   case &quot;$n&quot; in
     v) echo &quot;Verbose&quot; ;;
@@ -11,7 +11,7 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">while getopts &quot;vrn&quot; n    # &#39;n&#39; added here
+<pre><code class="language-sh">while getopts &quot;vrn&quot; n    # 'n' added here
 do
   case &quot;$n&quot; in
     v) echo &quot;Verbose&quot; ;;

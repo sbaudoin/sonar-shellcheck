@@ -1,9 +1,9 @@
 <p>When eval'ing @Q-quoted words, use * rather than @ as the index.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">eval &quot;$MYCOMMAND ${@@Q}&quot;
+<pre><code class="language-sh">eval &quot;$MYCOMMAND ${@@Q}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">eval &quot;$MYCOMMAND ${*@Q}&quot;
+<pre><code class="language-sh">eval &quot;$MYCOMMAND ${*@Q}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck noticed that you are calling <code>eval</code> and including an escaped array. However, the array is passed as multiple arguments and relies on being implicitly joined together to form a single shell string, which <code>eval</code> can then evaluate.</p>

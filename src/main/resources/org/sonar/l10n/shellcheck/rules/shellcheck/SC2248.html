@@ -1,12 +1,12 @@
-<h1>Warn about variable references without braces.</h1>
-<p>This error is optional and not enabled by default.</p>
+<h1>Prefer double quoting even when variables don't contain special characters.</h1>
+<p>This is an [[optional]] suggestion. It must be explicitly enabled with a [[directive]] <code>enable=quote-safe-variables</code> in a <code># shellcheck</code> comment or <code>.shellcheckrc</code></p>
 <p>Problematic code:</p>
-<pre><code class="lang-shell">subdir=&#39;example&#39;
+<pre><code class="language-shell">subdir='example'
 
 cd ${subdir}
 </code></pre>
 <p>Correct code:</p>
-<pre><code class="lang-shell">subdir=&#39;example&#39;
+<pre><code class="language-shell">subdir='example'
 
 cd &quot;${subdir}&quot;
 </code></pre>

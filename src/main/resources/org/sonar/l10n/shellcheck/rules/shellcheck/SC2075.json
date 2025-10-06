@@ -1,5 +1,5 @@
 {
-  "title": "Escaping \\< and \\> is required in [..], but invalid in [[..]]",
+  "title": "Escaping \\&lt; is required in [..], but invalid in [[..]]",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

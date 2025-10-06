@@ -1,5 +1,5 @@
 {
-  "title": "Shell functions can't be passed to external commands.",
+  "title": "Shell functions can't be passed to external commands. Use separate script or sh -c.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

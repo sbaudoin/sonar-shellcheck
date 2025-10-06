@@ -1,13 +1,13 @@
 <p>This backslash is part of a comment and does not continue the line.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">sed \
+<pre><code class="language-sh">sed \
   -e &quot;s/HOST/$HOSTNAME/g&quot;   \
 # -e &quot;s/USER/$USER/g&quot;       \
   -e &quot;s/ARCH/$(uname -m)/g&quot; \
   &quot;$buildfile&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">sed \
+<pre><code class="language-sh">sed \
   -e &quot;s/HOST/$HOSTNAME/g&quot;   \
   -e &quot;s/ARCH/$(uname -m)/g&quot; \
   &quot;$buildfile&quot;
@@ -16,7 +16,7 @@
 # -e &quot;s/USER/$USER/g&quot;       \
 </code></pre>
 <p>or using backticked, inlined comments:</p>
-<pre><code class="lang-sh">sed \
+<pre><code class="language-sh">sed \
   -e &quot;s/HOST/$HOSTNAME/g&quot;   \
 `# -e &quot;s/USER/$USER/g&quot;`     \
   -e &quot;s/ARCH/$(uname -m)/g&quot; \

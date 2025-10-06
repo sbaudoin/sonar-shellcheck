@@ -1,10 +1,10 @@
-<p>which is non-standard. Use builtin 'command -v' instead.</p>
-<p>Note: This check is opt-in only in ShellCheck 0.7.1+ (<code>shellcheck -o deprecate-which</code>).</p>
+<p><code>which</code> is non-standard. Use builtin <code>command -v</code> instead.</p>
+<p>This is an [[optional]] suggestion. It must be explicitly enabled with a [[directive]] <code>enable=deprecate-which</code> in a <code># shellcheck</code> comment or <code>.shellcheckrc</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">which grep
+<pre><code class="language-sh">which grep
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># For the path of a single, unaliased, external command,
+<pre><code class="language-sh"># For the path of a single, unaliased, external command,
 # or to check whether this will just &quot;run&quot; in this shell:
 command -v grep
 # To check whether commands exist, without obtaining a reusable path:

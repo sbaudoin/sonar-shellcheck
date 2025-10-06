@@ -1,18 +1,28 @@
-<p>read without -r will mangle backslashes</p>
+<p><code>read</code> without <code>-r</code> will mangle backslashes.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;Enter name:&quot;
+<pre><code class="language-sh">echo &quot;Enter name:&quot;
 read name
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;Enter name:&quot;
+<pre><code class="language-sh">echo &quot;Enter name:&quot;
 read -r name
+</code></pre>
+<p>or</p>
+<pre><code class="language-sh">echo &quot;Enter name:&quot;
+IFS= read -r name
 </code></pre>
 <h2>Rationale</h2>
 <p>By default, <code>read</code> will interpret backslashes before spaces and line feeds (i.e. you can use backslashes in your string as an escape character). This is rarely expected or desired.</p>
 <p>Normally you just want to read data <em>including backslashes</em> which are part of the input string and have no special escape meaning, which is what <code>read -r</code> does. You should always use <code>-r</code> unless you have a good reason not to:</p>
-<blockquote><p>-r</p>
+<blockquote>
+<p>-r</p>
 <p>If this option is given, backslash does not act as an escape character.</p>
 </blockquote>
-<p>Note that <a href="https://www.tldp.org/LDP/abs/html/internal.html#READR"><code>read -r</code></a> will still strip leading and trailing spaces. <code>IFS="" read -r</code> prevents this.</p>
+<h3>Trimming whitespace</h3>
+<p>Even with <code>read -r</code>, leading and trailing whitespace will be stripped from the input. Although this may sometimes be desirable or harmless it is often surprising and difficult to catch. Clearing the <code>IFS</code> disables this behavior, so <code>IFS= read -r</code> is generally safest.</p>
+<h2>See Also</h2>
+<ul>
+<li><a href="https://mywiki.wooledge.org/BashFAQ/001">Bash FAQ 001</a></li>
+</ul>
 <h2>Exceptions</h2>
 <p>If you want backslashes to affect field splitting and line terminators instead of being read, you can disable this message with a [[directive]].</p>

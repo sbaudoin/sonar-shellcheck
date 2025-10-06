@@ -1,1 +1,25 @@
-<p>No semicolons directly after &#x27;do&#x27;.</p>
+<p>Semicolon is not allowed directly after <code>do</code>. You can just delete it.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">while true; do; true; done
+
+while true;
+do;
+  true;
+done;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">while true; do true; done
+
+while true;
+do
+  true;
+done;
+</code></pre>
+<h2>Rationale</h2>
+<p>Semicolon <code>;</code> is not allowed directly after a <code>do</code> keyword. Follow it directly with either a command or a linefeed as shown in the example.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

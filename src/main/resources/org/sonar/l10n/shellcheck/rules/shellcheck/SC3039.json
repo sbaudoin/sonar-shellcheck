@@ -1,5 +1,5 @@
 {
-  "title": "In POSIX sh, 'let' is undefined.",
+  "title": "In POSIX sh, let is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,5 +1,5 @@
 {
-  "title": "|& in place of 2>&1 | is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, |&amp; in place of 2&gt;&amp;1 | is undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

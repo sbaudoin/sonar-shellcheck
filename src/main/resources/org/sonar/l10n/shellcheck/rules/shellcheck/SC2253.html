@@ -1,10 +1,10 @@
-<p>Use -R to recurse, or explicitly a-r to remove read permissions.</p>
+<p>Use <code>-R</code> to recurse, or explicitly <code>a-r</code> to remove read permissions.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">chmod -r 0700 dir
+<pre><code class="language-sh">chmod -r 0700 dir
 chmod -r file
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">chmod -R 0700 dir
+<pre><code class="language-sh">chmod -R 0700 dir
 chmod a-r file
 </code></pre>
 <h2>Rationale</h2>

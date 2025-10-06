@@ -1,7 +1,7 @@
 <p>In POSIX sh, named file descriptors is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">exec {n}&gt; &quot;$output&quot;
+<pre><code class="language-sh">exec {n}&gt; &quot;$output&quot;
 echo &quot;Your fd is $n&quot;
 </code></pre>
 <h2>Correct code</h2>

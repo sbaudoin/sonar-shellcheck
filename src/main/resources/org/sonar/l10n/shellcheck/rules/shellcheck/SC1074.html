@@ -1,6 +1,6 @@
 <p>Did you forget the <code>;;</code> after the previous case item?</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-bash">while getoptions f option
+<pre><code class="language-bash">while getoptions f option
 do
   case &quot;${options}&quot;
   in
@@ -10,11 +10,11 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-bash">while getoptions f option
+<pre><code class="language-bash">while getoptions f option
 do
   case &quot;${options}&quot;
   in
-  f) FTR=&quot;${ARG}&quot;
+  f) FTR=&quot;${ARG}&quot;;;
     \?) exit;;
   esac
 done

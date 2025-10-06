@@ -1,10 +1,10 @@
-<p>Parameter expansions can't start with {. Double check syntax.</p>
+<p>Parameter expansions can't start with <code>{</code>. Double check syntax.</p>
 <p>(or any other character)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;Hello ${{name}&quot;
+<pre><code class="language-sh">echo &quot;Hello ${{name}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;Hello ${name}&quot;
+<pre><code class="language-sh">echo &quot;Hello ${name}&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a parameter expansion <code>${something}</code> that starts with an invalid character. In the example, this was caused by accidentally duplicating the <code>{</code> in <code>${{name}</code>.</p>

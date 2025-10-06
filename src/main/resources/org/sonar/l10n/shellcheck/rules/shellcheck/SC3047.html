@@ -1,14 +1,14 @@
 <p>In POSIX sh, trapping ERR is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <p>Also applies to RETURN and DEBUG.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
-trap &#39;Command failed with $?&#39; ERR
+<pre><code class="language-sh">#!/bin/sh
+trap 'Command failed with $?' ERR
 </code></pre>
 <h2>Correct code</h2>
 <p>Switch to a shell like <code>ksh</code> or <code>bash</code> that <em>does</em> support the kind of trap you want:</p>
-<pre><code class="lang-sh">#!/bin/bash
-trap &#39;Command failed with $?&#39; ERR
+<pre><code class="language-sh">#!/bin/bash
+trap 'Command failed with $?' ERR
 </code></pre>
 <p>Otherwise, rewrite the script to not rely on the trap.</p>
 <h2>Rationale</h2>

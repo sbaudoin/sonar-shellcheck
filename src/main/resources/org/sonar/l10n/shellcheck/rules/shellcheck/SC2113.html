@@ -1,12 +1,12 @@
 <p><code>function</code> keyword is non-standard. Use <code>foo()</code> instead of <code>function foo</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 function hello {
     echo &quot;Hello World&quot;
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 hello() {
     echo &quot;Hello World&quot;
 }

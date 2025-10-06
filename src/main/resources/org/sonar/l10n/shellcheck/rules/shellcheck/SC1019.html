@@ -1,9 +1,9 @@
 <p>Expected this to be an argument to the unary condition.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ -x ]
+<pre><code class="language-sh">[ -x ]
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ -x &quot;myfile&quot; ]
+<pre><code class="language-sh">[ -x &quot;myfile&quot; ]
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has found a unary test operator that does not appear to be followed by a valid shell word.</p>

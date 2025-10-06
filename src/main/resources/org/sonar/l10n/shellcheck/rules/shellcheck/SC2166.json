@@ -1,5 +1,5 @@
 {
-  "title": "Prefer [ p ] &amp;&amp; [ q ] as [ p -a q ] is not well defined.",
+  "title": "Prefer [ p ] &amp;&amp; [ q ] as [ p -a q ] is not well-defined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

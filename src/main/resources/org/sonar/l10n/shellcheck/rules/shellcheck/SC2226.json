@@ -1,5 +1,5 @@
 {
-  "title": "This ln has no destination. Check the arguments, or specify '.' explicitly.",
+  "title": "This ln has no destination. Check the arguments, or specify . explicitly.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

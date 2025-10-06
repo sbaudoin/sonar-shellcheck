@@ -1,1 +1,22 @@
-<p>brace expansion is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX <code>sh</code>, brace expansion is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+
+for i in {1..5}; do ...
+</code></pre>
+<p>Here, <code>$i</code> expands to <code>{1..5}</code>. It does <strong>not</strong> expand to the sequence <code>1 2 3 4 5</code></p>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+i=1
+# while $i ≤ 5 ...
+while [ &quot;${i}&quot; -le 5 ]; do ...
+
+  # something that will occur 5 times
+
+  i=$((i + 1))
+done
+</code></pre>
+<p>You can also use the <code>seq</code> command, e.g. <code>seq 1 5</code>, but <code>seq</code> is not a POSIX utility.</p>
+<h2>Rationale</h2>
+<h2>Exceptions</h2>
+<p>None</p>

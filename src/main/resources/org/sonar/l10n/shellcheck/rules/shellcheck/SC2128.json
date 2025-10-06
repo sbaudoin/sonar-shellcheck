@@ -1,5 +1,5 @@
 {
-  "title": "Expanding an array without an index only gives the first element.",
+  "title": "Expanding an array without an index only gives the element in the index 0.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

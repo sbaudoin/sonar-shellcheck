@@ -1,13 +1,13 @@
-<p>Unexpected ==. For assignment, use =. For comparison, use [/[[.</p>
+<p>Unexpected <code>==</code>. For assignment, use <code>=</code>. For comparison, use <code>[</code>/<code>[[</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">var==value
+<pre><code class="language-sh">var==value
 </code></pre>
 <h2>Correct code</h2>
 <p>Assignment:</p>
-<pre><code class="lang-sh">var=value
+<pre><code class="language-sh">var=value
 </code></pre>
 <p>Comparison:</p>
-<pre><code class="lang-sh">[ &quot;$var&quot; = value ]
+<pre><code class="language-sh">[ &quot;$var&quot; = value ]
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has noticed that you're using <code>==</code> in an unexpected way. The two most common reasons for this is:</p>
@@ -19,5 +19,5 @@
 </ul>
 <h2>Exceptions</h2>
 <p>If you wanted to assign a literal equals sign, use quotes to make this clear:</p>
-<pre><code class="lang-sh">var=&quot;=sum(A1:A10)&quot;
+<pre><code class="language-sh">var=&quot;=sum(A1:A10)&quot;
 </code></pre>

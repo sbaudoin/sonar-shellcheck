@@ -1,12 +1,12 @@
 <p>In POSIX sh, name matching prefixes are undefined.</p>
-<p>(or "In dash, ... are not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... are not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 echo &quot;${!ANDROID_*}&quot;
 </code></pre>
 <h2>Correct code</h2>
 <p>The easiest solution is to switch to a shell that <em>does</em> support name matching prefixes, like <code>bash</code>:</p>
-<pre><code class="lang-sh">#!/bin/bash
+<pre><code class="language-sh">#!/bin/bash
 echo &quot;${!ANDROID_*}&quot;
 </code></pre>
 <p>Alternatively, extract the data you want from <code>env</code> or <code>set</code></p>

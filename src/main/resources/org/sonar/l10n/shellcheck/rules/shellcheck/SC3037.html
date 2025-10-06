@@ -1,12 +1,12 @@
 <p>In POSIX sh, echo flags are undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
-echo -ne &#39;Foo:\tBar&#39;
+<pre><code class="language-sh">#!/bin/sh
+echo -ne 'Foo:\tBar'
 </code></pre>
 <h2>Correct code</h2>
 <p>Rewrite in terms of the more robust and standardized <code>printf</code>:</p>
-<pre><code class="lang-sh">#!/bin/sh
-printf &#39;Foo:\tBar&#39;
+<pre><code class="language-sh">#!/bin/sh
+printf 'Foo:\tBar'
 </code></pre>
 <h2>Rationale</h2>
 <p><code>echo</code> has historically behaved differently on different systems. Use <code>printf</code> instead to ensure compatibility between shells.</p>

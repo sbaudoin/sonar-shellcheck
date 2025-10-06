@@ -1,0 +1,15 @@
+<p>In arithmetic contexts, <code>((x))</code> is the same as <code>(x)</code>. Prefer only one layer of parentheses.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">value=$(( ((offset + index)) * 512 )) 
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">value=$(( (offset + index) * 512 ))
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found doubly nested parentheses in an arithmetic expression. While the syntax for an arithmetic expansion is <code>$((..))</code>, this does not imply that parentheses in the expression should also be doubled. <code>(x)</code>, <code>((x))</code>, and <code>(((x)))</code> are all identical, so you might as well use only one layer of parentheses.</p>
+<h2>Exceptions</h2>
+<p>This is a stylistic suggestion. If you prefer keeping both parentheses, you can [[ignore]] this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

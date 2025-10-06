@@ -1,5 +1,5 @@
 {
-  "title": "= is not a valid operator. Use '! a &lt; b' instead.",
+  "title": "&gt;= is not a valid operator. Use ! a &lt; b instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

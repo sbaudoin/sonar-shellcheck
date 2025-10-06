@@ -1,1 +1,21 @@
 <p>Use &amp;&amp; for logical AND. Single &amp; will background and return true.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">if [ &quot;$1&quot; = &quot;install&quot; ] &amp; [ &quot;$USER&quot; != &quot;root&quot; ]
+then
+  echo &quot;Must be root to install&quot;
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">if [ &quot;$1&quot; = &quot;install&quot; ] &amp;&amp; [ &quot;$USER&quot; != &quot;root&quot; ]
+then
+  echo &quot;Must be root to install&quot;
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>test</code> command followed by a <code>&amp;</code>. This runs the test in the background, effectively ignoring it. To specify &quot;logical AND&quot; between two commands, use <code>&amp;&amp;</code>.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

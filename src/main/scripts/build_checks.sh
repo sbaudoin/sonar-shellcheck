@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 apk add -q git
+pip install pip --upgrade
 pip install mistune PyYAML
 
 cd /tmp
@@ -17,10 +18,12 @@ do
     echo "  Processing $FILE..."
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' style [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": style" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' StyleC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": style" }' >> $TMP_CODE
+    sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' styleWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": style" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' verbose [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": verbose" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' verboseWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": verbose" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' info [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": info" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' InfoC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": info" }' >> $TMP_CODE
+    sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' infoWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": info" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warn [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warning [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' WarningC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
@@ -28,6 +31,7 @@ do
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' warnWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": warning" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' err [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' ErrorC [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE
+    sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' errWithFix [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE
     sed 'H;1h;$!d;g;s/\n  */ /g' $FILE | grep -o ' ppt [^0-9]*[0-9]\{4\}' | sed 's/.*\([0-9]\{4\}\)$/\1/' | awk '{ print "SC"$1": error" }' >> $TMP_CODE
 done
 cat $TMP_CODE | sed 's/C / /' | tr 'EWI' 'ewi' | sed 's/ppt/error/' | sort -u > $CODE_YAML

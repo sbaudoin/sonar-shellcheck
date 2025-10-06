@@ -1,5 +1,5 @@
 {
-  "title": "Don't use variables in the printf format string. Use printf '..%s..' '$foo'.",
+  "title": "Don't use variables in the printf format string. Use printf &quot;..%s..&quot; &quot;$foo&quot;.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

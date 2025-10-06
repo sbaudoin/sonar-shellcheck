@@ -1,10 +1,10 @@
-<p>Unexpected start of line. If breaking lines, |/||/&amp;&amp; should be at the end of the previous one.</p>
+<p>Unexpected start of line. If breaking lines, <code>|</code>/<code>||</code>/<code>&amp;&amp;</code> should be at the end of the previous one.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">dmesg
+<pre><code class="language-sh">dmesg
   | grep &quot;error&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">dmesg |
+<pre><code class="language-sh">dmesg |
   grep &quot;error&quot;
 </code></pre>
 <h2>Rationale</h2>

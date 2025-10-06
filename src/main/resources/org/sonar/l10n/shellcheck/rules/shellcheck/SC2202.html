@@ -1,9 +1,10 @@
-<p>Globs don't work as operands in [ ]. Use a loop.</p>
+<p>Globs don't work as operands in <code>[ ]</code>. Use a loop.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ current.log -nt backup/*.log ] &amp;&amp; echo &quot;This is the latest file&quot;
+<pre><code class="language-sh">[ current.log -nt backup/*.log ] &amp;&amp; echo &quot;This is the latest file&quot;
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">newerThanAll=true
+<pre><code class="language-sh">newerThanAll=true
 for log in backup/*.log
 do
   [ current.log -nt &quot;$log&quot; ] || newerThanAll=false
@@ -17,7 +18,7 @@ done
 <h2>Exceptions</h2>
 <p>If you know your glob will only ever match one file, you can check this explicitly and use the first file:</p>
 <pre><code>set -- backup/*.log
-[ $# -eq 1 ] || { echo "There are too many matches."; exit 1; }
-[ file.log -nt "$1" ] &amp;&amp; echo "This is the latest file"
+[ $# -eq 1 ] || { echo &quot;There are too many matches.&quot;; exit 1; }
+[ file.log -nt &quot;$1&quot; ] &amp;&amp; echo &quot;This is the latest file&quot;
 </code></pre>
 <p>Alternatively, [[ignore]] this warning.</p>

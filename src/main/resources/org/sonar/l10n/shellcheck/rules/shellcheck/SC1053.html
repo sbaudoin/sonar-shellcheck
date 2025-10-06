@@ -1,9 +1,9 @@
-<p>Semicolons directly after 'else' are not allowed. Just remove it.</p>
+<p>Semicolons directly after <code>else</code> are not allowed. Just remove it.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if mycommand; then echo &quot;True&quot;; else; echo &quot;False&quot;; fi
+<pre><code class="language-sh">if mycommand; then echo &quot;True&quot;; else; echo &quot;False&quot;; fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if mycommand; then echo &quot;True&quot;; else echo &quot;False&quot;; fi
+<pre><code class="language-sh">if mycommand; then echo &quot;True&quot;; else echo &quot;False&quot;; fi
 </code></pre>
 <h2>Rationale</h2>
 <p><code>else</code> keywords should not be followed by semicolons. It's not valid shell syntax.</p>

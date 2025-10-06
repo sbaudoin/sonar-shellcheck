@@ -1,6 +1,6 @@
-<p>In functions, use return instead of break.</p>
+<p>In functions, use <code>return</code> instead of <code>break</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">foo() {
+<pre><code class="language-sh">foo() {
   if [[ -z $1 ]]
   then
     break
@@ -9,7 +9,7 @@
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">foo() {
+<pre><code class="language-sh">foo() {
   if [[ -z $1 ]]
   then
     return 1
@@ -29,13 +29,13 @@ while true; do foo; done
 <p>When the function is called from a loop:</p>
 <ul>
 <li><code>ksh</code> keeps going and <code>$?</code> is 0.</li>
-<li><code>bash</code> version 4.4+ prints an error "break: only meaningful in a `for', `while', or `until' loop", the function keeps going, and <code>$?</code> is 0. </li>
+<li><code>bash</code> version 4.4+ prints an error &quot;break: only meaningful in a `for', `while', or `until' loop&quot;, the function keeps going, and <code>$?</code> is 0.</li>
 <li><code>bash</code> versions before 4.4, will return from the function, break the loop calling the function, or exit a subshell if there's one in between.</li>
 <li><code>dash</code>, BusyBox <code>ash</code>: like above.</li>
 </ul>
 <p>When the function is not called from a loop:</p>
 <ul>
-<li>All <code>bash</code> versions print an error "break: only meaningful in a `for', `while', or `until' loop", the function keeps going, and <code>$?</code> is 0. </li>
+<li>All <code>bash</code> versions print an error &quot;break: only meaningful in a `for', `while', or `until' loop&quot;, the function keeps going, and <code>$?</code> is 0.</li>
 <li><code>ksh</code>, <code>dash</code> and <code>ash</code> silently keep going and <code>$?</code> is 0.</li>
 </ul>
 <p>Due to the many different implementations, many of which are not helpful, it's recommended to use proper flow control. A typical solution is making sure the function <code>return</code>s success/failure, and calling <code>myfunction || break</code> in the loop.</p>

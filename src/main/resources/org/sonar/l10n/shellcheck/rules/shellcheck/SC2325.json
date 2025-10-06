@@ -1,0 +1,14 @@
+{
+  "title": "Multiple ! in front of pipelines are a bash\/ksh extension. Use only 0 or 1.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

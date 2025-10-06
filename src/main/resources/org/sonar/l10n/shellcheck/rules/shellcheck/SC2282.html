@@ -1,9 +1,9 @@
 <p>Variable names can't start with numbers, so this is interpreted as a command.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">411toppm=true
+<pre><code class="language-sh">411toppm=true
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">_411toppm=true
+<pre><code class="language-sh">_411toppm=true
 </code></pre>
 <h2>Rationale</h2>
 <p>You appear to be assigning to a variable name that starts with a digit. This is not allowed: variables must start with A-Z, a-z or _.</p>

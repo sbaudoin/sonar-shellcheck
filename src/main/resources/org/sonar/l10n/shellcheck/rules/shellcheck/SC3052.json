@@ -1,5 +1,5 @@
 {
-  "title": "arithmetic base conversion is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, arithmetic base conversion is undefined",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,5 +1,5 @@
 {
-  "title": "expr is antiquated. Consider rewriting this using $((..)), ${} or [[ ]].",
+  "title": "expr is antiquated. Consider rewriting this using $((..)), ${} or [[  ]].",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

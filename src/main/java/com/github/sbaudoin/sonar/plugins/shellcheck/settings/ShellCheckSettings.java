@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,12 @@
  */
 package com.github.sbaudoin.sonar.plugins.shellcheck.settings;
 
-import org.sonar.api.PropertyType;
-import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
+import static java.util.Arrays.asList;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import org.sonar.api.PropertyType;
+import org.sonar.api.config.PropertyDefinition;
 
 public class ShellCheckSettings {
     public static final String SHELLCHECK_PATH_KEY = "sonar.shellcheck.shellcheck.path";
@@ -45,14 +44,14 @@ public class ShellCheckSettings {
                         .defaultValue(FILE_SUFFIXES_DEFAULT_VALUE)
                         .multiValues(true)
                         .category("Shell")
-                        .onQualifiers(Qualifiers.PROJECT)
+                        .onConfigScopes(PropertyDefinition.ConfigScope.PROJECT)
                         .build(),
                 PropertyDefinition.builder(SHELLCHECK_PATH_KEY)
                          .name("Path to shellcheck")
                         .description("Path to the shellcheck executable. Leave it empty if the command is in the system path.")
                         .defaultValue(SHELLCHECK_PATH_DEFAULT_VALUE)
                         .category(SHELLCHECK_CATEGORY)
-                        .onQualifiers(Qualifiers.PROJECT)
+                        .onConfigScopes(PropertyDefinition.ConfigScope.PROJECT)
                         .build(),
                 PropertyDefinition.builder(SKIP_KEY)
                         .type(PropertyType.BOOLEAN)
@@ -60,7 +59,7 @@ public class ShellCheckSettings {
                         .description("If set to true, ShellCheck will not be executed for this project.")
                         .defaultValue(SKIP_DEFAULT_VALUE)
                         .category(SHELLCHECK_CATEGORY)
-                        .onQualifiers(Qualifiers.PROJECT)
+                        .onConfigScopes(PropertyDefinition.ConfigScope.PROJECT)
                         .build()
         );
     }

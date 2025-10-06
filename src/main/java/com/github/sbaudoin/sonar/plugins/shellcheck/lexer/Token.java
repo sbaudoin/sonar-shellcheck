@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * This class represents the tokens identified by Shell lexers
  */
-public class Token implements Serializable, Comparable {
+public class Token implements Serializable, Comparable<Token> {
     /**
      * The token type
      */
@@ -88,7 +88,7 @@ public class Token implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Token o) {
         Token t = (Token) o;
         if (this.start != t.start) {
             return (this.start - t.start);

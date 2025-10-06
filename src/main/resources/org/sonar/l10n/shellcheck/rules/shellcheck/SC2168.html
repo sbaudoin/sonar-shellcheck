@@ -1,10 +1,10 @@
-<p>'local' is only valid in functions.</p>
+<p><code>local</code> is only valid in functions.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">local foo=bar
+<pre><code class="language-sh">local foo=bar
 echo &quot;$foo&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">foo=bar
+<pre><code class="language-sh">foo=bar
 echo &quot;$foo&quot;
 </code></pre>
 <h2>Rationale</h2>

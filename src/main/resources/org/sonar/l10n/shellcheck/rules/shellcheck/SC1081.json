@@ -1,5 +1,5 @@
 {
-  "title": "Scripts are case sensitive. Use 'if', not 'If'.",
+  "title": "Scripts are case-sensitive. Use if, not If.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

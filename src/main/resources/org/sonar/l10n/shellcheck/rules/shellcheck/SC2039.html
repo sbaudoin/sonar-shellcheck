@@ -1,57 +1,57 @@
 <p>In POSIX sh, <em>something</em> is undefined.</p>
-<p><em>Note: This warning has been retired in favor of individual SC3xxx warnings for each individual issue.</em></p>
+<p><em>Note: This warning has been retired in favor of individual SC3xxx warnings for each individual issue. Removed in <a href="https://github.com/koalaman/shellcheck/commit/cfd68ee0c2ebfd0ab08a1d4bf628162b454dc207">V0.7.2 - 2021-04-19</a></em></p>
 <p>You have declared that your script works with <code>/bin/sh</code>, but you are using features that have undefined behavior according to the POSIX specification.</p>
 <p>It may currently work for you, but it can or will fail on other OS, the same OS with different configurations, from different contexts (like initramfs/chroot), or in different versions of the same OS, including future updates to your current system.</p>
 <p>Either declare that your script requires a specific shell like <code>#!/bin/bash</code> or <code>#!/bin/dash</code>, or rewrite the script in a portable way.</p>
 <p>For help with rewrites, the Ubuntu wiki has <a href="https://wiki.ubuntu.com/DashAsBinSh">a list of portability issues</a> that broke people's <code>#!/bin/sh</code> scripts when Ubuntu switched from Bash to Dash. See also <a href="http://mywiki.wooledge.org/Bashism">Bashism</a> on wooledge's wiki. ShellCheck may not warn about all these issues.</p>
 <h2><code>$'c-style-escapes'</code></h2>
 <p>bash, ksh:</p>
-<pre><code class="lang-Bash">a=$&#39; \t\n&#39;
+<pre><code class="language-Bash">a=$' \t\n'
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">a=&quot;$(printf &#39;%b_&#39; &#39; \t\n&#39;)&quot;; a=&quot;${a%_}&quot; # protect trailing \n
+<pre><code class="language-sh">a=&quot;$(printf '%b_' ' \t\n')&quot;; a=&quot;${a%_}&quot; # protect trailing \n
 </code></pre>
-<p>Want some good news? See <a href="http://austingroupbugs.net/view.php?id=249#c590">http://austingroupbugs.net/view.php?id=249#c590</a>.</p>
+<p>Want some good news? See http://austingroupbugs.net/view.php?id=249#c590.</p>
 <h2>Testing Equality</h2>
 <p><code>==</code> operator is not supported in POSIX <code>sh</code></p>
 <p>Bash:</p>
-<pre><code class="lang-Bash">if [ &quot;$a&quot; == &quot;$b&quot; ]; then
+<pre><code class="language-Bash">if [ &quot;$a&quot; == &quot;$b&quot; ]; then
     echo &quot;equal&quot;
 fi
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">if [ &quot;$a&quot; = &quot;$b&quot; ]; then
+<pre><code class="language-sh">if [ &quot;$a&quot; = &quot;$b&quot; ]; then
     echo &quot;equal&quot;
 fi
 </code></pre>
-<h2><code>$"msgid"</code></h2>
+<h2><code>$&quot;msgid&quot;</code></h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">echo $&quot;foo $(bar) baz&quot;
+<pre><code class="language-Bash">echo $&quot;foo $(bar) baz&quot;
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">. gettext.sh # GNU Gettext sh library
+<pre><code class="language-sh">. gettext.sh # GNU Gettext sh library
 # ...
 barout=$(bar)
-eval_gettext &#39;foo $barout baz&#39; # See GNU Gettext doc for more info.
+eval_gettext 'foo $barout baz' # See GNU Gettext doc for more info.
 </code></pre>
 <p>Or you can change them to normal double quotes so you go without <code>gettext</code>.</p>
 <h2><code>${var:1}</code> (substring expansion)</h2>
-<p><a href="https://wiki.ubuntu.com/DashAsBinSh#A.24.7Bfoo:3.5B:1.5D.7D">https://wiki.ubuntu.com/DashAsBinSh#A.24.7Bfoo:3.5B:1.5D.7D</a></p>
+<p>https://wiki.ubuntu.com/DashAsBinSh#A.24.7Bfoo:3.5B:1.5D.7D</p>
 <h2>Arithmetic <code>for</code> loops</h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">for ((init; test; next)); do foo; done
+<pre><code class="language-Bash">for ((init; test; next)); do foo; done
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">: $((init))
+<pre><code class="language-sh">: $((init))
 while [ $((test)) -ne 0 ]; do foo; : $((next)); done
 </code></pre>
 <h2>Arithmetic exponentiation</h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">printf &quot;%s\n&quot; &quot;$(( 2**63 ))&quot;
+<pre><code class="language-Bash">printf &quot;%s\n&quot; &quot;$(( 2**63 ))&quot;
 </code></pre>
 <p>POSIX:</p>
 <p>The POSIX standard does not allow for exponents.  However, you can replicate them completely built-in using a POSIX compatible function.  As an example, the <code>pow</code> function from <a href="http://unix.stackexchange.com/a/7925">here</a>.</p>
-<pre><code class="lang-sh">pow() {
+<pre><code class="language-sh">pow() {
     set -- &quot;$1&quot; &quot;$2&quot; 1
     while [ &quot;$2&quot; -gt 0 ]; do
       set -- &quot;$1&quot; $(($2-1)) $(($1*$3))
@@ -62,14 +62,14 @@ while [ $((test)) -ne 0 ]; do foo; : $((next)); done
 }
 </code></pre>
 <p>To compare:</p>
-<pre><code class="lang-sh">$ echo &quot;$(( 2**62 ))&quot;
+<pre><code class="language-sh">$ echo &quot;$(( 2**62 ))&quot;
 4611686018427387904
 $ pow 2 62
 4611686018427387904
 </code></pre>
 <p>Alternatively, if you don't mind using an external program, you can use <code>bc</code>.  Be aware though: <code>bash</code> and other programs may abide by a certain maximum integer that <code>bc</code> does not (for <code>bash</code> that's: 64-bit signed long int, failing back to 32-bit signed long int).</p>
 <p>Example:</p>
-<pre><code class="lang-Bash"># Note the overflow that gives a negative number
+<pre><code class="language-Bash"># Note the overflow that gives a negative number
 $ echo &quot;$(( 2**63 ))&quot;
 -9223372036854775808
 
@@ -77,7 +77,7 @@ $ echo &quot;$(( 2**63 ))&quot;
 $ echo 2^63 | bc
 9223372036854775808
 
-# &#39;bc&#39; just keeps on going
+# 'bc' just keeps on going
 $ echo 2^1280 | bc
 20815864389328798163850480654728171077230524494533409610638224700807\
 21611934672059602447888346464836968484322790856201558276713249664692\
@@ -88,20 +88,20 @@ $ echo 2^1280 | bc
 </code></pre>
 <h2>standalone <code>((..))</code></h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">((a=c+d))
+<pre><code class="language-Bash">((a=c+d))
 ((d)) &amp;&amp; echo d is true.
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">: $((a=c+d)) # discard the output of the arith expn with `:` command
+<pre><code class="language-sh">: $((a=c+d)) # discard the output of the arith expn with `:` command
 [ $((d)) -ne 0 ] &amp;&amp; echo d is true. # manually check non-zero =&gt; true
 </code></pre>
 <h2><code>select</code> loops</h2>
 <p>It takes extra care over terminal columns to make select loop look like bash's, which generates a list with multiple items on one line, or like <code>ls</code>.</p>
 <p>It is, however, still possible to make a naive translation for <code>select foo in bar baz; do eat; done</code>:</p>
-<pre><code class="lang-sh">while
+<pre><code class="language-sh">while
   _i=0 _foo= foo=
   for _name in bar baz; do echo &quot;$((_i+=1))) $_name&quot;; done
-  printf &#39;$# &#39;; read _foo
+  printf '$# '; read _foo
 do
   case _foo in 1) foo=bar;; 2) foo=baz;; *) continue;; esac
   eat
@@ -109,42 +109,43 @@ done
 </code></pre>
 <h2>Here-strings</h2>
 <p>Bash, ksh:</p>
-<pre><code class="lang-Bash">grep aaa &lt;&lt;&lt; &quot;$g&quot;
+<pre><code class="language-Bash">read aaa bbb &lt;&lt;&lt; $(grep foo bar)
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh"># not exactly the same -- &lt;&lt;&lt; adds a trailing \n if $g doesn&#39;t end with \n
-printf &#39;%s&#39; &quot;$g&quot; | grep aaa
+<pre><code class="language-sh">read aaa bbb &lt;&lt; EOF
+$(grep foo bar)
+EOF
 </code></pre>
 <h2>echo flags</h2>
-<p>See <a href="https://unix.stackexchange.com/tags/echo/info">https://unix.stackexchange.com/tags/echo/info</a>.</p>
+<p>See https://unix.stackexchange.com/tags/echo/info.</p>
 <h2><code>${var/pat/replacement}</code></h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">echo &quot;${TERM/%-256*}&quot;
+<pre><code class="language-Bash">echo &quot;${TERM/%-256*}&quot;
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">echo &quot;$TERM&quot; | sed -e &#39;s/-256.*$//g&#39;
+<pre><code class="language-sh">echo &quot;$TERM&quot; | sed -e 's/-256.*$//g'
 # Special case for this since we are matching the end (the start [#] also works):
 echo &quot;${TERM%-256*}&quot;
 </code></pre>
 <h2><code>printf %q</code></h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">printf &#39;%q &#39; &quot;$@&quot;
+<pre><code class="language-Bash">printf '%q ' &quot;$@&quot;
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh"># TODO: Interpret it back to printf escapes for hard-to-copy chars like \t?
+<pre><code class="language-sh"># TODO: Interpret it back to printf escapes for hard-to-copy chars like \t?
 # See also: http://git.savannah.gnu.org/cgit/libtool.git/tree/gl/build-aux/funclib.sh?id=c60e054#n1029
 reuse_quote()(
   for i; do
-    __i_quote=$(printf &#39;%s\n&#39; &quot;$i&quot; | sed -e &quot;s/&#39;/&#39;\\\\&#39;&#39;/g&quot;; echo x)
-    printf &quot;&#39;%s&#39;&quot; &quot;${__i_quote%x}&quot;
+    __i_quote=$(printf '%s\n' &quot;$i&quot; | sed -e &quot;s/'/'\\\\''/g&quot;; echo x)
+    printf &quot;'%s'&quot; &quot;${__i_quote%x}&quot;
   done
 )
 reuse_quote &quot;$@&quot;
 </code></pre>
 <h2><code>jobs</code> flags</h2>
 <p>The only acceptable flags under POSIX sh for <code>jobs</code> are <code>-l</code> and <code>-p</code> (<a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/jobs.html">see spec</a>). Common flags supported by other shells are <code>-s</code> and <code>-r</code>, to check for stopped/suspended jobs and running jobs. A portable alternative is using <code>grep</code> or <code>awk</code>:</p>
-<pre><code class="lang-sh">&quot;$(jobs | awk &#39;/(S|s)(topped|uspended)/&#39;)&quot; # instead of jobs -s
-&quot;$(jobs | awk &#39;/(R|r)(unning)/&#39;)&quot;          # instead of jobs -r
+<pre><code class="language-sh">&quot;$(jobs | awk '/(S|s)(topped|uspended)/')&quot; # instead of jobs -s
+&quot;$(jobs | awk '/(R|r)(unning)/')&quot;          # instead of jobs -r
 </code></pre>
 <p>Although the state of stopped jobs is <code>Stopped</code> in Bash and dash, and it's the one specified by POSIX, <code>Suspended</code> is also a valid alternative (but Zsh happens to not respect the capitalization, that's why we try to match <code>suspended</code>). Similarly, the state of running jobs is <code>Running</code> according to POSIX. Bash and dash respect this, but Zsh uses <code>running</code>.</p>
 <h2>Redirect both stdout and stderr</h2>
@@ -157,27 +158,32 @@ reuse_quote &quot;$@&quot;
 <p>No Comments / Exceptions</p>
 <h2>Prefixing signal names with <code>SIG</code></h2>
 <p>Instead of e.g.:</p>
-<pre><code class="lang-sh">trap my_handler SIGTERM
+<pre><code class="language-sh">trap my_handler SIGTERM
 </code></pre>
 <p>use:</p>
-<pre><code class="lang-sh">trap my_handler TERM
+<pre><code class="language-sh">trap my_handler TERM
 # or (`trap -l` for a list of signal numbers; not every one is portable!)
 trap my_handler 15
 </code></pre>
 <h2>disown</h2>
 <p>Bash:</p>
-<pre><code class="lang-Bash">&lt;command&gt;
+<pre><code class="language-Bash">&lt;command&gt;
 disown %&lt;command&gt;
 </code></pre>
 <p>POSIX:</p>
-<pre><code class="lang-sh">nohup &lt;command&gt;
+<pre><code class="language-sh">nohup &lt;command&gt;
 </code></pre>
 <p>Note that while <code>nohup</code> can be used to achieve the same result, their semantics is different.
 Also note that <code>nohup</code> will, by default, redirect input and output.</p>
+<p>Errors with changed codes</p>
+<p>Some errors, currently having their own pages, were linked to this page in older ShellCheck versions.</p>
+<ul>
+<li><a href="SC3026">SC3026: In POSIX sh, <code>^</code> in place of <code>!</code> in glob bracket expressions is undefined.</a></li>
+</ul>
 <p>Exception</p>
 <p>Depends on what your expected POSIX shell providers would use.</p>
 <p>Some features have POSIX proposals:</p>
 <ul>
-<li><code>local</code>: <a href="https://www.austingroupbugs.net/bug_view_page.php?bug_id=767">https://www.austingroupbugs.net/bug_view_page.php?bug_id=767</a></li>
+<li><code>local</code>: https://www.austingroupbugs.net/bug_view_page.php?bug_id=767</li>
 <li><code>$'c-style-escape'</code>: see above</li>
 </ul>

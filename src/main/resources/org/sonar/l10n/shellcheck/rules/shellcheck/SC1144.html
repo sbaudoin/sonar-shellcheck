@@ -1,1 +1,16 @@
-<p>external-sources can only be enabled in .shellcheckrc, not in individual files.</p>
+<p><code>external-sources</code> can only be enabled in .shellcheckrc, not in individual files.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh"># shellcheck external-sources=true
+source /dev/zero
+</code></pre>
+<h2>Correct code</h2>
+<p>Add <code>external-sources=true</code> to <code>.shellcheckrc</code></p>
+<h2>Rationale</h2>
+<p>Due to its origins as an online tool, ShellCheck will by default run in a sandbox where it only reads the files explicitly named on the command line.</p>
+<p>The <code>external-sources</code> [[directive]] allows disabling this, but must be specified in <code>.shellcheckrc</code>. This is because the sandbox would be useless if the sandboxed script can disable it for itself.</p>
+<h2>Exceptions</h2>
+<p>None.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

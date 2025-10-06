@@ -1,21 +1,21 @@
 <p><code>[ .. ]</code> can't match globs. Use <code>[[ .. ]]</code> or grep.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ $var == *[^0-9]* ]
+<pre><code class="language-sh">if [ $var == *[^0-9]* ]
 then
   echo &quot;$var is not numeric&quot;
-fi
+fi 
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [[ $var == *[^0-9]* ]]
+<pre><code class="language-sh">if [[ $var == *[^0-9]* ]]
 then
   echo &quot;$var is not numeric&quot;
-fi
+fi 
 </code></pre>
 <h2>Rationale</h2>
 <p><code>[ .. ]</code> aka <code>test</code> can not match against globs.</p>
 <p>In bash/ksh, you can instead use <code>[[ .. ]]</code> which supports this behavior.</p>
 <p>In sh, you can rewrite to use <code>grep</code>.</p>
-<pre><code class="lang-sh">if echo $var | grep -q &#39;^[0-9]*$&#39;; then
+<pre><code class="language-sh">if echo $var | grep -q '^[0-9]*$'; then
   echo &quot;$var is numeric&quot;
 fi
 </code></pre>

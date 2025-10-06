@@ -1,7 +1,7 @@
 <p>This nested loop overrides the index variable of its parent.</p>
-<p>And companion warning "This parent loop has its index variable overridden."</p>
+<p>And companion warning &quot;This parent loop has its index variable overridden.&quot;</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">for((i=0; i&lt;10; i++))
+<pre><code class="language-sh">for((i=0; i&lt;10; i++))
 do
   for i in *
   do
@@ -10,7 +10,7 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">for((i=0; i&lt;10; i++))
+<pre><code class="language-sh">for((i=0; i&lt;10; i++))
 do
   for j in *
   do

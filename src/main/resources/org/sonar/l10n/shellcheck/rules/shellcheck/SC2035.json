@@ -1,5 +1,5 @@
 {
-  "title": "Use .\/*glob or -- \\glob* so names with dashes won't become options.",
+  "title": "Use .\/*glob* or -- *glob* so names with dashes won't become options.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

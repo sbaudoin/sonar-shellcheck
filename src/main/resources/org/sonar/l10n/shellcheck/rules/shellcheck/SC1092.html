@@ -1,1 +1,13 @@
-<p>Stopping at 100 &#x27;source&#x27; frames :O</p>
+<p>Stopping at 100 <code>source</code> frames :O</p>
+<h2>Problematic code</h2>
+<p>An initial file sourcing a second file, which in turn sources a third file, which in turn sources a fourth file, ...., which in turn sources a 100th file.</p>
+<h2>Correct code</h2>
+<p>Anything but that.</p>
+<h2>Rationale</h2>
+<p>ShellCheck found a chain of 100+ files sourcing each other. It assumed there must be some internal bug, so it stopped.</p>
+<h2>Exceptions</h2>
+<p>If this is intentional, you can cosmetically [[ignore]] this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

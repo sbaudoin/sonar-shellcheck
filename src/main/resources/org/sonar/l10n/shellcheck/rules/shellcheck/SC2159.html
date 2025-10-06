@@ -1,12 +1,12 @@
-<p>[ 0 ] is true. Use 'false' instead</p>
+<p><code>[ 0 ]</code> is true. Use <code>false</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ 0 ]
+<pre><code class="language-sh">if [ 0 ]
 then
   echo &quot;always triggers&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if false
+<pre><code class="language-sh">if false
 then
   echo &quot;never triggers&quot;
 fi

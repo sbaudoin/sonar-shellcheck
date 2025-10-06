@@ -1,6 +1,6 @@
 <p>This directive is unknown. It will be ignored.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh"># shellcheck foobar=baz
+<pre><code class="language-sh"># shellcheck foobar=baz
 echo &quot;Hello World&quot;
 </code></pre>
 <h2>Correct code</h2>
@@ -14,7 +14,7 @@ echo &quot;Hello World&quot;
 # shellcheck disable=SC1107
 {
   # shellcheck unrecognized=directive
-  echo "Hello World"
+  echo &quot;Hello World&quot;
 }
 </code></pre>
 <p>Before 0.4.5, unrecognized directives are considered parse errors.</p>

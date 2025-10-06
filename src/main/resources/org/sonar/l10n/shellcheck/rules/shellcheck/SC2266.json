@@ -1,5 +1,5 @@
 {
-  "title": "Use || for logical OR. Single | will pipe.",
+  "title": "Use &amp;&amp; for logical AND. Single &amp; will background and return true.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

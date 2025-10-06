@@ -1,15 +1,15 @@
-<h1>$ is not used specially and should therefore be escaped.</h1>
+<h1><code>$</code> is not used specially and should therefore be escaped.</h1>
+<p><em>Note: Removed in <a href="https://github.com/koalaman/shellcheck/blob/2e5c56b27034492134be1538c1e1e6a533ca791a/CHANGELOG.md#removed-1">v0.3.3 - 2014-05-29</a></em></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$&quot;
+<pre><code class="language-sh">echo &quot;$&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;\$&quot;
+<pre><code class="language-sh">echo &quot;\$&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p><code>$</code> is special in double quotes, but there are some cases where it's interpreted literally:</p>
 <ol>
-<li>Following a backslash: <code>echo "\$"</code></li>
-<li>In a context where the shell can't make sense of it, such as at the end of the string, (<code>"foo$"</code>) or before some constructs (<code>"$'foo'"</code>).</li>
+<li>Following a backslash: <code>echo &quot;\$&quot;</code></li>
+<li>In a context where the shell can't make sense of it, such as at the end of the string, (<code>&quot;foo$&quot;</code>) or before some constructs (<code>&quot;$'foo'&quot;</code>).</li>
 </ol>
 <p>To avoid relying on strange and shell-specific behavior, any <code>$</code> intended to be literal should be escaped with a backslash.</p>
-<p>Removed in <a href="https://github.com/koalaman/shellcheck/blob/2e5c56b27034492134be1538c1e1e6a533ca791a/CHANGELOG.md#removed-1">v0.3.3 - 2014-05-29</a></p>

@@ -1,22 +1,22 @@
-<p>Prefer mapfile or read -a to split command output (or quote to avoid splitting).</p>
+<p>Prefer <code>mapfile</code> or <code>read -a</code> to split command output (or quote to avoid splitting).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">array=( $(mycommand) )
+<pre><code class="language-sh">array=( $(mycommand) )
 </code></pre>
 <h2>Correct code</h2>
 <p>If it outputs multiple lines, each of which should be an element:</p>
-<pre><code class="lang-sh"># For bash 4.x, must not be in posix mode, may use temporary files
+<pre><code class="language-sh"># For bash 4.4+, must not be in posix mode, may use temporary files
 mapfile -t array &lt; &lt;(mycommand)
 
 # For bash 3.x+, must not be in posix mode, may use temporary files
 array=()
-while IFS=&#39;&#39; read -r line; do array+=(&quot;$line&quot;); done &lt; &lt;(mycommand)
+while IFS='' read -r line; do array+=(&quot;$line&quot;); done &lt; &lt;(mycommand)
 
 # For ksh, and bash 4.2+ with the lastpipe option enabled (may require disabling monitor mode)
 array=()
 mycommand | while IFS=&quot;&quot; read -r line; do array+=(&quot;$line&quot;); done
 </code></pre>
-<p>If it outputs a line with multiple words (separated by spaces), other delimiters can be chosen with IFS, each of which should be an element:</p>
-<pre><code class="lang-sh"># For bash, uses temporary files
+<p>If it outputs a line with multiple words (separated by spaces, other delimiters can be chosen with IFS), each of which should be an element:</p>
+<pre><code class="language-sh"># For bash, uses temporary files
 IFS=&quot; &quot; read -r -a array &lt;&lt;&lt; &quot;$(mycommand)&quot;
 
 # For bash 4.2+ with the lastpipe option enabled (may require disabling monitor mode)
@@ -27,7 +27,7 @@ mycommand | IFS=&quot; &quot; read -r -a array
 IFS=&quot; &quot; read -r -A array &lt;&lt;&lt; &quot;$(mycommand)&quot;
 </code></pre>
 <p>If the output should be a single element:</p>
-<pre><code class="lang-sh">array=( &quot;$(mycommand)&quot; )
+<pre><code class="language-sh">array=( &quot;$(mycommand)&quot; )
 </code></pre>
 <h2>Rationale</h2>
 <p>You are doing unquoted command expansion in an array. This will invoke the shell's sloppy word splitting and glob expansion.</p>
@@ -39,5 +39,4 @@ IFS=&quot; &quot; read -r -A array &lt;&lt;&lt; &quot;$(mycommand)&quot;
 <p>This prevents the shell from doing unwanted splitting and glob expansion, and therefore avoiding problems with output containing spaces or special characters.</p>
 <h2>Exceptions</h2>
 <p>If you have already taken care (through setting IFS and <code>set -f</code>) to have word splitting work the way you intend, you can ignore this warning.</p>
-<p>Another exception is the wish for error handling: <code>array=( $(mycommand) ) || die-with-error</code> works the way it looks while a similar <code>mapfile</code> construct like <code>mapfile -t array &lt; &lt;(mycommand)</code> <strong>doesn't fail</strong> and you will have to write more code for error handling.
-```</p>
+<p>Another exception is the wish for error handling: <code>array=( $(mycommand) ) || die-with-error</code> works the way it looks while a similar <code>mapfile</code> construct like <code>mapfile -t array &lt; &lt;(mycommand)</code> <strong>doesn't fail</strong> and you will have to write more code for error handling.</p>

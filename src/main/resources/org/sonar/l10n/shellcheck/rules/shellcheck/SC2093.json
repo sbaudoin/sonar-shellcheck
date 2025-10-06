@@ -1,5 +1,5 @@
 {
-  "title": "Remove 'exec ' if script should continue after this command.",
+  "title": "Remove exec  if script should continue after this command.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

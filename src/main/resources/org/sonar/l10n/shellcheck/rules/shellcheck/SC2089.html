@@ -1,50 +1,57 @@
 <h1>Quotes/backslashes will be treated literally. Use an array.</h1>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">args=&#39;-lh &quot;My File.txt&quot;&#39;
+<pre><code class="language-sh">args='-lh &quot;My File.txt&quot;'
 ls $args
 </code></pre>
 <h2>Correct code</h2>
 <p>In Bash/Ksh with arrays:</p>
-<pre><code class="lang-sh">args=(-lh &quot;My File.txt&quot;)
+<pre><code class="language-sh">args=(-lh &quot;My File.txt&quot;)
 ls &quot;${args[@]}&quot;
 </code></pre>
-<p>or in POSIX overwriting <code>"$@"</code>:</p>
-<pre><code class="lang-sh">set -- -lh &quot;My File.txt&quot;
+<p>or in POSIX overwriting <code>&quot;$@&quot;</code>:</p>
+<pre><code class="language-sh">set -- -lh &quot;My File.txt&quot;
 ls &quot;$@&quot;
 </code></pre>
 <p>or in POSIX via functions:</p>
-<pre><code class="lang-sh">myls() { ls &quot;-lh&quot; &quot;My File.txt&quot;; }
+<pre><code class="language-sh">myls() { ls &quot;-lh&quot; &quot;My File.txt&quot;; }
 myls
 </code></pre>
 <h2>Rationale</h2>
 <p>Bash does not interpret data as code. Consider almost any other languages, such as Python:</p>
-<pre><code class="lang-python">print 1+1   # prints 2
+<pre><code class="language-python">print 1+1   # prints 2
 a=&quot;1+1&quot;
 print a     # prints 1+1, not 2
 </code></pre>
 <p>Here, <code>1+1</code> is Python syntax for adding numbers. However, passing a literal string containing this expression does not cause Python to interpret it, see the <code>+</code> and produce the calculated result.</p>
-<p>Similarly, <code>"My File.txt"</code> is Bash syntax for a single word with a space in it. However, passing a literal string containing this expression does not cause Bash to interpret it, see the quotes and produce the tokenized result.</p>
+<p>Similarly, <code>&quot;My File.txt&quot;</code> is Bash syntax for a single word with a space in it. However, passing a literal string containing this expression does not cause Bash to interpret it, see the quotes and produce the tokenized result.</p>
 <p>The solution is to use an array instead, whenever possible.</p>
 <p>If due to <code>sh</code> compatibility you can't use arrays, you can sometimes use functions instead. Instead of trying to create a set of arguments that has to be passed to a command, create a function that calls the function with arguments plus some more:</p>
-<pre><code class="lang-sh">ffmpeg_with_args() {
-  ffmpeg -filter_complex &#39;[#0x2ef] setpts=PTS+1/TB [sub] ; [#0x2d0] [sub] overlay&#39; &quot;$@&quot;
+<pre><code class="language-sh">ffmpeg_with_args() {
+  ffmpeg -filter_complex '[#0x2ef] setpts=PTS+1/TB [sub] ; [#0x2d0] [sub] overlay' &quot;$@&quot;
 }
 ffmpeg_with_args -i &quot;My File.avi&quot; &quot;Output.avi&quot;
 </code></pre>
 <p>In other cases, you may have to use <code>eval</code> instead, though this is often fragile and insecure. If you get it wrong, it'll appear to work great in all test cases, and may still lead to various forms of security vulnerabilities and breakage:</p>
-<pre><code class="lang-sh">quote() { local q=${1//\&#39;/\&#39;\\\&#39;\&#39;}; echo &quot;&#39;$q&#39;&quot;; }
+<pre><code class="language-sh">quote() { local q=${1//\'/\'\\\'\'}; echo &quot;'$q'&quot;; }
 args=&quot;-lh $(quote &quot;My File.txt&quot;)&quot;
 eval ls &quot;$args&quot; # Do not use unless you understand implications
 </code></pre>
 <p>If you ever accidentally forget to use proper quotes, such as with:</p>
-<pre><code class="lang-sh">for f in *.txt; do
-  args=&quot;-lh &#39;$1&#39;&quot; # Example security exploit
+<pre><code class="language-sh">for f in *.txt; do
+  args=&quot;-lh '$1'&quot; # Example security exploit
   eval ls &quot;$args&quot; # Do not copy and use
 done
 </code></pre>
-<p>Then you can use <code>touch "'; rm -rf \$'\x2F'; '.txt"</code>  (or someone can trick you into downloading a file with this name, or create a zip file or git repo containing it, or changing their nick and have your chat client create the file for a chat log, or...), and running the script to list your files will run the command <code>rm -rf /</code>.</p>
+<p>Then you can use <code>touch &quot;'; rm -rf \$'\x2F'; '.txt&quot;</code>  (or someone can trick you into downloading a file with this name, or create a zip file or git repo containing it, or changing their nick and have your chat client create the file for a chat log, or...), and running the script to list your files will run the command <code>rm -rf /</code>.</p>
 <h2>Exceptions</h2>
-<p>Few and far between.</p>
+<p>Few and far between, such as, prompt variables. This from <code>man bash</code> &quot;PROMPTING&quot;:</p>
+<blockquote>
+<pre><code>  After the string is decoded, it is expanded via parameter expansion, command
+  substitution, arithmetic expansion, and quote removal, subject to the value of the promptvars shell
+  option (see the description of the shopt command under SHELL BUILTIN COMMANDS below).  This can have
+  unwanted side effects if escaped portions of the string appear within command substitution or contain
+  characters special to word expansion.</code></pre>
+</blockquote>
 <h2>Additional resources</h2>
 <ul>
 <li><a href="http://mywiki.wooledge.org/BashFAQ/050">Wooledge BashFAQ #50</a>: I'm trying to put a command in a variable, but the complex cases always fail!</li>

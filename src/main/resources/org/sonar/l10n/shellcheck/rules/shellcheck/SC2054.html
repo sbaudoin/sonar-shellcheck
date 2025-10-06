@@ -1,10 +1,10 @@
 <p>Use spaces, not commas, to separate array elements.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">flags=(&quot;-l&quot;, &quot;-d&quot;, &quot;--sort=size&quot;)
+<pre><code class="language-sh">flags=(&quot;-l&quot;, &quot;-d&quot;, &quot;--sort=size&quot;)
 ls &quot;${flags[@]}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">flags=(&quot;-l&quot; &quot;-d&quot; &quot;--sort=size&quot;)
+<pre><code class="language-sh">flags=(&quot;-l&quot; &quot;-d&quot; &quot;--sort=size&quot;)
 ls &quot;${flags[@]}&quot;
 </code></pre>
 <h2>Rationale</h2>

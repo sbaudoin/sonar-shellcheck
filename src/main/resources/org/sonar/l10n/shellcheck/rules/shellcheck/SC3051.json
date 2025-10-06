@@ -1,5 +1,5 @@
 {
-  "title": "'source' in place of '.' is not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, source in place of . is undefined",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,5 +1,5 @@
 {
-  "title": "Use foo '$@' if function's $1 should mean script's $1.",
+  "title": "Use foo &quot;$@&quot; if function's $1 should mean script's $1.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

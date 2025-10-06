@@ -1,9 +1,9 @@
-<p>Quote the parameter to -name so the shell won't interpret it.</p>
+<p>Quote the parameter to <code>-name</code> so the shell won't interpret it.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">find . -name *.txt
+<pre><code class="language-sh">find . -name *.txt
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">find . -name &#39;*.txt&#39;
+<pre><code class="language-sh">find . -name '*.txt'
 </code></pre>
 <h2>Rationale</h2>
 <p>Several find options take patterns to match against, including <code>-ilname</code>, <code>-iname</code>, <code>-ipath</code>, <code>-iregex</code>, <code>-iwholename</code>, <code>-lname</code>, <code>-name</code>, <code>-path</code>, <code>-regex</code> and <code>-wholename</code>.</p>

@@ -1,5 +1,5 @@
 {
-  "title": "Useless cat. Consider 'cmd &lt; file | ..' or 'cmd file | ..' instead.",
+  "title": "Useless cat. Consider cmd &lt; file | .. or cmd file | .. instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

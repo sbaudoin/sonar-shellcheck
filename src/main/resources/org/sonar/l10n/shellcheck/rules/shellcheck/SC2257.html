@@ -1,15 +1,15 @@
 <p>Arithmetic modifications in command redirections may be discarded. Do them separately.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">curl &quot;$URL&quot; &gt; &quot;image$((i++)).jpg&quot;
+<pre><code class="language-sh">curl &quot;$URL&quot; &gt; &quot;image$((i++)).jpg&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">i=$((i+1))
+<pre><code class="language-sh">i=$((i+1))
 curl &quot;$URL&quot; &gt; &quot;image$i.jpg&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>You are using an arithmetic expression that modifies a variable, e.g. <code>$((x+=1))</code> or <code>$((x++))</code>, in the name of a file to redirect from/to, in a here document, or in a here string.</p>
 <p>The scope of these modifications depends on whether the command itself will fork:</p>
-<pre><code class="lang-sh">echo foo &gt; $((var++)).txt  # Updates in BusyBox and Bash
+<pre><code class="language-sh">echo foo &gt; $((var++)).txt  # Updates in BusyBox and Bash
 cat  foo &gt; $((var++)).txt  # Updates in Busybox, not in Bash
 gcc  foo &gt; $((var++)).txt  # Does not update in either
 
@@ -22,5 +22,5 @@ gcc  foo &gt; $((var++)).txt  # Now suddenly updates in both
 <h2>Related resources</h2>
 <ul>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
-<li><a href="https://stackoverflow.com/questions/62783161/arithmetic-expression-in-redirection/62964890#62964890">https://stackoverflow.com/questions/62783161/arithmetic-expression-in-redirection/62964890#62964890</a></li>
+<li>https://stackoverflow.com/questions/62783161/arithmetic-expression-in-redirection/62964890#62964890</li>
 </ul>

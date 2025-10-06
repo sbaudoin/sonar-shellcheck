@@ -1,18 +1,25 @@
-<p>In POSIX sh, ^ in place of ! in glob bracket expressions is undefined.</p>
+<p>In POSIX sh, <code>^</code> in place of <code>!</code> in glob bracket expressions is undefined.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo foo-[^0]*.jpg
+<pre><code class="language-sh">echo foo-[^0]*.jpg
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo foo-[!0]*.jpg
+<pre><code class="language-sh">echo foo-[!0]*.jpg
+</code></pre>
+<p>or if the intention is to match <code>^</code> literally then either do not put it immediately after <code>[</code> or quote it by backslash <code>\</code></p>
+<pre><code class="language-sh">echo foo-[0^]*.jpg foo-[\^0]*.jpg
 </code></pre>
 <h2>Rationale</h2>
-<p><code>[^c]</code> is frequently used in most regular expression variants to mean "any character except <code>c</code>". Ksh and Bash adopted it for globs as well.</p>
-<p>However, strictly speaking, the only range complement syntax guaranteed to be supported across shells is <code>[!c]</code>. Dash only supports it when using <code>fnmatch</code> and <code>glob</code> from glibc.</p>
+<p><code>[^c]</code> is frequently used in most regular expression variants to mean &quot;any character except <code>c</code>&quot;. Ksh and Bash adopted it for globs as well.</p>
+<p>However, strictly speaking, the only range complement syntax guaranteed to be supported across shells is <code>[!c]</code>. POSIX explicitly states that behavior of <code>[^c]</code> is unspecified. Dash used to support <code>[^c]</code> when compiled with <code>fnmatch</code> and <code>glob</code> from glibc, but it was considered as a <a href="https://lore.kernel.org/dash/09fd70edcf08c75b4f9f2e158e3e6c0832d35d90.camel@scientia.org/t/#u">bug</a> and fixed in version 0.5.12. Busybox has a similar <a href="https://bugs.busybox.net/show_bug.cgi?id=14516">bug 14516</a>.</p>
+<p>In zsh interactive sessions <code>echo foo-[!0]*.jpg</code> may cause <code>zsh: event not found: 0</code> error due to attempt of history expansion. BASH however suppresses history expansion when <code>!</code> is first character in square brackets.</p>
+<p>Discrepancy of negation syntax in regular expressions and shell pattern matching appeared in early UNIX versions. Pipeline syntax in shells had not settled yet, some terminals had no <code>|</code> key, so <code>^</code> was used there. That is why in some shells exclamation mark <code>!</code> was chosen instead of circumflex (caret) <code>^</code> symbol for negation in globs. For more details related to shell history see <a href="https://inbox.vuxu.org/tuhs/20030126014003.GA3818@sydney.worldwide.lemis.com/T/#u">&quot;The <code>^</code> <code>=</code> <code>|</code> ?&quot; thread</a> in the Unix Heritage Society mailing list or <a href="https://www.in-ulm.de/~mascheck/bourne/">Sven Mascheck. The Traditional Bourne Shell Family. History and Development</a> page.</p>
 <h2>Exceptions</h2>
 <p>If you only intend to target shells that supports this feature, you can change
 the shebang to a shell that guarantees support, or [[ignore]] this warning.
 Or just rewrite it to be on the technically correct side.</p>
 <h2>Related resources</h2>
 <ul>
+<li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_13_01">2.13.1 Patterns Matching a Single Character</a> in the Shell and Utilities (XCU) volume of POSIX.1-2017.</li>
+<li><a href="https://www.austingroupbugs.net/view.php?id=1558">0001558: require <code>[^...]</code> in addition to <code>[!...]</code> for bracket expression negation</a> POSIX enhancement request was rejected.</li>
 <li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
 </ul>

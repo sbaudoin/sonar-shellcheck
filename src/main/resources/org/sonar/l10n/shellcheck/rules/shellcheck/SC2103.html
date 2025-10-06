@@ -1,6 +1,6 @@
-<h1>Use a ( subshell ) to avoid having to cd back.</h1>
+<p>Use a <code>( subshell )</code> to avoid having to <code>cd</code> back.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">for dir in */
+<pre><code class="language-sh">for dir in */
 do
   cd &quot;$dir&quot;
   convert index.png index.jpg
@@ -8,7 +8,7 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">for dir in */
+<pre><code class="language-sh">for dir in */
 do
   (
   cd &quot;$dir&quot; || exit
@@ -17,7 +17,7 @@ do
 done
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">for dir in */
+<pre><code class="language-sh">for dir in */
 do
   cd &quot;$dir&quot; || exit
   convert index.png index.jpg

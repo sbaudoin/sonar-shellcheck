@@ -1,21 +1,21 @@
 <p>Consider using <code>grep -c</code> instead of <code>grep | wc</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">grep foo | wc -l
+<pre><code class="language-sh">grep foo | wc -l
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">grep -c foo
+<pre><code class="language-sh">grep -c foo
 </code></pre>
 <h3>For multiple files</h3>
 <p>Instead of:</p>
-<pre><code class="lang-sh">grep foo *.log | wc -l
+<pre><code class="language-sh">grep foo *.log | wc -l
 </code></pre>
 <p>You can pipe all the file contents into <code>grep</code> (passing the files directly to <code>grep</code> causes <code>-c</code> to print each file's count separately, rather than the total):</p>
-<pre><code class="lang-sh">cat *.log | grep foo -c
+<pre><code class="language-sh">cat *.log | grep foo -c
 </code></pre>
 <h2>Rationale</h2>
 <p>This is purely a stylistic issue. <code>grep</code> can count lines without piping to <code>wc</code>.</p>
 <p>Often this number is only used to see whether there are matches (i.e. <code>== 0</code>). In these cases it's clearer and more efficient to use <code>grep -q</code> and check its exit status:</p>
-<pre><code class="lang-sh">if grep -q pattern file; then
+<pre><code class="language-sh">if grep -q pattern file; then
   echo &quot;The file contains the pattern&quot;
 fi
 </code></pre>

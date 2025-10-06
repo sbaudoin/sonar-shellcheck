@@ -1,0 +1,14 @@
+{
+  "title": "var+=1 will append, not increment. Use (( var += 1 )), declare -i var, or quote number to silence.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

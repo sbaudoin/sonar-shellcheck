@@ -1,5 +1,5 @@
 {
-  "title": "read without -r will mangle backslashes",
+  "title": "read without -r will mangle backslashes.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

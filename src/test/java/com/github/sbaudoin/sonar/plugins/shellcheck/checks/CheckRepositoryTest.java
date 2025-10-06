@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.checks;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.slf4j.event.Level;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTester;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -36,6 +36,6 @@ public class CheckRepositoryTest {
     @Test
     public void testGetRuleKeys() {
         assertEquals(1, CheckRepository.getRuleKeys().size());
-        assertTrue(logTester.logs(LoggerLevel.WARN).contains("Rule rule2 defined but not described (.html file missing)"));
+        assertTrue(logTester.logs(Level.WARN).contains("Rule rule2 defined but not described (.html file missing)"));
     }
 }

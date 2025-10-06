@@ -1,5 +1,5 @@
 {
-  "title": "Some finds don't have a default path. Specify '.' explicitly.",
+  "title": "Some finds don't have a default path. Specify . explicitly.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

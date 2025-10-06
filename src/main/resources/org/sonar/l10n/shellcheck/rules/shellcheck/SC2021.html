@@ -1,9 +1,9 @@
-<p>Don't use [] around ranges in tr, it replaces literal square brackets.</p>
+<p>Don't use <code>[]</code> around ranges in <code>tr</code>, it replaces literal square brackets.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">tr -cd &#39;[a-z]&#39;
+<pre><code class="language-sh">tr -cd '[a-z]'
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">tr -cd &#39;a-z&#39;
+<pre><code class="language-sh">tr -cd 'a-z'
 </code></pre>
 <h2>Rationale</h2>
 <p>Ancient System V <code>tr</code> required brackets around operands, but modern implementations including POSIX, GNU, OS X and *BSD instead treat them as literals.</p>
@@ -11,3 +11,5 @@
 <h2>Exceptions</h2>
 <p>If you do want to replace literal square brackets, reorder the expression (e.g. <code>a-z[]</code> to make it clear that the brackets are not special).</p>
 <p>ShellCheck does not warn about correct usage of <code>[..]</code> in character and equivalence classes like <code>[:lower:]</code> and <code>[=e=]</code>.</p>
+<h2>Note</h2>
+<p>Busybox requires <code>CONFIG_FEATURE_TR_CLASSES</code> for this to work. If busybox was compiled without this feature, character classes will obviously not be available, and the correct usage is to use <code>a-z</code>, not <code>[a-z]</code>.</p>

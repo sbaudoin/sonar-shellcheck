@@ -1,10 +1,10 @@
 <p>This printf format string has no variables. Other arguments are ignored.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">place=&quot;world&quot;
+<pre><code class="language-sh">place=&quot;world&quot;
 printf hello $place
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">place=&quot;world&quot;
+<pre><code class="language-sh">place=&quot;world&quot;
 printf &quot;hello %s\n&quot; &quot;$place&quot;
 </code></pre>
 <h2>Rationale</h2>
@@ -15,13 +15,12 @@ printf &quot;hello %s\n&quot; &quot;$place&quot;
 <pre><code>$ printf hello world\\n
 hello
 
-$ printf "hello world\n"
+$ printf &quot;hello world\n&quot;
 hello world
 
-$ printf "hello %s\n" "world"
-hello world
-</code></pre>
+$ printf &quot;hello %s\n&quot; &quot;world&quot;
+hello world</code></pre>
 <h2>Exceptions</h2>
 <p>If you wanted a no-op, use <code>:</code> instead.</p>
-<pre><code class="lang-sh">: ${place=world}
+<pre><code class="language-sh">: ${place=world}
 </code></pre>

@@ -1,12 +1,12 @@
 <p>In POSIX sh, <code>&amp;&gt;</code> is undefined.</p>
-<p>(or "In dash, ... is not supported." when using <code>dash</code>)</p>
+<p>(or &quot;In dash, ... is not supported.&quot; when using <code>dash</code>)</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 ssh host cmd &amp;&gt; log
 </code></pre>
 <h2>Correct code</h2>
 <p>Use the long form instead of the shorthand:</p>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 ssh host cmd &gt; log 2&gt;&amp;1
 </code></pre>
 <h2>Rationale</h2>

@@ -1,1 +1,18 @@
-<p>arithmetic base conversion is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, arithmetic base conversion is undefined</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+echo &quot;Hex $1 is decimal $((16#$1))&quot;
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+echo &quot;Hex $1 is decimal $(echo &quot;ibase=16; $1&quot; | bc)&quot;
+</code></pre>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Bash.</p>
+<p>In this case, using radix specifiers in arithmetic contexts, such as <code>$((16#DEADBEEF))</code> is not portable. <code>bc</code> ibase/obase can be used instead.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

@@ -1,17 +1,17 @@
 <p>You need a space or linefeed between the function name and body.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">function foo{
+<pre><code class="language-sh">function foo{
   echo &quot;hello world&quot;
 }
 </code></pre>
 <h2>Correct code</h2>
 <p>Prefer POSIX syntax:</p>
-<pre><code class="lang-sh">foo() {
+<pre><code class="language-sh">foo() {
   echo &quot;hello world&quot;
 }
 </code></pre>
 <p>Alternatively, add the missing space between function name and opening <code>{</code>:</p>
-<pre><code class="lang-sh">#           v-- Here
+<pre><code class="language-sh">#           v-- Here
 function foo {
   echo &quot;hello world&quot;
 }

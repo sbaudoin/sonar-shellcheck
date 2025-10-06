@@ -1,1 +1,21 @@
 <p>Use spaces, not commas, to separate loop elements.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">for f in foo,bar,baz
+do
+  echo &quot;$f&quot;
+done
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">for f in foo bar baz
+do
+  echo &quot;$f&quot;
+done
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>for</code> loop where the items appeared to be delimited by commas. These will be treated as literal commas. Use spaces instead.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

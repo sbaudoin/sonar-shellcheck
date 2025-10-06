@@ -1,5 +1,5 @@
 {
-  "title": "arithmetic for loops are not supported in dash and undefined in POSIX sh.",
+  "title": "In POSIX sh, arithmetic for loops are undefined.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

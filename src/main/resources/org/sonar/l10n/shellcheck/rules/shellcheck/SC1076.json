@@ -1,5 +1,5 @@
 {
-  "title": "Trying to do math? Use e.g. [ $((i\/2+7)) -ge 18 ] or [[ $((i\/2+7)) -ge 18 ]].",
+  "title": "Trying to do math? Use e.g. [ $((i\/2+7)) -ge 18 ].",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

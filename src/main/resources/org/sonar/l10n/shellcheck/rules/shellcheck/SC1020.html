@@ -1,16 +1,15 @@
-<p>You need a space before the "]" or "]]"</p>
+<p>You need a space before the <code>]</code> or <code>]]</code></p>
 <h2>Problematic code</h2>
-<pre><code>if [ "$STUFF" = ""]; then
+<pre><code class="language-sh">if [ &quot;$STUFF&quot; = &quot;&quot;]; then
 </code></pre>
 <h2>Correct code</h2>
-<pre><code>if [ "$STUFF" = "" ]; then
+<pre><code class="language-sh">if [ &quot;$STUFF&quot; = &quot;&quot; ]; then
 </code></pre>
 <h2>Rationale</h2>
 <p>Bourne shells are very whitespace sensitive. Adding or removing spaces can drastically alter the meaning of a script. In these cases, ShellCheck has noticed that you're missing a space at the position indicated.</p>
 <h2>Exceptions</h2>
-<p>none.</p>
+<p>None.</p>
 <h2>Ignore</h2>
-<pre><code># shellcheck disable=SC1020
-if [ "$STUFF" = ""]; then
-...
+<pre><code class="language-sh"># shellcheck disable=SC1020
+if [ &quot;$STUFF&quot; = &quot;&quot;]; then
 </code></pre>

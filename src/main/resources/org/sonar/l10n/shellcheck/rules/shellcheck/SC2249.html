@@ -1,6 +1,6 @@
-<p>Consider adding a default *) case, even if it just exits with error.</p>
+<p>Consider adding a default <code>*)</code> case, even if it just exits with error.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">case &quot;$1&quot; in
+<pre><code class="language-sh">case &quot;$1&quot; in
   start) start_service ;;
   stop)  stop_service ;;
   restart|reload|force-reload)
@@ -9,7 +9,7 @@
 esac
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">case &quot;$1&quot; in
+<pre><code class="language-sh">case &quot;$1&quot; in
   start) start_service ;;
   stop)  stop_service ;;
   restart|reload|force-reload)
@@ -30,17 +30,17 @@ success
 <h2>Exceptions</h2>
 <p>This suggestion only triggers in verbose mode (<code>-S verbose</code>).</p>
 <p>If you don't have a default case because the default should be to take no action, consider adding a comment to other humans:</p>
-<pre><code>case "$(uname)" in
+<pre><code>case &quot;$(uname)&quot; in
   CYGWIN*) cygwin=1;;
   MINGW*) mingw=1;;
   *) ;; # No special workarounds identified
 esac
 </code></pre>
 <p>If you believe that it's impossible for the expression to have any other value, it's considered good practice to add the equivalent of an <code>assert(0)</code> to fail fast if this assumption should turn out to be incorrect in the current or future versions:</p>
-<pre><code>case "$result" in
+<pre><code>case &quot;$result&quot; in
   true)  proceed;;
   false) cancel;;
-  *) echo &gt;&amp;2 "Submit bug report: '$result' should be true or false."
+  *) echo &gt;&amp;2 &quot;Submit bug report: '$result' should be true or false.&quot;
      exit 127
 esac
 </code></pre>

@@ -1,0 +1,21 @@
+<p>! is not allowed in the middle of pipelines. Use command group as in <code>cmd | { ! cmd; }</code> if necessary.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">cat | ! tee /dev/full
+</code></pre>
+<h2>Correct code</h2>
+<p>Either negate the entire pipeline (this is equivalent unless <code>pipefail</code> is set):</p>
+<pre><code class="language-sh">! cat | tee /dev/full
+</code></pre>
+<p>Or use a command group to negate a single stage:</p>
+<pre><code class="language-sh">cat | { ! tee /dev/full; }
+</code></pre>
+<h2>Rationale</h2>
+<p><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_09_02">POSIX specifies</a> that a status negation operator <code>!</code> is only used to negate the status of an entire pipeline, not individual stages.</p>
+<p>By default the status of a pipeline is that of the last command, so use <code>!</code> in front of the pipeline to negate as necessary.</p>
+<p>If you have set the option <code>pipefail</code> to OR the status of each stage together, and want to negate the status of only a single stage, you can use negate inside a <code>{ ! command group; }</code>.</p>
+<h2>Exceptions</h2>
+<p>Ksh supports <code>!</code> in front of individual pipeline stages. ShellCheck does not warn when the shebang declares that the script will run with Ksh.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

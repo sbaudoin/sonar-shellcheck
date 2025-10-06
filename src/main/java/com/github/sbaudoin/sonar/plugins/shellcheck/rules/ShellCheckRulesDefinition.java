@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2018-2021, Sylvain Baudoin
+/*
+ * Copyright (c) 2018-2025, Sylvain Baudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package com.github.sbaudoin.sonar.plugins.shellcheck.rules;
 
 import com.github.sbaudoin.sonar.plugins.shellcheck.checks.CheckRepository;
 import com.github.sbaudoin.sonar.plugins.shellcheck.languages.ShellLanguage;
+
+import org.sonar.api.SonarRuntime;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonarsource.analyzer.commons.RuleMetadataLoader;
 
@@ -24,11 +26,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShellCheckRulesDefinition implements RulesDefinition {
+
+    private final SonarRuntime sonarRuntime;
+
+    public ShellCheckRulesDefinition(SonarRuntime sonarRuntime) {
+        this.sonarRuntime = sonarRuntime;
+  }
+
     @Override
     public void define(RulesDefinition.Context context) {
-        RulesDefinition.NewRepository repository = context.createRepository(CheckRepository.REPOSITORY_KEY, ShellLanguage.KEY).setName(CheckRepository.REPOSITORY_NAME);
+        RulesDefinition.NewRepository repository = context
+                .createRepository(CheckRepository.REPOSITORY_KEY, ShellLanguage.KEY)
+                .setName(CheckRepository.REPOSITORY_NAME);
 
-        RuleMetadataLoader metadataLoader = new RuleMetadataLoader(CheckRepository.RULES_DEFINITION_FOLDER);
+        RuleMetadataLoader metadataLoader = new RuleMetadataLoader(CheckRepository.RULES_DEFINITION_FOLDER, this.sonarRuntime);
 
         List<String> keys = new ArrayList<>();
         CheckRepository.getRuleKeys().forEach(keys::add);

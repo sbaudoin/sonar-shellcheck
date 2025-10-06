@@ -1,5 +1,5 @@
 {
-  "title": "Use '${var:?}' to ensure this never expands to \/* .",
+  "title": "Use &quot;${var:?}&quot; to ensure this never expands to \/* .",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

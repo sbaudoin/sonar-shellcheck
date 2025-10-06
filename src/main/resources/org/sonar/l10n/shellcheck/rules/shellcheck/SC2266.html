@@ -1,1 +1,21 @@
-<p>Use || for logical OR. Single | will pipe.</p>
+<p>Use &amp;&amp; for logical AND. Single &amp; will background and return true.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">if [ &quot;$1&quot; = &quot;--verbose&quot; ] | [ &quot;$1&quot; = &quot;-v&quot; ]
+then
+  verbose=1
+fi
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">if [ &quot;$1&quot; = &quot;--verbose&quot; ] || [ &quot;$1&quot; = &quot;-v&quot; ]
+then
+  verbose=1
+fi
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found a <code>test</code> command followed by a <code>|</code>. This was undoubtedly intended as a logical OR (<code>||</code>).</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

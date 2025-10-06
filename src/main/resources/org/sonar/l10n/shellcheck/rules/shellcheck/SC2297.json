@@ -1,5 +1,5 @@
 {
-  "title": "Double quotes must be outside ${}: ${'invalid'} vs '${valid}'.",
+  "title": "Double quotes must be outside ${}: ${&quot;invalid&quot;} vs &quot;${valid}&quot;.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

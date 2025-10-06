@@ -1,5 +1,5 @@
 {
-  "title": "Parse error: failed to process file.",
+  "title": "Error parsing shellcheckrc:",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

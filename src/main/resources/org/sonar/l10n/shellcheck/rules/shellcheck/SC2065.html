@@ -1,9 +1,9 @@
 <p>This is interpreted as a shell file redirection, not a comparison.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">[ 1 &gt;2 ] || [ 3&gt;&#39;aaa bb&#39; ] # Simple example of problematic code
+<pre><code class="language-sh">[ 1 &gt;2 ] || [ 3&gt;'aaa bb' ] # Simple example of problematic code
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">[ 1 -gt 2 ] || [ 3 \&gt; &#39;aaa bb&#39; ] # arithmetical, lexicographical
+<pre><code class="language-sh">[ 1 -gt 2 ] || [ 3 \&gt; 'aaa bb' ] # arithmetical, lexicographical
 </code></pre>
 <h2>Rationale</h2>
 <p>A word that looks like a redirection in simple shell commands causes it to be interpreted as a redirection.

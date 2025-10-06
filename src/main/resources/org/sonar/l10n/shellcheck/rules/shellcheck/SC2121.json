@@ -1,5 +1,5 @@
 {
-  "title": "To assign a variable, use just 'var=value', no 'set ..'.",
+  "title": "To assign a variable, use just var=value, not set ...",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

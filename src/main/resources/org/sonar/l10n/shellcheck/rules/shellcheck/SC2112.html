@@ -1,13 +1,19 @@
-<p>'function' keyword is non-standard. Delete it.</p>
+<p><code>function</code> keyword is non-standard. Delete it.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 function hello() {
   echo &quot;Hello World&quot;
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 hello() {
+  echo &quot;Hello World&quot;
+}
+</code></pre>
+<p>The <code>function</code> keyword is a feature of Bash and Ksh, so code that uses it may be intended to be a Bash or Ksh script instead:</p>
+<pre><code class="language-sh">#!/bin/bash
+function hello() {
   echo &quot;Hello World&quot;
 }
 </code></pre>
@@ -18,5 +24,6 @@ hello() {
 <p>None.</p>
 <h2>Related resources</h2>
 <ul>
-<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+<li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_09_05">Function Definition Command</a> in the POSIX spec</li>
+<li><a href="https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html">Shell Functions</a> in the Bash manual</li>
 </ul>

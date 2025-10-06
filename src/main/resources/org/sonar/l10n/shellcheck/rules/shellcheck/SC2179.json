@@ -1,5 +1,5 @@
 {
-  "title": "Use array+=('item') to append items to an array.",
+  "title": "Use array+=(&quot;item&quot;) to append items to an array.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

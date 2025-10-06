@@ -1,13 +1,39 @@
 #!/bin/bash
 
-export SONARQUBE_VERSION="$1"
-export SCANNER_VERSION="$2"
-export JAVA_VERSION="$3"
-if [ -z "$SCANNER_VERSION" ]
-then
-    echo "Missing parameters: <SonarQube version> <scanner version>" >&2
-    exit 1
-fi
+usage(){
+    echo -e "\nUsage: $0 [sSh] \n"
+    echo "-h : Display help"
+    echo "-s [SONAR-SCANNER] : Take Sonar-scanner tag image from https://hub.docker.com/r/sonarsource/sonar-scanner-cli"
+    echo "-S [SONARQUBE] : Take SonarQube tag image from https://hub.docker.com/_/sonarqube"
+}
+
+OPTSTRING=":s:S:h"
+
+while getopts ${OPTSTRING} opt; do
+  case ${opt} in
+    s)
+      export SCANNER_VERSION=$OPTARG
+      ;;
+    S)
+      export SONARQUBE_VERSION=$OPTARG
+      ;;
+    h)
+      usage
+      exit 0
+      ;;
+    :)
+      echo "Option -${OPTARG} requires an argument."
+      usage
+      exit 1
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      usage
+      exit 1
+      ;;
+  esac
+done
+
 
 export SCRIPT_DIR=`dirname $0`
 
@@ -18,9 +44,9 @@ docker-compose -f $SCRIPT_DIR/docker-compose.yml down
 # Start containers
 echo "Starting SonarQube..."
 docker-compose -f $SCRIPT_DIR/docker-compose.yml up -d sonarqube
-CONTAINER_NAME=$(docker ps --format "{{.Names}}" | grep 'it_sonarqube_1.*' | head -1)
+CONTAINER_NAME=$(docker ps --format "{{.Names}}" | grep 'it-sonarqube-1.*' | head -1)
 # Wait for SonarQube to be up
-grep -q "SonarQube is up" <(docker logs --follow --tail 0 $CONTAINER_NAME)
+grep -q "SonarQube is operational" <(docker logs --follow --tail 0 $CONTAINER_NAME)
 echo "SonarQube started!"
 
 # Copy the plugin
@@ -30,7 +56,7 @@ docker cp $SCRIPT_DIR/../target/sonar-shellcheck-plugin-$MAVEN_VERSION.jar $CONT
 # Restart SonarQube
 docker-compose -f $SCRIPT_DIR/docker-compose.yml restart sonarqube
 # Wait for SonarQube to be up
-grep -q "SonarQube is up" <(docker logs --follow --tail 0 $CONTAINER_NAME)
+grep -q "SonarQube is operational" <(docker logs --follow --tail 0 $CONTAINER_NAME)
 # Check plug-in installation
 docker exec -u root $CONTAINER_NAME bash -c "if grep -q Alpine /etc/issue; then apk update && apk add -q curl; fi"
 if ! docker exec $CONTAINER_NAME curl -su admin:admin http://localhost:9000/api/plugins/installed | python -c '

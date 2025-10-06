@@ -1,17 +1,72 @@
-<p>SC2001: See if you can use ${variable//search/replace} instead.</p>
+<p>See if you can use <code>${variable//search/replace}</code> instead.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">string=&quot;stirng&quot; ; echo &quot;$string&quot; | sed -e &quot;s/ir/ri/&quot;
+<pre><code class="language-sh">string=&quot;stirng&quot; ; echo &quot;$string&quot; | sed -e &quot;s/ir/ri/&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">string=&quot;stirng&quot; ; echo &quot;${string//ir/ri}&quot;
+<pre><code class="language-sh">string=&quot;stirng&quot; ; echo &quot;${string//ir/ri}&quot;
 </code></pre>
+<hr />
+<p>Here is a demonstration of the different search/replace available in Bash:</p>
+<pre><code class="language-bash">var=&quot;foo foo&quot;
+# the following two echo's should be equivalent:
+echo &quot;$var&quot; | sed 's/^foo/bar/g'
+echo ${var/#foo/bar}
+</code></pre>
+<table>
+<thead>
+<tr>
+  <th>$var</th>
+  <th>sed expression</th>
+  <th>bash equivalent</th>
+  <th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>foo foo</td>
+  <td>s/foo/bar/</td>
+  <td>${var/foo/bar}</td>
+  <td>bar foo</td>
+</tr>
+<tr>
+  <td>foo foo</td>
+  <td>s/foo/bar/g</td>
+  <td>${var//foo/bar}</td>
+  <td>bar bar</td>
+</tr>
+<tr>
+  <td>foo foo</td>
+  <td>s/^foo/bar/</td>
+  <td>${var/#foo/bar}</td>
+  <td>bar foo</td>
+</tr>
+<tr>
+  <td>-foo foo</td>
+  <td>s/^foo/bar/</td>
+  <td>${var/#foo/bar}</td>
+  <td>-foo foo</td>
+</tr>
+<tr>
+  <td>-foo foo</td>
+  <td>s/foo$/bar/</td>
+  <td>${var/%foo/bar}</td>
+  <td>-foo bar</td>
+</tr>
+<tr>
+  <td>-foo foo-</td>
+  <td>s/foo$/bar/</td>
+  <td>${var/%foo/bar}</td>
+  <td>-foo foo-</td>
+</tr>
+</tbody>
+</table>
 <h2>Rationale</h2>
-<p>Let's assume somewhere earlier in your code you have put data into a variable (Ex: $string). Now you want to do a search and replace inside the contents of $string and echo the contents out. You could pass this to sed as done in the example above, but for simple substitutions, parameter expansion can do it with less overhead.</p>
+<p>Let's assume somewhere earlier in your code, you have put data into a variable (Ex: $string). Now you want to search and replace inside the contents of $string and echo the contents out. You could pass this to sed as done in the example above, but for simple substitutions, a parameter expansion can do it with less overhead.</p>
 <h2>Exceptions</h2>
 <p>Occasionally a more complex sed substitution is required. For example, getting the last character of a string.</p>
-<pre><code class="lang-sh">string=&quot;stirng&quot; ; echo &quot;$string&quot; | sed -e &quot;s/^.*\(.\)$/\1/&quot;
+<pre><code class="language-sh">string=&quot;stirng&quot; ; echo &quot;$string&quot; | sed -e &quot;s/^.*\(.\)$/\1/&quot;
 </code></pre>
-<p>This is a bit simple for the example and there are alternative ways of doing this in the shell, but this SC2001 flags on several of my crazy complex sed commands which are beyond the scope of this example. Utilizing some of the more complex capabilities of sed is required occasionally and it is safe to ignore SC2001.</p>
+<p>This is a bit simple for the example, and there are alternative ways of doing this in the shell, but this SC2001 flags on several of my crazy complex sed commands beyond this example's scope. Utilizing some of the more complex capabilities of sed is required occasionally, and it is safe to ignore SC2001.</p>
 <h2>Related resources</h2>
 <ul>
 <li>Bash Manual: <a href="https://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion">Shell Parameter Expansion</a></li>

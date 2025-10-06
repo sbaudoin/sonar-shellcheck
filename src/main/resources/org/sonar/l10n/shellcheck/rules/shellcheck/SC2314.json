@@ -1,5 +1,5 @@
 {
-  "title": "In bats, ! does not cause a test failure",
+  "title": "In bats, ! does not cause a test failure.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
@@ -10,5 +10,5 @@
     "shell",
     "convention"
   ],
-  "defaultSeverity": "Major"
+  "defaultSeverity": "Info"
 }

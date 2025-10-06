@@ -1,32 +1,62 @@
-<p>Use 'if cmd; then ..' to check exit code, or 'if [ "$(cmd)" = .. ]' to check output.</p>
+<p>Use <code>if cmd; then ..</code> to check exit code, or <code>if [ &quot;$(cmd)&quot; = .. ]</code> to check output.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ grep -q pattern file ]
+<pre><code class="language-sh"># WRONG
+if [ grep -q pattern file ]
 then
   echo &quot;Found a match&quot;
+fi
+</code></pre>
+<pre><code class="language-sh"># WRONG
+if ! [[ logname == $LOGNAME ]]
+then
+    echo &quot;Possible `su` shell&quot;
 fi
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if grep -q pattern file
+<pre><code class="language-sh">if grep -q pattern file
 then
   echo &quot;Found a match&quot;
 fi
 </code></pre>
+<pre><code class="language-sh">if ! [[ $(logname) == $LOGNAME ]]
+then
+    echo &quot;Possible `su` shell&quot;
+fi
+</code></pre>
 <h2>Rationale</h2>
-<p><code>[ .. ]</code> is not part of shell syntax like <code>if</code> statements. It is not equivalent to parentheses in C-like languages, <code>if (foo) { bar; }</code>, and should not be wrapped around commands to test.</p>
-<p><code>[</code> is just regular command, like <code>whoami</code> or <code>grep</code>, but with a funny name (see <code>ls -l /bin/[</code>). It's a shorthand for <code>test</code>.</p>
-<p>If you want to check the exit status of a certain command, use that command directly as demonstrated in the correct code.</p>
-<p>If you want to check the output of a command, use <code>"$(..)"</code> to get its output, and then use <code>test</code> or  <code>[</code>/<code>[[</code> to do a string comparison:</p>
-<pre><code class="lang-sh"># Check output of `whoami` against the string `root`
+<p><code>[ ... ]</code> as shell syntax is a simple command that tests for whether certain conditions are true or false, such as whether the value assigned to a variable has a non-zero length (<code>[ -n &quot;${foo}&quot; ]</code>) or whether a file system object is a directory (<code>[ -d &quot;${dir}&quot; ]</code>). <code>If-then-(elif-then)-else-fi</code> statements are logical constructs which themselves contain lists of commands which can include simple commands.</p>
+<p><code>[</code> is just regular command, like <code>whoami</code> or <code>grep</code>, but with a funny name (see <code>ls -l /bin/[</code>). It's a shorthand for <code>test</code>. <code>[[</code> is similar to both <code>[</code> and <code>test</code>, but <code>[[</code> offers some additional unary operators, such as '=~' the regular expression comparison operator.  It allows one to use extglobs such as <code>@(foo|bar)</code> (a &quot;bashism&quot;), among some other less commonly used features.</p>
+<p><code>[[</code>, <code>[</code> and <code>test</code> are often used within <code>if...fi</code> constructs in the conditional commands position: which is between the 'if' and the 'then.'</p>
+<p>There are certain shell syntaxes which can be wrapped <strong>directly</strong> around simple commands, in particular:</p>
+<ul>
+<li>(1)  <code>{ ...;}</code>, group commands,</li>
+<li>(2)  <code>$( ... )</code>, command substitutions,</li>
+<li>(3)  <code>&lt;( ... )</code> and <code>&gt;( ... )</code>, process substitutions,</li>
+<li>(4)  <code>( ... )</code>, subshells, and</li>
+<li>(5)  <code>$(( ... ))</code> and <code>(( ... ))</code>, arithmetic evaluations.</li>
+</ul>
+<p>Some examples include:</p>
+<ul>
+<li>(1)  <code>{ echo {a..z}; echo {0..9};} &gt; ~/f</code>,</li>
+<li>(2)  <code>[[ $(logname) == $LOGNAME ]]</code>,</li>
+<li>(3)  <code>readarray -t files &lt; &lt;( find ...)</code>,</li>
+<li>(4)  <code>(cd /foo || exit 1; tar ...)</code>, and</li>
+<li>(5)  <code>dd bs=$((2**12)) count=1 if=/dev/zero of=/tmp/zeroed-block</code>, respectively.</li>
+</ul>
+<p>Note how in example (2) <code>logname</code> is enclosed <strong>directly</strong> within a command substitution, which is itself enclosed within a <code>[[</code> reserved word / conditional expression / compound command.</p>
+<p>If you want to check the exit status of a certain command, use that command directly as demonstrated in the correct code, above.</p>
+<p>If you want to check the output of a command, use <code>&quot;$(..)&quot;</code> to get its output, and then use <code>test</code>/<code>[</code> or  <code>[[</code> to do a string comparison:</p>
+<pre><code class="language-sh"># Check output of `whoami` against the string `root`
 if [ &quot;$(whoami)&quot; = &quot;root&quot; ]
 then
   echo &quot;Running as root&quot;
 fi
 </code></pre>
-<p>For more information, see <a href="http://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D">this problem in the Bash Pitfall</a> list, or generally <a href="http://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and Conditionals</a> in the WoolEdge BashGuide</p>
 <h2>Exceptions</h2>
 <p>None.</p>
-<h2>Related resources</h2>
+<h2>Related Resources</h2>
+<p>For more information, see <a href="http://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D">this problem in the Bash Pitfall</a> list, or generally <a href="http://mywiki.wooledge.org/BashGuide/TestsAndConditionals">Tests and Conditionals</a> in the wooledge.org BashGuide</p>
 <ul>
 <li><a href="https://stackoverflow.com/questions/2480584/how-do-i-use-a-file-grep-comparison-inside-a-bash-if-else-statement">How do I use a file grep comparison inside a bash if/else statement?</a></li>
-<li>Bash Pitfalls: <a href="https://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D"> if [grep foo myfile] </a></li>
+<li><a href="https://mywiki.wooledge.org/BashPitfalls#if_.5Bgrep_foo_myfile.5D">Bash Pitfalls: <code>if [grep foo myfile]</code></a></li>
 </ul>

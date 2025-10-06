@@ -1,5 +1,5 @@
 {
-  "title": "\\t is just literal t here. For tab, use '$(printf '\\t')' instead.",
+  "title": "\\t is just literal t here. For tab, use &quot;$(printf '\\t')&quot; instead.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

@@ -1,13 +1,14 @@
-<p>ShellCheck directives are only valid in front of complete commands like 'case' statements, not individual case branches.</p>
+<p>ShellCheck directives are only valid in front of complete commands like <code>case</code> statements, not individual case branches.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">case $? in
+<pre><code class="language-sh">case $? in
   0) echo &quot;Success&quot; ;;
   # shellcheck disable=2154
   *) echo &quot;$cmd $flag returned failure&quot; ;;
 esac
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Applies to everything in the `case` statement
+<pre><code class="language-sh"># Applies to everything in the `case` statement
 # shellcheck disable=2154
 case $? in
   0) echo &quot;Success&quot; ;;
@@ -15,7 +16,7 @@ case $? in
 esac
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">case $? in
+<pre><code class="language-sh">case $? in
   0) echo &quot;Success&quot; ;;
   *)
      # Applies to a single command within the `case`

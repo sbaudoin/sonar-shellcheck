@@ -1,5 +1,5 @@
 {
-  "title": "Use 'if cmd; then ..' to check exit code, or 'if [ '$(cmd)' = .. ]' to check output.",
+  "title": "Use if cmd; then .. to check exit code, or if [ &quot;$(cmd)&quot; = .. ] to check output.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

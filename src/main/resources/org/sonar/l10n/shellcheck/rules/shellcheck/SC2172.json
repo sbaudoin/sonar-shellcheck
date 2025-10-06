@@ -1,5 +1,5 @@
 {
-  "title": "Trapping signals by number is not well defined. Prefer signal names.",
+  "title": "Trapping signals by number is not well-defined. Prefer signal names.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

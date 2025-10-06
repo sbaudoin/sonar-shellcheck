@@ -1,9 +1,9 @@
 <p>This redirection overrides piped input. To use both, merge or pass filenames.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">gzcat yesterday.log.gz | grep &quot;$USER&quot; &lt; today.log
+<pre><code class="language-sh">gzcat yesterday.log.gz | grep &quot;$USER&quot; &lt; today.log
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh"># Specify non-piped inputs as filenames
+<pre><code class="language-sh"># Specify non-piped inputs as filenames
 gzcat yesterday.log.gz | grep &quot;$USER&quot; - today.log
 
 # Or merge multiple inputs into a single stream

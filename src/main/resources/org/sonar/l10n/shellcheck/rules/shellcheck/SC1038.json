@@ -1,5 +1,5 @@
 {
-  "title": "Shells are space sensitive. Use '&lt; &lt;(cmd)', not '&lt;&lt;(cmd)'.",
+  "title": "Shells are space sensitive. Use &lt; &lt;(cmd), not &lt;&lt;(cmd).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

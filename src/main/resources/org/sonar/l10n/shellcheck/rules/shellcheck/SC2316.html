@@ -1,0 +1,26 @@
+<p>This applies local to the variable named readonly, which is probably not what you want. Use a separate command or the appropriate <code>declare</code> options instead.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">local readonly foo=3
+readonly export bar=4
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">local foo=3
+readonly foo
+
+readonly bar=4
+export bar
+</code></pre>
+<p>or</p>
+<pre><code>declare -r foo=3
+declare -rx bar=4
+</code></pre>
+<h2>Rationale</h2>
+<p>In most languages, declaration modifiers like <code>public</code>/<code>static</code>/<code>const</code> are keywords and you can apply multiple to any declaration.</p>
+<p>In shell scripting they are instead command names, and anything after them is an argument. This means that <code>readonly local foo</code> will create two readonly variables: <code>local</code>, and <code>foo</code>. Neither will be local.</p>
+<p>Instead, either use multiple commands, or use a single <code>declare</code> command with appropriate flags (<code>declare</code> will automatically make a variable local when invoked in a function, unless <code>-g</code> is passed to explicitly make it global).</p>
+<h2>Exceptions</h2>
+<p>If you want to name your variable <code>local</code>, you can quote it as in <code>readonly &quot;local&quot;</code> to make your intention clear to ShellCheck and other humans.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

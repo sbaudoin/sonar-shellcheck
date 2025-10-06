@@ -1,24 +1,34 @@
-<p>Use ssh -n to prevent ssh from swallowing stdin.</p>
+<p>Use <code>ssh -n</code> to prevent ssh from swallowing stdin.</p>
 <p>The same error applies to multiple commands, like <code>ffmpeg -nostdin</code> and <code>mplayer -noconsolecontrols</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">while read -r host
+<pre><code class="language-sh">while read -r host
 do
   ssh &quot;$host&quot; &quot;uptime&quot;
 done &lt; hosts.txt
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">while read -r host
+<pre><code class="language-sh">while read -r host
 do
   ssh -n &quot;$host&quot; &quot;uptime&quot;
 done &lt; hosts.txt
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">while read -r host
+<pre><code class="language-sh">while read -r host
 do
-  ssh &quot;$host&quot; &lt;&lt;&#39;EOF&#39;
+  ssh &quot;$host&quot; &lt;&lt;'EOF'
 uptime
 EOF
 done &lt; hosts.txt
+</code></pre>
+<p>or</p>
+<p>By using a pipe and avoiding the use of the stdin file descriptor, this ensures that commands in the loop are not interfered with.</p>
+<pre><code class="language-sh">exec 3&lt; hosts.txt
+while read -r host
+do
+  ssh &quot;$host&quot; &quot;uptime&quot;
+done &lt;&amp;3
+# Close the file descriptor
+exec 3&lt;&amp;-
 </code></pre>
 <h2>Rationale</h2>
 <p>Commands that process stdin will compete with the <code>read</code> statement for input. This is especially tricky for commands you wouldn't expect reads from stdin, like <code>ssh .. uptime</code>, <code>ffmpeg</code> and <code>mplayer</code>.</p>
@@ -30,5 +40,6 @@ done &lt; hosts.txt
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://mywiki.wooledge.org/BashFAQ/089">BashFaq: I'm reading a file line by line and running ssh or ffmpeg, only the first line gets processed!</a></li>
-<li><a href="https://stackoverflow.com/questions/13800225/shell-script-while-read-line-loop-stops-after-the-first-line">StackOverflow: Shell script while read line loop stops after the first line</a></li>
+<li><a href="https://stackoverflow.com/questions/13800225/shell-script-while-read-line-loop-stops-after-the-first-line">StackOverflow: Shell script while read line loop stops after the first line
+</a></li>
 </ul>

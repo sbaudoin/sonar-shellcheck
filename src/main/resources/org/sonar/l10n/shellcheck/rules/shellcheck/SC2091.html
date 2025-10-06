@@ -1,41 +1,40 @@
-<p>Remove surrounding $() to avoid executing output (or use eval if intentional).</p>
+<p>Remove surrounding <code>$()</code> to avoid executing output (or use <code>eval</code> if intentional).</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if $(which epstopdf)
+<pre><code class="language-sh">if $(which epstopdf)
 then
   echo &quot;Found epstopdf&quot;
 fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">make_command() {
-  printf &#39;cat header %q footer &gt; %q\n&#39; &quot;$1&quot; &quot;$2&quot; | tee log
+<pre><code class="language-sh">make_command() {
+  printf 'cat header %q footer &gt; %q\n' &quot;$1&quot; &quot;$2&quot; | tee log
 }
 $(make_command foo.html output/foo.html)
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if which epstopdf
+<pre><code class="language-sh">if which epstopdf
 then
   echo &quot;Found epstopdf&quot;
 fi
 </code></pre>
 <p>or</p>
-<pre><code class="lang-sh">make_command() {
-  printf &#39;cat header %q footer &gt; %q\n&#39; &quot;$1&quot; &quot;$2&quot; | tee log
+<pre><code class="language-sh">make_command() {
+  printf 'cat header %q footer &gt; %q\n' &quot;$1&quot; &quot;$2&quot; | tee log
 }
 eval &quot;$(make_command foo.html output/foo.html)&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has detected that you have a command that just consists of a command substitution. This often happens when you want to run a command (possibly from a variable name), without realizing that <code>$(..)</code> is for capturing and not for executing.</p>
 <p>For example, if you have this shell function:</p>
-<pre><code>sayhello() { echo "hello world"; }
-</code></pre>
+<pre><code>sayhello() { echo &quot;hello world&quot;; }</code></pre>
 <p>Then <code>$(sayhello)</code> will:</p>
 <ol>
-<li>Run <code>sayhello</code>, capturing "hello world"</li>
+<li>Run <code>sayhello</code>, capturing &quot;hello world&quot;</li>
 <li>Run <code>hello world</code>, resulting in <code>bash: hello: command not found</code></li>
 </ol>
 <p>Meanwhile, just <code>sayhello</code> will:</p>
 <ol>
-<li>Run <code>sayhello</code>, outputting "hello world" to screen</li>
+<li>Run <code>sayhello</code>, outputting &quot;hello world&quot; to screen</li>
 </ol>
 <p>Note that this is equally true if the command is in a variable, e.g. <code>x=sayhello; $($x)</code>.</p>
 <p>If you <em>do</em> have a command that outputs a second command, similar to how <code>ssh-agent</code> outputs <code>export</code> commands to run, then you should do this via <code>eval</code>. This way, quotes, pipes, redirections, semicolons, and other shell constructs will work as expected. Note that this kind of design is best avoided when possible, since correctly escaping all values can be difficult and error prone.</p>

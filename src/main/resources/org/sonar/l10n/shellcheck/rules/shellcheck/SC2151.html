@@ -1,11 +1,11 @@
 <p>Only one integer 0-255 can be returned. Use stdout for other data.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">myfunc() {
+<pre><code class="language-sh">myfunc() {
   return foo bar
 }
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">myfunc() {
+<pre><code class="language-sh">myfunc() {
   echo foo
   echo bar
   return 0

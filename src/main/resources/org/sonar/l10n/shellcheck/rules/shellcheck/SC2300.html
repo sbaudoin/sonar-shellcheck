@@ -1,9 +1,9 @@
 <p>Parameter expansion can't be applied to command substitutions. Use temporary variables.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;Building ${$(git rev-parse --show-toplevel)##*/}&quot;
+<pre><code class="language-sh">echo &quot;Building ${$(git rev-parse --show-toplevel)##*/}&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">tmp=$(git rev-parse --show-toplevel)
+<pre><code class="language-sh">tmp=$(git rev-parse --show-toplevel)
 echo &quot;Building ${tmp##*/}&quot;
 </code></pre>
 <h2>Rationale</h2>

@@ -1,0 +1,14 @@
+{
+  "title": "Backslash is literal in &quot;\\n&quot;. Prefer explicit escaping: &quot;\\\\n&quot;.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Major"
+}

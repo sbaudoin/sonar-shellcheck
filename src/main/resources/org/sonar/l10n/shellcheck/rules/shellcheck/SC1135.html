@@ -1,10 +1,10 @@
-<p>Prefer escape over ending quote to make <code>$</code> literal. Instead of <code>"It costs $"5</code>, use <code>"It costs \$5"</code></p>
+<p>Prefer escape over ending quote to make <code>$</code> literal. Instead of <code>&quot;It costs $&quot;5</code>, use <code>&quot;It costs \$5&quot;</code></p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;The apples are $&quot;&quot;1 each&quot;
+<pre><code class="language-sh">echo &quot;The apples are $&quot;&quot;1 each&quot;
 eval &quot;var=$&quot;name
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;The apples are \$1 each&quot;
+<pre><code class="language-sh">echo &quot;The apples are \$1 each&quot;
 eval &quot;var=\$name&quot;
 # or better yet: var=&quot;${!name}&quot;
 </code></pre>

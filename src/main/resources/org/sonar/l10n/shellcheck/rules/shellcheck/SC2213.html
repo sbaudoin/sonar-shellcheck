@@ -1,6 +1,6 @@
-<p>getopts specified -n, but it's not handled by this 'case'.</p>
+<p>getopts specified <code>-n</code>, but it's not handled by this <code>case</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">while getopts &quot;vrn&quot; n
+<pre><code class="language-sh">while getopts &quot;vrn&quot; n
 do
   case &quot;$n&quot; in
     v) echo &quot;Verbose&quot; ;;
@@ -10,7 +10,7 @@ do
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">while getopts &quot;vrn&quot; n
+<pre><code class="language-sh">while getopts &quot;vrn&quot; n
 do
   case &quot;$n&quot; in
     v) echo &quot;Verbose&quot; ;;
@@ -25,14 +25,14 @@ done
 <p>Either add a case to handle the flag, or remove it from the <code>getopts</code> option string.</p>
 <h2>Exceptions</h2>
 <p>ShellCheck may not correctly recognize less canonical uses of <code>while getopts ..; do case ..;</code>, such as when modifying the variable before using it:</p>
-<pre><code>while getopts "rf-:" OPT; do
-  if [ "$OPT" = "-" ]; then   # long option: reformulate OPT and OPTARG
-    OPT="${OPTARG%%=*}"       # extract long option name
-    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
-    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
+<pre><code>while getopts &quot;rf-:&quot; OPT; do
+  if [ &quot;$OPT&quot; = &quot;-&quot; ]; then   # long option: reformulate OPT and OPTARG
+    OPT=&quot;${OPTARG%%=*}&quot;       # extract long option name
+    OPTARG=&quot;${OPTARG#$OPT}&quot;   # extract long option argument (may be empty)
+    OPTARG=&quot;${OPTARG#=}&quot;      # if long option argument, remove assigning `=`
   fi
 
-  case "$OPT" in
+  case &quot;$OPT&quot; in
     r) ... ;;
     f) ... ;;
     my-long-option) ... ;;
@@ -42,6 +42,6 @@ done
 <p>In such cases you can do one of:</p>
 <ul>
 <li>[[Ignore]] the warning.</li>
-<li>Use the external tool <code>getopt</code> (no "s") which supports long options natively.</li>
+<li>Use the external tool <code>getopt</code> (no &quot;s&quot;) which supports long options natively.</li>
 <li>Rewrite to not modify the variable first, in this case by instead doing it in a <code>-)</code> branch.</li>
 </ul>

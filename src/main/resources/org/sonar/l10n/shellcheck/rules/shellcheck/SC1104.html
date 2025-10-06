@@ -1,14 +1,14 @@
-<p>Use #!, not just !, for the shebang.</p>
+<p>Use <code>#!</code>, not just <code>!</code>, for the shebang.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">!/bin/sh
+<pre><code class="language-sh">!/bin/sh
 echo &quot;Hello&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">#!/bin/sh
+<pre><code class="language-sh">#!/bin/sh
 echo &quot;Hello&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>You appear to be specifying an interpreter in a shebang, but it's missing the hash part. The shebang must always start with <code>#!</code>.</p>
-<p>Even the name "shebang" itself comes from "hash" (<code>#</code>) + "bang" (<code>!</code>).</p>
+<p>Even the name &quot;shebang&quot; itself comes from &quot;hash&quot; (<code>#</code>) + &quot;bang&quot; (<code>!</code>).</p>
 <h2>Exceptions</h2>
 <p>None.</p>

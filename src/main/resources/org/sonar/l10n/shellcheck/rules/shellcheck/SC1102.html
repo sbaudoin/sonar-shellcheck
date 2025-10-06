@@ -1,9 +1,9 @@
-<p>Shells disambiguate <code>$((</code> differently or not at all. For <code>$(command substition)</code>, add space after <code>$(</code> . For <code>$((arithmetics))</code>, fix parsing errors.</p>
+<p>Shells disambiguate <code>$((</code> differently or not at all. For <code>$(command substitution)</code>, add space after <code>$(</code> . For <code>$((arithmetics))</code>, fix parsing errors.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo &quot;$((cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
+<pre><code class="language-sh">echo &quot;$((cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">echo &quot;$( (cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
+<pre><code class="language-sh">echo &quot;$( (cmd &quot;$@&quot;) 2&gt;&amp;1)&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>You appear to be using <code>$((</code> with two (or more) parentheses in a row, where the first <code>$(</code> should open a subshell.</p>

@@ -1,12 +1,12 @@
 <p>Iterating over ls output is fragile. Use globs.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">for f in $(ls *.wav)
+<pre><code class="language-sh">for f in $(ls *.wav)
 do
   echo &quot;$f&quot;
 done
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">for f in *.wav
+<pre><code class="language-sh">for f in *.wav
 do
   [[ -e &quot;$f&quot; ]] || break  # handle the case of no *.wav files
   echo &quot;$f&quot;
@@ -16,13 +16,15 @@ done
 <h2>Rationale</h2>
 <p>When looping over a set of files, it's always better to use globs when possible. Using command expansion causes word splitting and glob expansion, which will cause problems for certain filenames (typically first seen when trying to process a file with spaces in the name).</p>
 <p>The following files can or will break the first loop:</p>
-<pre><code class="lang-sh">touch &#39;filename with spaces.wav&#39;
-touch &#39;filename with * globs.wav&#39;
-touch &#39;More_Globs[2003].wav&#39;
-touch &#39;files_with_fønny_chæracters_in_certain_locales.wav&#39;
+<pre><code class="language-sh">touch 'filename with spaces.wav'
+touch 'filename with * globs.wav'
+touch 'More_Globs[2003].wav'
+touch 'files_with_fønny_chæracters_in_certain_locales.wav'
 </code></pre>
 <h2>Related resources</h2>
 <ul>
 <li><a href="http://mywiki.wooledge.org/BashPitfalls#pf1">Bash Pitfalls: for i in $(ls *.mp3)</a></li>
+</ul>
+<ul>
 <li><a href="https://stackoverflow.com/questions/2107945/how-to-loop-over-directories-in-linux">How to loop over directories in Linux?</a></li>
 </ul>

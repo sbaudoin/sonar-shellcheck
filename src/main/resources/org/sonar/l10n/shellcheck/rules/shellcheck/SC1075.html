@@ -1,15 +1,16 @@
-<p>Use 'elif' instead of 'else if'.</p>
+<p>Use <code>elif</code> instead of <code>else if</code>.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">if [ &quot;$#&quot; -eq 0 ]
+<pre><code class="language-sh">if [ &quot;$#&quot; -eq 0 ]
 then
   echo &quot;Usage: ...&quot;
 else if [ &quot;$#&quot; -lt 2 ]
 then
   echo &quot;Missing operand&quot;
 fi
+  
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">if [ &quot;$#&quot; -eq 0 ]
+<pre><code class="language-sh">if [ &quot;$#&quot; -eq 0 ]
 then
   echo &quot;Usage: ...&quot;
 elif [ &quot;$#&quot; -lt 2 ]
@@ -22,7 +23,7 @@ fi
 <h2>Exceptions</h2>
 <p><code>else if</code> is a valid (though confusing) way of nesting an <code>if</code> statement in a parent's <code>else</code>. If this is your intention, consider using canonical formatting by putting a linefeed between <code>else</code> and <code>if</code>.</p>
 <p>This does not change the behavior of the script, but merely makes it more obvious to ShellCheck (and other humans) that you didn't expect the <code>else if</code> to behave the way it does in C. Alternatively, you can [[ignore]] it with no ill effects.</p>
-<pre><code class="lang-sh">
+<pre><code class="language-sh">
 if x
 then
   echo &quot;x&quot;

@@ -1,5 +1,5 @@
 {
-  "title": "Instead of '[ true ]', just use 'true'.",
+  "title": "Instead of [ true ], just use true.",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

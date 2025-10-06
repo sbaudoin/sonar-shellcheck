@@ -1,1 +1,22 @@
-<p>naming functions outside [a-zA-Z_][a-zA-Z0-9_]* is not supported in dash and undefined in POSIX sh.</p>
+<p>In POSIX sh, naming functions outside [a-zA-Z_][a-zA-Z0-9_]* is undefined.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">#!/bin/sh
+run-tests() {
+  make test
+}
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">#!/bin/sh
+run_tests() {
+  make test
+}
+</code></pre>
+<h2>Rationale</h2>
+<p>Your script uses a shell feature not supported by the shebang. Either rewrite the script to be portable, or change the shebang to explicitly require a shell like Bash.</p>
+<p>In this case, you can rename your functions to follow the same naming requirements as variables, as these are the only names guaranteed to be valid function names in POSIX.</p>
+<h2>Exceptions</h2>
+<p>None</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

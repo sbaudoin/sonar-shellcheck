@@ -1,5 +1,5 @@
 {
-  "title": "To assign positional parameters, use 'set -- first second ..' (or use [ ] to compare).",
+  "title": "To assign positional parameters, use set -- first second .. (or use [ ] to compare).",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

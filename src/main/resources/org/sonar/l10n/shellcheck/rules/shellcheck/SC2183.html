@@ -1,9 +1,9 @@
-<p>This format string has 2 variables, but is passed 1 arguments.</p>
+<p>This format string has 2 variables, but is passed 1 argument.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot;
+<pre><code class="language-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot;
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot; &quot;$HOSTNAME&quot;
+<pre><code class="language-sh">printf &quot;Hello %s, welcome to %s.\n&quot; &quot;$USER&quot; &quot;$HOSTNAME&quot;
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck has noticed that you're using a <code>printf</code> format string with more <code>%s</code> variables than arguments to fill them.</p>

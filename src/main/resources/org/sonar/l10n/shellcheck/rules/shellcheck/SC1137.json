@@ -1,5 +1,5 @@
 {
-  "title": "Missing second '(' or ')' to start arithmetic or terminate the condition of the 'for ((;;))' loop",
+  "title": "Missing second ( to start arithmetic for ((;;)) loop",
   "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {

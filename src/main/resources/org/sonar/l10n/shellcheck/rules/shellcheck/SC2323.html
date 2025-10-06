@@ -1,0 +1,19 @@
+<p><code>a[(x)]</code> is the same as <code>a[x]</code>. Prefer not wrapping in additional parentheses.</p>
+<p>Similarly <code>$(( (x) ))</code> is the same as <code>$(( x ))</code>, <code>(( (x) ))</code> is the same as <code>(( x ))</code>.</p>
+<h2>Problematic code</h2>
+<pre><code class="language-sh">array[(x+1)]=val
+echo $(( (x+1) ))
+</code></pre>
+<h2>Correct code</h2>
+<pre><code class="language-sh">array[x+1]=val
+echo $((x+1))
+</code></pre>
+<h2>Rationale</h2>
+<p>ShellCheck found an entire arithmetic expression wrapped in parentheses. This does not serve a purpose since the expression is already clearly delimited by the construct it's in, such as <code>array[..]=</code> or <code>$((..))</code> in the example.</p>
+<p>Note: ShellCheck does <em>not</em> warn about redundant parentheses in subexpressions, such as <code>(a*b)+c</code>. Feel free to use parentheses to clarify the order of operations any way you'd like. ShellCheck only emits this suggestion when the <em>entire</em> expression is wrapped <em>twice</em>.</p>
+<h2>Exceptions</h2>
+<p>If you prefer having an extra layer of parentheses for stylistic reasons, you can [[ignore]] this message.</p>
+<h2>Related resources</h2>
+<ul>
+<li>Help by adding links to BashFAQ, StackOverflow, man pages, POSIX, etc!</li>
+</ul>

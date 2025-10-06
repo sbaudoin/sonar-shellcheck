@@ -1,9 +1,9 @@
 <p>This is interpreted as a command name ending with '/'. Double check syntax.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">df/
+<pre><code class="language-sh">df/
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">df /
+<pre><code class="language-sh">df /
 </code></pre>
 <h2>Rationale</h2>
 <p>ShellCheck found a command name that ends with <code>/</code>. Since directories are not valid commands, this is always wrong.</p>

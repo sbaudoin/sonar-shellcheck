@@ -1,0 +1,14 @@
+{
+  "title": "BusyBox [[ .. ]] does not support glob matching. Use a case statement.",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "shell",
+    "convention"
+  ],
+  "defaultSeverity": "Blocker"
+}

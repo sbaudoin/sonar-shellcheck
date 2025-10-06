@@ -1,11 +1,12 @@
-<p>Consider using { cmd1; cmd2; } &gt;&gt; file instead of individual redirects.</p>
+<p>Consider using <code>{ cmd1; cmd2; } &gt;&gt; file</code> instead of individual redirects.</p>
 <h2>Problematic code</h2>
-<pre><code class="lang-sh">echo foo &gt;&gt; file
+<pre><code class="language-sh">echo foo &gt;&gt; file
 date &gt;&gt; file
 cat stuff  &gt;&gt; file
+
 </code></pre>
 <h2>Correct code</h2>
-<pre><code class="lang-sh">{
+<pre><code class="language-sh">{
   echo foo
   date
   cat stuff
@@ -15,6 +16,7 @@ cat stuff  &gt;&gt; file
 <p>Rather than adding <code>&gt;&gt; something</code> after every single line, you can simply group the relevant commands and redirect the group. So the file has to be opened and closed only once and it means a performance gain.</p>
 <h2>Exceptions</h2>
 <p>This is mainly a stylistic issue, and can freely be ignored.</p>
+<p>Note: shell traps which would ordinarily emit output to stdout or stderr on catching their condition will have output swallowed into the redirect when the trap is triggered from within the grouping.</p>
 <h2>Related resources</h2>
 <ul>
 <li><a href="https://mywiki.wooledge.org/BashFAQ/014">BashFaq: How can I redirect the output of multiple commands at once?</a></li>
